@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>高中数学公式速查手册</title>
+<style>
+:root{--bg:#faf7f2;--card:#fffdf8;--ink:#2b2b26;--ink-soft:#6b675e;
+  --line:#e5ddcf;--accent:#1f3a5f;--accent2:#c47f3d;--tbl-head:#f0e9dc;
+  --shadow:0 1px 3px rgba(60,50,20,.06);--plain:#eef2f7}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",sans-serif;line-height:1.75}
+.wrap{display:flex;min-height:100vh}
+nav.side{width:252px;flex:0 0 252px;position:sticky;top:0;height:100vh;overflow-y:auto;
+  background:#f4efe6;border-right:1px solid var(--line);padding:18px 10px 40px}
+nav.side h4{margin:0 8px 8px;font-size:13px;color:var(--ink-soft);letter-spacing:.5px}
+nav.side a{display:block;padding:5px 10px;border-radius:6px;text-decoration:none;color:var(--ink);
+  font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+nav.side a:hover{background:#e8dfcd}
+nav.side a.ch{font-weight:600;color:var(--accent);font-size:13.5px}
+nav.side a.topic{padding-left:24px;color:#55524a;font-size:12px}
+main{flex:1;min-width:0;padding:24px 34px 80px;max-width:960px}
+.toolbar{position:sticky;top:0;z-index:20;background:rgba(250,247,242,.94);backdrop-filter:blur(4px);
+  padding:12px 0;margin:-24px -34px 12px;padding-left:34px;padding-right:34px;
+  border-bottom:1px solid var(--line);display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.toolbar .t{font-weight:700;color:var(--accent);font-size:16px}
+#search{width:100%;max-width:460px;padding:9px 14px;font-size:16px;
+  border:1px solid var(--line);border-radius:10px;background:#fff;outline:none}
+#search:focus{border-color:var(--accent2);box-shadow:0 0 0 3px rgba(196,127,61,.12)}
+header h1{margin:0 0 4px;font-size:27px;color:var(--accent);letter-spacing:1px}
+header .sub{color:var(--ink-soft);font-size:13.5px;border-left:4px solid var(--accent2);
+  padding-left:12px;margin:8px 0 0}
+/* 章 */
+section.chap{margin:44px 0 64px}
+h2.chapter{font-size:20px;color:var(--accent);border-bottom:2px solid var(--accent);
+  padding-bottom:8px;margin:0 0 4px;display:flex;align-items:baseline;gap:10px}
+h2.chapter .no{color:var(--accent2);font-size:14px;font-weight:700}
+h2.chapter small{font-weight:400;color:var(--ink-soft);font-size:13px}
+blockquote.ck{margin:8px 0 18px;padding:7px 13px;background:#fbf3e4;border-left:4px solid #e0b070;
+  border-radius:0 8px 8px 0;font-size:13px;color:#5d5140}
+/* 主题 */
+h3.topic{font-size:16px;color:#8a5a2b;margin:26px 0 10px;padding-left:10px;
+  border-left:5px solid var(--accent2)}
+/* 公式卡片 */
+.fcard{background:var(--card);border:1px solid var(--line);border-radius:12px;
+  padding:10px 16px;margin:9px 0;box-shadow:var(--shadow)}
+.fcard .formula{font-family:"Cambria Math","Times New Roman",Georgia,"Microsoft YaHei",serif;
+  font-size:15.5px;color:var(--ink)}
+.fcard .formula strong{color:var(--accent);font-weight:600}
+.fcard ul{list-style:none;margin:6px 0 0;padding:0}
+.fcard li{font-size:13.5px;color:#4c4841;margin:3px 0;padding-left:16px;position:relative}
+.fcard li::before{content:"";position:absolute;left:2px;top:9px;width:6px;height:6px;
+  border-radius:50%;background:var(--accent2)}
+.fcard li b{color:#8a5a2b;font-weight:600}
+.footer{margin-top:60px;padding-top:14px;border-top:1px solid var(--line);
+  color:var(--ink-soft);font-size:12.5px}
+@media (max-width:860px){
+  nav.side{position:static;width:100%;height:auto;border-right:none;border-bottom:1px solid var(--line);max-height:240px}
+  .wrap{display:block}
+  main{padding:16px 14px 60px}
+  .toolbar{margin:-16px -14px 10px;padding-left:14px;padding-right:14px}
+}
+@media print{
+  nav.side,.toolbar,#search{display:none!important}
+  body{background:#fff}
+  .fcard{break-inside:avoid;box-shadow:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="side">
+  <h4>按章速查 · 19 章</h4>
+  <a class="topic" href="#q01-元素与集合的关系">元素与集合的关系</a><a class="topic" href="#q01-集合间的关系">集合间的关系</a><a class="topic" href="#q01-集合的基本运算">集合的基本运算</a><a class="topic" href="#q01-运算律与计数">运算律与计数</a><a class="topic" href="#q01-充分与必要条件">充分与必要条件</a><a class="topic" href="#q01-量词与命题否定">量词与命题否定</a><a class="ch" href="#ch01"><span>01</span> 集合与常用逻辑</a><a class="topic" href="#q02-函数的概念与三要素">函数的概念与三要素</a><a class="topic" href="#q02-定义域的求法">定义域的求法</a><a class="topic" href="#q02-单调性">单调性</a><a class="topic" href="#q02-奇偶性">奇偶性</a><a class="topic" href="#q02-二次函数与最值">二次函数与最值</a><a class="topic" href="#q02-分段函数">分段函数</a><a class="ch" href="#ch02"><span>02</span> 函数的概念与性质</a><a class="topic" href="#q03-指数运算">指数运算</a><a class="topic" href="#q03-对数的定义与恒等式">对数的定义与恒等式</a><a class="topic" href="#q03-对数运算律">对数运算律</a><a class="topic" href="#q03-指数函数">指数函数</a><a class="topic" href="#q03-对数函数">对数函数</a><a class="topic" href="#q03-幂函数">幂函数</a><a class="topic" href="#q03-比较大小">比较大小</a><a class="ch" href="#ch03"><span>03</span> 基本初等函数（指数、对数、幂函数）</a><a class="topic" href="#q04-零点的概念">零点的概念</a><a class="topic" href="#q04-零点存在定理">零点存在定理</a><a class="topic" href="#q04-二分法">二分法</a><a class="topic" href="#q04-零点个数判断">零点个数判断</a><a class="topic" href="#q04-增长模型">增长模型</a><a class="ch" href="#ch04"><span>04</span> 函数的应用与方程（零点、二分法、函数模型）</a><a class="topic" href="#q05-导数的定义与几何意义">导数的定义与几何意义</a><a class="topic" href="#q05-基本求导公式（必背）">基本求导公式（必背）</a><a class="topic" href="#q05-四则运算与复合">四则运算与复合</a><a class="topic" href="#q05-导数与单调性">导数与单调性</a><a class="topic" href="#q05-极值与最值">极值与最值</a><a class="topic" href="#q05-恒成立问题">恒成立问题</a><a class="ch" href="#ch05"><span>05</span> 导数及其应用</a><a class="topic" href="#q06-弧度制：用弧长量角">弧度制：用弧长量角</a><a class="topic" href="#q06-三角函数的定义（单位圆）">三角函数的定义（单位圆）</a><a class="topic" href="#q06-同角基本关系">同角基本关系</a><a class="topic" href="#q06-诱导公式（大角化锐角）">诱导公式（大角化锐角）</a><a class="topic" href="#q06-三条基本函数的性质">三条基本函数的性质</a><a class="topic" href="#q06-y = A sin(ωx + φ) 的读法">y = A sin(ωx + φ) 的读法</a><a class="ch" href="#ch06"><span>06</span> 三角函数的概念与性质</a><a class="topic" href="#q07-和差角公式（一切的根）">和差角公式（一切的根）</a><a class="topic" href="#q07-和差角的乘积推论">和差角的乘积推论</a><a class="topic" href="#q07-二倍角公式">二倍角公式</a><a class="topic" href="#q07-升幂与降幂">升幂与降幂</a><a class="topic" href="#q07-辅助角公式（合一变形）">辅助角公式（合一变形）</a><a class="ch" href="#ch07"><span>07</span> 三角恒等变换</a><a class="topic" href="#q08-正弦定理（管"角 ↔ 对边"的比例）">正弦定理（管&quot;角 ↔ 对边&quot;的比例）</a><a class="topic" href="#q08-余弦定理（管"三边 ↔ 夹角"）">余弦定理（管&quot;三边 ↔ 夹角&quot;）</a><a class="topic" href="#q08-三角形面积">三角形面积</a><a class="topic" href="#q08-外接圆与内切圆">外接圆与内切圆</a><a class="ch" href="#ch08"><span>08</span> 解三角形</a><a class="topic" href="#q09-向量的坐标运算">向量的坐标运算</a><a class="topic" href="#q09-共线与垂直（最容易用反的一对）">共线与垂直（最容易用反的一对）</a><a class="topic" href="#q09-数量积（点乘）">数量积（点乘）</a><a class="topic" href="#q09-距离与中点">距离与中点</a><a class="topic" href="#q09-三点共线的向量判定">三点共线的向量判定</a><a class="ch" href="#ch09"><span>09</span> 平面向量</a><a class="topic" href="#q10-复数的概念">复数的概念</a><a class="topic" href="#q10-四则运算（i² = −1 是唯一新规则）">四则运算（i² = −1 是唯一新规则）</a><a class="topic" href="#q10-共轭与模">共轭与模</a><a class="topic" href="#q10-i 的幂与常用小结论">i 的幂与常用小结论</a><a class="topic" href="#q10-实系数二次方程的复根（了解）">实系数二次方程的复根（了解）</a><a class="ch" href="#ch10"><span>10</span> 复数</a><a class="topic" href="#q11-aₙ 与 Sₙ 的关系">aₙ 与 Sₙ 的关系</a><a class="topic" href="#q11-等差数列">等差数列</a><a class="topic" href="#q11-等比数列">等比数列</a><a class="topic" href="#q11-求和技巧">求和技巧</a><a class="topic" href="#q11-构造法求通项">构造法求通项</a><a class="ch" href="#ch11"><span>11</span> 数列</a><a class="topic" href="#q12-均值不等式（基本不等式）">均值不等式（基本不等式）</a><a class="topic" href="#q12-极值定理（求最值）">极值定理（求最值）</a><a class="topic" href="#q12-一元二次不等式">一元二次不等式</a><a class="topic" href="#q12-恒成立问题">恒成立问题</a><a class="topic" href="#q12-比较大小与常用结论">比较大小与常用结论</a><a class="ch" href="#ch12"><span>12</span> 不等式与基本不等式</a><a class="topic" href="#q13-柱锥台球体积">柱锥台球体积</a><a class="topic" href="#q13-常见几何体表面积">常见几何体表面积</a><a class="topic" href="#q13-外接球与体对角线">外接球与体对角线</a><a class="topic" href="#q13-平行与垂直的判定（证明题）">平行与垂直的判定（证明题）</a><a class="topic" href="#q13-求距离">求距离</a><a class="ch" href="#ch13"><span>13</span> 立体几何初步</a><a class="topic" href="#q14-空间向量坐标运算">空间向量坐标运算</a><a class="topic" href="#q14-法向量">法向量</a><a class="topic" href="#q14-三类角（套公式）">三类角（套公式）</a><a class="topic" href="#q14-点到平面的距离">点到平面的距离</a><a class="ch" href="#ch14"><span>14</span> 空间向量与立体几何</a><a class="topic" href="#q15-斜率与倾斜角">斜率与倾斜角</a><a class="topic" href="#q15-直线方程的五种形式">直线方程的五种形式</a><a class="topic" href="#q15-距离公式">距离公式</a><a class="topic" href="#q15-圆的方程">圆的方程</a><a class="topic" href="#q15-直线与圆的位置关系">直线与圆的位置关系</a><a class="ch" href="#ch15"><span>15</span> 直线与圆</a><a class="topic" href="#q16-椭圆">椭圆</a><a class="topic" href="#q16-双曲线">双曲线</a><a class="topic" href="#q16-抛物线">抛物线</a><a class="topic" href="#q16-直线与曲线联立">直线与曲线联立</a><a class="ch" href="#ch16"><span>16</span> 圆锥曲线</a><a class="topic" href="#q17-两大计数原理">两大计数原理</a><a class="topic" href="#q17-排列">排列</a><a class="topic" href="#q17-组合">组合</a><a class="topic" href="#q17-分组与分配技巧">分组与分配技巧</a><a class="topic" href="#q17-二项式定理">二项式定理</a><a class="ch" href="#ch17"><span>17</span> 计数原理（排列、组合、二项式定理）</a><a class="topic" href="#q18-古典概型与事件关系">古典概型与事件关系</a><a class="topic" href="#q18-条件概率与独立">条件概率与独立</a><a class="topic" href="#q18-期望与方差">期望与方差</a><a class="topic" href="#q18-三个重要分布">三个重要分布</a><a class="topic" href="#q18-全概率">全概率</a><a class="ch" href="#ch18"><span>18</span> 概率</a><a class="topic" href="#q19-抽样方法">抽样方法</a><a class="topic" href="#q19-数字特征">数字特征</a><a class="topic" href="#q19-频率分布直方图">频率分布直方图</a><a class="topic" href="#q19-回归分析">回归分析</a><a class="topic" href="#q19-独立性检验（卡方）">独立性检验（卡方）</a><a class="ch" href="#ch19"><span>19</span> 统计</a>
+</nav>
+<main>
+  <div class="toolbar">
+    <span class="t">高中数学公式速查手册</span>
+    <input id="search" type="search" placeholder="搜索公式关键词，如：求导 / 正弦定理 / 排列数…">
+  </div>
+  <header>
+    <h1>高中数学公式速查手册</h1>
+    <div class="sub">按学习顺序 01–19 章组织的公式速查：每条公式附「大白话 / 用的时候 / 记忆要点」。</div>
+    <div class="sub">内容与《高中数学自学系统电子版》各章"本章公式速查表"逐字一致，与《高中数学常用公式·修订版》口径核对一致。</div>
+  </header>
+  <section class="chap" id="ch01"><h2 class="chapter" id="ch-01"><span class="no">01</span>集合与常用逻辑<small>· 本章公式速查</small></h2><blockquote>
+<p>与《高中数学常用公式·修订版》第一部分（集合）、第十四部分（常用逻辑用语）核对一致。</p>
+</blockquote>
+<h3 class="topic" id="q01-元素与集合的关系">元素与集合的关系</h3>
+<div class="fcard"><div class="formula">a ∈ A（a 属于 A）</div><ul>
+<li><b>大白话：</b>a 这个东西，A 这个口袋里有它。</li>
+<li><b>用的时候：</b>判断某个对象在不在集合里；在就写 ∈，不在就写 ∉，二选一，别空着。</li>
+</ul></div>
+<div class="fcard"><div class="formula">a ∉ A（a 不属于 A）</div><ul>
+<li><b>大白话：</b>A 这个口袋里没有 a。</li>
+<li><b>用的时候：</b>和 ∈ 配套，注意常用数集 N 含 0、N* 不含 0。</li>
+</ul></div>
+<h3 class="topic" id="q01-集合间的关系">集合间的关系</h3>
+<div class="fcard"><div class="formula">A ⊆ B（A 包含于 B）</div><ul>
+<li><b>大白话：</b>A 里的每样东西 B 里都有，A 整个装进 B 里。</li>
+<li><b>用的时候：</b>判断包含关系；别忘 ∅ ⊆ A 恒成立，写子集先写空集。</li>
+<li><b>记忆要点：</b>⊆ 开口朝向"装得多"的那个大集合。</li>
+</ul></div>
+<div class="fcard"><div class="formula">A = B（A 等于 B）</div><ul>
+<li><b>大白话：</b>A 和 B 元素一模一样。</li>
+<li><b>用的时候：</b>要证 A=B，得两边互相 ⊆，即 A⊆B 且 B⊆A。</li>
+</ul></div>
+<div class="fcard"><div class="formula">∅ ⊆ A（空集是任何集合的子集）</div><ul>
+<li><b>大白话：</b>空口袋能装进任何口袋。</li>
+<li><b>用的时候：</b>问"某集合的所有子集"，第一个就写 ∅，最后别忘了它自己；{0} ≠ ∅。</li>
+</ul></div>
+<div class="fcard"><div class="formula">含 n 个元素 ⇒ 子集 2ⁿ、真子集 2ⁿ−1、非空真子集 2ⁿ−2</div><ul>
+<li><b>大白话：</b>每个元素"带不带"两种选择，n 个元素就是 2 的 n 次方。</li>
+<li><b>用的时候：</b>{1,2,3} 有 8 个子集、7 个真子集；先写 ∅ 再逐个加。</li>
+<li><b>记忆要点：</b>去掉空集减 1，再去掉它自己再减 1。</li>
+</ul></div>
+<h3 class="topic" id="q01-集合的基本运算">集合的基本运算</h3>
+<div class="fcard"><div class="formula">A ∩ B = {x | x ∈ A 且 x ∈ B}（交集）</div><ul>
+<li><b>大白话：</b>两个集合重叠的那部分，"既在 A 又在 B"。</li>
+<li><b>用的时候：</b>数集运算画数轴取公共段；盯紧端点该闭还是该开。</li>
+</ul></div>
+<div class="fcard"><div class="formula">A ∪ B = {x | x ∈ A 或 x ∈ B}（并集）</div><ul>
+<li><b>大白话：</b>两个集合合起来的全部，重叠处只算一次。</li>
+<li><b>用的时候：</b>画数轴取两段盖住的全部；"或"是至少满足一个。</li>
+</ul></div>
+<div class="fcard"><div class="formula">∁ᵤA = {x | x ∈ U 且 x ∉ A}（A 在全集 U 中的补集）</div><ul>
+<li><b>大白话：</b>从大背景 U 里把 A 扣掉，剩下的就是补集。</li>
+<li><b>用的时候：</b>先写清楚全集 U 是什么；补集 = 数轴上"剩下的部分"。</li>
+</ul></div>
+<h3 class="topic" id="q01-运算律与计数">运算律与计数</h3>
+<div class="fcard"><div class="formula">德摩根律：∁ᵤ(A∩B) = (∁ᵤA)∪(∁ᵤB)，∁ᵤ(A∪B) = (∁ᵤA)∩(∁ᵤB)</div><ul>
+<li><b>大白话：</b>交的补 = 补的并，并的补 = 补的交，括号一拆 ∩ 和 ∪ 对调。</li>
+<li><b>用的时候：</b>见到"补的交并"想拆开，或反过来合并。</li>
+<li><b>记忆要点：</b>"交补变并、并补变交"。</li>
+</ul></div>
+<div class="fcard"><div class="formula">|A∪B| = |A| + |B| − |A∩B|（容斥计数）</div><ul>
+<li><b>大白话：</b>两个集合总个数，重叠部分被算了两次，要减掉一次。</li>
+<li><b>用的时候：</b>数元素个数、做概率题常用。</li>
+</ul></div>
+<h3 class="topic" id="q01-充分与必要条件">充分与必要条件</h3>
+<div class="fcard"><div class="formula">A ⊆ B ⇒ "A 的条件"是"B 的条件"的充分条件（小推大）</div><ul>
+<li><b>大白话：</b>落在小集合里，一定落在大集合里。</li>
+<li><b>用的时候：</b>把两个命题翻成数集，小集合推大集合就是充分；A=B 才充要。</li>
+<li><b>记忆要点：</b>"谁是谁的充分条件"，箭头从 p 指向 q，别读反主宾。</li>
+</ul></div>
+<h3 class="topic" id="q01-量词与命题否定">量词与命题否定</h3>
+<div class="fcard"><div class="formula">¬(∀x∈M, p(x)) = ∃x∈M, ¬p(x)</div><ul>
+<li><b>大白话：</b>"所有 x 都成立"的否定是"存在某个 x 不成立"。</li>
+<li><b>用的时候：</b>量词 ∀ 换成 ∃，结论否定，条件 M 不动。</li>
+</ul></div>
+<div class="fcard"><div class="formula">¬(∃x∈M, p(x)) = ∀x∈M, ¬p(x)</div><ul>
+<li><b>大白话：</b>"存在某个 x 成立"的否定是"所有 x 都不成立"。</li>
+<li><b>用的时候：</b>∃ 换成 ∀，再否定结论；别去动条件 M。</li>
+<li><b>记忆要点：</b>"换量词 + 否结论"，两步就够。</li>
+</ul></div></section><section class="chap" id="ch02"><h2 class="chapter" id="ch-02"><span class="no">02</span>函数的概念与性质<small>· 本章公式速查</small></h2><blockquote>
+<p>与《高中数学常用公式·修订版》第二部分（函数与导数）核对一致。</p>
+</blockquote>
+<h3 class="topic" id="q02-函数的概念与三要素">函数的概念与三要素</h3>
+<div class="fcard"><div class="formula">函数三要素：定义域、对应关系、值域</div><ul>
+<li><b>大白话：</b>x 取哪些值（定义域）、按什么规则算 y（对应关系）、算出哪些 y（值域）。</li>
+<li><b>用的时候：</b>定义域是命门，一切问题先看 x 能取什么。</li>
+</ul></div>
+<div class="fcard"><div class="formula">同一函数 = 定义域相同 且 对应关系相同</div><ul>
+<li><b>大白话：</b>两个函数"x 的范围"和"算 y 的规则"都一样，才是同一个。</li>
+<li><b>用的时候：</b>先比定义域再比对应关系；y=x 与 y=x²/x 不是同一函数（后者 x≠0）。</li>
+<li><b>记忆要点：</b>字母用 x 还是 t 不影响。</li>
+</ul></div>
+<h3 class="topic" id="q02-定义域的求法">定义域的求法</h3>
+<div class="fcard"><div class="formula">定义域红线：分母 ≠ 0；偶次根号内 ≥ 0；0 次幂底数 ≠ 0</div><ul>
+<li><b>大白话：</b>分母不能为 0，根号里不能是负数，底不能为 0。</li>
+<li><b>用的时候：</b>把每条红线列成不等式，全部取<strong>交集</strong>（不是并集），再写成区间。</li>
+<li><b>记忆要点：</b>求定义域别先化简，约掉前的禁区要保留。</li>
+</ul></div>
+<h3 class="topic" id="q02-单调性">单调性</h3>
+<div class="fcard"><div class="formula">单调递增：x₁&lt;x₂ ⇒ f(x₁)&lt;f(x₂)</div><ul>
+<li><b>大白话：</b>x 越大 y 越大，图象从左下走到右上。</li>
+<li><b>用的时候：</b>定义法证单调按"取值—作差—变形—定号"四步走。</li>
+</ul></div>
+<div class="fcard"><div class="formula">单调递减：x₁<x₂ ⇒ f(x₁)>f(x₂)</div><ul>
+<li><b>大白话：</b>x 越大 y 越小。</li>
+<li><b>用的时候：</b>断开的区间要分开说，如 y=1/x 在 (−∞,0) 和 (0,+∞) 上<strong>分别</strong>递减，不能说"整个定义域递减"。</li>
+</ul></div>
+<h3 class="topic" id="q02-奇偶性">奇偶性</h3>
+<div class="fcard"><div class="formula">偶函数：f(−x)=f(x)，图象关于 y 轴对称</div><ul>
+<li><b>大白话：</b>左右翻折图象重合，如 f(x)=x²。</li>
+<li><b>用的时候：</b>先查定义域是否关于原点对称，不对称直接非奇非偶。</li>
+</ul></div>
+<div class="fcard"><div class="formula">奇函数：f(−x)=−f(x)，图象关于原点对称</div><ul>
+<li><b>大白话：</b>转 180° 图象重合，如 f(x)=x³。</li>
+<li><b>用的时候：</b>同样先查定义域对称；对称后算 f(−x) 跟 ±f(x) 比。</li>
+</ul></div>
+<div class="fcard"><div class="formula">奇函数若在 x=0 有定义，则 f(0)=0</div><ul>
+<li><b>大白话：</b>奇函数图象过原点。</li>
+<li><b>用的时候：</b>小题秒杀结论；只对"奇函数且 0 在定义域内"成立，偶函数别套用。</li>
+</ul></div>
+<h3 class="topic" id="q02-二次函数与最值">二次函数与最值</h3>
+<div class="fcard"><div class="formula">二次函数顶点式 f(x)=a(x−h)²+k，顶点 (h,k)</div><ul>
+<li><b>大白话：</b>配方后一眼看到最高点/最低点。</li>
+<li><b>用的时候：</b>求最值先配方找顶点；a&gt;0 开口向上有最小值，a&lt;0 有最大值。</li>
+</ul></div>
+<div class="fcard"><div class="formula">闭区间最值 = 区间内极值与端点值一起比</div><ul>
+<li><b>大白话：</b>把山顶、山谷、两头的函数值摆一块，挑最大最小。</li>
+<li><b>用的时候：</b>先看顶点在不在区间内，再算 f(端点)，三者比大小。</li>
+</ul></div>
+<h3 class="topic" id="q02-分段函数">分段函数</h3>
+<div class="fcard"><div class="formula">分段函数：不同区间不同解析式，仍是一个函数</div><ul>
+<li><b>大白话：</b>一个函数分几段写，每段一个范围配一个式子。</li>
+<li><b>用的时候：</b>求 f(某值) 先看它落在哪段，再套那段的式子；画图注意端点实心空心。</li>
+</ul></div></section><section class="chap" id="ch03"><h2 class="chapter" id="ch-03"><span class="no">03</span>基本初等函数（指数、对数、幂函数）<small>· 本章公式速查</small></h2><blockquote>
+<p>与《高中数学常用公式·修订版》第二部分 8（基本初等函数）核对一致。</p>
+</blockquote>
+<h3 class="topic" id="q03-指数运算">指数运算</h3>
+<div class="fcard"><div class="formula">指数律：aᵐ·aⁿ=aᵐ⁺ⁿ，(aᵐ)ⁿ=aᵐⁿ，(ab)ⁿ=aⁿbⁿ（a&gt;0）</div><ul>
+<li><b>大白话：</b>同底相乘指数加，幂上叠幂指数乘。</li>
+<li><b>用的时候：</b>化简指数式先看底数是否相同；aᵐ÷aⁿ=aᵐ⁻ⁿ。</li>
+</ul></div>
+<div class="fcard"><div class="formula">分数指数幂：a^(m/n)=ⁿ√(aᵐ)，a^(−m/n)=1/a^(m/n)（a&gt;0）</div><ul>
+<li><b>大白话：</b>根号就是分数指数，负指数就是倒数。</li>
+<li><b>用的时候：</b>如 4^(3/2)=(√4)³=8；⁴√(x²) 要带绝对值。</li>
+<li><b>记忆要点：</b>分子是"几次方"，分母是"开几次根"。</li>
+</ul></div>
+<h3 class="topic" id="q03-对数的定义与恒等式">对数的定义与恒等式</h3>
+<div class="fcard"><div class="formula">对数定义：aᵇ=N ⇔ logₐN=b（a&gt;0，a≠1，N&gt;0）</div><ul>
+<li><b>大白话：</b>a 的几次方等于 N，那个"几次方"就是 logₐN。</li>
+<li><b>用的时候：</b>负数和 0 没有对数；真数必须 &gt;0。</li>
+</ul></div>
+<div class="fcard"><div class="formula">对数恒等式：a^(logₐN)=N</div><ul>
+<li><b>大白话：</b>底数不动，指数和对数互相抵消。</li>
+<li><b>用的时候：</b>见到 a^(logₐN) 直接换成 N。</li>
+</ul></div>
+<div class="fcard"><div class="formula">logₐ1=0，logₐa=1</div><ul>
+<li><b>大白话：</b>a⁰=1，a¹=a，所以 log 出来就是 0 和 1。</li>
+<li><b>用的时候：</b>常数秒算，别硬套公式。</li>
+</ul></div>
+<h3 class="topic" id="q03-对数运算律">对数运算律</h3>
+<div class="fcard"><div class="formula">积：logₐ(MN)=logₐM+logₐN</div><ul>
+<li><b>大白话：</b>乘出来的对数 = 对数相加。</li>
+<li><b>用的时候：</b>注意 logₐ(M+N) 不能拆！只对乘除拆加减。</li>
+</ul></div>
+<div class="fcard"><div class="formula">商：logₐ(M/N)=logₐM−logₐN</div><ul>
+<li><b>大白话：</b>相除的对数 = 对数相减。</li>
+<li><b>用的时候：</b>M、N 都得 &gt;0。</li>
+</ul></div>
+<div class="fcard"><div class="formula">幂：logₐMⁿ=n·logₐM</div><ul>
+<li><b>大白话：</b>幂上的 n 可以搬到前面当系数。</li>
+<li><b>用的时候：</b>化简 log₂9=2log₂3。</li>
+</ul></div>
+<div class="fcard"><div class="formula">换底公式：logₐb = log꜀b / log꜀a</div><ul>
+<li><b>大白话：</b>随便换个好算的底（lg 或 ln）来比。</li>
+<li><b>用的时候：</b>连乘 log₂3·log₃4·log₄8 中间全约掉，只剩 log₂8=3。</li>
+</ul></div>
+<h3 class="topic" id="q03-指数函数">指数函数</h3>
+<div class="fcard"><div class="formula">y=aˣ（a&gt;0，a≠1）：定义域 R，值域 (0,+∞)，恒过 (0,1)</div><ul>
+<li><b>大白话：</b>指数函数永远为正，都从 (0,1) 出发。</li>
+<li><b>用的时候：</b>a&gt;1 递增、0&lt;a&lt;1 递减；定点题"让指数为 0"，如 aˣ⁺¹−2 过 (−1,−1)。</li>
+</ul></div>
+<h3 class="topic" id="q03-对数函数">对数函数</h3>
+<div class="fcard"><div class="formula">y=logₐx（a&gt;0，a≠1）：定义域 (0,+∞)，值域 R，恒过 (1,0)</div><ul>
+<li><b>大白话：</b>真数必须 &gt;0，图象都过 (1,0)。</li>
+<li><b>用的时候：</b>a&gt;1 递增；它和 y=aˣ 互为反函数，图象关于 y=x 对称。</li>
+</ul></div>
+<h3 class="topic" id="q03-幂函数">幂函数</h3>
+<div class="fcard"><div class="formula">y=xᵅ：都过点 (1,1)</div><ul>
+<li><b>大白话：</b>底数在变、指数固定，x=1 时永远是 1。</li>
+<li><b>用的时候：</b>常见 α=−1,1/2,1,2,3；注意和指数函数区分（谁在底数谁在指数）。</li>
+</ul></div>
+<h3 class="topic" id="q03-比较大小">比较大小</h3>
+<div class="fcard"><div class="formula">先分档（0、1），再用单调性精排</div><ul>
+<li><b>大白话：</b>正数&gt;0&gt;负数，大于 1 的&gt;0到1的&gt;负数，先分三类再排。</li>
+<li><b>用的时候：</b>同底看单调、同指看幂函数；两数接近时构造函数或作差作商。</li>
+<li><b>记忆要点：</b>"先定符号，再定过不过 1"。</li>
+</ul></div></section><section class="chap" id="ch04"><h2 class="chapter" id="ch-04"><span class="no">04</span>函数的应用与方程（零点、二分法、函数模型）<small>· 本章公式速查</small></h2><blockquote>
+<p>与《高中数学常用公式·修订版》第二部分核对一致。</p>
+</blockquote>
+<h3 class="topic" id="q04-零点的概念">零点的概念</h3>
+<div class="fcard"><div class="formula">零点 = 使 f(x)=0 的实数 x</div><ul>
+<li><b>大白话：</b>函数图象和 x 轴交点的横坐标，就是方程 f(x)=0 的根。</li>
+<li><b>用的时候：</b>零点是一个数 x，不是一个点 (x,0)；求零点就是解方程。</li>
+</ul></div>
+<div class="fcard"><div class="formula">三件事一回事：有实根 ⇔ 有零点 ⇔ 图象交 x 轴</div><ul>
+<li><b>大白话：</b>解方程、找零点、看图象和 x 轴交几次，说的是同一件事。</li>
+<li><b>用的时候：</b>不会解方程就画图，看曲线和 x 轴交几次。</li>
+</ul></div>
+<h3 class="topic" id="q04-零点存在定理">零点存在定理</h3>
+<div class="fcard"><div class="formula">f 连续，且 f(a)·f(b)&lt;0 ⇒ (a,b) 内至少一个零点</div><ul>
+<li><b>大白话：</b>图象从 x 轴上方连续走到下方，中间必然至少穿过一次。</li>
+<li><b>用的时候：</b>两个前提——图象要连续、两端一正一负；它只是充分条件，同号也可能有零点。</li>
+<li><b>记忆要点：</b>定理只保"至少一个"，不保"只有一个"。</li>
+</ul></div>
+<h3 class="topic" id="q04-二分法">二分法</h3>
+<div class="fcard"><div class="formula">取中点 c=(a+b)/2，看 f(c) 与哪端异号，把区间砍一半</div><ul>
+<li><b>大白话：</b>每次取区间中点，根据中点值符号，保留根所在的那一半。</li>
+<li><b>用的时候：</b>f(c)=0 直接得根；否则 f(a) 与 f(c) 异号就缩到 (a,c)。</li>
+</ul></div>
+<div class="fcard"><div class="formula">砍 n 次后区间长度 = (b−a)/2ⁿ</div><ul>
+<li><b>大白话：</b>每砍一次区间减半，越缩越接近真根。</li>
+<li><b>用的时候：</b>想精确到 ε，就砍到 (b−a)/2ⁿ&lt;ε 为止。</li>
+</ul></div>
+<h3 class="topic" id="q04-零点个数判断">零点个数判断</h3>
+<div class="fcard"><div class="formula">单调 + 变号 ⇒ 恰一个零点</div><ul>
+<li><b>大白话：</b>函数一路单调，又在区间两端变号，那中间一定穿过且只穿过 x 轴一次。</li>
+<li><b>用的时候：</b>零点定理只说"至少一个"，加上单调性才升级成"恰一个"。</li>
+</ul></div>
+<h3 class="topic" id="q04-增长模型">增长模型</h3>
+<div class="fcard"><div class="formula">指数模型 y=a·bˣ（b&gt;1）：长期最快，指数爆炸</div><ul>
+<li><b>大白话：</b>开头慢，后来越涨越猛，最终压倒一切幂函数和对数函数。</li>
+<li><b>用的时候：</b>细胞分裂、复利、传染病扩散，长期都归指数模型。</li>
+</ul></div>
+<div class="fcard"><div class="formula">对数模型 y=lnx/lgx：越涨越慢</div><ul>
+<li><b>大白话：</b>一开始快，后来后劲不足、涨不动。</li>
+<li><b>用的时候：</b>学新东西的边际递减，就是这个脾气。</li>
+</ul></div>
+<div class="fcard"><div class="formula">x 足够大时：指数 &gt; 幂 &gt; 线性 &gt; 对数</div><ul>
+<li><b>大白话：</b>时间拉长，指数模型笑到最后。</li>
+<li><b>用的时候：</b>别被指数开头慢骗了，长期必看指数。</li>
+</ul></div></section><section class="chap" id="ch05"><h2 class="chapter" id="ch-05"><span class="no">05</span>导数及其应用<small>· 本章公式速查</small></h2><blockquote>
+<p>与《高中数学常用公式·修订版》第二部分（函数与导数）核对一致。</p>
+</blockquote>
+<h3 class="topic" id="q05-导数的定义与几何意义">导数的定义与几何意义</h3>
+<div class="fcard"><div class="formula">f′(x₀) = lim(Δx→0) [f(x₀+Δx)−f(x₀)]/Δx</div><ul>
+<li><b>大白话：</b>无限短时间内的平均变化率，就是瞬时变化率。</li>
+<li><b>用的时候：</b>用定义求导就按"算增量比 → 让 Δx→0"。</li>
+</ul></div>
+<div class="fcard"><div class="formula">几何意义：f′(x₀) = 切线斜率；切线方程 y−f(x₀)=f′(x₀)(x−x₀)</div><ul>
+<li><b>大白话：</b>导数就是曲线在那一点切线的坡度。</li>
+<li><b>用的时候：</b>求切线先算导数值当斜率，再用点斜式写方程。</li>
+</ul></div>
+<h3 class="topic" id="q05-基本求导公式（必背）">基本求导公式（必背）</h3>
+<div class="fcard"><div class="formula">(C)′=0</div><ul>
+<li><b>大白话：</b>常数不变，变化率为 0。</li>
+</ul></div>
+<div class="fcard"><div class="formula">(xⁿ)′=n·xⁿ⁻¹</div><ul>
+<li><b>大白话：</b>指数搬下来，指数减 1。</li>
+<li><b>用的时候：</b>如 (x³)′=3x²，(x⁴)′=4x³。</li>
+</ul></div>
+<div class="fcard"><div class="formula">(sin x)′=cos x，(cos x)′=−sin x</div><ul>
+<li><b>大白话：</b>正弦求导变余弦，余弦求导带个负号变正弦。</li>
+</ul></div>
+<div class="fcard"><div class="formula">(eˣ)′=eˣ</div><ul>
+<li><b>大白话：</b>e 的 x 次方求导还是自己，最"自恋"。</li>
+</ul></div>
+<div class="fcard"><div class="formula">(aˣ)′=aˣ·ln a</div><ul>
+<li><b>大白话：</b>比 eˣ 多个 ln a 系数。</li>
+<li><b>用的时候：</b>只有 eˣ 没有 ln 系数，别多写。</li>
+</ul></div>
+<div class="fcard"><div class="formula">(ln x)′=1/x</div><ul>
+<li><b>大白话：</b>自然对数求导是倒数。</li>
+</ul></div>
+<div class="fcard"><div class="formula">(logₐx)′=1/(x·ln a)</div><ul>
+<li><b>大白话：</b>一般对数求导多个 ln a 在分母。</li>
+</ul></div>
+<h3 class="topic" id="q05-四则运算与复合">四则运算与复合</h3>
+<div class="fcard"><div class="formula">和差：[f±g]′=f′±g′</div><ul>
+<li><b>大白话：</b>逐项求导再加减。</li>
+</ul></div>
+<div class="fcard"><div class="formula">积：[f·g]′=f′g+fg′</div><ul>
+<li><b>大白话：</b>前导后不导 + 前不导后导。</li>
+<li><b>用的时候：</b>如 (x·eˣ)′=eˣ+x·eˣ=(1+x)eˣ。</li>
+</ul></div>
+<div class="fcard"><div class="formula">商：[f/g]′=(f′g−fg′)/g²</div><ul>
+<li><b>大白话：</b>分子是"上导下不导 − 上不导下导"，分母是下的平方。</li>
+<li><b>用的时候：</b>g≠0；如 (lnx/x)′=(1−lnx)/x²。</li>
+</ul></div>
+<div class="fcard"><div class="formula">复合：[f(g(x))]′=f′(g(x))·g′(x)</div><ul>
+<li><b>大白话：</b>外层求导乘以内层求导，链式一路乘下去。</li>
+<li><b>用的时候：</b>如 (e^(2x))′=e^(2x)·2=2e^(2x)。</li>
+</ul></div>
+<h3 class="topic" id="q05-导数与单调性">导数与单调性</h3>
+<div class="fcard"><div class="formula">f′(x)&gt;0 ⇒ 增；f′(x)&lt;0 ⇒ 减</div><ul>
+<li><b>大白话：</b>导数正函数涨，导数负函数跌。</li>
+<li><b>用的时候：</b>求单调区间先写定义域，再求导判号；f′≥0 且不恒为 0 才是增。</li>
+</ul></div>
+<h3 class="topic" id="q05-极值与最值">极值与最值</h3>
+<div class="fcard"><div class="formula">极值点：f′(x₀)=0 且两侧 f′ 变号</div><ul>
+<li><b>大白话：</b>导数为零还不够，左右坡度得一反一正才是山顶/山谷。</li>
+<li><b>用的时候：</b>左正右负是极大、左负右正是极小；f′(x₀)=0 但不变号（如 x³ 在 0）不是极值。</li>
+</ul></div>
+<div class="fcard"><div class="formula">闭区间最值 = 区间内极值与端点值一起比</div><ul>
+<li><b>大白话：</b>把山顶、山谷、两头的函数值摆一块挑最大最小。</li>
+</ul></div>
+<h3 class="topic" id="q05-恒成立问题">恒成立问题</h3>
+<div class="fcard"><div class="formula">a≤f(x) 恒成立 ⇔ a≤f(x)_min；a≥f(x) 恒成立 ⇔ a≥f(x)_max</div><ul>
+<li><b>大白话：</b>要 a 永远不超过 f，a 最多只能等于 f 的最小值。</li>
+<li><b>用的时候：</b>分离参数把 a 单独放一边，再求另一边函数的最值。</li>
+</ul></div></section><section class="chap" id="ch06"><h2 class="chapter" id="ch-06"><span class="no">06</span>三角函数的概念与性质<small>· 本章公式速查</small></h2><blockquote>
+<p>与《高中数学常用公式·修订版》第三部分核对一致。</p>
+</blockquote>
+<h3 class="topic" id="q06-弧度制：用弧长量角">弧度制：用弧长量角</h3>
+<div class="fcard"><div class="formula">π rad = 180°；1° = π/180 rad；1 rad = (180/π)° ≈ 57.3°</div><ul>
+<li><b>大白话：</b>半圈就是 π 弧度，角度和弧度是量同一个角的两把尺子。</li>
+<li><b>用的时候：</b>度化弧度乘 π/180，弧度化度乘 180/π；从这章起做题默认弧度。</li>
+<li><b>记忆要点：</b>整圈 2π = 360°，其余都从这一句推。</li>
+</ul></div>
+<div class="fcard"><div class="formula">弧长 l = |α|·r；扇形面积 S = ½·l·r = ½·|α|·r²（α 必须用弧度）</div><ul>
+<li><b>大白话：</b>弧度制下弧长就是"圆心角乘半径"，扇形面积是弧长乘半径再折半。</li>
+<li><b>用的时候：</b>题目给角度就先换成弧度；看到扇形直接套，别再绕"底乘高"。</li>
+</ul></div>
+<h3 class="topic" id="q06-三角函数的定义（单位圆）">三角函数的定义（单位圆）</h3>
+<div class="fcard"><div class="formula">单位圆上交点 P(x,y)：sinα = y，cosα = x，tanα = y/x</div><ul>
+<li><b>大白话：</b>sin 就是那个点的纵坐标，cos 就是横坐标。</li>
+<li><b>用的时候：</b>别死守初中"对边比斜边"，直接把 sin、cos 想成单位圆上点的 y、x。</li>
+</ul></div>
+<div class="fcard"><div class="formula">终边上一般点 P(x,y)、r = √(x²+y²)：sinα = y/r，cosα = x/r，tanα = y/x</div><ul>
+<li><b>大白话：</b>圆半径不是 1 也不怕，先把 r 算出来再比。</li>
+<li><b>用的时候：</b>给终边上一点求三角值，第一步永远是先算 r。</li>
+</ul></div>
+<div class="fcard"><div class="formula">符号口诀：一全正，二正弦，三正切，四余弦</div><ul>
+<li><b>大白话：</b>按象限记谁正谁负——第一象限全正，第二象限只有 sin 正，第三象限只有 tan 正，第四象限只有 cos 正。</li>
+<li><b>用的时候：</b>判断正负不用算具体值，先定象限再套口诀。</li>
+</ul></div>
+<h3 class="topic" id="q06-同角基本关系">同角基本关系</h3>
+<div class="fcard"><div class="formula">sin²α + cos²α = 1</div><ul>
+<li><b>大白话：</b>同一个角的 sin、cos 平方和永远等于 1，不管角多大。</li>
+<li><b>用的时候：</b>已知 sin 求 cos 时用它；注意开方取正负要看角所在象限。</li>
+<li><b>记忆要点：</b>画单位圆，斜边是 1，勾股定理就是它。</li>
+</ul></div>
+<div class="fcard"><div class="formula">tanα = sinα / cosα（要求 cosα ≠ 0）</div><ul>
+<li><b>大白话：</b>tan 就是 sin 除以 cos。</li>
+<li><b>用的时候：</b>角落在 y 轴上（cos=0）时 tan 没意义，这是 tan 定义域的根。</li>
+</ul></div>
+<h3 class="topic" id="q06-诱导公式（大角化锐角）">诱导公式（大角化锐角）</h3>
+<div class="fcard"><div class="formula">口诀：奇变偶不变，符号看象限</div><ul>
+<li><b>大白话：</b>加减的是 π/2 的几倍？奇数倍函数名 sin↔cos 互换，偶数倍名字不变；再把 α 当锐角，看原来那个角在第几象限、原函数取正还是负，符号就照带过去。</li>
+<li><b>用的时候：</b>负角、补角、平角、互余全靠它化回锐角；符号看的是变换前那个角，不是变换后。</li>
+</ul></div>
+<div class="fcard"><div class="formula">常用四组：sin(−α)=−sinα，cos(−α)=cosα；sin(π−α)=sinα，cos(π−α)=−cosα；sin(π+α)=−sinα，cos(π+α)=−cosα；sin(π/2−α)=cosα，cos(π/2−α)=sinα</div><ul>
+<li><b>大白话：</b>上面口诀在负角、补角、平角、互余四种情形下的成品，直接套用。</li>
+</ul></div>
+<h3 class="topic" id="q06-三条基本函数的性质">三条基本函数的性质</h3>
+<div class="fcard"><div class="formula">周期：y=sin x、y=cos x 周期 2π；y=tan x 周期 π</div><ul>
+<li><b>大白话：</b>正弦余弦转一整圈才重复，正切转半圈就重复。</li>
+<li><b>用的时候：</b>tan 周期别误写成 2π。</li>
+</ul></div>
+<div class="fcard"><div class="formula">值域与奇偶：sin、cos ∈ [−1,1]，tan ∈ R；sin、tan 是奇函数，cos 是偶函数</div><ul>
+<li><b>大白话：</b>sin、cos 被夹在 −1 到 1 之间；sin 关于原点对称，cos 关于 y 轴对称。</li>
+<li><b>用的时候：</b>求最值先看值域；判奇偶就看 sin(−x)=−sinx、cos(−x)=cosx。</li>
+</ul></div>
+<div class="fcard"><div class="formula">对称轴与中心：sin x 轴 x=π/2+kπ、中心 (kπ,0)；cos x 轴 x=kπ、中心 (π/2+kπ,0)；tan x 无对称轴、中心 (kπ/2,0)</div><ul>
+<li><b>大白话：</b>正弦"峰谷连线是轴、零点是中心"；余弦正好错开 π/2；正切没有轴但有中心。</li>
+<li><b>用的时候：</b>tan 别漏了对称中心 (kπ/2,0)。</li>
+</ul></div>
+<h3 class="topic" id="q06-y = A sin(ωx + φ) 的读法">y = A sin(ωx + φ) 的读法</h3>
+<div class="fcard"><div class="formula">振幅 A、周期 T = 2π/|ω|、初相 φ；最大值 A、最小值 −A</div><ul>
+<li><b>大白话：</b>A 管波形上下拉多高，ω 管波形挤多密，φ 管波形左右挪多少。</li>
+<li><b>用的时候：</b>ω 越大周期越小；T=2π/ω，别把 ω 和 T 搞反（y=sin2x 周期是 π）。</li>
+</ul></div>
+<div class="fcard"><div class="formula">对称轴令 ωx+φ = π/2+kπ；对称中心令 ωx+φ = kπ；y=A tan(ωx+φ) 周期 T = π/|ω|</div><ul>
+<li><b>大白话：</b>把括号里那串整体当作标准正弦的角，套进 sin 的轴/中心公式再反解 x。</li>
+<li><b>用的时候：</b>正切型周期是 π/|ω|，别套成 2π/|ω|。</li>
+</ul></div></section><section class="chap" id="ch07"><h2 class="chapter" id="ch-07"><span class="no">07</span>三角恒等变换<small>· 本章公式速查</small></h2><blockquote>
+<p>与《高中数学常用公式·修订版》第三部分第 8、9 条核对一致。</p>
+</blockquote>
+<h3 class="topic" id="q07-和差角公式（一切的根）">和差角公式（一切的根）</h3>
+<div class="fcard"><div class="formula">根：cos(α−β) = cosα cosβ + sinα sinβ</div><ul>
+<li><b>大白话：</b>两角差的余弦，等于"余弦余弦相加、正弦正弦相加"。整套和差角公式都从它推出来。</li>
+<li><b>用的时候：</b>记不住全套时，先推出这一条，再用"把 β 换成 −β"变出其余。</li>
+</ul></div>
+<div class="fcard"><div class="formula">sin(α±β) = sinα cosβ ± cosα sinβ（中间符号相同）</div><ul>
+<li><b>大白话：</b>正弦展开是"正余、余正"，括号里是加号结果就加号、减号就减号。</li>
+<li><b>用的时候：</b>这是最不容易记反的一条，中间符号跟着 α±β 走。</li>
+</ul></div>
+<div class="fcard"><div class="formula">cos(α±β) = cosα cosβ ∓ sinα sinβ（中间符号相反）</div><ul>
+<li><b>大白话：</b>余弦展开是"余余、正正"，但中间符号要反过来——α+β 反而用减号。</li>
+<li><b>用的时候：</b>这是最容易写反的地方，cos(α+β) 中间是减号。</li>
+</ul></div>
+<div class="fcard"><div class="formula">tan(α±β) = (tanα ± tanβ)/(1 ∓ tanα tanβ)</div><ul>
+<li><b>大白话：</b>分子同号、分母反号。</li>
+<li><b>用的时候：</b>分母符号别写反；出现"1±tan"的结构就想到它（如 tan(45°±α)）。</li>
+</ul></div>
+<h3 class="topic" id="q07-和差角的乘积推论">和差角的乘积推论</h3>
+<div class="fcard"><div class="formula">sin(α+β)sin(α−β) = sin²α − sin²β</div><ul>
+<li><b>大白话：</b>两个正弦相乘（角相差 2β），能化成"大角正弦平方减小角正弦平方"。</li>
+<li><b>用的时候：</b>选填里见到 sin(A+B)sin(A−B) 这种结构可直接套。</li>
+</ul></div>
+<div class="fcard"><div class="formula">cos(α+β)cos(α−β) = cos²α − sin²β</div><ul>
+<li><b>大白话：</b>余弦版本的同款化简。</li>
+<li><b>用的时候：</b>和上一条配对记，现场推不出来再查。</li>
+</ul></div>
+<h3 class="topic" id="q07-二倍角公式">二倍角公式</h3>
+<div class="fcard"><div class="formula">sin 2α = 2 sinα cosα</div><ul>
+<li><b>大白话：</b>二倍角的正弦 = 正弦余弦乘积的 2 倍。</li>
+<li><b>用的时候：</b>注意 sin2α ≠ 2sinα，别把系数直接乘进去。</li>
+</ul></div>
+<div class="fcard"><div class="formula">cos 2α = cos²α − sin²α = 2cos²α − 1 = 1 − 2sin²α</div><ul>
+<li><b>大白话：</b>二倍角余弦有三张"面孔"，给 sin 就用 1−2sin²α，给 cos 就用 2cos²α−1。</li>
+<li><b>用的时候：</b>哪种给的三角函数值方便就用哪张脸，省得再开方。</li>
+</ul></div>
+<div class="fcard"><div class="formula">tan 2α = 2tanα/(1 − tan²α)</div><ul>
+<li><b>大白话：</b>正切的二倍角，分子 2tan、分母 1−tan²。</li>
+<li><b>用的时候：</b>分母是 1−tan²α，别漏平方。</li>
+</ul></div>
+<h3 class="topic" id="q07-升幂与降幂">升幂与降幂</h3>
+<div class="fcard"><div class="formula">降幂：cos²α = (1+cos2α)/2，sin²α = (1−cos2α)/2</div><ul>
+<li><b>大白话：</b>看到 sin²、cos² 就用它把平方"打下来"，同时角变成原来的 2 倍。</li>
+<li><b>用的时候：</b>选填见平方先想降幂，降完往往能再用辅助角合一。</li>
+</ul></div>
+<div class="fcard"><div class="formula">升幂：1+cos2α = 2cos²α，1−cos2α = 2sin²α</div><ul>
+<li><b>大白话：</b>降幂反过来就是升幂，把常数变成平方。</li>
+<li><b>用的时候：</b>方向别反——见 cos²α 降幂，见 cos2α 升幂。</li>
+</ul></div>
+<div class="fcard"><div class="formula">(sinα ± cosα)² = 1 ± sin2α</div><ul>
+<li><b>大白话：</b>正弦余弦和（差）的平方，展开后就剩 1 和 sin2α。</li>
+<li><b>用的时候：</b>见到"sin±cos 的平方"直接化简，省得展开。</li>
+</ul></div>
+<h3 class="topic" id="q07-辅助角公式（合一变形）">辅助角公式（合一变形）</h3>
+<div class="fcard"><div class="formula">a sinx + b cosx = √(a²+b²)·sin(x+φ)，tanφ = b/a，φ 所在象限由点 (a,b) 的符号决定</div><ul>
+<li><b>大白话：</b>任何"正弦加余弦"都能捏成一个正弦；捏出来的振幅就是 √(a²+b²)。</li>
+<li><b>用的时候：</b>合一后周期、最值、单调区间直接读；只写 tanφ=b/a 会丢符号，φ 的象限要结合 a、b 正负定。</li>
+<li><b>记忆要点：</b>φ 就是坐标平面里点 (a,b) 对应的那个角。</li>
+</ul></div>
+<div class="fcard"><div class="formula">经典两例：sinx + cosx = √2 sin(x+π/4)；√3 sinx − cosx = 2 sin(x−π/6)</div><ul>
+<li><b>大白话：</b>两个最常考的合一成品，背下来小题能秒。</li>
+<li><b>用的时候：</b>第一个 a=b=1；第二个 a=√3、b=−1（φ 在第四象限）。</li>
+</ul></div></section><section class="chap" id="ch08"><h2 class="chapter" id="ch-08"><span class="no">08</span>解三角形<small>· 本章公式速查</small></h2><blockquote>
+<p>与《高中数学常用公式·修订版》第三部分第 10、11 条核对一致。</p>
+</blockquote>
+<h3 class="topic" id="q08-正弦定理（管"角 ↔ 对边"的比例）">正弦定理（管"角 ↔ 对边"的比例）</h3>
+<div class="fcard"><div class="formula">a / sin A = b / sin B = c / sin C = 2R（R 为外接圆半径）</div><ul>
+<li><b>大白话：</b>每条边和它对角的正弦之比都相等，而且正好等于外接圆直径 2R。</li>
+<li><b>用的时候：</b>已知两角一边、或两边及一边对角，首选它。</li>
+</ul></div>
+<div class="fcard"><div class="formula">边化角（比例）：a : b : c = sin A : sin B : sin C</div><ul>
+<li><b>大白话：</b>边的比等于对角正弦的比。</li>
+<li><b>用的时候：</b>见到"边的齐次式"，可以整体换成"正弦的齐次式"，反过来也行。</li>
+</ul></div>
+<div class="fcard"><div class="formula">边化角（代换）：a = 2R sin A，b = 2R sin B，c = 2R sin C</div><ul>
+<li><b>大白话：</b>每条边都能写成"外接圆直径乘对角正弦"。</li>
+<li><b>用的时候：</b>大题第一步常把边全换成正弦；混着常数的式子不能硬换。</li>
+</ul></div>
+<div class="fcard"><div class="formula">已知两边及一边对角可能有两解：b·sin A &lt; a &lt; b 且 A 为锐角时，B 有两解</div><ul>
+<li><b>大白话：</b>给了两边和其中一边的对角，射线和圆弧可能交两次。</li>
+<li><b>用的时候：</b>先用 h=b·sinA 比一比；a&gt;b 或 a=bsinA 一解，bsinA&lt;a&lt;b 且 A 锐角两解，a&lt;bsinA 无解。</li>
+</ul></div>
+<div class="fcard"><div class="formula">等比性质：a/sinA = (a+b+c)/(sinA+sinB+sinC)</div><ul>
+<li><b>大白话：</b>连等的比例式，分子分母分别加起来比值不变。</li>
+<li><b>用的时候：</b>知道三边和三个正弦的总和时可一步求 2R。</li>
+</ul></div>
+<h3 class="topic" id="q08-余弦定理（管"三边 ↔ 夹角"）">余弦定理（管"三边 ↔ 夹角"）</h3>
+<div class="fcard"><div class="formula">a² = b² + c² − 2bc·cos A（及 b²、c² 两式）</div><ul>
+<li><b>大白话：</b>一边的平方等于另两边平方和，再减去"两倍两边乘夹角余弦"；直角时 cos90°=0 就退回勾股定理。</li>
+<li><b>用的时候：</b>已知两边夹一角求第三边，或已知三边求角，用它。</li>
+</ul></div>
+<div class="fcard"><div class="formula">变形：cos A = (b² + c² − a²)/(2bc)（及 B、C 两式）</div><ul>
+<li><b>大白话：</b>三边全给时反解出角。</li>
+<li><b>用的时候：</b>分子里"对边 a 的平方带负号"，别写反。</li>
+</ul></div>
+<div class="fcard"><div class="formula">判角类型：a² = b²+c² → 直角；a² &gt; b²+c² → 钝角；a² &lt; b²+c² → 锐角</div><ul>
+<li><b>大白话：</b>把最大边的平方和另两边平方和一比，就知道最大角是直、钝还是锐。</li>
+<li><b>用的时候：</b>不用真算角度，比大小就够。</li>
+</ul></div>
+<h3 class="topic" id="q08-三角形面积">三角形面积</h3>
+<div class="fcard"><div class="formula">S = ½·底·高</div><ul>
+<li><b>大白话：</b>初中那条老公式。</li>
+<li><b>用的时候：</b>知道高时最直接。</li>
+</ul></div>
+<div class="fcard"><div class="formula">S = ½·ab·sin C = ½·bc·sin A = ½·ca·sin B</div><ul>
+<li><b>大白话：</b>面积等于"两边及其夹角正弦乘积的一半"。</li>
+<li><b>用的时候：</b>夹角必须是那两边夹住的角；大题第二问求面积常用这条。</li>
+</ul></div>
+<div class="fcard"><div class="formula">海伦公式：S = √(s(s−a)(s−b)(s−c))，s = (a+b+c)/2（选学）</div><ul>
+<li><b>大白话：</b>三边全给、又不知道高和角时，用半周长硬算面积。</li>
+<li><b>用的时候：</b>三边已知才方便，平时优先用 ½ab sinC。</li>
+</ul></div>
+<h3 class="topic" id="q08-外接圆与内切圆">外接圆与内切圆</h3>
+<div class="fcard"><div class="formula">外接圆直径 2R = a/sinA = b/sinB = c/sinC</div><ul>
+<li><b>大白话：</b>正弦定理里那个比值就是外接圆直径。</li>
+<li><b>用的时候：</b>题目提到外接圆，立刻想到这条。</li>
+</ul></div>
+<div class="fcard"><div class="formula">内切圆半径 r = 2S/(a+b+c)</div><ul>
+<li><b>大白话：</b>内切圆半径等于面积的 2 倍除以周长。</li>
+<li><b>用的时候：</b>见到内切圆半径直接套；能由面积法现场推。</li>
+</ul></div></section><section class="chap" id="ch09"><h2 class="chapter" id="ch-09"><span class="no">09</span>平面向量<small>· 本章公式速查</small></h2><blockquote>
+<p>与《高中数学常用公式·修订版》第七部分核对一致。</p>
+</blockquote>
+<h3 class="topic" id="q09-向量的坐标运算">向量的坐标运算</h3>
+<div class="fcard"><div class="formula">a=(x₁,y₁)，b=(x₂,y₂)：a±b = (x₁±x₂, y₁±y₂)，λa = (λx₁, λy₁)</div><ul>
+<li><b>大白话：</b>建系之后，向量加减数乘就是坐标逐项加减乘。</li>
+<li><b>用的时候：</b>能建系就建系，把几何题全变成算术；别漏负号。</li>
+</ul></div>
+<div class="fcard"><div class="formula">与 a 同向的单位向量：a/|a|</div><ul>
+<li><b>大白话：</b>把一个向量除以它的长度，就得到方向相同、长度为 1 的向量。</li>
+<li><b>用的时候：</b>题目说"沿 a 方向走一个单位"就写它。</li>
+</ul></div>
+<h3 class="topic" id="q09-共线与垂直（最容易用反的一对）">共线与垂直（最容易用反的一对）</h3>
+<div class="fcard"><div class="formula">共线（平行）：a∥b ⇔ b = λa ⇔ x₁y₂ − x₂y₁ = 0</div><ul>
+<li><b>大白话：</b>两个向量平行，就是坐标交叉相乘再相减等于 0。</li>
+<li><b>用的时候：</b>求平行用这条"叉积式"；别和下面垂直那条混。</li>
+</ul></div>
+<div class="fcard"><div class="formula">垂直：a⊥b（a、b 非零）⇔ a·b = 0 ⇔ x₁x₂ + y₁y₂ = 0</div><ul>
+<li><b>大白话：</b>两个向量垂直，就是对应坐标相乘再相加等于 0。</li>
+<li><b>用的时候：</b>求垂直用这条"点积式"；共线用减、垂直用加，千万别交叉用。</li>
+</ul></div>
+<h3 class="topic" id="q09-数量积（点乘）">数量积（点乘）</h3>
+<div class="fcard"><div class="formula">a·b = |a||b|cosθ = x₁x₂ + y₁y₂</div><ul>
+<li><b>大白话：</b>点乘 = 两模相乘再乘夹角余弦；坐标里就是对应坐标相乘再相加。</li>
+<li><b>用的时候：</b>结果是一个数（不是向量）；零向量和任何向量点乘为 0。</li>
+</ul></div>
+<div class="fcard"><div class="formula">求模：|a|² = a·a = x₁² + y₁²</div><ul>
+<li><b>大白话：</b>向量自己点乘自己，就是坐标平方和，等于模的平方。</li>
+<li><b>用的时候：</b>求模先平方再开方。</li>
+</ul></div>
+<div class="fcard"><div class="formula">|a±b|² = |a|² ± 2a·b + |b|²</div><ul>
+<li><b>大白话：</b>和（差）的模平方，像完全平方公式那样展开。</li>
+<li><b>用的时候：</b>求 |a+b|、|a−b| 先平方，别直接把模相加。</li>
+</ul></div>
+<div class="fcard"><div class="formula">夹角：cosθ = (a·b)/(|a||b|)</div><ul>
+<li><b>大白话：</b>夹角余弦 = 点积除以两模乘积。</li>
+<li><b>用的时候：</b>夹角范围是 [0,π]；cosθ 为负说明夹角是钝角。</li>
+</ul></div>
+<div class="fcard"><div class="formula">投影：b 在 a 方向上的投影数量 = |b|cosθ = (a·b)/|a|</div><ul>
+<li><b>大白话：</b>把 b 垂直投影到 a 所在直线上，那段带方向的长度就是投影。</li>
+<li><b>用的时候：</b>锐角投影为正、钝角为负、直角为 0。</li>
+</ul></div>
+<h3 class="topic" id="q09-距离与中点">距离与中点</h3>
+<div class="fcard"><div class="formula">两点距离：d_AB = √((x₂−x₁)² + (y₂−y₁)²)</div><ul>
+<li><b>大白话：</b>两点横纵坐标差的平方和开根号，就是勾股定理。</li>
+<li><b>用的时候：</b>向量里求线段长，本质就是两点距离。</li>
+</ul></div>
+<div class="fcard"><div class="formula">中点：M = ((x₁+x₂)/2, (y₁+y₂)/2)</div><ul>
+<li><b>大白话：</b>中点坐标就是两端点坐标的平均。</li>
+<li><b>用的时候：</b>见到中线、中点直接套。</li>
+</ul></div>
+<h3 class="topic" id="q09-三点共线的向量判定">三点共线的向量判定</h3>
+<div class="fcard"><div class="formula">P、A、B 三点共线 ⇔ OP = x·OA + y·OB 且 x + y = 1</div><ul>
+<li><b>大白话：</b>P 能写成 OA、OB 的加权平均，且权重加起来正好是 1，P 就被摁在直线 AB 上。</li>
+<li><b>用的时候：</b>见到 OP = x·OA + y·OB，先加系数看是不是 1，是就共线，小题秒判。</li>
+</ul></div></section><section class="chap" id="ch10"><h2 class="chapter" id="ch-10"><span class="no">10</span>复数<small>· 本章公式速查</small></h2><blockquote>
+<p>与《高中数学常用公式·修订版》第十部分核对一致。</p>
+</blockquote>
+<h3 class="topic" id="q10-复数的概念">复数的概念</h3>
+<div class="fcard"><div class="formula">z = a + bi（a、b 为实数）：a 叫实部，b 叫虚部；b=0 是实数，b≠0 是虚数，a=0 且 b≠0 是纯虚数</div><ul>
+<li><b>大白话：</b>复数 = 实数部分 + 一个 i 乘出来的部分；纯虚数要求实部为 0 且虚部不为 0。</li>
+<li><b>用的时候：</b>说"纯虚数"必须同时写 a=0 和 b≠0 两个条件；0 不是纯虚数。</li>
+</ul></div>
+<div class="fcard"><div class="formula">复数相等：a + bi = c + di ⇔ a = c 且 b = d</div><ul>
+<li><b>大白话：</b>两个复数相等，必须实部等于实部、虚部等于虚部，两个条件缺一不可。</li>
+<li><b>用的时候：</b>给含 x、y 的复数等式求未知数，就靠它列两个方程。</li>
+</ul></div>
+<h3 class="topic" id="q10-四则运算（i² = −1 是唯一新规则）">四则运算（i² = −1 是唯一新规则）</h3>
+<div class="fcard"><div class="formula">加减：(a+bi) ± (c+di) = (a±c) + (b±d)i</div><ul>
+<li><b>大白话：</b>实部、虚部分别相加减。</li>
+<li><b>用的时候：</b>像合并同类项一样，别把实部和虚部混着加。</li>
+</ul></div>
+<div class="fcard"><div class="formula">乘法：(a+bi)(c+di) = (ac−bd) + (ad+bc)i</div><ul>
+<li><b>大白话：</b>像多项式一样展开，最后把 i² 换成 −1。</li>
+<li><b>用的时候：</b>乘完一定记得 i²=−1，这是唯一容易漏的代换。</li>
+</ul></div>
+<div class="fcard"><div class="formula">除法：(a+bi)/(c+di) = [(ac+bd) + (bc−ad)i] / (c²+d²)（分母不为 0）</div><ul>
+<li><b>大白话：</b>分子分母同乘分母的共轭，把分母"实数化"成 c²+d²。</li>
+<li><b>用的时候：</b>结果要写成 a+bi 标准形；别忘乘共轭这一步。</li>
+</ul></div>
+<h3 class="topic" id="q10-共轭与模">共轭与模</h3>
+<div class="fcard"><div class="formula">共轭：z = a+bi 的共轭 z̄ = a − bi（实部不变，虚部变号）</div><ul>
+<li><b>大白话：</b>取共轭就是把点沿实轴翻个面。</li>
+<li><b>用的时候：</b>除法里乘的那个"分母共轭"就是它。</li>
+</ul></div>
+<div class="fcard"><div class="formula">z·z̄ = |z|² = a² + b²</div><ul>
+<li><b>大白话：</b>一个复数乘它的共轭，一定等于模的平方，是个实数。</li>
+<li><b>用的时候：</b>小题里常用它"消掉 i"、化简分母。</li>
+</ul></div>
+<div class="fcard"><div class="formula">模：|z| = √(a² + b²)</div><ul>
+<li><b>大白话：</b>模就是复平面上点 (a,b) 到原点的距离，是个非负实数。</li>
+<li><b>用的时候：</b>复数本身不能比大小，但模能比。</li>
+</ul></div>
+<div class="fcard"><div class="formula">模的乘法性质：|z₁·z₂| = |z₁||z₂|；|z₁/z₂| = |z₁|/|z₂|</div><ul>
+<li><b>大白话：</b>乘积的模等于模的乘积，商的模等于模的商。</li>
+<li><b>用的时候：</b>求复杂复数的模，可以先拆开算模再相乘，比先化简省事。</li>
+</ul></div>
+<h3 class="topic" id="q10-i 的幂与常用小结论">i 的幂与常用小结论</h3>
+<div class="fcard"><div class="formula">i 的幂每 4 个一循环：i⁴ⁿ=1，i⁴ⁿ⁺¹=i，i⁴ⁿ⁺²=−1，i⁴ⁿ⁺³=−i</div><ul>
+<li><b>大白话：</b>i 的大数次幂，指数除以 4 看余数——余 0 是 1，余 1 是 i，余 2 是 −1，余 3 是 −i。</li>
+<li><b>用的时候：</b>求 i²⁰²⁴ 这种，先拿指数除以 4。</li>
+</ul></div>
+<div class="fcard"><div class="formula">常用小结论：(1+i)² = 2i，(1−i)² = −2i；(1+i)/(1−i) = i，(1−i)/(1+i) = −i</div><ul>
+<li><b>大白话：</b>见到这两种特殊形式直接写答案，不用现场算。</li>
+<li><b>用的时候：</b>选择题里秒答；不熟就分子分母乘共轭推一遍。</li>
+</ul></div>
+<div class="fcard"><div class="formula">平行四边形恒等式：|z₁+z₂|² + |z₁−z₂|² = 2(|z₁|² + |z₂|²)</div><ul>
+<li><b>大白话：</b>两复数和的模平方加差的模平方，等于各自模平方和的 2 倍。</li>
+<li><b>用的时候：</b>知道 |z₁|、|z₂| 及和（差）模之一时，可求另一个。</li>
+</ul></div>
+<h3 class="topic" id="q10-实系数二次方程的复根（了解）">实系数二次方程的复根（了解）</h3>
+<div class="fcard"><div class="formula">ax²+bx+c=0（实系数），Δ=b²−4ac：Δ&lt;0 时有一对共轭复根 x = (−b ± √(−Δ)·i)/(2a)</div><ul>
+<li><b>大白话：</b>判别式小于 0 不是"没根"，而是没有实根、有一对互为共轭的复根。</li>
+<li><b>用的时候：</b>照套求根公式，把 √Δ 换成 √(−Δ)·i；两根互为共轭。</li>
+</ul></div></section><section class="chap" id="ch11"><h2 class="chapter" id="ch-11"><span class="no">11</span>数列<small>· 本章公式速查</small></h2><blockquote>
+<p>口径与《高中数学常用公式·修订版》第八部分（数列）一致。</p>
+</blockquote>
+<h3 class="topic" id="q11-aₙ 与 Sₙ 的关系">aₙ 与 Sₙ 的关系</h3>
+<div class="fcard"><div class="formula">a₁ = S₁；n ≥ 2 时 aₙ = Sₙ − Sₙ₋₁</div><ul>
+<li><b>大白话：</b>前 n 项和减去前 n−1 项和，剩下的就是第 n 项。</li>
+<li><b>用的时候：</b>大题第一步永远先写 n=1 单独验；n≥2 再作差，最后把 n=1 代回去看能不能并成一个式子。</li>
+<li><b>记忆要点：</b>n=1 特殊，n≥2 作差。</li>
+</ul></div>
+<h3 class="topic" id="q11-等差数列">等差数列</h3>
+<div class="fcard"><div class="formula">aₙ = a₁ + (n − 1)d（也可写成 aₙ = aₘ + (n − m)d）</div><ul>
+<li><b>大白话：</b>从第一项开始每项加一个 d，加到第 n 项。</li>
+<li><b>用的时候：</b>知道任意一项都能当"新首项"跳着算；求基本量 a₁、d 是万能钥匙。</li>
+<li><b>记忆要点：</b>首项 +（项数−1）×公差。</li>
+</ul></div>
+<div class="fcard"><div class="formula">Sₙ = n(a₁ + aₙ)/2 = na₁ + n(n−1)d/2 = (d/2)n² + (a₁ − d/2)n</div><ul>
+<li><b>大白话：</b>首末项配对相乘再除以 2；展开后是个过原点的二次函数。</li>
+<li><b>用的时候：</b>给 a₁、aₙ、n 用第一式；给 a₁、d、n 用第二式；讨论 Sₙ 最值时看第三式。</li>
+<li><b>记忆要点：</b>高斯配对——(首+末)×项数÷2。</li>
+</ul></div>
+<div class="fcard"><div class="formula">若 m+n = p+q，则 aₘ + aₙ = aₚ + a_q</div><ul>
+<li><b>大白话：</b>下标和相等，两项和就相等。</li>
+<li><b>用的时候：</b>不求通项，直接整体代换；等差中项 2aₙ = aₙ₋₁ + aₙ₊₁ 是它的特例。</li>
+</ul></div>
+<div class="fcard"><div class="formula">Sₖ，S₂ₖ − Sₖ，S₃ₖ − S₂ₖ，… 仍成等差数列</div><ul>
+<li><b>大白话：</b>把前 k 项、接下来 k 项、再接下来 k 项分别加起来，这几段和还是等差。</li>
+<li><b>用的时候：</b>见到"前 k 项和 / 前 2k 项和"立刻想到分段和成等差。</li>
+</ul></div>
+<h3 class="topic" id="q11-等比数列">等比数列</h3>
+<div class="fcard"><div class="formula">aₙ = a₁·qⁿ⁻¹</div><ul>
+<li><b>大白话：</b>从首项开始每项乘一个 q，乘到第 n 项。</li>
+<li><b>用的时候：</b>知道任意两项先求 q；q≠0，各项也不为 0。</li>
+<li><b>记忆要点：</b>首项 × 公比^(项数−1)。</li>
+</ul></div>
+<div class="fcard"><div class="formula">Sₙ：q=1 时 Sₙ = na₁；q≠1 时 Sₙ = a₁(1−qⁿ)/(1−q)</div><ul>
+<li><b>大白话：</b>公比是参数时，先看 q 等不等于 1，两式完全不同。</li>
+<li><b>用的时候：</b>q=1 别用分式（会除以 0）；这是最常见的丢分点。</li>
+<li><b>记忆要点：</b>q 是字母必讨论，先判 1 再套式。</li>
+</ul></div>
+<div class="fcard"><div class="formula">若 m+n = p+q，则 aₘ·aₙ = aₚ·a_q</div><ul>
+<li><b>大白话：</b>下标和相等，两项的"积"相等（注意是乘不是加）。</li>
+<li><b>用的时候：</b>等比中项 aₙ² = aₙ₋₁·aₙ₊₁ 是特例，开方有正负两个要取舍。</li>
+</ul></div>
+<div class="fcard"><div class="formula">Sₖ，S₂ₖ − Sₖ，S₃ₖ − S₂ₖ，… 仍成等比数列</div><ul>
+<li><b>大白话：</b>分段和成等比；第 5~8 项和 = q⁴ × 前 4 项和。</li>
+<li><b>用的时候：</b>等比前 4 项和与前 8 项和的题，就用 S₈−S₄ = q⁴·S₄。</li>
+</ul></div>
+<h3 class="topic" id="q11-求和技巧">求和技巧</h3>
+<div class="fcard"><div class="formula">裂项：1/[n(n+1)] = 1/n − 1/(n+1)；1/[(2n−1)(2n+1)] = ½[1/(2n−1) − 1/(2n+1)]</div><ul>
+<li><b>大白话：</b>把分母乘积拆成两项差，求和时中间两两抵消，只剩首尾。</li>
+<li><b>用的时候：</b>第二个别忘了前面的系数 ½。</li>
+</ul></div>
+<div class="fcard"><div class="formula">错位相减：通项是"等差 × 等比"（如 n·2ⁿ）时用</div><ul>
+<li><b>大白话：</b>写一遍 Sₙ，两边乘公比得 qSₙ，错开一位相减，中间剩一个等比数列再求和。</li>
+<li><b>用的时候：</b>相减后等比首项是第二项（q·a₁），指数和项数要数清。</li>
+</ul></div>
+<div class="fcard"><div class="formula">分组求和：把数列拆成几个等差、等比小组分别求和再相加</div><ul>
+<li><b>大白话：</b>杂数列不会算，拆开成熟悉的小块。</li>
+</ul></div>
+<h3 class="topic" id="q11-构造法求通项">构造法求通项</h3>
+<div class="fcard"><div class="formula">aₙ₊₁ = p·aₙ + q ⇒ 凑 aₙ₊₁ + c = p(aₙ + c)，其中 c = q/(p−1)</div><ul>
+<li><b>大白话：</b>加个常数把它变成等比数列先求，再减回来。</li>
+<li><b>用的时候：</b>{aₙ+c} 是公比 p 的等比数列；n=1 要验证。</li>
+<li><b>记忆要点：</b>c = q/(p−1)，"凑等比"。</li>
+</ul></div></section><section class="chap" id="ch12"><h2 class="chapter" id="ch-12"><span class="no">12</span>不等式与基本不等式<small>· 本章公式速查</small></h2><blockquote>
+<p>口径与《高中数学常用公式·修订版》第九部分（不等式）一致。</p>
+</blockquote>
+<h3 class="topic" id="q12-均值不等式（基本不等式）">均值不等式（基本不等式）</h3>
+<div class="fcard"><div class="formula">√(ab) ≤ (a+b)/2 ≤ √[(a²+b²)/2]（a,b ≥ 0）</div><ul>
+<li><b>大白话：</b>两个正数的几何平均 ≤ 算术平均 ≤ 平方平均，一串从小到大。</li>
+<li><b>用的时候：</b>高考最常用中间一段 √ab ≤ (a+b)/2；必须满足"一正二定三相等"。</li>
+<li><b>记忆要点：</b>几何平均不超过算术平均。</li>
+</ul></div>
+<div class="fcard"><div class="formula">三个变形：a+b ≥ 2√(ab)；ab ≤ [(a+b)/2]²；a²+b² ≥ 2ab</div><ul>
+<li><b>大白话：</b>和与积互相挤——知道和求积用第二式，知道积求和用第一式。</li>
+<li><b>用的时候：</b>第三条 a²+b²≥2ab 对任意实数都成立，不限正数；前两条要 a,b&gt;0。</li>
+</ul></div>
+<h3 class="topic" id="q12-极值定理（求最值）">极值定理（求最值）</h3>
+<div class="fcard"><div class="formula">积定：xy = p（定值）⇒ x+y ≥ 2√p，x=y 时和最小为 2√p</div><ul>
+<li><b>大白话：</b>两个正数乘积固定，它们相等时加起来最小。</li>
+<li><b>用的时候：</b>"积定"求"和"的最小值；对勾函数 x+1/x≥2 就是它。</li>
+</ul></div>
+<div class="fcard"><div class="formula">和定：x+y = s（定值）⇒ xy ≤ s²/4，x=y 时积最大为 s²/4</div><ul>
+<li><b>大白话：</b>两个正数加起来固定，它们相等时乘积最大。</li>
+<li><b>用的时候：</b>"和定"求"积"的最大值；用前先检查 a=b 能不能取到。</li>
+</ul></div>
+<div class="fcard"><div class="formula">"1 的代换"：x+y=1 时 1/x+1/y = (x+y)(1/x+1/y) ≥ 4</div><ul>
+<li><b>大白话：</b>见到"和为 1、求倒数和"，把 1 换成 x+y 乘进去展开。</li>
+<li><b>用的时候：</b>展开后用 x/y+y/x ≥ 2；取等 x=y=1/2。</li>
+</ul></div>
+<h3 class="topic" id="q12-一元二次不等式">一元二次不等式</h3>
+<div class="fcard"><div class="formula">a&gt;0 时：(x−x₁)(x−x₂)&gt;0 ⇒ x<x₁ 或 x>x₂；&lt;0 ⇒ x₁&lt;x&lt;x₂</div><ul>
+<li><b>大白话：</b>开口向上，"大于取两边，小于取中间"。</li>
+<li><b>用的时候：</b>先把 a 化成正数再因式分解；Δ&lt;0 时 &gt;0 解集是 R、&lt;0 解集是空。</li>
+</ul></div>
+<h3 class="topic" id="q12-恒成立问题">恒成立问题</h3>
+<div class="fcard"><div class="formula">ax²+bx+c ≥ 0 对一切 x 恒成立 ⇔ a&gt;0 且 Δ = b²−4ac ≤ 0</div><ul>
+<li><b>大白话：</b>开口向上的抛物线全程贴在 x 轴上方或相切。</li>
+<li><b>用的时候：</b>二次项含字母 k 时先讨论 k=0（变一次式），别直接套判别式。</li>
+</ul></div>
+<div class="fcard"><div class="formula">分离参数：a ≤ f(x) 恒成立 ⇔ a ≤ f(x)_min；a ≥ f(x) 恒成立 ⇔ a ≥ f(x)_max</div><ul>
+<li><b>大白话：</b>要恒成立，参数就得不超过右边的最小值（或不小于最大值）。</li>
+<li><b>用的时候：</b>分离后别忘了定义域对参数的限制。</li>
+</ul></div>
+<h3 class="topic" id="q12-比较大小与常用结论">比较大小与常用结论</h3>
+<div class="fcard"><div class="formula">作差法：a−b 的正负定大小；作商法：同正时 a/b 与 1 比</div><ul>
+<li><b>大白话：</b>比大小先作差，把结果因式分解再看每段正负。</li>
+</ul></div>
+<div class="fcard"><div class="formula">对勾函数：x&gt;0 时 x + 1/x ≥ 2（x=1 取等）；x&lt;0 时提负号得 ≤ −2</div><ul>
+<li><b>大白话：</b>正数和它倒数的和，最小值是 2。</li>
+</ul></div>
+<div class="fcard"><div class="formula">绝对值：|x|<a（a>0）⇔ −a&lt;x<a；|x|>a ⇔ x&gt;a 或 x&lt;−a</div><ul>
+<li><b>大白话：</b>小于夹中间，大于取两边。</li>
+</ul></div></section><section class="chap" id="ch13"><h2 class="chapter" id="ch-13"><span class="no">13</span>立体几何初步<small>· 本章公式速查</small></h2><blockquote>
+<p>口径与《高中数学常用公式·修订版》第四部分（立体几何）一致。</p>
+</blockquote>
+<h3 class="topic" id="q13-柱锥台球体积">柱锥台球体积</h3>
+<div class="fcard"><div class="formula">柱体：V = S底·h（圆柱 V = πr²h）</div><ul>
+<li><b>大白话：</b>底面积乘高，柱体不乘 1/3。</li>
+<li><b>用的时候：</b>柱和锥别混，锥体才要除以 3。</li>
+</ul></div>
+<div class="fcard"><div class="formula">锥体：V = ⅓·S底·h（圆锥 V = ⅓πr²h）</div><ul>
+<li><b>大白话：</b>等底等高的柱，锥只占它的三分之一。</li>
+<li><b>用的时候：</b>最容易漏的就是这个 1/3，写完先检查。</li>
+</ul></div>
+<div class="fcard"><div class="formula">台体：V = ⅓(S上 + S下 + √(S上·S下))·h</div><ul>
+<li><b>大白话：</b>上下底面积和，再加个"上下底面积几何平均"，一起乘高除以 3。</li>
+<li><b>用的时候：</b>中间那个 √(S上S下) 别漏；台体可看成锥截出来的。</li>
+</ul></div>
+<div class="fcard"><div class="formula">球：V = (4/3)πR³，表面积 S = 4πR²</div><ul>
+<li><b>大白话：</b>球的体积和表面积只跟半径有关。</li>
+<li><b>用的时候：</b>表面积是 4πR²，别记成 πR²。</li>
+</ul></div>
+<h3 class="topic" id="q13-常见几何体表面积">常见几何体表面积</h3>
+<div class="fcard"><div class="formula">圆柱侧面积 2πrh；圆锥侧面积 πrl（l 是母线长）</div><ul>
+<li><b>大白话：</b>侧面展开是个矩形 / 扇形，单独记。</li>
+<li><b>用的时候：</b>表面积 = 侧面积 + 两个（或一个）底面积。</li>
+</ul></div>
+<div class="fcard"><div class="formula">正方体棱长 a：体对角线 √3a，表面积 6a²，体积 a³</div><ul>
+<li><b>大白话：</b>六个正方形面，对角线跨三个棱。</li>
+</ul></div>
+<h3 class="topic" id="q13-外接球与体对角线">外接球与体对角线</h3>
+<div class="fcard"><div class="formula">长方体体对角线 l = √(a²+b²+c²)；外接球直径 = 体对角线</div><ul>
+<li><b>大白话：</b>从一个顶点出发三条棱，勾股连套两次就是对角线。</li>
+<li><b>用的时候：</b>墙角形三棱锥（三条棱两两垂直）补成长方体，R = ½√(a²+b²+c²)。</li>
+</ul></div>
+<div class="fcard"><div class="formula">正方体：外接球直径 = √3a；内切球直径 = 棱长 a</div><ul>
+<li><b>大白话：</b>外接球撑到对角，内切球贴到面。</li>
+<li><b>用的时候：</b>外接球看对角线、内切球看棱长，别混。</li>
+</ul></div>
+<div class="fcard"><div class="formula">正四面体（棱长 a）：高 h = √6/3·a，外接球半径 R = √6/4·a</div><ul>
+<li><b>大白话：</b>正四面体高约 0.816a，外接球半径是高的 3/4。</li>
+<li><b>用的时候：</b>这是记牢的结论，小题直接用。</li>
+</ul></div>
+<h3 class="topic" id="q13-平行与垂直的判定（证明题）">平行与垂直的判定（证明题）</h3>
+<div class="fcard"><div class="formula">线面平行：面外一条线 a∥面内一条线 b ⇒ a∥α（要 a⊄α）</div><ul>
+<li><b>大白话：</b>在面里找一条和它平行的线就行。</li>
+<li><b>用的时候：</b>见到"两个中点"先想中位线；a 在面内就不能用。</li>
+</ul></div>
+<div class="fcard"><div class="formula">面面平行：一个面内两条相交直线都平行于另一面 ⇒ 两面平行</div><ul>
+<li><b>大白话：</b>两条相交线都平行，整个面就平行。</li>
+</ul></div>
+<div class="fcard"><div class="formula">线面垂直：一条线垂直于面内两条相交直线 ⇒ 线面垂直</div><ul>
+<li><b>大白话：</b>跟面里两条相交线都垂直，才算真立直。</li>
+<li><b>用的时候：</b>只证一条不够，必须两条相交。</li>
+</ul></div>
+<div class="fcard"><div class="formula">面面垂直：一个面过另一个面的一条垂线 ⇒ 两面垂直</div><ul>
+<li><b>大白话：</b>一个面里竖着一根垂直另一面的线，两面就垂直。</li>
+</ul></div>
+<h3 class="topic" id="q13-求距离">求距离</h3>
+<div class="fcard"><div class="formula">等体积法：h = 3V/S底</div><ul>
+<li><b>大白话：</b>换个好算的顶点和底面，体积不变反解高。</li>
+<li><b>用的时候：</b>求点到面的高，建系麻烦时用它。</li>
+</ul></div></section><section class="chap" id="ch14"><h2 class="chapter" id="ch-14"><span class="no">14</span>空间向量与立体几何<small>· 本章公式速查</small></h2><blockquote>
+<p>口径与《高中数学常用公式·修订版》第四部分（空间向量部分）一致。</p>
+</blockquote>
+<h3 class="topic" id="q14-空间向量坐标运算">空间向量坐标运算</h3>
+<div class="fcard"><div class="formula">加减与数乘：a±b=(x₁±x₂, y₁±y₂, z₁±z₂)；λa=(λx₁, λy₁, λz₁)</div><ul>
+<li><b>大白话：</b>对应坐标分别加、减、乘。</li>
+<li><b>用的时候：</b>先建系写对坐标，坐标错了后面全错。</li>
+</ul></div>
+<div class="fcard"><div class="formula">数量积：a·b = x₁x₂ + y₁y₂ + z₁z₂</div><ul>
+<li><b>大白话：</b>对应坐标相乘再相加，结果是个数。</li>
+<li><b>用的时候：</b>判断垂直就靠它——等于 0 就垂直。</li>
+</ul></div>
+<div class="fcard"><div class="formula">模：|a| = √(x₁² + y₁² + z₁²)</div><ul>
+<li><b>大白话：</b>三个坐标平方加起来开根号，就是向量长度。</li>
+</ul></div>
+<div class="fcard"><div class="formula">夹角：cosθ = a·b/(|a||b|)</div><ul>
+<li><b>大白话：</b>数量积除以两个模，就是夹角余弦。</li>
+</ul></div>
+<div class="fcard"><div class="formula">垂直与平行：a⊥b ⇔ a·b=0；a∥b ⇔ 对应坐标成比例</div><ul>
+<li><b>大白话：</b>垂直看数量积为 0，平行看坐标成倍。</li>
+</ul></div>
+<h3 class="topic" id="q14-法向量">法向量</h3>
+<div class="fcard"><div class="formula">法向量 n：垂直于面内两个不共线向量 u、v，即 n·u = 0 且 n·v = 0</div><ul>
+<li><b>大白话：</b>找一根垂直整个面的箭头，后面求角求距离全靠它。</li>
+<li><b>用的时候：</b>在面内取两个不共线向量，列两个点积方程，令一个分量为 1 解出。</li>
+</ul></div>
+<h3 class="topic" id="q14-三类角（套公式）">三类角（套公式）</h3>
+<div class="fcard"><div class="formula">线线角 θ：cosθ = |a·b|/(|a||b|)，θ ∈ [0, π/2]</div><ul>
+<li><b>大白话：</b>两条方向向量夹角取绝对值，只取锐角直角。</li>
+</ul></div>
+<div class="fcard"><div class="formula">线面角 θ：sinθ = |a·n|/(|a||n|)，θ ∈ [0, π/2]</div><ul>
+<li><b>大白话：</b>斜线与法向量夹角的余角，所以用 sin 不是 cos。</li>
+<li><b>用的时候：</b>这是最容易记混的一条，千万别写成 cos。</li>
+</ul></div>
+<div class="fcard"><div class="formula">二面角 θ：cosθ = ±(n₁·n₂)/(|n₁||n₂|)，正负看锐钝</div><ul>
+<li><b>大白话：</b>两个面法向量的夹角（或补角）。</li>
+<li><b>用的时候：</b>题目说锐角取正、钝角取负；没说先算绝对值再看图开口方向。</li>
+</ul></div>
+<h3 class="topic" id="q14-点到平面的距离">点到平面的距离</h3>
+<div class="fcard"><div class="formula">d = |AP·n|/|n|（A 是面上一点，n 是面法向量）</div><ul>
+<li><b>大白话：</b>连线 AP 在法方向上的投影长度。</li>
+<li><b>用的时候：</b>AP 用"任意点 − 面上一点"，分母是法向量的模；算完用平面方程反代检验。</li>
+</ul></div></section><section class="chap" id="ch15"><h2 class="chapter" id="ch-15"><span class="no">15</span>直线与圆<small>· 本章公式速查</small></h2><blockquote>
+<p>与《高中数学常用公式·修订版》第五部分"直线与圆"逐条核对一致。</p>
+</blockquote>
+<h3 class="topic" id="q15-斜率与倾斜角">斜率与倾斜角</h3>
+<div class="fcard"><div class="formula">斜率：k = (y₂−y₁)/(x₂−x₁) = tan α（α ≠ 90°）</div><ul>
+<li><b>大白话：</b>纵坐标差除以横坐标差，就是直线的陡缓。</li>
+<li><b>用的时候：</b>α=90°（竖直直线）斜率不存在，别硬套；x₁=x₂ 也不能用两点式。</li>
+<li><b>记忆要点：</b>Δy 比 Δx。</li>
+</ul></div>
+<div class="fcard"><div class="formula">平行 ⇔ k₁=k₂（且截距不等）；垂直 ⇔ k₁·k₂=−1</div><ul>
+<li><b>大白话：</b>平行就是斜率一样，垂直就是斜率互为负倒数。</li>
+<li><b>用的时候：</b>平行要排除重合；竖直直线（斜率不存在）垂直的反而是水平线 k=0。</li>
+</ul></div>
+<h3 class="topic" id="q15-直线方程的五种形式">直线方程的五种形式</h3>
+<div class="fcard"><div class="formula">点斜式：y − y₀ = k(x − x₀)</div><ul>
+<li><b>大白话：</b>知道斜率和一个点，直接写。</li>
+<li><b>用的时候：</b>最常用的起手式。</li>
+</ul></div>
+<div class="fcard"><div class="formula">斜截式：y = kx + b；一般式：Ax + By + C = 0（k = −A/B）</div><ul>
+<li><b>大白话：</b>斜截式一眼看斜率纵截距；一般式统一做计算。</li>
+<li><b>用的时候：</b>最后统一化到一般式，斜率就是 −A/B。</li>
+</ul></div>
+<div class="fcard"><div class="formula">两点式：(y−y₁)/(y₂−y₁) = (x−x₁)/(x₂−x₁)；截距式：x/a + y/b = 1</div><ul>
+<li><b>大白话：</b>两点直接写、知道横纵截距用截距式。</li>
+<li><b>用的时候：</b>截距式要求 a、b 都不为 0，过原点或竖直直线用不了。</li>
+</ul></div>
+<h3 class="topic" id="q15-距离公式">距离公式</h3>
+<div class="fcard"><div class="formula">两点距离：d = √[(x₂−x₁)² + (y₂−y₁)²]</div><ul>
+<li><b>大白话：</b>横差纵差当直角边，勾股求斜边。</li>
+</ul></div>
+<div class="fcard"><div class="formula">点到直线距离：d = |Ax₀+By₀+C|/√(A²+B²)</div><ul>
+<li><b>大白话：</b>点代入一般式左边取绝对值，除以法向量长度。</li>
+<li><b>用的时候：</b>直线必须先化成 Ax+By+C=0；分子套绝对值、分母勾股。</li>
+</ul></div>
+<div class="fcard"><div class="formula">两平行线距离：d = |C₁−C₂|/√(A²+B²)</div><ul>
+<li><b>大白话：</b>系数对齐后，常数项差的绝对值除以根号。</li>
+<li><b>用的时候：</b>先把 x、y 系数化成完全相同，再 |C₁−C₂|。</li>
+</ul></div>
+<h3 class="topic" id="q15-圆的方程">圆的方程</h3>
+<div class="fcard"><div class="formula">标准方程：(x−a)² + (y−b)² = r²，圆心 (a,b)，半径 r</div><ul>
+<li><b>大白话：</b>一眼看出圆心和半径。</li>
+</ul></div>
+<div class="fcard"><div class="formula">一般方程：x²+y²+Dx+Ey+F=0，圆心 (−D/2,−E/2)，r = ½√(D²+E²−4F)</div><ul>
+<li><b>大白话：</b>展开后的样子，配方才看得出圆心半径。</li>
+<li><b>用的时候：</b>表示圆要 D²+E²−4F&gt;0；等于 0 是一个点，小于 0 不是圆；没有 xy 项、x²y² 系数相等。</li>
+</ul></div>
+<h3 class="topic" id="q15-直线与圆的位置关系">直线与圆的位置关系</h3>
+<div class="fcard"><div class="formula">比 d 与 r：d<r 相交，d=r 相切，d>r 相离（d 为圆心到直线距离）</div><ul>
+<li><b>大白话：</b>量圆心到直线距离，跟半径比大小。</li>
+<li><b>用的时候：</b>九成题先算 d 再比 r，不用真求交点。</li>
+</ul></div>
+<div class="fcard"><div class="formula">弦长：|AB| = 2√(r² − d²)</div><ul>
+<li><b>大白话：</b>半弦、半径、垂距构成直角三角形，整条弦乘 2。</li>
+<li><b>用的时候：</b>d 是圆心到直线距离，不是别的。</li>
+</ul></div>
+<div class="fcard"><div class="formula">圆上点 (x₁,y₁) 处切线：(x₁−a)(x−a) + (y₁−b)(y−b) = r²</div><ul>
+<li><b>大白话：</b>切线垂直过切点的半径。</li>
+<li><b>用的时候：</b>过圆外点求切线有两条，别漏斜率不存在的那条。</li>
+</ul></div></section><section class="chap" id="ch16"><h2 class="chapter" id="ch-16"><span class="no">16</span>圆锥曲线<small>· 本章公式速查</small></h2><blockquote>
+<p>与《高中数学常用公式·修订版》第六部分"圆锥曲线"逐条核对一致。</p>
+</blockquote>
+<h3 class="topic" id="q16-椭圆">椭圆</h3>
+<div class="fcard"><div class="formula">|MF₁| + |MF₂| = 2a（2a &gt; |F₁F₂| = 2c）</div><ul>
+<li><b>大白话：</b>椭圆上随便一点，到两个焦点的距离加起来永远等于 2a。</li>
+<li><b>用的时候：</b>用定义求轨迹；必须 2a &gt; 焦距，等号就退化成线段、小于就画不出图。</li>
+<li><b>记忆要点：</b>到两焦点距离和 = 长轴长。</li>
+</ul></div>
+<div class="fcard"><div class="formula">x²/a² + y²/b² = 1（焦点在 x 轴，a &gt; b &gt; 0）</div><ul>
+<li><b>大白话：</b>椭圆的标准长相，分母大的 a 在 x² 上就是焦点在 x 轴。</li>
+<li><b>用的时候：</b>写方程前先看焦点在 x 轴还是 y 轴；哪个分母大，焦点就在那个轴上。</li>
+</ul></div>
+<div class="fcard"><div class="formula">b² = a² − c²（a 最大）</div><ul>
+<li><b>大白话：</b>短半轴 b、半焦距 c、长半轴 a 满足勾股，且 a 是三者里最大的。</li>
+<li><b>用的时候：</b>知二求三天天用；椭圆是<strong>减号</strong>，最高频写成加号。</li>
+<li><b>记忆要点：</b>椭圆 c² = a² − b²（减）。</li>
+</ul></div>
+<div class="fcard"><div class="formula">e = c/a（0 &lt; e &lt; 1）</div><ul>
+<li><b>大白话：</b>离心率衡量椭圆有多扁，越接近 1 越扁、越接近 0 越圆。</li>
+<li><b>用的时候：</b>给 c 和 e 先求 a；e 是 a、b、c 知二求三的枢纽。</li>
+</ul></div>
+<div class="fcard"><div class="formula">通径 = 2b²/a</div><ul>
+<li><b>大白话：</b>过焦点垂直长轴切出来的那条最短弦。</li>
+<li><b>用的时候：</b>把 x = c 代回方程求 y 即得；小题当结论直接用。</li>
+</ul></div>
+<div class="fcard"><div class="formula">焦点三角形面积 S = b²·tan(θ/2)（θ = ∠F₁PF₂）</div><ul>
+<li><b>大白话：</b>椭圆上一点跟两焦点围成的三角形，只看顶角就能算面积。</li>
+<li><b>用的时候：</b>题里给 ∠F₁PF₂ 又不需求 P 坐标时直接套；椭圆用 tan。</li>
+</ul></div>
+<h3 class="topic" id="q16-双曲线">双曲线</h3>
+<div class="fcard"><div class="formula">||MF₁| − |MF₂|| = 2a（2a &lt; |F₁F₂|）</div><ul>
+<li><b>大白话：</b>双曲线上一点到两焦点距离之差的绝对值恒为 2a，所以有两支。</li>
+<li><b>用的时候：</b>和椭圆就差一个字——"和"变"差"；必须 2a &lt; 焦距。</li>
+</ul></div>
+<div class="fcard"><div class="formula">x²/a² − y²/b² = 1（a &gt; 0, b &gt; 0）</div><ul>
+<li><b>大白话：</b>双曲线标准方程，中间是减号，中间是空的（|x| ≥ a）。</li>
+</ul></div>
+<div class="fcard"><div class="formula">c² = a² + b²（c 最大）</div><ul>
+<li><b>大白话：</b>双曲线里 a、b、c 也是勾股关系，但这次是<strong>加号</strong>，c 最大。</li>
+<li><b>用的时候：</b>和椭圆反着写！这是本章第一高频坑。</li>
+<li><b>记忆要点：</b>双曲线 c² = a² + b²（加）。</li>
+</ul></div>
+<div class="fcard"><div class="formula">渐近线 y = ±(b/a)x</div><ul>
+<li><b>大白话：</b>双曲线两头无限靠近但永远碰不到的两条直线。</li>
+<li><b>用的时候：</b>焦点在 x 轴就是 b/a；别把 a、b 写反。</li>
+<li><b>记忆要点：</b>令方程右边 1 变 0 即得渐近线。</li>
+</ul></div>
+<div class="fcard"><div class="formula">e = c/a（e &gt; 1）</div><ul>
+<li><b>大白话：</b>双曲线离心率必大于 1，越大开口越阔；e = √2 就是等轴双曲线。</li>
+</ul></div>
+<div class="fcard"><div class="formula">通径 = 2b²/a；焦点三角形面积 S = b²·cot(θ/2)</div><ul>
+<li><b>大白话：</b>通径和椭圆同公式；焦点三角形面积把椭圆的 tan 换成 cot。</li>
+<li><b>用的时候：</b>别记混——椭圆 tan、双曲线 cot。</li>
+</ul></div>
+<h3 class="topic" id="q16-抛物线">抛物线</h3>
+<div class="fcard"><div class="formula">y² = 2px（p &gt; 0，开口向右）</div><ul>
+<li><b>大白话：</b>到焦点距离等于到准线距离的点的轨迹，标准式里一次项是谁焦点就在谁轴上。</li>
+<li><b>用的时候：</b>先把方程写成 y² = 2px 的样子读出 p。</li>
+</ul></div>
+<div class="fcard"><div class="formula">焦点 F(p/2, 0)，准线 x = −p/2</div><ul>
+<li><b>大白话：</b>焦点在原点右边半个 p 处，准线在左边半个 p 处。</li>
+<li><b>用的时候：</b>别把焦点记成 (p,0)，是 (p/2,0)；焦点到准线距离 = p。</li>
+</ul></div>
+<div class="fcard"><div class="formula">通径 = 2p；离心率 e = 1</div><ul>
+<li><b>大白话：</b>抛物线通径就是 2p；e 恒等于 1，正好卡在椭圆和双曲线中间。</li>
+</ul></div>
+<div class="fcard"><div class="formula">焦点弦 x₁x₂ = p²/4，y₁y₂ = −p²</div><ul>
+<li><b>大白话：</b>过焦点的弦两端坐标乘积是固定的，小题直接套。</li>
+<li><b>用的时候：</b>只对过焦点的弦成立；前面带个负号别漏。</li>
+</ul></div>
+<h3 class="topic" id="q16-直线与曲线联立">直线与曲线联立</h3>
+<div class="fcard"><div class="formula">|AB| = √(1 + k²)·√[(x₁+x₂)² − 4x₁x₂]</div><ul>
+<li><b>大白话：</b>用韦达定理写出来的弦长，不用真解出两个交点。</li>
+<li><b>用的时候：</b>联立得一元二次方程后，先写 Δ &gt; 0 再套；Δ ≤ 0 不能用。</li>
+</ul></div>
+<div class="fcard"><div class="formula">点差法：椭圆 k·(y₀/x₀) = −b²/a²；双曲线 = +b²/a²（中点 (x₀, y₀)）</div><ul>
+<li><b>大白话：</b>已知弦中点求斜率，两式一减直接出，省掉联立。</li>
+<li><b>用的时候：</b>椭圆是负号、双曲线是正号；用完要代回验证 Δ &gt; 0。</li>
+</ul></div></section><section class="chap" id="ch17"><h2 class="chapter" id="ch-17"><span class="no">17</span>计数原理（排列、组合、二项式定理）<small>· 本章公式速查</small></h2><blockquote>
+<p>排列组合部分：修订版手册未单列"排列组合"专章（其第十一部分为概率），本表按人教A版2019选必三第6章主线整理；排列数/组合数/二项式定理属常识性公式，口径与教材一致。</p>
+</blockquote>
+<h3 class="topic" id="q17-两大计数原理">两大计数原理</h3>
+<div class="fcard"><div class="formula">分类加法：总数 = n₁ + n₂ + … + nₖ</div><ul>
+<li><b>大白话：</b>一件事分几类办法，任选一类就完事，各类相加。</li>
+<li><b>用的时候：</b>见到"要么…要么…"用加；各类要不重不漏。</li>
+</ul></div>
+<div class="fcard"><div class="formula">分步乘法：总数 = n₁ × n₂ × … × nₖ</div><ul>
+<li><b>大白话：</b>一件事分几步，每步都做完才算完，步步相乘。</li>
+<li><b>用的时候：</b>见到"先…再…""各选一个"用乘；少一步都不行。</li>
+<li><b>记忆要点：</b>"或"用加，"和/再"用乘。</li>
+</ul></div>
+<h3 class="topic" id="q17-排列">排列</h3>
+<div class="fcard"><div class="formula">A(n, m) = n(n−1)…(n−m+1) = n! / (n−m)!</div><ul>
+<li><b>大白话：</b>从 n 个里挑 m 个还要排成队，有位置顺序就用排列。</li>
+<li><b>用的时候：</b>见到"排队/分职务/排位置"用 A；m=n 时就是全排列。</li>
+</ul></div>
+<div class="fcard"><div class="formula">全排列 A(n, n) = n!</div><ul>
+<li><b>大白话：</b>n 个不同元素全部排成一排，有 n 的阶乘种。</li>
+<li><b>用的时候：</b>如 5 人一排 = 5! = 120。</li>
+</ul></div>
+<h3 class="topic" id="q17-组合">组合</h3>
+<div class="fcard"><div class="formula">C(n, m) = A(n,m)/m! = n! / [m!(n−m)!]</div><ul>
+<li><b>大白话：</b>从 n 个里挑 m 个摆一堆、不分顺序，就用组合。</li>
+<li><b>用的时候：</b>抽样/选人/连成线段这种不分先后的用 C；除以 m! 是因为同一组的 m! 种排列只算一次。</li>
+</ul></div>
+<div class="fcard"><div class="formula">C(n, m) = C(n, n−m)（对称）</div><ul>
+<li><b>大白话：</b>挑出 m 个留下，等价于挑出 n−m 个不要。</li>
+<li><b>用的时候：</b>m 很大时换成 n−m 好算（如 C(7,4)=C(7,3)）。</li>
+</ul></div>
+<div class="fcard"><div class="formula">C(n, m) = C(n−1, m−1) + C(n−1, m)（递推）</div><ul>
+<li><b>大白话：</b>杨辉三角腰上的数等于它肩上两个数之和。</li>
+<li><b>用的时候：</b>验算或推导性质时用。</li>
+</ul></div>
+<h3 class="topic" id="q17-分组与分配技巧">分组与分配技巧</h3>
+<div class="fcard"><div class="formula">捆绑法（相邻问题）：先捆整体再排，别忘内部排列</div><ul>
+<li><b>大白话：</b>要求挨着的几个人捆成一个大疙瘩，先算这个大疙瘩和别人一起排，再乘疙瘩内部的排法。</li>
+<li><b>用的时候：</b>见到"必须相邻"就捆；捆完内部 k! 一定要乘。</li>
+</ul></div>
+<div class="fcard"><div class="formula">插空法（不相邻问题）：先排其余，再把不相邻元素插空</div><ul>
+<li><b>大白话：</b>先把没要求的排好，它们之间（含两端）空出 n−k+1 个位置，把不相邻的插进去。</li>
+<li><b>用的时候：</b>见到"不能相邻"就插；空位数 = 先排元素数 + 1。</li>
+</ul></div>
+<div class="fcard"><div class="formula">平均分组除以组数阶乘：C(n,k)C(n−k,k)… / m!</div><ul>
+<li><b>大白话：</b>分成几个没名字的组时，同一种分法会被重复数 m! 遍，要除掉。</li>
+<li><b>用的时候：</b>组没编号（平均分成 3 组）就除；组有名字（分给甲乙丙）就不除。</li>
+</ul></div>
+<div class="fcard"><div class="formula">隔板法：n 个相同球分 k 盒、每盒至少 1 个 = C(n−1, k−1)</div><ul>
+<li><b>大白话：</b>球排好，中间 n−1 个缝插 k−1 块板。</li>
+<li><b>用的时候：</b>只对"球相同、每盒至少一个"用；要求"可以空盒"要先转化。</li>
+</ul></div>
+<h3 class="topic" id="q17-二项式定理">二项式定理</h3>
+<div class="fcard"><div class="formula">(a + b)ⁿ = Σ C(n,k)·aⁿ⁻ᵏ·bᵏ（共 n+1 项）</div><ul>
+<li><b>大白话：</b>把 (a+b) 的高次方展开，系数就是杨辉三角那排数。</li>
+</ul></div>
+<div class="fcard"><div class="formula">通项 T₍ₖ₊₁₎ = C(n,k)·aⁿ⁻ᵏ·bᵏ（k 从 0 开始）</div><ul>
+<li><b>大白话：</b>第 k+1 项长什么样，全靠这条写出来。</li>
+<li><b>用的时候：</b>求指定项系数，先令 x 的幂等于目标解出 k，再代回算；求第 3 项对应 k=2 不是 k=3；实际系数还要乘 a、b 的数字幂和符号。</li>
+</ul></div>
+<div class="fcard"><div class="formula">所有项系数之和 = 2ⁿ（令 a=b=1）</div><ul>
+<li><b>大白话：</b>把 a、b 都代成 1，加起来就是全部系数和。</li>
+<li><b>用的时候：</b>问"系数和"就令变量 x=1；奇数项系数和 = 偶数项系数和 = 2ⁿ⁻¹。</li>
+</ul></div></section><section class="chap" id="ch18"><h2 class="chapter" id="ch-18"><span class="no">18</span>概率<small>· 本章公式速查</small></h2><blockquote>
+<p>与《高中数学常用公式·修订版》第十一部分"概率"核对一致；数字特征（期望/方差）口径与教材一致。</p>
+</blockquote>
+<h3 class="topic" id="q18-古典概型与事件关系">古典概型与事件关系</h3>
+<div class="fcard"><div class="formula">P(A) = A 包含的基本事件数 / 基本事件总数</div><ul>
+<li><b>大白话：</b>所有结果等可能时，概率就是"有利份数"除以"总份数"。</li>
+<li><b>用的时候：</b>先数清总数；两枚骰子要区分顺序，(3,4) 和 (4,3) 是两个。</li>
+</ul></div>
+<div class="fcard"><div class="formula">互斥加法 P(A∪B) = P(A) + P(B)</div><ul>
+<li><b>大白话：</b>两个事不能同时发生时，发生其一的概率就是相加。</li>
+<li><b>用的时候：</b>互斥才加；不是互斥要减 P(AB)。</li>
+</ul></div>
+<div class="fcard"><div class="formula">对立 P(Ā) = 1 − P(A)</div><ul>
+<li><b>大白话：</b>"不发生"的概率就是 1 减去发生的概率。</li>
+<li><b>用的时候：</b>求"至少一个"正面难算时，转成求它的对立。</li>
+</ul></div>
+<h3 class="topic" id="q18-条件概率与独立">条件概率与独立</h3>
+<div class="fcard"><div class="formula">条件概率 P(A|B) = P(AB) / P(B)（P(B)&gt;0）</div><ul>
+<li><b>大白话：</b>已知 B 发生后，样本空间缩小成 B，在 B 里数 AB 占多少。</li>
+<li><b>用的时候：</b>分母是 P(B)，不是 P(A)；不放回抽样就是换样本空间重新数。</li>
+</ul></div>
+<div class="fcard"><div class="formula">独立 P(AB) = P(A)·P(B)</div><ul>
+<li><b>大白话：</b>两件事互不影响，同时发生的概率就是各自概率相乘。</li>
+<li><b>用的时候：</b>独立 ⇔ 此式成立；独立和互斥方向相反，互斥的事件一般不独立。</li>
+</ul></div>
+<h3 class="topic" id="q18-期望与方差">期望与方差</h3>
+<div class="fcard"><div class="formula">E(X) = Σ xᵢ·pᵢ</div><ul>
+<li><b>大白话：</b>每个取值乘它的概率再加权，就是随机变量的"平均取值"。</li>
+<li><b>用的时候：</b>列完分布列一定回头验算 Σpᵢ=1。</li>
+</ul></div>
+<div class="fcard"><div class="formula">D(X) = E(X²) − [E(X)]²</div><ul>
+<li><b>大白话：</b>描述随机变量围绕均值波动多大，平方消掉正负抵消。</li>
+<li><b>用的时候：</b>用 E(X²)−[E(X)]² 比硬算离差平方快；先算 E(X²)=Σxᵢ²pᵢ。</li>
+</ul></div>
+<div class="fcard"><div class="formula">E(aX+b) = aE(X)+b；D(aX+b) = a²D(X)</div><ul>
+<li><b>大白话：</b>期望跟着平移缩放一起变；方差只跟缩放、不跟平移（加 b 不变、乘 a 变 a² 倍）。</li>
+<li><b>用的时候：</b>整体加一个常数，方差照写别加 b。</li>
+</ul></div>
+<h3 class="topic" id="q18-三个重要分布">三个重要分布</h3>
+<div class="fcard"><div class="formula">二项分布 X~B(n,p)：E(X)=np，D(X)=np(1−p)</div><ul>
+<li><b>大白话：</b>n 次独立重复、每次成功率 p，命中次数就是二项分布。</li>
+<li><b>用的时候：</b>独立+重复+概率不变才用它；有放回抽样。</li>
+</ul></div>
+<div class="fcard"><div class="formula">超几何分布（不放回）：E(X) = n·M/N</div><ul>
+<li><b>大白话：</b>N 个里 M 个次品，抽 n 个，期望次品数就是 n·M/N。</li>
+<li><b>用的时候：</b>不放回抽样是超几何不是二项；期望和二项同口径，但方差更小。</li>
+</ul></div>
+<div class="fcard"><div class="formula">正态分布 X~N(μ,σ²)：μ±σ≈0.683，μ±2σ≈0.954，μ±3σ≈0.997；P(Z&lt;μ+σ)≈0.8413</div><ul>
+<li><b>大白话：</b>钟形曲线关于 μ 对称，离 μ 几个 σ 就套对应比例。</li>
+<li><b>用的时候：</b>求 P(X&gt;a) 先看 a 离 μ 几个 σ，再用对称；a=μ+σ 时 P(X&lt;μ+σ)=0.8413、P(X&gt;μ+σ)=0.1587。</li>
+</ul></div>
+<h3 class="topic" id="q18-全概率">全概率</h3>
+<div class="fcard"><div class="formula">全概率 P(A) = Σ P(Bᵢ)·P(A|Bᵢ)（Bᵢ 互斥且覆盖全部）</div><ul>
+<li><b>大白话：</b>把 A 按它发生的几种前提拆开，各算各的再加权求和。</li>
+<li><b>用的时候：</b>多阶段、"先选哪袋再抽一件"这种题用它；反过来"已知结果求原因"用贝叶斯，会套全概率即可。</li>
+</ul></div></section><section class="chap" id="ch19"><h2 class="chapter" id="ch-19"><span class="no">19</span>统计<small>· 本章公式速查</small></h2><blockquote>
+<p>与《高中数学常用公式·修订版》第十二部分"统计与统计案例"逐条核对一致。</p>
+</blockquote>
+<h3 class="topic" id="q19-抽样方法">抽样方法</h3>
+<div class="fcard"><div class="formula">分层抽样：每层抽取数 = 该层人数 × (样本量/总体量)</div><ul>
+<li><b>大白话：</b>总体分几层、层间差得多，就按比例从每层抽，让样本比例跟总体一致。</li>
+<li><b>用的时候：</b>抽完各层相加必须等于样本总量；不等于就抽错了。</li>
+</ul></div>
+<div class="fcard"><div class="formula">系统抽样间隔 k = N/n</div><ul>
+<li><b>大白话：</b>总体编号很多，每隔 k 个抽一个。</li>
+<li><b>用的时候：</b>k 是总体量除以样本量；先随机定第一个，再等距往后数。</li>
+</ul></div>
+<h3 class="topic" id="q19-数字特征">数字特征</h3>
+<div class="fcard"><div class="formula">平均数 x̄ = (1/n)Σxᵢ（加权：Σwᵢxᵢ/Σwᵢ）</div><ul>
+<li><b>大白话：</b>所有数加起来除以个数，就是数据的"中心"。</li>
+<li><b>用的时候：</b>两组人数不等时合并要按加权平均，不能把两个平均分直接相加除 2。</li>
+</ul></div>
+<div class="fcard"><div class="formula">方差 s² = (1/n)Σ(xᵢ−x̄)²；标准差 s = √s²</div><ul>
+<li><b>大白话：</b>每个数离中心多远的平方平均，衡量数据"散得多开"；开根号还原单位。</li>
+<li><b>用的时候：</b>方差是离差平方的平均；合并数据要重算，不能把两组方差相加。</li>
+</ul></div>
+<div class="fcard"><div class="formula">平移缩放：数据 +a → 平均数 +a、方差不变；数据 ×b → 平均数 ×b、方差 ×b²</div><ul>
+<li><b>大白话：</b>整体加一个数只平移不影响波动，整体乘一个数波动跟着放大 b² 倍。</li>
+<li><b>用的时候：</b>问"每个数据加几/乘几后新方差"，记住方差里没有加的那个常数。</li>
+</ul></div>
+<h3 class="topic" id="q19-频率分布直方图">频率分布直方图</h3>
+<div class="fcard"><div class="formula">频率 = (频率/组距) × 组距；每个矩形面积 = 频率</div><ul>
+<li><b>大白话：</b>纵轴是"频率/组距"不是频率，必须乘组距才是真频率；所有矩形面积加起来 = 1。</li>
+<li><b>用的时候：</b>求某组人数 = 该组面积 × 总体数；直接拿纵轴数字当频率是命门级错误。</li>
+</ul></div>
+<h3 class="topic" id="q19-回归分析">回归分析</h3>
+<div class="fcard"><div class="formula">斜率 b = Σ(xᵢ−x̄)(yᵢ−ȳ) / Σ(xᵢ−x̄)²；截距 a = ȳ − b·x̄</div><ul>
+<li><b>大白话：</b>最小二乘配出来的最贴散点的那条直线，斜率是"协方差除以 x 的方差"。</li>
+<li><b>用的时候：</b>先算 x̄、ȳ，再算 b，最后 a；斜率 b 和相关系数 r 一定同号。</li>
+</ul></div>
+<div class="fcard"><div class="formula">回归直线必过样本中心 (x̄, ȳ)</div><ul>
+<li><b>大白话：</b>这条直线一定穿过所有点的平均位置。</li>
+<li><b>用的时候：</b>算完拿它代进去验证，是检查对错的照妖镜。</li>
+</ul></div>
+<div class="fcard"><div class="formula">相关系数 r ∈ [−1,1]：|r|→1 线性越强；r&gt;0 正相关、r&lt;0 负相关</div><ul>
+<li><b>大白话：</b>衡量两个变量线性关系有多紧，越接近 ±1 越贴一条直线。</li>
+<li><b>用的时候：</b>r 接近 0 几乎无线性关系；b 和 r 同号可快速自检。</li>
+</ul></div>
+<h3 class="topic" id="q19-独立性检验（卡方）">独立性检验（卡方）</h3>
+<div class="fcard"><div class="formula">χ² = n(ad − bc)² / [(a+b)(c+d)(a+c)(b+d)]（2×2 列联表 a,b,c,d）</div><ul>
+<li><b>大白话：</b>两个变量有没有关系，算出 χ² 再和临界值比，越大越有把握说"有关"。</li>
+<li><b>用的时候：</b>套公式时四个分母因子别漏乘、少写零；算完和临界值比。</li>
+</ul></div>
+<div class="fcard"><div class="formula">临界值：3.841（95%）/ 6.635（99%）/ 10.828（99.9%，即 α=0.001）</div><ul>
+<li><b>大白话：</b>χ² 超过哪个临界值，就对应那个把握度。</li>
+<li><b>用的时候：</b>下结论写"有 X% 把握认为有关"，并补一句"这是统计相关，不等于因果"。</li>
+</ul></div></section>
+  <div class="footer">数据来源：《高中数学自学系统》19 章公式速查表（质检版）。本手册仅做汇总与排版，未改动任何公式文字。</div>
+</main>
+</div>
+<script>
+(function(){
+  var box=document.getElementById('search');
+  if(!box)return;
+  box.addEventListener('input',function(){
+    var q=this.value.trim().toLowerCase();
+    var cards=document.querySelectorAll('.fcard');
+    var topics=document.querySelectorAll('h3.topic');
+    var chaps=document.querySelectorAll('section.chap');
+    cards.forEach(function(c){
+      c.style.display=(!q||c.textContent.toLowerCase().indexOf(q)>=0)?'':'none';
+    });
+    topics.forEach(function(t){
+      var vis=[].slice.call(t.parentElement.querySelectorAll('.fcard')).filter(function(i){
+        var ok=i.style.display!=='none';return ok;}).length;
+      t.style.display=(!q||vis>0)?'':'none';
+    });
+    chaps.forEach(function(ch){
+      var vis=[].slice.call(ch.querySelectorAll('.fcard')).filter(function(i){
+        var ok=i.style.display!=='none';return ok;}).length;
+      ch.style.display=(!q||vis>0)?'':'none';
+    });
+  });
+  var links=[].slice.call(document.querySelectorAll('nav.side a[href^="#"]'));
+  var map={};
+  links.forEach(function(a){var id=a.getAttribute('href').slice(1);var el=document.getElementById(id);if(el)map[id]=a;});
+  window.addEventListener('scroll',function(){
+    var y=window.scrollY+100,cur=null;
+    Object.keys(map).forEach(function(id){var el=document.getElementById(id);if(el.offsetTop<=y)cur=id;});
+    links.forEach(function(a){a.style.background='';a.style.color='';});
+    if(cur&&map[cur]){map[cur].style.background='#e8dfcd';map[cur].style.color='#1f3a5f';}
+  },{passive:true});
+})();
+</script>
+</body>
+</html>
