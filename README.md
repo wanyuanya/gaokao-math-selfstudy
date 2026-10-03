@@ -14,7 +14,7 @@
 
 ## Quick Start
 
-1. Open `电子书\高中数学自学系统电子版.html` — a single-file e-book with 20 chapters (guide + 19 chapters + appendix), readable directly in a browser, with **full-text search, font-size control, serif/sans toggle, night mode, and chapter progress bar**.
+1. Open `电子书\高中数学自学系统电子版.html` — a single-file e-book with 20 chapters (guide + 19 chapters + appendix), readable directly in a browser, with **full-text search, font-size control, serif/sans toggle, night mode, chapter progress bar, collapsible answers** (click "show answers"; each chapter's answers are hidden by default), and **print as a worksheet (answers hidden) or print with answers** via the top bar.
 2. Follow the "six-step loop" in Chapter 00 for each chapter: **prerequisite self-test → learning goals → main text (with "plain-language" annotations) → A/B/C tiered exercises → formula quick-lookup → advanced methods → answers**.
 3. Each chapter has "chapter materials" links at the top plus a "what if I don't understand" guide; if stuck over 30 minutes, mark and skip, then return later.
 4. Want an AI assistant to answer questions / generate problems / verify progress with the same method? Install the skill package `技能包\gaokao-math-selfstudy\` (see `系统文档\技能包安装说明.md`).
