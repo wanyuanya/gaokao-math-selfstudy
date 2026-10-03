@@ -1,75 +1,77 @@
-# 高中数学自学系统（全国新高考Ⅰ卷）
+# Gaokao Math Self-Study System (China National New Gaokao I)
 
-> 一套**人人看得懂、门槛清晰、进度连续**的高中数学自学系统。
-> 用**老教材学懂**（2004 课标版图文并茂、讲得细），用**新教材对标**（人教A版2019，新高考Ⅰ卷考点范围），用**真题验收**（2020–2025 新高考Ⅰ卷）。
+> A **self-study system for high school math** that anyone can understand, with clear prerequisites and a continuous learning path.
+> Learn from the **old textbooks** (2004 curriculum, illustrated and detailed), align with the **new textbooks** (PEP A Edition 2019, the scope of New Gaokao I), and validate with **real exam papers** (2020–2025 New Gaokao I).
 
-## ⚠️ 免责声明（请先读）
+🌐 **中文版**：[README.zh-CN.md](README.zh-CN.md) · **English**: this page
 
-- **本仓库内容由 AI 辅助生成与整理**，虽经多轮人工/独立评审校验，**仍可能存在错误**（排版、OCR 识别、个别题面或解答笔误等）。
-- **一切以官方为准**：教材内容以人民教育出版社正式出版教材为准；真题题面、答案以各省考试院官方试卷与评分标准为准；公式结论以教材与权威参考书为准。
-- 本仓库**不构成任何教学承诺**，不替代教材、学校课程与专业教师指导；用于个人学习与研究。
-- **发现错误请提出 Issue / PR**（见文末"反馈与贡献"），我们会持续修订。
+## ⚠️ Disclaimer (read first)
 
-## 快速开始
+- **This repository is AI-assisted in generation and organization.** Despite multiple rounds of manual and independent review, **errors may still exist** (layout, OCR recognition, individual problem statements, or typos in solutions).
+- **Official sources prevail**: textbook content follows the official PEP publications; exam questions and answers follow the official papers and scoring standards of provincial examination authorities; formulas follow textbooks and authoritative references.
+- This repository **does not constitute any teaching commitment**, does not replace textbooks, school courses, or professional teachers; it is for personal learning and research.
+- **Found an error?** Please open an Issue / PR (see "Feedback & Contribution" below) — we will keep revising.
 
-1. 打开 `电子书\高中数学自学系统电子版.html` —— 20 章（导读 + 19 章 + 附录）单文件电子书，浏览器直接看，带**全文搜索、字号调节、衬线/黑体切换、夜读模式、章节进度条**。
-2. 按 00 章导读的"六步闭环"学每一章：**门槛自测 → 学习目标 → 正文讲解（含"大白话"旁注）→ A/B/C 分层习题 → 公式速查 → 高级方法 → 答案**。
-3. 每章顶部有"本章配套资料"直达 + "看不懂怎么办"指引；卡住超过 30 分钟先标记跳过，回头再攻。
-4. 想让 AI 助手按同一套方法答疑/出题/验收？安装 `技能包\gaokao-math-selfstudy\`（见 `系统文档\技能包安装说明.md`）。
+## Quick Start
 
-## 资料来源（内容依据）
+1. Open `电子书\高中数学自学系统电子版.html` — a single-file e-book with 20 chapters (guide + 19 chapters + appendix), readable directly in a browser, with **full-text search, font-size control, serif/sans toggle, night mode, and chapter progress bar**.
+2. Follow the "six-step loop" in Chapter 00 for each chapter: **prerequisite self-test → learning goals → main text (with "plain-language" annotations) → A/B/C tiered exercises → formula quick-lookup → advanced methods → answers**.
+3. Each chapter has "chapter materials" links at the top plus a "what if I don't understand" guide; if stuck over 30 minutes, mark and skip, then return later.
+4. Want an AI assistant to answer questions / generate problems / verify progress with the same method? Install the skill package `技能包\gaokao-math-selfstudy\` (see `系统文档\技能包安装说明.md`).
 
-| 类别 | 具体来源 | 用途 |
+## Sources of Content
+
+| Category | Specific Source | Purpose |
 |---|---|---|
-| 新教材 | 人教版 A 版 2019：必修第一/二册、选择性必修第一/二/三册（5 册） | 考点范围对标 |
-| 老教材 | 2004 课标版人教 A 版：必修 1–5、选修 1-1/1-2、2-1/2-2/2-3、3-4、4-1/4-4/4-5（14 册） | 讲解细读（图文最清楚、公式无误） |
-| 真题 | 2020–2025 全国新高考Ⅰ卷（含 2020 山东卷）实卷 | 出口检测与阶段验收 |
-| 方法书 | 苏州教研《高中数学解题方法与技巧辅导工具书》（60 专题，208 页） | 各章方法例题与技巧（正文标注"苏州教研·专题N 原书 p.XX"） |
-| 公式手册 | 《高中数学常用公式》（18 页） | 附录公式速查 419 卡 |
-| 高级方法 | 06 高级方法专题 7 份讲义（极值点偏移/隐零点/同构/齐次化/点差法/放缩等，均不超纲） | 压轴题方法专项（嵌对应章 + 附录） |
-| 课标 | 《普通高中数学课程标准》及新高考Ⅰ卷考试说明 | 章节范围与要求层级 |
+| New textbooks | PEP A Edition 2019: Compulsory 1–2, Selective Compulsory 1–3 (5 volumes) | Scope alignment |
+| Old textbooks | 2004 curriculum PEP A Edition: Compulsory 1–5, Elective 1-1/1-2, 2-1/2-2/2-3, 3-4, 4-1/4-4/4-5 (14 volumes) | Detailed reading (clearest illustrations, reliable formulas) |
+| Exam papers | 2020–2025 National New Gaokao I real papers (incl. 2020 Shandong paper) | Chapter exit checks & stage validation |
+| Methods book | Suzhou Teaching & Research "High School Math Problem-Solving Methods and Skills Reference" (60 topics, 208 pp.) | Method examples & techniques (cited in text as "Suzhou R&D · Topic N, p. XX") |
+| Formula handbook | "Common High School Math Formulas" (18 pp.) | Appendix formula quick-lookup (419 cards) |
+| Advanced methods | 7 handouts on advanced topics (extremum-point shifting, hidden zeros, homogenization, point-difference method, scaling, etc., all within syllabus) | Methods for final problems (embedded in chapters + appendix) |
+| Curriculum | "General High School Mathematics Curriculum Standard" & New Gaokao I exam description | Chapter scope & requirement levels |
 
-> 教材、真题等为**第三方版权材料，不随本仓库发布**。你本地学习用的文件按 `系统文档\00_素材清单与来源.md` 指引自行获取（仅限个人学习与研究使用）。正文/表格中的路径（如 `数学自学系统素材\...`）为作者本地学习目录，仅作来源说明。
+> Textbooks and exam papers are **third-party copyrighted materials and are NOT distributed with this repository.** Obtain them locally per `系统文档\00_素材清单与来源.md` (personal study and research only). Paths like `数学自学系统素材\...` in the text are the author's local study directories, for provenance only.
 
-## 目录结构
+## Directory Structure
 
 ```
 ├── 电子书/
-│   ├── 高中数学自学系统电子版.html   # 主电子书（导读+19章+附录，单文件）
-│   └── assets/                       # 正文配图（52 张，随电子书引用）
+│   ├── 高中数学自学系统电子版.html    # Main e-book (guide+19 chapters+appendix, single file)
+│   └── assets/                       # Figures (52 images, referenced by the e-book)
 ├── 公式/
-│   ├── 高中数学常用公式·修订版.html/.md # 按 15 板块全量公式（附记忆要点）
-│   ├── 高中数学公式速查手册.html      # 按 01–19 章学习顺序速查
-│   └── 不超纲高级方法手册.html        # 压轴方法专项（米白卡片+搜索+目录）
+│   ├── 高中数学常用公式·修订版.html/.md  # Full formulas by 15 sections (with memory tips)
+│   ├── 高中数学公式速查手册.html       # Quick lookup in chapter order 01–19
+│   └── 不超纲高级方法手册.html         # Advanced methods (cards + search + TOC)
 ├── 系统文档/
-│   ├── 高中数学自学系统.md            # 系统主文档（8 阶段进度+方法卡总表）
-│   ├── 00_素材清单与来源.md           # 全部教材/真题清单与下载来源
-│   ├── 不超纲高级方法手册.md          # 高级方法手册源稿
-│   ├── 技能包安装说明.md              # Skill 安装方法
-│   └── 三轮迭代要求.md                # 本项目的质量验收标准
+│   ├── 高中数学自学系统.md            # System main document (8 stages + method card index)
+│   ├── 00_素材清单与来源.md           # Full list of textbooks/exams and download sources
+│   ├── 不超纲高级方法手册.md          # Advanced methods handbook source
+│   ├── 技能包安装说明.md              # Skill installation guide
+│   └── 三轮迭代要求.md                # Quality acceptance criteria of this project
 └── 技能包/
-    └── gaokao-math-selfstudy/        # 可安装 Skill（5 张方法卡 + 20 章知识卡 + 公式速查）
+    └── gaokao-math-selfstudy/        # Installable Skill (5 method cards + 20 chapter cards + formula lookup)
 ```
 
-## 学习方法（一句话）
+## How to Learn (in one sentence)
 
-- **一条主线**：19 章按依赖关系排好，每章告诉你"学之前必须会什么、学完能干什么、怎么证明过关"。
-- **门槛控制**：每章入口有门槛自测（不过关先补前置），出口有检测（过关才解锁下一章）。
-- **三层递进**：看得懂（老教材图解 + 大白话旁注）→ 会做题（方法卡）→ 做得对（真题分层 A/B/C）。
-- **讲本质**：每章先讲"本质核心一句话 + 为什么有用"，再给通用骨架——会一道题就会一类题，知识可跨章结合出题（举一反三）。
+- **One main thread**: 19 chapters ordered by dependencies; each chapter tells you "what you must know before, what you can do after, how to prove you pass".
+- **Prerequisite control**: each chapter starts with a prerequisite self-test (remedy prerequisites if failing) and ends with an exit check (unlock the next chapter only when passing).
+- **Three tiers**: understand (old-textbook diagrams + plain-language annotations) → can solve (method cards) → solve correctly (tiered real-exam problems A/B/C).
+- **Essence-first**: each chapter opens with "the essence in one sentence + why it is useful", then a general skeleton — solve one problem type and you can solve the whole family; knowledge combines across chapters (extend from one to many).
 
-## 质量与保真
+## Quality & Fidelity
 
-- 全部内容经**三轮迭代 + 独立盲测评审**（独立评审组实际执行测试、记录可复核档案，拒绝口头宣称），验收标准见 `系统文档\三轮迭代要求.md`。
-- **防幻觉红线**：公式、结论、真题答案均有来源（教材/真题/已核验事实），不编造；每条方法例题标注出处（苏州教研·专题N / 高级方法手册·X.Y）。
-- 已核验锚点示例：2025 卷 T4=2tan(x−π/3)/B、2025 卷 T16 递推证等差（{n·aₙ} 公差 1）、2024 卷 T7=6、2023 卷 T1=复数、χ²=50/3、aₙ=4n−3、椭圆离心率、排列组合计数、期望方差、分层抽样等（均为实卷/复算核对）。
-- **未完全验证项（如实披露）**：2021/2022 卷部分题号逐字比对、各章自编习题数值未逐题复算（抽查过）、深色模式移动端对比度未逐项验收——欢迎指出，一起修正。
+- All content went through **three rounds of iteration + independent blind review** (independent reviewers actually executed tests with verifiable records; verbal claims rejected), acceptance criteria in `系统文档\三轮迭代要求.md`.
+- **Anti-hallucination red lines**: formulas, conclusions, and exam answers all have sources (textbooks / exam papers / verified facts); nothing fabricated; every method example cites its source (Suzhou R&D · Topic N / Advanced Methods Handbook · X.Y).
+- Verified anchor examples: 2025 T4=2tan(x−π/3)/B; 2025 T16 recurrence proving arithmetic (common difference 1 of {n·aₙ}); 2024 T7=6; 2023 T1=complex numbers; χ²=50/3; aₙ=4n−3; ellipse eccentricity; permutation-combination counts; expectation/variance; stratified sampling — all verified against real papers / recomputation.
+- **Unverified items (honestly disclosed)**: page-level word-by-word comparison of some 2021/2022 problems, not every self-authored exercise number recomputed (spot-checked), dark-mode mobile contrast not item-by-item verified — you are welcome to point out issues.
 
-## 版权与许可
+## Copyright & License
 
-- **本仓库只含自创内容**（电子书、公式整理、方法手册、系统文档、技能包），以 **MIT 许可**开源（见 LICENSE）。
-- 教材与真题等第三方版权材料**不随仓库发布**，版权归原权利方所有；请自行获取、仅限个人学习与研究使用。
+- **This repository contains only original content** (e-book, formula compilation, methods handbook, system documents, skill package), open-sourced under the **MIT License** (see LICENSE). Copyright belongs to the author, **wanyuan123**.
+- Textbooks and exam papers (third-party copyrighted materials) are **not distributed** in this repository; rights belong to their original owners; obtain them yourself for personal study and research only.
 
-## 反馈与贡献
+## Feedback & Contribution
 
-欢迎提 Issue / PR。改动请遵循项目验收标准：**不幻觉、不伪造、不脱离资料**；每项改动附可复核证据（来源/复算/截图）；涉及真题的改动以官方实卷为准。
+Issues / PRs are welcome. Please follow the project's acceptance criteria: **no hallucination, no fabrication, no deviation from sources**; every change must carry verifiable evidence (source / recomputation / screenshot); changes involving real exam problems must be checked against the official papers.
