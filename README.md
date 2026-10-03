@@ -83,3 +83,14 @@
 ## Feedback & Contribution
 
 Issues / PRs are welcome. Please follow the project's acceptance criteria: **no hallucination, no fabrication, no deviation from sources**; every change must carry verifiable evidence (source / recomputation / screenshot); changes involving real exam problems must be checked against the official papers.
+
+
+## Materials (Important)
+
+- **Included in this repo**: the e-book content (single-file + per-chapter versions), the Formula Quick-Reference, and the Non-Out-of-Syllabus Advanced Methods Handbook — all original works by the author.
+- **Not distributed here**: textbooks and past exam papers are third-party copyrighted materials for personal study only. Please obtain them yourself:
+  - Old textbooks: PEP High School Math A (2004 syllabus) Volumes 1–5 and Electives 2-1 / 2-2 / 2-3, etc. Each chapter's "Materials" chips show the **exact book title and edition**.
+  - New textbooks: PEP A (2019 syllabus) Compulsory 1–2 and Selective Compulsory 1–3.
+  - Past papers: 2020–2025 National New Gaokao I (official versions are free on NEEA / provincial exam authority websites).
+- **Desktop client**: Windows installer / portable builds are on GitHub Releases; for personal study only, **commercial use is strictly prohibited** (see LICENSE).
+- Contact: QQ 2779015494
