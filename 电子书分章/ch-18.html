@@ -246,6 +246,8 @@ section.flash{animation:flash 1.6s ease}
     <button class="tb-btn" id="minus" title="减小字号">A−</button><span id="fsize"></span><button class="tb-btn" id="plus" title="增大字号">A+</button>
     <button class="tb-btn" id="serifbtn" title="切换正文字体"></button>
     <button class="tb-btn" id="darkbtn" title="深色/日间模式"></button>
+    <button class="tb-btn" id="bmbtn" title="书签：收藏本章并记住阅读位置">书签</button>
+    <button class="tb-btn" id="penbtn" title="画笔：在书上画线做笔记（8色，随书保存）">画笔</button>
     <button class="tb-btn" id="printnote" title="生成本章讲义PDF（不含题目与答案，可预览勾选页）">打印讲义</button>
     <button class="tb-btn" id="printq" title="生成本章题目卷PDF（练习卷，可预览勾选页）">打印题目</button>
     <button class="tb-btn" id="printa" title="生成本章答案卷PDF（可预览勾选页）">打印答案</button>
@@ -776,6 +778,70 @@ A. P(X&gt;2) &gt; 0.2　　B. P(X&gt;2) &lt; 0.5　　C. P(Y&gt;2) &gt; 0.5　�
     });
     if(!hits.length)sres.innerHTML='<div class="sr-none">本页无匹配</div>';
   });
+  /* 书签：收藏当前章 + 记住滚动比例（首页可直达） */
+  var CH=(location.pathname.match(/ch-(\d+)/)||[,''])[1];
+  var bmbtn=doc.getElementById('bmbtn');
+  function getBMs(){try{return JSON.parse(localStorage.getItem('ebook-bm')||'[]')}catch(e){return[]}}
+  function saveBMs(a){localStorage.setItem('ebook-bm',JSON.stringify(a))}
+  if(bmbtn)bmbtn.addEventListener('click',function(){
+    var bms=getBMs(),tt=(doc.querySelector('.ch-title')||{}).textContent||('第'+CH+'章');
+    var ratio=window.scrollY/Math.max(1,doc.body.scrollHeight-window.innerHeight);
+    var ex=bms.filter(function(b){return b.no===CH})[0];
+    if(ex){ex.ratio=ratio;ex.at=Date.now();}else{bms.push({no:CH,title:tt,ratio:ratio,at:Date.now()});}
+    saveBMs(bms);
+    bmbtn.textContent='✓已存';bmbtn.style.color='#1d8a4f';
+    setTimeout(function(){bmbtn.textContent='书签';bmbtn.style.color=''},1200);
+  });
+  (function(){var bms=getBMs(),bm=bms.filter(function(b){return b.no===CH})[0];
+    if(bm&&bm.ratio){setTimeout(function(){window.scrollTo(0,bm.ratio*Math.max(1,doc.body.scrollHeight-window.innerHeight))},150);}
+  })();
+  /* 画笔：8色标注（黑/白/红/橙/黄/绿/蓝/靛/紫），文档坐标，随书保存 */
+  var PEN_COLORS=['#111111','#ffffff','#e53935','#fb8c00','#fdd835','#43a047','#1e88e5','#3949ab','#8e24aa'];
+  var penBtn=doc.getElementById('penbtn');
+  var penLayer=null,penBar=null,penOn=false,penCur=PEN_COLORS[2],penPaths=[],drawing=false,curPath='';
+  function renderPen(){
+    if(!penLayer)return;
+    var s='<svg width="'+doc.body.scrollWidth+'" height="'+Math.max(doc.body.scrollHeight,window.innerHeight)+'" style="position:absolute;top:0;left:0;pointer-events:none">';
+    penPaths.forEach(function(p){s+='<path d="'+p.d+'" stroke="'+p.c+'" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.9"/>'});
+    if(drawing)s+='<path d="'+curPath+'" stroke="'+penCur+'" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.9"/>';
+    s+='</svg>';
+    penLayer.innerHTML=s;
+  }
+  function savePen(){try{localStorage.setItem('ebook-pen-'+CH,JSON.stringify(penPaths))}catch(e){}}
+  function loadPen(){try{penPaths=JSON.parse(localStorage.getItem('ebook-pen-'+CH)||'[]')}catch(e){penPaths=[]}}
+  function setPen(on){
+    penOn=on;
+    if(penBar)penBar.style.display=on?'block':'none';
+    if(penLayer)penLayer.style.pointerEvents=on?'auto':'none';
+    if(penBtn)penBtn.textContent=on?'✏标注中':'画笔';
+  }
+  if(penBtn){
+    penBtn.addEventListener('click',function(){setPen(!penOn)});
+    penLayer=doc.createElement('div');
+    penLayer.style.cssText='position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999';
+    doc.body.appendChild(penLayer);
+    penBar=doc.createElement('div');
+    penBar.style.cssText='position:fixed;top:56px;right:14px;z-index:10000;background:#fff;border:1px solid #ccc;border-radius:10px;padding:8px 10px;box-shadow:0 4px 14px rgba(0,0,0,.2);display:none;font-family:"Microsoft YaHei",sans-serif';
+    var ph='<div style="font-size:12px;color:#555;margin-bottom:6px">画笔标注（拖动绘制 · 自动保存本章）</div>';
+    PEN_COLORS.forEach(function(c,i){ph+='<button data-c="'+i+'" style="width:22px;height:22px;border-radius:50%;border:2px solid '+(i===2?'#2563EB':'#ddd')+';background:'+c+';margin:0 3px 6px 0;cursor:pointer;vertical-align:middle"></button>'});
+    ph+='<div><button id="pen-clear" style="font-size:12px;padding:3px 9px;margin-right:4px;cursor:pointer">清除本章</button><button id="pen-close" style="font-size:12px;padding:3px 9px;cursor:pointer">完成</button></div>';
+    penBar.innerHTML=ph;
+    doc.body.appendChild(penBar);
+    penBar.querySelectorAll('button[data-c]').forEach(function(b){
+      b.addEventListener('click',function(){
+        penCur=PEN_COLORS[parseInt(b.getAttribute('data-c'),10)];
+        penBar.querySelectorAll('button[data-c]').forEach(function(x){x.style.borderColor=x===b?'#2563EB':'#ddd'});
+      });
+    });
+    doc.getElementById('pen-clear').addEventListener('click',function(){penPaths=[];renderPen();savePen();});
+    doc.getElementById('pen-close').addEventListener('click',function(){setPen(false)});
+    penLayer.addEventListener('mousedown',function(e){if(!penOn)return;drawing=true;curPath='M'+e.pageX+' '+e.pageY;});
+    doc.addEventListener('mousemove',function(e){if(!drawing)return;curPath+=' L'+e.pageX+' '+e.pageY;renderPen();});
+    doc.addEventListener('mouseup',function(){if(!drawing)return;drawing=false;penPaths.push({c:penCur,d:curPath});renderPen();savePen();});
+    doc.addEventListener('mouseleave',function(){if(drawing){drawing=false;penPaths.push({c:penCur,d:curPath});renderPen();savePen();}});
+    window.addEventListener('resize',renderPen);
+    loadPen();renderPen();
+  }
 })();
 </script>
 </body>

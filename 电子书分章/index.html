@@ -16,6 +16,15 @@ h1{font-size:26px;margin:0 0 6px}
 .card:hover{border-color:#c9a227;box-shadow:0 2px 10px rgba(0,0,0,.06)}
 .cno{font-size:12px;background:#2563EB;color:#fff;border-radius:6px;padding:2px 7px;font-weight:700}
 .ct{font-size:14.5px;font-weight:600}
+.bmbox{display:none;background:#fff;border:1px solid #e4ddcc;border-radius:10px;padding:12px 16px;margin-bottom:18px}
+.bm-t{font-size:13px;font-weight:700;color:#a8832a;margin-bottom:8px}
+.bm-item{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px dashed #eee;font-size:13.5px}
+.bm-item:last-child{border-bottom:none}
+.bm-item a{color:#2563EB;text-decoration:none;flex:1}
+.bm-item a:hover{text-decoration:underline}
+.bm-pct{color:#999;font-size:12px;margin-left:8px}
+.bm-del{border:none;background:#f3f3f3;color:#c0392b;border-radius:50%;width:22px;height:22px;cursor:pointer;font-size:14px;line-height:1}
+.bm-del:hover{background:#fdecea}
 .tip{margin-top:24px;background:#fff;border:1px solid #e4ddcc;border-radius:10px;padding:14px 18px;font-size:13px;line-height:1.9;color:#555}
 .tip b{color:#2a2620}
 a.ext{color:#2563EB;text-decoration:none}
@@ -26,7 +35,11 @@ a.ext{color:#2563EB;text-decoration:none}
 <div class="wrap">
 <h1>高中数学自学系统 · 分章版</h1>
 <div class="sub">全国新高考Ⅰ卷 · 20 章连续学习主线（老教材学懂 + 新教材对标 + 真题验收）。<br>
-<b>每章一个文件、本地打开不卡</b>：点章节卡片进入，顶部可<a class="ext" href="../电子书/高中数学自学系统电子版.html">打开整本单文件版</a>（含跨章搜索），配套 <a class="ext" href="../公式/高中数学公式速查手册.html">公式速查</a> / <a class="ext" href="../公式/不超纲高级方法手册.html">高级方法手册</a>。</div>
+<b>每章一个文件、本地打开不卡</b>：点章节卡片进入，顶部可<a class="ext" href="../电子书/高中数学自学系统电子版.html">打开整本单文件版</a>（含跨章搜索），配套 <a class="ext" href="../公式/高中数学公式速查手册.html">公式速查</a> / <a class="ext" href="../手册/不超纲高级方法手册.html">高级方法手册</a>。</div>
+<div class="bmbox" id="bmwrap">
+  <div class="bm-t">我的书签（在章节页顶栏点"书签"收藏，点条目直达该章阅读位置，× 删除）</div>
+  <div id="bmlist"></div>
+</div>
 <div class="cards">
 <a class="card" href="ch-00.html"><span class="cno">00</span><span class="ct">高中数学自学系统 · 学习工程</span></a>
 <a class="card" href="ch-01.html"><span class="cno">01</span><span class="ct">集合与常用逻辑</span></a>
@@ -50,7 +63,29 @@ a.ext{color:#2563EB;text-decoration:none}
 <a class="card" href="ch-19.html"><span class="cno">19</span><span class="ct">统计</span></a>
 <a class="card" href="ch-20.html"><span class="cno">20</span><span class="ct">附录：不超纲公式与结论</span></a>
 </div>
-<div class="tip"><b>怎么用：</b>① 按 00 导读的"六步闭环"逐章学；② 每章开头先做门槛自测（答案在章末"课后习题答案"区，按 A/B/C 组标行对应，已全部展开可直接对照）；③ 顶栏可分别生成<b>讲义 / 题目卷 / 答案卷</b>PDF（不含页眉页脚时间戳，生成后在 PDF 阅读器里预览并勾选要打印的页）；④ 顶栏"← 目录"随时回到章节总览。<br><b>教材/真题素材</b>为第三方版权材料，不随包发布，按 <a class="ext" href="../系统文档/00_素材清单与来源.md">素材清单</a> 自行获取（仅限个人学习）。</div>
+<div class="tip"><b>怎么用：</b>① 按 00 导读的"六步闭环"逐章学；② 每章开头先做门槛自测（答案在章末"课后习题答案"区，按 A/B/C 组标行对应，已全部展开可直接对照）；③ 顶栏三个打印按钮先出<b>内置预览</b>（A4 真实效果），确认后走系统打印对话框、可选页码范围——<b>不生成可留存的 PDF 文件</b>；④ 顶栏"← 目录"随时回到章节总览，"书签"收藏本章、"画笔"可在书上画线做笔记（8色，随书保存）。<br><b>教材/真题素材</b>为第三方版权材料，不随包发布，按 README「素材获取」自行获取（仅限个人学习）。</div>
 </div>
+<script>(function(){
+  var bms=JSON.parse(localStorage.getItem('ebook-bm')||'[]');
+  var wrap=document.getElementById('bmwrap');
+  if(bms.length){
+    wrap.style.display='block';
+    bms.sort(function(a,b){return (b.at||0)-(a.at||0)});
+    document.getElementById('bmlist').innerHTML=bms.map(function(b,i){
+      var pct=Math.max(0,Math.min(100,Math.round((b.ratio||0)*100)));
+      return '<div class="bm-item"><a href="ch-'+b.no+'.html">第'+b.no+'章 '+b.title+'<span class="bm-pct">进度 '+pct+'%</span></a><button data-i="'+i+'" class="bm-del" title="删除此书签">×</button></div>';
+    }).join('');
+    document.getElementById('bmlist').addEventListener('click',function(e){
+      var t=e.target;
+      if(t.classList.contains('bm-del')){
+        var i=parseInt(t.getAttribute('data-i'),10);
+        bms.splice(i,1);localStorage.setItem('ebook-bm',JSON.stringify(bms));
+        t.parentNode.remove();
+        if(!bms.length)wrap.style.display='none';
+      }
+    });
+  }
+})();
+</script>
 </body>
 </html>

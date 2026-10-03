@@ -93,4 +93,4 @@ Issues / PRs are welcome. Please follow the project's acceptance criteria: **no 
   - New textbooks: PEP A (2019 syllabus) Compulsory 1–2 and Selective Compulsory 1–3.
   - Past papers: 2020–2025 National New Gaokao I (official versions are free on NEEA / provincial exam authority websites).
 - **Desktop client**: Windows installer / portable builds are on GitHub Releases; for personal study only, **commercial use is strictly prohibited** (see LICENSE).
-- Contact: QQ 2779015494
+- Contact: QQ 1064752335
