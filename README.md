@@ -69,7 +69,7 @@
 
 ## Copyright & License
 
-- **This repository contains only original content** (e-book, formula compilation, methods handbook, system documents, skill package), open-sourced under the **MIT License** (see LICENSE). Copyright belongs to the author, **wanyuan123**.
+- **This repository contains only original content** (e-book, formula compilation, methods handbook, system documents, skill package), open-sourced under the **MIT License** (see LICENSE). Copyright belongs to the author, **wanyuanya**.
 - Textbooks and exam papers (third-party copyrighted materials) are **not distributed** in this repository; rights belong to their original owners; obtain them yourself for personal study and research only.
 
 ## Feedback & Contribution
