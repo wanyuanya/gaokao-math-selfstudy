@@ -103,13 +103,9 @@ p.taskA{border-left:4px solid var(--green);background:var(--green-l)}
 p.taskB{border-left:4px solid #3b7dd8;background:var(--blue-l)}
 p.taskC{border-left:4px solid var(--gold);background:var(--gold-l)}
 p.ans{background:var(--blue-l);border:1px dashed #c3cede;border-radius:10px;padding:11px 15px;margin:14px 0}
-.ans-box{margin:16px 0;border:1px solid var(--line);border-radius:10px;background:var(--card);overflow:hidden}
-.ans-box>.ans-toggle{display:block;width:100%;border:none;background:var(--blue-l);color:var(--blue);font-size:13.5px;font-weight:600;padding:10px 14px;cursor:pointer;font-family:inherit;text-align:left;transition:.15s}
-.ans-box>.ans-toggle:hover{background:#d7e3f5}
-.ans-box>.ans-toggle::before{content:"▸ ";transition:transform .15s}
-.ans-box.open>.ans-toggle::before{content:"▾ "}
-.ans-box>.ans-body{display:none;padding:10px 15px 13px;border-top:1px dashed #c3cede}
-.ans-box.open>.ans-body{display:block}
+.ans-box{margin:14px 0;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+.ans-grp{font-size:12px;color:#fff;background:var(--blue);display:inline-block;border-radius:6px;padding:2px 9px;margin:0 0 8px;font-weight:600}
+.ans-box>.ans-body{padding:11px 15px 13px}
 .ans-body p.ans{background:transparent;border:none;padding:0;margin:0 0 8px;font-weight:600}
 span.tag{display:inline-block;background:var(--blue);color:#fff;font-size:11px;border-radius:4px;padding:0 7px;margin-right:8px;vertical-align:2px}
 p.warn span.tag{background:var(--red)}
@@ -181,17 +177,16 @@ section.flash{animation:flash 1.6s ease}
   section.chapter{page-break-after:always;border:none}
   body.print-one section.chapter{display:none!important}
   body.print-one section.chapter.ch-print{display:block!important}
-  /* 讲义：隐藏出口检测+课后习题+全部答案 */
-  body.print-note .sec-out,body.print-note .sec-hw,body.print-note .ans-box{display:none!important}
-  /* 题目卷：只显示出口检测+课后习题 */
+  /* 讲义：只讲解，去掉全部题目（门槛自测/出口检测/课后习题）与答案 */
+  body.print-note .sec-gate,body.print-note .sec-out,body.print-note .sec-hw,body.print-note .sec-ans{display:none!important}
+  /* 题目卷：只题目（门槛自测+出口检测+课后习题），不含答案 */
   body.print-q .sec{display:none!important}
-  body.print-q .sec-out,body.print-q .sec-hw{display:block!important}
-  /* 答案卷：只显示含答案的区块（含自测答案与课后答案，JS 已打 sec-has-ans 标） */
+  body.print-q .sec-gate,body.print-q .sec-out,body.print-q .sec-hw{display:block!important}
+  /* 答案卷：只答案（自测答案+A/B/C组答案，集中在 sec-ans），不含题目与讲解 */
   body.print-a .sec{display:none!important}
-  body.print-a .sec-has-ans{display:block!important}
+  body.print-a .sec-ans{display:block!important}
   .ans-box{border:none;background:transparent;margin:6px 0}
-  .ans-box>.ans-body{display:none!important;padding:0;border:none}
-  body.print-ans .ans-box>.ans-body{display:block!important}
+  .ans-grp{background:transparent;color:var(--ink);padding:0;margin:0 4px 8px 0;font-size:inherit}
   .ans-body p.ans{font-weight:700;margin:4px 0}
 }
 
@@ -231,7 +226,7 @@ section.flash{animation:flash 1.6s ease}
 <p class = "baihua why"><span class = "tag">为什么有用</span>学会这一章，你手里就有了一把"拆任何新函数"的通用尺子——后面 03 指对、06 三角、11 数列里再陌生的函数，你都能照同一套路问出"x 能取哪、随 x 怎么涨、左右对不对称、最高最低在哪"。想通这条输入输出规则，新函数不用背也能自己分析。</p>
 </blockquote>
 <hr />
-<div class="sec sec-meta"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
+<div class="sec sec-gate"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
 <ol>
 <li>集合 A  =  {x | x &gt; =  1}，B  =  {x | x &lt; 3}，求 A ∩ B。</li>
 <li>一次函数 y  =  2x + 1，当 x  =  3 时 y 是多少？</li>
@@ -240,7 +235,7 @@ section.flash{animation:flash 1.6s ease}
 <li>反比例函数 y  =  1/x 的图象分布在哪些象限？</li>
 </ol>
 <p><strong>判定</strong>：5 题答对 4 题以上 → 进章；否则先回初中复习"一次/二次/反比例函数"。</p>
-</div><div class="sec sec-meta"><h2 class = "goal">② 学习目标</h2>
+</div><div class="sec sec-goal"><h2 class = "goal">② 学习目标</h2>
 <p>学完本章，你必须能：</p>
 <ul>
 <li>说出函数的定义与三要素；判断两个函数是否为同一函数</li>
@@ -248,7 +243,7 @@ section.flash{animation:flash 1.6s ease}
 <li>用定义证明函数的单调性；判断/证明函数的奇偶性</li>
 <li>求简单函数在闭区间上的最值</li>
 </ul>
-</div><div class="sec sec-meta"><h2 class = "body">③ 正文讲解</h2>
+</div><div class="sec sec-body"><h2 class = "body">③ 正文讲解</h2>
 <p>本章地图：</p>
 <div class = "tbl-wrap"><table style = "table-layout:fixed;max-width:100%"><colgroup><col style = "width:36%"><col style = "width:40%"><col style = "width:24%"></colgroup>
 <thead>
@@ -472,7 +467,7 @@ section.flash{animation:flash 1.6s ease}
 <p><strong>【跟讲例题 3.7-1】（苏州教研·专题2，原书p.14）</strong> 把 y = f(x) 的图象先向右平移 2 个单位、再向上平移 3 个单位，求新图象的解析式。
 解：右移 2 → y = f(x−2)；再上移 3 → <strong>y  =  f(x−2) + 3</strong>。
 要点：左右平移动的是 x（括号里"左加右减"），上下平移动的是整个函数值（"上加下减"）。</p>
-</div><div class="sec sec-meta"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
+</div><div class="sec sec-ex2"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
 <p class = "ex"><span class = "tag">例题</span><strong>例 1（教材必修1 1.2 实例改编）</strong>：判断下列每组中的两个函数是否为同一函数：
 (1) f(x)  =  x，g(x)  =  √x · √x
 (2) f(x)  =  x<sup>2</sup>，g(t)  =  t<sup>2</sup></p>
@@ -508,7 +503,7 @@ section.flash{animation:flash 1.6s ease}
 </blockquote>
 <p>解：定义域 R，关于原点对称。f(−x)  =  (−x)<sup>3</sup> + (−x)  =  −x<sup>3</sup> − x  =  −(x<sup>3</sup> + x)  =  −f(x)。故 f(x) 为<strong>奇函数</strong>。
 要点：奇函数定义域含 0 时 f(0)  =  0（本题 f(0)  =  0 可作验证）。</p>
-</div><div class="sec sec-meta"><h2 class = "out">⑤ 出口检测</h2>
+</div><div class="sec sec-out"><h2 class = "out">⑤ 出口检测</h2>
 <p><strong>自测（15 分钟，每题 2 分，10 分过关）</strong>：</p>
 <ol>
 <li>求函数 f(x)  =  1/(x − 3) + √(x + 1) 的定义域。</li>
@@ -565,7 +560,7 @@ section.flash{animation:flash 1.6s ease}
     A. f(10)&gt;100　B. f(20)&gt;1000　C. f(10)&lt;1000　D. f(20)&lt;10000</p>
 </li>
 </ol>
-</div><div class="sec sec-meta"><h2 class = "pit">⑥ 常见坑清单</h2>
+</div><div class="sec sec-pit"><h2 class = "pit">⑥ 常见坑清单</h2>
 <ul>
 <li><strong>同一函数≠解析式长得像</strong>：先比定义域，再比对应关系。如 y  =  x 与 y  =  √(x<sup>2</sup>)：定义域都是 R（x<sup>2</sup>≥0 恒成立），但对应关系不同——√(x<sup>2</sup>)  =  |x|，前者值域 R、后者值域 [0, +∞)，所以不是同一函数。</li>
 <li><strong>"单调区间"要分开写</strong>：y  =  1/x 说"在 (−∞, 0) 和 (0, +∞) 上分别递减"，不能说"整个定义域递减"。</li>
@@ -690,8 +685,8 @@ section.flash{animation:flash 1.6s ease}
 <li>注意：这条只对奇函数成立，偶函数没有这个配对关系。</li>
 </ul>
 <hr />
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. x ≥ −1 且 x ≠ 3，即 [−1, 3) ∪ (3, +∞)；2. 是同一函数（y  =  x<sup>2</sup>，展开后定义域均为 R）；3. 取值作差：f(x<sub>1</sub>) − f(x<sub>2</sub>)  =  2(x<sub>1</sub> − x<sub>2</sub>) &lt; 0 ⇒ 递增；4. f(−x)  =  x<sup>2</sup> − x ≠ f(x) 且 ≠ −f(x)，非奇非偶；5. f(−2)  =  −5（奇函数 f(−x)  =  −f(x)）。</p></div></div>
-</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
+
+</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. x ≥ −1 且 x ≠ 3，即 [−1, 3) ∪ (3, +∞)；2. 是同一函数（y  =  x<sup>2</sup>，展开后定义域均为 R）；3. 取值作差：f(x<sub>1</sub>) − f(x<sub>2</sub>)  =  2(x<sub>1</sub> − x<sub>2</sub>) &lt; 0 ⇒ 递增；4. f(−x)  =  x<sup>2</sup> − x ≠ f(x) 且 ≠ −f(x)，非奇非偶；5. f(−2)  =  −5（奇函数 f(−x)  =  −f(x)）。</p></div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">A 组答案</p><p><strong>A 组</strong></p>
 <ol>
 <li>B。A 中 g(x)=x<sup>2</sup>/x 定义域 x≠0，与 f(x)=x 不同；C 中 g(x)=(√x)<sup>2</sup> 定义域 x≥0，不同；D 中 g(x)=x<sup>0</sup> 定义域 x≠0，不同。只有 B：f(x)=|x| 与 g(x)=√(x<sup>2</sup>)=|x|，都是 R 上取绝对值，同一函数。</li>
 <li>(1) [−2, 5)；(2) (−∞, 3]；(3) (0, +∞)。</li>
@@ -700,14 +695,14 @@ section.flash{animation:flash 1.6s ease}
 <li>定义域 R 对称。f(−x)=2(−x)<sup>2</sup>+1=2x<sup>2</sup>+1=f(x)，故为<strong>偶函数</strong>。</li>
 <li>f(x)=(x−1)<sup>2</sup>+1 ≥ 1，当 x=1 取到，最小值为 1。</li>
 </ol>
-</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · B 组</button><div class="ans-body"><p><strong>B 组</strong></p>
+</div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">B 组答案</p><p><strong>B 组</strong></p>
 <ol start="7">
 <li>任取 x<sub>1</sub>&lt;x<sub>2</sub>。f(x<sub>1</sub>)−f(x<sub>2</sub>)=(−2x<sub>1</sub>+3)−(−2x<sub>2</sub>+3)=−2(x<sub>1</sub>−x<sub>2</sub>)。因 x<sub>1</sub>&lt;x<sub>2</sub>，x<sub>1</sub>−x<sub>2</sub>&lt;0，故差=−2(负)&gt;0，即 f(x<sub>1</sub>)&gt;f(x<sub>2</sub>)，递减。</li>
 <li>奇函数 f(−3)=−f(3)=−(−5)=5。f(0) 存在则 f(0)=0。</li>
 <li>−1≤0 用第一段：f(−1)=−1+1=0；2&gt;0 用第二段：f(2)=4。f(x)=1：x≤0 段 x+1=1⇒x=0；x&gt;0 段 x<sup>2</sup>=1⇒x=1。故 x=0 或 x=1。</li>
 <li>f(x)=(x−1)<sup>2</sup>−1，顶点 x=1 在 [0,3] 内，f(1)=−1（最小）。端点 f(0)=0，f(3)=3。最大 3，最小 −1。</li>
 </ol>
-</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · C 组</button><div class="ans-body"><p><strong>C 组</strong></p>
+</div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">C 组答案</p><p><strong>C 组</strong></p>
 <ol start="11">
 <li>定义域 (2x−1)/(2x+1)&gt;0 ⇒ x&gt;1/2 或 x&lt;−1/2，关于原点对称。f(−x)=(−x+a)·ln((−2x−1)/(−2x+1))=(a−x)·ln((2x+1)/(2x−1))=(a−x)·(−ln((2x−1)/(2x+1)))=(x−a)·ln((2x−1)/(2x+1))。偶函数要求 f(−x)=f(x)，即 (x−a)=(x+a)，得 a=0。选 <strong>B</strong>。</li>
 <li>左段 f=−x<sup>2</sup>−2ax−a=−(x+a)<sup>2</sup>+a<sup>2</sup>−a，开口向下，对称轴 x=−a。要在 (−∞,0) 递增，需 0≤−a 即 a≤0。两段在衔接处要"左段右端 ≤ 右段左端"：f(0<sup>−</sup>)=−a ≤ f(0<sup>+</sup>)=e<sup>0</sup>+ln1=1，即 a≥−1。合起来 −1≤a≤0，选 <strong>B</strong>。</li>
@@ -750,23 +745,15 @@ section.flash{animation:flash 1.6s ease}
   var dbtn=doc.getElementById('darkbtn');
   function darkLabel(){if(dbtn)dbtn.textContent=doc.body.classList.contains('dark')?'日间':'夜读';}
   if(dbtn){dbtn.addEventListener('click',function(){var on=doc.body.classList.toggle('dark');localStorage.setItem('ebook-dark',on?'1':'0');darkLabel();});darkLabel();}
-  /* 答案折叠 */
-  doc.querySelectorAll('.ans-toggle').forEach(function(btn){
-    btn.addEventListener('click',function(){
-      var box=btn.parentNode;
-      box.classList.toggle('open');
-      btn.textContent=box.classList.contains('open')?'隐藏答案':'显示答案';
-    });
-  });
+  /* 答案默认全部展开（无折叠交互，分组由组标行对应） */
   /* 打印三模式（本页章节） */
   function curSec(){return doc.querySelector('#main section.chapter')}
   function printScope(mode){
-    doc.body.classList.remove('print-note','print-q','print-a','print-ans','print-one');
+    doc.body.classList.remove('print-note','print-q','print-a','print-one');
     var s=curSec();if(s)s.classList.remove('ch-print');
-    doc.querySelectorAll('.sec.sec-has-ans').forEach(function(x){x.classList.remove('sec-has-ans')});
     if(mode==='note')doc.body.classList.add('print-note');
     if(mode==='q')doc.body.classList.add('print-q');
-    if(mode==='a'){doc.body.classList.add('print-a','print-ans');doc.querySelectorAll('.ans-box').forEach(function(b){var p=b.closest('.sec');if(p)p.classList.add('sec-has-ans')});}
+    if(mode==='a')doc.body.classList.add('print-a');
     if(s){s.classList.add('ch-print');doc.body.classList.add('print-one');}
     window.print();
   }

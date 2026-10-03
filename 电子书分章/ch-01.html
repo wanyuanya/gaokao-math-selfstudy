@@ -103,13 +103,9 @@ p.taskA{border-left:4px solid var(--green);background:var(--green-l)}
 p.taskB{border-left:4px solid #3b7dd8;background:var(--blue-l)}
 p.taskC{border-left:4px solid var(--gold);background:var(--gold-l)}
 p.ans{background:var(--blue-l);border:1px dashed #c3cede;border-radius:10px;padding:11px 15px;margin:14px 0}
-.ans-box{margin:16px 0;border:1px solid var(--line);border-radius:10px;background:var(--card);overflow:hidden}
-.ans-box>.ans-toggle{display:block;width:100%;border:none;background:var(--blue-l);color:var(--blue);font-size:13.5px;font-weight:600;padding:10px 14px;cursor:pointer;font-family:inherit;text-align:left;transition:.15s}
-.ans-box>.ans-toggle:hover{background:#d7e3f5}
-.ans-box>.ans-toggle::before{content:"▸ ";transition:transform .15s}
-.ans-box.open>.ans-toggle::before{content:"▾ "}
-.ans-box>.ans-body{display:none;padding:10px 15px 13px;border-top:1px dashed #c3cede}
-.ans-box.open>.ans-body{display:block}
+.ans-box{margin:14px 0;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+.ans-grp{font-size:12px;color:#fff;background:var(--blue);display:inline-block;border-radius:6px;padding:2px 9px;margin:0 0 8px;font-weight:600}
+.ans-box>.ans-body{padding:11px 15px 13px}
 .ans-body p.ans{background:transparent;border:none;padding:0;margin:0 0 8px;font-weight:600}
 span.tag{display:inline-block;background:var(--blue);color:#fff;font-size:11px;border-radius:4px;padding:0 7px;margin-right:8px;vertical-align:2px}
 p.warn span.tag{background:var(--red)}
@@ -181,17 +177,16 @@ section.flash{animation:flash 1.6s ease}
   section.chapter{page-break-after:always;border:none}
   body.print-one section.chapter{display:none!important}
   body.print-one section.chapter.ch-print{display:block!important}
-  /* 讲义：隐藏出口检测+课后习题+全部答案 */
-  body.print-note .sec-out,body.print-note .sec-hw,body.print-note .ans-box{display:none!important}
-  /* 题目卷：只显示出口检测+课后习题 */
+  /* 讲义：只讲解，去掉全部题目（门槛自测/出口检测/课后习题）与答案 */
+  body.print-note .sec-gate,body.print-note .sec-out,body.print-note .sec-hw,body.print-note .sec-ans{display:none!important}
+  /* 题目卷：只题目（门槛自测+出口检测+课后习题），不含答案 */
   body.print-q .sec{display:none!important}
-  body.print-q .sec-out,body.print-q .sec-hw{display:block!important}
-  /* 答案卷：只显示含答案的区块（含自测答案与课后答案，JS 已打 sec-has-ans 标） */
+  body.print-q .sec-gate,body.print-q .sec-out,body.print-q .sec-hw{display:block!important}
+  /* 答案卷：只答案（自测答案+A/B/C组答案，集中在 sec-ans），不含题目与讲解 */
   body.print-a .sec{display:none!important}
-  body.print-a .sec-has-ans{display:block!important}
+  body.print-a .sec-ans{display:block!important}
   .ans-box{border:none;background:transparent;margin:6px 0}
-  .ans-box>.ans-body{display:none!important;padding:0;border:none}
-  body.print-ans .ans-box>.ans-body{display:block!important}
+  .ans-grp{background:transparent;color:var(--ink);padding:0;margin:0 4px 8px 0;font-size:inherit}
   .ans-body p.ans{font-weight:700;margin:4px 0}
 }
 
@@ -231,7 +226,7 @@ section.flash{animation:flash 1.6s ease}
 <p class = "baihua why"><span class = "tag">为什么有用</span>集合是全书所有"答案"的标准写法——从第 2 章起，函数定义域、值域、不等式解集、参数的取值范围，高考卷面上全要用集合或区间表达；逻辑（充分必要、量词否定）是"恒成立""存在""至少有一个"这类高级题目的翻译工具。学通本章，你不是多会了两个小知识点，而是拿到了读题和写答案的底层语法。</p>
 </blockquote>
 <hr />
-<div class="sec sec-meta"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
+<div class="sec sec-gate"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
 <ol>
 <li>写出方程 x<sup>2</sup> − 3x + 2  =  0 的所有实数解。</li>
 <li>不等式 x − 1 ≥ 0 的解集是什么？</li>
@@ -240,7 +235,7 @@ section.flash{animation:flash 1.6s ease}
 <li>用一句话说明"偶数"是什么意思。</li>
 </ol>
 <p><strong>判定</strong>：5 题答对 4 题以上 → 进章；否则先复习初中"数系、方程、不等式"（老教材必修1 第 1 章前 3 页有数集复习）。</p>
-</div><div class="sec sec-meta"><h2 class = "goal">② 学习目标</h2>
+</div><div class="sec sec-goal"><h2 class = "goal">② 学习目标</h2>
 <p>学完本章，你必须能：</p>
 <ul>
 <li>用列举法、描述法表示集合；判断元素与集合的关系（∈ / ∉）</li>
@@ -249,7 +244,7 @@ section.flash{animation:flash 1.6s ease}
 <li>判断命题间的充分、必要、充要关系</li>
 <li>写出含量词命题的否定</li>
 </ul>
-</div><div class="sec sec-meta"><h2 class = "body">③ 正文讲解</h2>
+</div><div class="sec sec-body"><h2 class = "body">③ 正文讲解</h2>
 <p>先给你一张"本章地图"，学的时候知道自己走到哪了：</p>
 <div class = "tbl-wrap"><table style = "table-layout:fixed;max-width:100%"><colgroup><col style = "width:37%"><col style = "width:42%"><col style = "width:21%"></colgroup>
 <thead>
@@ -551,7 +546,7 @@ section.flash{animation:flash 1.6s ease}
 所以 <strong>B  =  {2, 3, 4, 8}</strong>。
 要点：抽象集合关系别空想，画个 Venn 图把已知分区填好，剩下的元素自然归位——这就是数形结合的威力。</p>
 <p><strong>小结</strong>：集合题"能画就不算"，数轴和 Venn 图就是你的两把尺子。</p>
-</div><div class="sec sec-meta"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
+</div><div class="sec sec-ex2"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
 <p class = "ex"><span class = "tag">例题</span><strong>例 1（教材必修1 第1章例题）</strong>：写出集合 {a, b} 的所有子集，并指出哪些是真子集。</p>
 <blockquote>
 <p>自己做：别漏 ∅。</p>
@@ -588,7 +583,7 @@ section.flash{animation:flash 1.6s ease}
 </ul>
 <p>综上，<strong>a  =  0，或 a  =  1/3，或 a  =  −1</strong>。
 要点：含参集合 B ⊆ A 时，第一件事就是讨论"B 会不会是空集"（这里 a = 0 时 B 自动为空）——漏掉这一支几乎必扣分。</p>
-</div><div class="sec sec-meta"><h2 class = "out">⑤ 出口检测</h2>
+</div><div class="sec sec-out"><h2 class = "out">⑤ 出口检测</h2>
 <p><strong>自测（15 分钟，每题 2 分，10 分过关）</strong>：</p>
 <ol>
 <li>用描述法表示"大于 0 且小于 5 的整数"。</li>
@@ -662,7 +657,7 @@ section.flash{animation:flash 1.6s ease}
     A. 2　B. 1　C. 2/3　D. −1</p>
 </li>
 </ol>
-</div><div class="sec sec-meta"><h2 class = "pit">⑥ 常见坑清单（错一次记一次）</h2>
+</div><div class="sec sec-pit"><h2 class = "pit">⑥ 常见坑清单（错一次记一次）</h2>
 <ul>
 <li>空集 ∅ 不是 {0}：∅ 不含任何元素，{0} 含一个元素 0。</li>
 <li>∅ ⊆ A 恒成立，写子集时漏 ∅ 是高频失分点。</li>
@@ -790,8 +785,8 @@ section.flash{animation:flash 1.6s ease}
 <li>注意：考试若漏掉 B=∅ 这一支，本题几乎必扣分，务必写出来。</li>
 </ul>
 <hr />
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. {x | x ∈ N*，且 x &lt; 5}（或 {1, 2, 3, 4}）；2. 子集 8 个（2<sup>3</sup>）、真子集 7 个；3. A ∩ B  =  {2}、A ∪ B  =  {1, 2, 3}、∁<sub>u</sub>A  =  {3, 4, 5}；4. 充分不必要条件（a  =  0 ⇒ ab  =  0，反例 b  =  0、a  =  1）；5. ∃x ∈ R，x<sup>2</sup> &lt; 0。</p></div></div>
-</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
+
+</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. {x | x ∈ N*，且 x &lt; 5}（或 {1, 2, 3, 4}）；2. 子集 8 个（2<sup>3</sup>）、真子集 7 个；3. A ∩ B  =  {2}、A ∪ B  =  {1, 2, 3}、∁<sub>u</sub>A  =  {3, 4, 5}；4. 充分不必要条件（a  =  0 ⇒ ab  =  0，反例 b  =  0、a  =  1）；5. ∃x ∈ R，x<sup>2</sup> &lt; 0。</p></div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">A 组答案</p><p><strong>A 组</strong></p>
 <ol>
 <li>C。只有 C 有确定标准（x<sup>2</sup>=4 的解是 ±2，确定）；A、B、D 标准不明确，不满足确定性。</li>
 <li>0 ∈ N；−3 ∉ N（N 不含负整数）；√2 ∉ Q（无理数）；π ∈ R。</li>
@@ -800,7 +795,7 @@ section.flash{animation:flash 1.6s ease}
 <li>A∩B = {2, 4}；A∪B = {1, 2, 3, 4, 6}。</li>
 <li>U={1,2,3,4,5,6} 去掉 A={2,4,6}，∁<sub>u</sub>A = {1, 3, 5}。</li>
 </ol>
-</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · B 组</button><div class="ans-body"><p><strong>B 组</strong></p>
+</div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">B 组答案</p><p><strong>B 组</strong></p>
 <ol start="7">
 <li>
 <p>A=[−1,3)，B=(1,+∞)。
@@ -819,7 +814,7 @@ section.flash{animation:flash 1.6s ease}
 </li>
 <li>否定：∀x ∈ R, x<sup>2</sup> + 2x + 3 &gt; 0。原命题：x<sup>2</sup>+2x+3 = (x+1)<sup>2</sup>+2 ≥ 2 &gt; 0 恒成立，所以原命题 "∃…≤0" 是<strong>假</strong>命题（恒大于 0，不存在 ≤0 的）。</li>
 </ol>
-</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · C 组</button><div class="ans-body"><p><strong>C 组</strong></p>
+</div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">C 组答案</p><p><strong>C 组</strong></p>
 <ol start="11">
 <li>A = {x | −5 &lt; x<sup>3</sup> &lt; 5}，即 −∛5 &lt; x &lt; ∛5，∛5 ≈ 1.71，故 A ≈ (−1.71, 1.71)。B={−3,−1,0,2,3} 中落在 (−1.71,1.71) 的只有 −1、0。A∩B = {−1, 0}，选 <strong>A</strong>。</li>
 <li>U = {1,2,3,4,5,6,7,8}（小于 9 的正整数，共 8 个）。A={1,3,5}。∁<sub>u</sub>A = {2,4,6,7,8}，共 <strong>5</strong> 个元素，选 <strong>C</strong>。</li>
@@ -867,23 +862,15 @@ section.flash{animation:flash 1.6s ease}
   var dbtn=doc.getElementById('darkbtn');
   function darkLabel(){if(dbtn)dbtn.textContent=doc.body.classList.contains('dark')?'日间':'夜读';}
   if(dbtn){dbtn.addEventListener('click',function(){var on=doc.body.classList.toggle('dark');localStorage.setItem('ebook-dark',on?'1':'0');darkLabel();});darkLabel();}
-  /* 答案折叠 */
-  doc.querySelectorAll('.ans-toggle').forEach(function(btn){
-    btn.addEventListener('click',function(){
-      var box=btn.parentNode;
-      box.classList.toggle('open');
-      btn.textContent=box.classList.contains('open')?'隐藏答案':'显示答案';
-    });
-  });
+  /* 答案默认全部展开（无折叠交互，分组由组标行对应） */
   /* 打印三模式（本页章节） */
   function curSec(){return doc.querySelector('#main section.chapter')}
   function printScope(mode){
-    doc.body.classList.remove('print-note','print-q','print-a','print-ans','print-one');
+    doc.body.classList.remove('print-note','print-q','print-a','print-one');
     var s=curSec();if(s)s.classList.remove('ch-print');
-    doc.querySelectorAll('.sec.sec-has-ans').forEach(function(x){x.classList.remove('sec-has-ans')});
     if(mode==='note')doc.body.classList.add('print-note');
     if(mode==='q')doc.body.classList.add('print-q');
-    if(mode==='a'){doc.body.classList.add('print-a','print-ans');doc.querySelectorAll('.ans-box').forEach(function(b){var p=b.closest('.sec');if(p)p.classList.add('sec-has-ans')});}
+    if(mode==='a')doc.body.classList.add('print-a');
     if(s){s.classList.add('ch-print');doc.body.classList.add('print-one');}
     window.print();
   }

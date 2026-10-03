@@ -103,13 +103,9 @@ p.taskA{border-left:4px solid var(--green);background:var(--green-l)}
 p.taskB{border-left:4px solid #3b7dd8;background:var(--blue-l)}
 p.taskC{border-left:4px solid var(--gold);background:var(--gold-l)}
 p.ans{background:var(--blue-l);border:1px dashed #c3cede;border-radius:10px;padding:11px 15px;margin:14px 0}
-.ans-box{margin:16px 0;border:1px solid var(--line);border-radius:10px;background:var(--card);overflow:hidden}
-.ans-box>.ans-toggle{display:block;width:100%;border:none;background:var(--blue-l);color:var(--blue);font-size:13.5px;font-weight:600;padding:10px 14px;cursor:pointer;font-family:inherit;text-align:left;transition:.15s}
-.ans-box>.ans-toggle:hover{background:#d7e3f5}
-.ans-box>.ans-toggle::before{content:"▸ ";transition:transform .15s}
-.ans-box.open>.ans-toggle::before{content:"▾ "}
-.ans-box>.ans-body{display:none;padding:10px 15px 13px;border-top:1px dashed #c3cede}
-.ans-box.open>.ans-body{display:block}
+.ans-box{margin:14px 0;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+.ans-grp{font-size:12px;color:#fff;background:var(--blue);display:inline-block;border-radius:6px;padding:2px 9px;margin:0 0 8px;font-weight:600}
+.ans-box>.ans-body{padding:11px 15px 13px}
 .ans-body p.ans{background:transparent;border:none;padding:0;margin:0 0 8px;font-weight:600}
 span.tag{display:inline-block;background:var(--blue);color:#fff;font-size:11px;border-radius:4px;padding:0 7px;margin-right:8px;vertical-align:2px}
 p.warn span.tag{background:var(--red)}
@@ -181,17 +177,16 @@ section.flash{animation:flash 1.6s ease}
   section.chapter{page-break-after:always;border:none}
   body.print-one section.chapter{display:none!important}
   body.print-one section.chapter.ch-print{display:block!important}
-  /* 讲义：隐藏出口检测+课后习题+全部答案 */
-  body.print-note .sec-out,body.print-note .sec-hw,body.print-note .ans-box{display:none!important}
-  /* 题目卷：只显示出口检测+课后习题 */
+  /* 讲义：只讲解，去掉全部题目（门槛自测/出口检测/课后习题）与答案 */
+  body.print-note .sec-gate,body.print-note .sec-out,body.print-note .sec-hw,body.print-note .sec-ans{display:none!important}
+  /* 题目卷：只题目（门槛自测+出口检测+课后习题），不含答案 */
   body.print-q .sec{display:none!important}
-  body.print-q .sec-out,body.print-q .sec-hw{display:block!important}
-  /* 答案卷：只显示含答案的区块（含自测答案与课后答案，JS 已打 sec-has-ans 标） */
+  body.print-q .sec-gate,body.print-q .sec-out,body.print-q .sec-hw{display:block!important}
+  /* 答案卷：只答案（自测答案+A/B/C组答案，集中在 sec-ans），不含题目与讲解 */
   body.print-a .sec{display:none!important}
-  body.print-a .sec-has-ans{display:block!important}
+  body.print-a .sec-ans{display:block!important}
   .ans-box{border:none;background:transparent;margin:6px 0}
-  .ans-box>.ans-body{display:none!important;padding:0;border:none}
-  body.print-ans .ans-box>.ans-body{display:block!important}
+  .ans-grp{background:transparent;color:var(--ink);padding:0;margin:0 4px 8px 0;font-size:inherit}
   .ans-body p.ans{font-weight:700;margin:4px 0}
 }
 
@@ -231,7 +226,7 @@ section.flash{animation:flash 1.6s ease}
 <p class = "baihua why"><span class = "tag">为什么有用</span>想通"i 是转 90°、z = a+bi 是平面上的点"，复数运算就只是多项式展开加一条 i<sup>2</sup> = −1，除法会乘共轭就行——卷面上固定的第 1 题送分等于白捡；它的几何意义还能帮你看懂圆和旋转。</p>
 </blockquote>
 <hr />
-<div class="sec sec-meta"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
+<div class="sec sec-gate"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
 <ol>
 <li>方程 x<sup>2</sup> + 1  =  0 在实数范围内有解吗？</li>
 <li>(a + b)(a − b)  =  a<sup>2</sup> − b<sup>2</sup> 成立吗？</li>
@@ -240,14 +235,14 @@ section.flash{animation:flash 1.6s ease}
 <li>判断：负数能不能开平方？</li>
 </ol>
 <p><strong>判定</strong>：5 题答对 4 题以上 → 进章。</p>
-</div><div class="sec sec-meta"><h2 class = "goal">② 学习目标</h2>
+</div><div class="sec sec-goal"><h2 class = "goal">② 学习目标</h2>
 <ul>
 <li>理解虚数单位 i（i<sup>2</sup>  =  −1）与复数的概念</li>
 <li>掌握复数相等、共轭复数、复数的模</li>
 <li>掌握复数的四则运算（重点：除法  =  分母实数化）</li>
 <li>了解复数的几何意义（复平面）</li>
 </ul>
-</div><div class="sec sec-meta"><h2 class = "body">③ 正文讲解</h2>
+</div><div class="sec sec-body"><h2 class = "body">③ 正文讲解</h2>
 <p><strong>先想一个让人"卡住"的问题</strong>：方程 x<sup>2</sup> + 1  =  0，在实数范围内没解——因为没有哪个实数的平方是 −1。数学家不甘心：那就规定一个新数 i，让它满足 i<sup>2</sup>  =  −1。有了 i，负数就能开平方了，二次方程也总是有解了。这就是复数的来历。</p>
 <p><strong>这段历史值得知道</strong>：i 刚被提出时，连数学家都觉得别扭——"平方是负数的数，存在吗？"所以给它起名叫"虚数"，意思是"虚幻的数"。后来发现它能描述交流电、波浪、量子力学，才成了正经工具。名字里的"虚"只是历史玩笑，别被它吓到。本章地图：</p>
 <pre><code>i（规定 i<sup>2</sup> = −1）
@@ -365,7 +360,7 @@ section.flash{animation:flash 1.6s ease}
 要点：见到 <span class = "ol">z</span> 就设 z  =  a+bi 展开，再用"实部 = 实部、虚部 = 虚部"列两个方程。</p>
 <p><strong>小结</strong>：复数  =  实数 + 一个 i；运算像多项式，只多一条 i<sup>2</sup> = −1；除法靠乘共轭"实数化"；几何上它就是复平面上的点和向量。考试拿分的关键就两处：i<sup>2</sup> = −1 别代错，除法别忘了乘共轭。</p>
 <hr />
-</div><div class="sec sec-meta"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
+</div><div class="sec sec-ex2"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
 <p class = "ex"><span class = "tag">例题</span><strong>例 1（运算 + 纯虚数）</strong>：已知 z  =  (1 + i)(2 − i)，求 z 的实部与虚部。</p>
 <blockquote>
 <p>自己做：展开，i<sup>2</sup> 换成 −1。</p>
@@ -384,7 +379,7 @@ section.flash{animation:flash 1.6s ease}
 </blockquote>
 <p>解：|z|  =  √(9 + 16)  =  5；z·<span class = "ol">z</span>  =  3<sup>2</sup> + 4<sup>2</sup>  =  25  =  |z|<sup>2</sup>。
 要点：<strong>z·<span class = "ol">z</span>  =  |z|<sup>2</sup> 恒成立</strong>，小题常用来化简。</p>
-</div><div class="sec sec-meta"><h2 class = "out">⑤ 出口检测</h2>
+</div><div class="sec sec-out"><h2 class = "out">⑤ 出口检测</h2>
 <p><strong>自测（12 分钟，每题 2 分）</strong>：</p>
 <ol>
 <li>计算 i<sup>3</sup>。</li>
@@ -526,8 +521,8 @@ A. −1　　B. 0　　C. 1　　D. 6</p>
 <p>本章主线（复数概念 + 共轭/模 + 四则运算 + 几何意义）已覆盖高考全部考点。高考复数题固定出在选择第 1 题附近，难度很低，只要别在 i<sup>2</sup>=−1 和分母实数化两处失手，就是送分题。</p>
 <p><strong>本章无对应高级方法手册条目</strong>。说明：《不超纲高级方法手册》未单列"复数"专题。高考复数题只在第 1 题左右出一道选择，考的就是本章四则运算与 i 的幂循环，全部不超纲。一个可直接用的小结论：<strong>实系数一元二次方程 ax<sup>2</sup>+bx+c = 0 当 Δ&lt;0 时，在复数集内有一对共轭复根 x  =  (−b±√(−Δ)·i)/(2a)</strong>（选学了解）。</p>
 <hr />
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. −i；2. <span class = "ol">z</span>  =  2 + 3i，|z|  =  √13；3. (2+i)(3−i)  =  6 − 2i + 3i − i<sup>2</sup>  =  6 + i + 1  =  <strong>7 + i</strong>；4. (2 + i)/(4 + 1)  =  2/5 + (1/5)i；5. a + 1  =  3 ⇒ a  =  2；b − 2  =  4 ⇒ b  =  6。</p></div></div>
-</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
+
+</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. −i；2. <span class = "ol">z</span>  =  2 + 3i，|z|  =  √13；3. (2+i)(3−i)  =  6 − 2i + 3i − i<sup>2</sup>  =  6 + i + 1  =  <strong>7 + i</strong>；4. (2 + i)/(4 + 1)  =  2/5 + (1/5)i；5. a + 1  =  3 ⇒ a  =  2；b − 2  =  4 ⇒ b  =  6。</p></div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">A 组答案</p><p><strong>A 组</strong></p>
 <ol>
 <li>i<sup>5</sup> = <strong>i</strong>；i<sup>6</sup> = <strong>−1</strong>；i<sup>7</sup> = <strong>−i</strong>；i<sup>8</sup> = <strong>1</strong>。</li>
 <li>实部 <strong>−3</strong>，虚部 <strong>5</strong>；b≠0，是<strong>虚数</strong>（不是纯虚数，实部不为 0）。</li>
@@ -536,14 +531,14 @@ A. −1　　B. 0　　C. 1　　D. 6</p>
 <li>(3+i)/(1+i) = (3+i)(1−i)/[(1+i)(1−i)] = (3−3i+i−i<sup>2</sup>)/2 = (4−2i)/2 = <strong>2 − i</strong>。</li>
 <li>实部：2x−1 = 3 → x = <strong>2</strong>；虚部：y = <strong>−2</strong>。</li>
 </ol>
-</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · B 组</button><div class="ans-body"><p><strong>B 组</strong></p>
+</div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">B 组答案</p><p><strong>B 组</strong></p>
 <ol start="7">
 <li>(1+i)/(1−i) = (1+i)<sup>2</sup>/2 = (1+2i−1)/2 = <strong>i</strong>；|i| = <strong>1</strong>。</li>
 <li>z·<span class="ol">z</span> = (1−i)(1+i) = <strong>2</strong>；|z|<sup>2</sup> = 1<sup>2</sup>+(−1)<sup>2</sup> = <strong>2</strong>（与 z·<span class="ol">z</span> 相等）。</li>
 <li>|z| = 1 即点 z 到原点距离为 1，构成<strong>以原点为圆心、半径 1 的单位圆</strong>。</li>
 <li>i+i<sup>2</sup>+i<sup>3</sup>+i<sup>4</sup> = i+(−1)+(−i)+1 = <strong>0</strong>。</li>
 </ol>
-</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · C 组</button><div class="ans-body"><p><strong>C 组</strong>
+</div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">C 组答案</p><p><strong>C 组</strong>
 11.【2025·第1题】(1+5i)i = i + 5i<sup>2</sup> = i − 5 = −5 + i。写成 a+bi 形式，实部 −5，虚部 <strong>1，选 C</strong>。</p>
 </div></div></div><div class="sec sec-meta"><h2>一通百通</h2>
 <p>这一章的"通用骨架"是：<strong>① 拿到复数先整理成 a+bi 标准形 → ② 乘除时把 i 当字母展开、最后把 i<sup>2</sup> 换成 −1 → ③ 除法就分子分母同乘分母共轭做分母实数化 → ④ 涉及距离/图形就翻译成复平面上的点和 |z−z<sub>0</sub>|=r 的圆</strong>。高考复数题不管怎么出，本质都是"会多项式展开 + 会乘共轭"这两件事。会做一道复数小题，就会做所有复数小题；复数的几何意义（点、向量、距离）和第 09 章平面向量是同一张图，后面解析几何里也常借用。</p>
@@ -582,23 +577,15 @@ A. −1　　B. 0　　C. 1　　D. 6</p>
   var dbtn=doc.getElementById('darkbtn');
   function darkLabel(){if(dbtn)dbtn.textContent=doc.body.classList.contains('dark')?'日间':'夜读';}
   if(dbtn){dbtn.addEventListener('click',function(){var on=doc.body.classList.toggle('dark');localStorage.setItem('ebook-dark',on?'1':'0');darkLabel();});darkLabel();}
-  /* 答案折叠 */
-  doc.querySelectorAll('.ans-toggle').forEach(function(btn){
-    btn.addEventListener('click',function(){
-      var box=btn.parentNode;
-      box.classList.toggle('open');
-      btn.textContent=box.classList.contains('open')?'隐藏答案':'显示答案';
-    });
-  });
+  /* 答案默认全部展开（无折叠交互，分组由组标行对应） */
   /* 打印三模式（本页章节） */
   function curSec(){return doc.querySelector('#main section.chapter')}
   function printScope(mode){
-    doc.body.classList.remove('print-note','print-q','print-a','print-ans','print-one');
+    doc.body.classList.remove('print-note','print-q','print-a','print-one');
     var s=curSec();if(s)s.classList.remove('ch-print');
-    doc.querySelectorAll('.sec.sec-has-ans').forEach(function(x){x.classList.remove('sec-has-ans')});
     if(mode==='note')doc.body.classList.add('print-note');
     if(mode==='q')doc.body.classList.add('print-q');
-    if(mode==='a'){doc.body.classList.add('print-a','print-ans');doc.querySelectorAll('.ans-box').forEach(function(b){var p=b.closest('.sec');if(p)p.classList.add('sec-has-ans')});}
+    if(mode==='a')doc.body.classList.add('print-a');
     if(s){s.classList.add('ch-print');doc.body.classList.add('print-one');}
     window.print();
   }

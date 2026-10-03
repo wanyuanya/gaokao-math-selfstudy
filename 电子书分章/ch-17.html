@@ -103,13 +103,9 @@ p.taskA{border-left:4px solid var(--green);background:var(--green-l)}
 p.taskB{border-left:4px solid #3b7dd8;background:var(--blue-l)}
 p.taskC{border-left:4px solid var(--gold);background:var(--gold-l)}
 p.ans{background:var(--blue-l);border:1px dashed #c3cede;border-radius:10px;padding:11px 15px;margin:14px 0}
-.ans-box{margin:16px 0;border:1px solid var(--line);border-radius:10px;background:var(--card);overflow:hidden}
-.ans-box>.ans-toggle{display:block;width:100%;border:none;background:var(--blue-l);color:var(--blue);font-size:13.5px;font-weight:600;padding:10px 14px;cursor:pointer;font-family:inherit;text-align:left;transition:.15s}
-.ans-box>.ans-toggle:hover{background:#d7e3f5}
-.ans-box>.ans-toggle::before{content:"▸ ";transition:transform .15s}
-.ans-box.open>.ans-toggle::before{content:"▾ "}
-.ans-box>.ans-body{display:none;padding:10px 15px 13px;border-top:1px dashed #c3cede}
-.ans-box.open>.ans-body{display:block}
+.ans-box{margin:14px 0;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+.ans-grp{font-size:12px;color:#fff;background:var(--blue);display:inline-block;border-radius:6px;padding:2px 9px;margin:0 0 8px;font-weight:600}
+.ans-box>.ans-body{padding:11px 15px 13px}
 .ans-body p.ans{background:transparent;border:none;padding:0;margin:0 0 8px;font-weight:600}
 span.tag{display:inline-block;background:var(--blue);color:#fff;font-size:11px;border-radius:4px;padding:0 7px;margin-right:8px;vertical-align:2px}
 p.warn span.tag{background:var(--red)}
@@ -181,17 +177,16 @@ section.flash{animation:flash 1.6s ease}
   section.chapter{page-break-after:always;border:none}
   body.print-one section.chapter{display:none!important}
   body.print-one section.chapter.ch-print{display:block!important}
-  /* 讲义：隐藏出口检测+课后习题+全部答案 */
-  body.print-note .sec-out,body.print-note .sec-hw,body.print-note .ans-box{display:none!important}
-  /* 题目卷：只显示出口检测+课后习题 */
+  /* 讲义：只讲解，去掉全部题目（门槛自测/出口检测/课后习题）与答案 */
+  body.print-note .sec-gate,body.print-note .sec-out,body.print-note .sec-hw,body.print-note .sec-ans{display:none!important}
+  /* 题目卷：只题目（门槛自测+出口检测+课后习题），不含答案 */
   body.print-q .sec{display:none!important}
-  body.print-q .sec-out,body.print-q .sec-hw{display:block!important}
-  /* 答案卷：只显示含答案的区块（含自测答案与课后答案，JS 已打 sec-has-ans 标） */
+  body.print-q .sec-gate,body.print-q .sec-out,body.print-q .sec-hw{display:block!important}
+  /* 答案卷：只答案（自测答案+A/B/C组答案，集中在 sec-ans），不含题目与讲解 */
   body.print-a .sec{display:none!important}
-  body.print-a .sec-has-ans{display:block!important}
+  body.print-a .sec-ans{display:block!important}
   .ans-box{border:none;background:transparent;margin:6px 0}
-  .ans-box>.ans-body{display:none!important;padding:0;border:none}
-  body.print-ans .ans-box>.ans-body{display:block!important}
+  .ans-grp{background:transparent;color:var(--ink);padding:0;margin:0 4px 8px 0;font-size:inherit}
   .ans-body p.ans{font-weight:700;margin:4px 0}
 }
 
@@ -230,7 +225,7 @@ section.flash{animation:flash 1.6s ease}
 <p class = "baihua why"><span class = "tag">为什么有用</span>学了它，排队、分组、抽样、二项式展开求系数这类"数有多少种"的题就能自己推出来——不靠死背公式，想通"分类相加、分步相乘"两条规则，A(n,m)、C(n,m)、通项公式都是从这两条自然长出来的。</p>
 </blockquote>
 <hr />
-<div class="sec sec-meta"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
+<div class="sec sec-gate"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
 <ol>
 <li>从 3 个人中选 1 人当组长，有几种选法？</li>
 <li>从 3 个人中选 2 人排成一排，有几种排法？</li>
@@ -239,14 +234,14 @@ section.flash{animation:flash 1.6s ease}
 <li>计算 5  ×  4  ×  3。</li>
 </ol>
 <p><strong>判定</strong>：5 题答对 4 题以上 → 进章。</p>
-</div><div class="sec sec-meta"><h2 class = "goal">② 学习目标</h2>
+</div><div class="sec sec-goal"><h2 class = "goal">② 学习目标</h2>
 <ul>
 <li>理解并区分分类加法计数原理与分步乘法计数原理</li>
 <li>掌握排列、组合的概念与公式</li>
 <li>会解决典型计数问题（相邻/不相邻/有限制位置）</li>
 <li>掌握二项式定理与通项公式（求指定项/系数）</li>
 </ul>
-</div><div class="sec sec-meta"><h2 class = "body">③ 正文讲解</h2>
+</div><div class="sec sec-body"><h2 class = "body">③ 正文讲解</h2>
 <p><strong>本章结构导图</strong>：</p>
 <pre><code>计数原理
 ├─ 3.1 两大原理 ── 分类用加、分步用乘（一切的地基）
@@ -367,7 +362,7 @@ section.flash{animation:flash 1.6s ease}
 <p><strong>适用</strong>：把 n 个<strong>相同</strong>的球分给 k 个盒子，每盒至少 1 个，分法  =  <strong>C(n−1, k−1)</strong>。
 道理：n 个球排成一排，中间 n−1 个缝插 k−1 块隔板。
 例：10 个相同球放 3 盒每盒至少 1，C(9,2)  =  36。</p>
-</div><div class="sec sec-meta"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
+</div><div class="sec sec-ex2"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
 <p class = "ex"><span class = "tag">例题</span><strong>例 1（分步乘法）</strong>：从 4 名男生、3 名女生中各选 1 人参加活动，有几种选法？</p>
 <blockquote>
 <p>自己做：分两步，乘起来。</p>
@@ -394,7 +389,7 @@ section.flash{animation:flash 1.6s ease}
 <p>解：T₍<sub>k+1</sub>₎  =  C(5,k)·x<sup>5−k</sup>·2<sup>k</sup>。令 5 − k  =  3 ⇒ k  =  2。
 系数  =  C(5,2)·2<sup>2</sup>  =  10·4  =  40。
 要点：<strong>通项公式：C(n,k)·a<sup>n−k</sup>·b<sup>k</sup>，先定 k 再算系数</strong>。</p>
-</div><div class="sec sec-meta"><h2 class = "out">⑤ 出口检测</h2>
+</div><div class="sec sec-out"><h2 class = "out">⑤ 出口检测</h2>
 <p><strong>自测（15 分钟，每题 2 分）</strong>：</p>
 <ol>
 <li>计算 C(6, 2)。</li>
@@ -422,7 +417,7 @@ section.flash{animation:flash 1.6s ease}
 <p><strong>C1.</strong>【枚举计数·2024 新高考Ⅰ卷第 14 题】甲、乙两人各有四张卡片：甲卡 {1,3,5,7}，乙卡 {2,4,6,8}。两人进行四轮比赛，每轮各自从手中随机选一张比较大小，大者得 1 分，用后弃置。求四轮比赛后甲的总得分不小于 2 的概率。</p>
 <p><strong>C2.</strong>【计数+期望·2025 新高考Ⅰ卷第 14 题】一个箱子里有 5 个相同的球，分别标 1~5 号。每次取一颗、有放回地取三次，记"至少被取到一次的不同球的个数"为 X，求 E(X)。（提示：用本章的计数思想，配合下一章期望的线性性。）</p>
 <p><strong>C3.</strong>【二项式高考高频题型】求 (x<sup>2</sup> + 1/x)<sup>6</sup> 展开式中的常数项。</p>
-</div><div class="sec sec-meta"><h2 class = "pit">⑥ 常见坑清单</h2>
+</div><div class="sec sec-pit"><h2 class = "pit">⑥ 常见坑清单</h2>
 <ul>
 <li><strong>先判断"排列 or 组合"</strong>：出现"排队/顺序/编号/角色"→ 排列；"选人/分组/抽样"→ 组合。</li>
 <li>平均分组要除以重复：3 组每组 2 人（6 人），C(6,2)C(4,2)C(2,2)/3!。</li>
@@ -589,18 +584,18 @@ section.flash{animation:flash 1.6s ease}
 <li><strong>✓ 不超纲</strong>。</li>
 </ul>
 <hr />
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. C(6,2) = 15；2. 5! = 120；3. C(6,2) = 15；4. k = 2：C(4,2) = 6；5. 白球捆绑成 1 个整体，与 3 红球共 4 个位置放 1 个整体 + 3 个红球：C(4,1) = 4（或 4!/3! = 4）。</p></div></div>
-</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A1.</strong> (1) 分类加法：6+5=<strong>11 种</strong>。(2) 分步乘法：6×5=<strong>30 种</strong>。
+
+</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. C(6,2) = 15；2. 5! = 120；3. C(6,2) = 15；4. k = 2：C(4,2) = 6；5. 白球捆绑成 1 个整体，与 3 红球共 4 个位置放 1 个整体 + 3 个红球：C(4,1) = 4（或 4!/3! = 4）。</p></div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">A 组答案</p><p><strong>A1.</strong> (1) 分类加法：6+5=<strong>11 种</strong>。(2) 分步乘法：6×5=<strong>30 种</strong>。
 <strong>A2.</strong> 三人分三个不同职务（有序）：A(8,3)=8×7×6=<strong>336 种</strong>。
 <strong>A3.</strong> 两点一线无顺序：C(10,2)=10×9/2=<strong>45 条</strong>。
 <strong>A4.</strong> C(7,3)=35，C(7,4)=C(7,3)=35（对称性），差 = <strong>0</strong>。选 3 个 = 留下 4 个，所以相等。
 <strong>A5.</strong> 两女捆绑（内部 2!），与 4 男共 5 个整体排 5!：2!·5!=2×120=<strong>240 种</strong>。
 <strong>A6.</strong> T₍<sub>k+1</sub>₎=C(6,k)x<sup>6−k</sup>(−1)<sup>k</sup>，令 6−k=3⇒k=3：C(6,3)(−1)<sup>3</sup>=20×(−1)=<strong>−20</strong>。</p>
-</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · B 组</button><div class="ans-body"><p><strong>B7.</strong> 男女相间：男先排 3!，女插入（男 _ 男 _ 男 _ ，3 个空位放 3 女）3!，但相间有两种起手（男女男女男女 / 女男女男女男）：2·3!·3!=2×6×6=<strong>72 种</strong>。
+</div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">B 组答案</p><p><strong>B7.</strong> 男女相间：男先排 3!，女插入（男 _ 男 _ 男 _ ，3 个空位放 3 女）3!，但相间有两种起手（男女男女男女 / 女男女男女男）：2·3!·3!=2×6×6=<strong>72 种</strong>。
 <strong>B8.</strong> 6 本平均分给甲乙丙（组有名字）：C(6,2)C(4,2)C(2,2)=15×6×1=<strong>90 种</strong>（分给三人不再除 3!，因为甲乙丙有区别）。
 <strong>B9.</strong> 隔板法：C(10−1, 3−1)=C(9,2)=<strong>36 种</strong>。
 <strong>B10.</strong> 令 x=1：(2+1)<sup>6</sup>=3<sup>6</sup>=<strong>729</strong>。</p>
-</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · C 组</button><div class="ans-body"><p><strong>C1.</strong> 把乙的 4 张卡随机配给甲的 4 张（共 4!=24 种配对）。枚举得分：甲 1 谁都比不过（恒 0 贡献），甲 3 只赢乙 2，甲 5 赢乙 2、4，甲 7 赢乙 2、4、6。枚举 24 种配对得分分布：得 0 分 1 种、得 1 分 11 种、得 2 分 11 种、得 3 分 1 种。得分 ≥2 = 11+1 = 12 种。概率 = 12/24 = <strong>1/2</strong>。
+</div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">C 组答案</p><p><strong>C1.</strong> 把乙的 4 张卡随机配给甲的 4 张（共 4!=24 种配对）。枚举得分：甲 1 谁都比不过（恒 0 贡献），甲 3 只赢乙 2，甲 5 赢乙 2、4，甲 7 赢乙 2、4、6。枚举 24 种配对得分分布：得 0 分 1 种、得 1 分 11 种、得 2 分 11 种、得 3 分 1 种。得分 ≥2 = 11+1 = 12 种。概率 = 12/24 = <strong>1/2</strong>。
 <strong>C2.</strong> 用期望线性性（下一章详述）：设指示变量 I<sub>i</sub> = 1 表示第 i 号球至少被取到一次。X = I<sub>1</sub>+…+I<sub>5</sub>。每个号被取到至少一次的概率 = 1 − (4/5)<sup>3</sup> = 61/125。E(X) = 5×61/125 = <strong>61/25 = 2.44</strong>。
 <strong>C3.</strong> 通项 T₍<sub>k+1</sub>₎=C(6,k)(x<sup>2</sup>)<sup>6−k</sup>(1/x)<sup>k</sup>=C(6,k)x<sup>12−2k</sup>·x<sup>−k</sup>=C(6,k)x<sup>12−3k</sup>。令 12−3k=0 ⇒ k=4。常数项=C(6,4)=C(6,2)=<strong>15</strong>。</p>
 </div></div></div><div class="sec sec-meta"><h2>一通百通</h2>
@@ -640,23 +635,15 @@ section.flash{animation:flash 1.6s ease}
   var dbtn=doc.getElementById('darkbtn');
   function darkLabel(){if(dbtn)dbtn.textContent=doc.body.classList.contains('dark')?'日间':'夜读';}
   if(dbtn){dbtn.addEventListener('click',function(){var on=doc.body.classList.toggle('dark');localStorage.setItem('ebook-dark',on?'1':'0');darkLabel();});darkLabel();}
-  /* 答案折叠 */
-  doc.querySelectorAll('.ans-toggle').forEach(function(btn){
-    btn.addEventListener('click',function(){
-      var box=btn.parentNode;
-      box.classList.toggle('open');
-      btn.textContent=box.classList.contains('open')?'隐藏答案':'显示答案';
-    });
-  });
+  /* 答案默认全部展开（无折叠交互，分组由组标行对应） */
   /* 打印三模式（本页章节） */
   function curSec(){return doc.querySelector('#main section.chapter')}
   function printScope(mode){
-    doc.body.classList.remove('print-note','print-q','print-a','print-ans','print-one');
+    doc.body.classList.remove('print-note','print-q','print-a','print-one');
     var s=curSec();if(s)s.classList.remove('ch-print');
-    doc.querySelectorAll('.sec.sec-has-ans').forEach(function(x){x.classList.remove('sec-has-ans')});
     if(mode==='note')doc.body.classList.add('print-note');
     if(mode==='q')doc.body.classList.add('print-q');
-    if(mode==='a'){doc.body.classList.add('print-a','print-ans');doc.querySelectorAll('.ans-box').forEach(function(b){var p=b.closest('.sec');if(p)p.classList.add('sec-has-ans')});}
+    if(mode==='a')doc.body.classList.add('print-a');
     if(s){s.classList.add('ch-print');doc.body.classList.add('print-one');}
     window.print();
   }

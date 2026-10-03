@@ -103,13 +103,9 @@ p.taskA{border-left:4px solid var(--green);background:var(--green-l)}
 p.taskB{border-left:4px solid #3b7dd8;background:var(--blue-l)}
 p.taskC{border-left:4px solid var(--gold);background:var(--gold-l)}
 p.ans{background:var(--blue-l);border:1px dashed #c3cede;border-radius:10px;padding:11px 15px;margin:14px 0}
-.ans-box{margin:16px 0;border:1px solid var(--line);border-radius:10px;background:var(--card);overflow:hidden}
-.ans-box>.ans-toggle{display:block;width:100%;border:none;background:var(--blue-l);color:var(--blue);font-size:13.5px;font-weight:600;padding:10px 14px;cursor:pointer;font-family:inherit;text-align:left;transition:.15s}
-.ans-box>.ans-toggle:hover{background:#d7e3f5}
-.ans-box>.ans-toggle::before{content:"▸ ";transition:transform .15s}
-.ans-box.open>.ans-toggle::before{content:"▾ "}
-.ans-box>.ans-body{display:none;padding:10px 15px 13px;border-top:1px dashed #c3cede}
-.ans-box.open>.ans-body{display:block}
+.ans-box{margin:14px 0;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+.ans-grp{font-size:12px;color:#fff;background:var(--blue);display:inline-block;border-radius:6px;padding:2px 9px;margin:0 0 8px;font-weight:600}
+.ans-box>.ans-body{padding:11px 15px 13px}
 .ans-body p.ans{background:transparent;border:none;padding:0;margin:0 0 8px;font-weight:600}
 span.tag{display:inline-block;background:var(--blue);color:#fff;font-size:11px;border-radius:4px;padding:0 7px;margin-right:8px;vertical-align:2px}
 p.warn span.tag{background:var(--red)}
@@ -181,17 +177,16 @@ section.flash{animation:flash 1.6s ease}
   section.chapter{page-break-after:always;border:none}
   body.print-one section.chapter{display:none!important}
   body.print-one section.chapter.ch-print{display:block!important}
-  /* 讲义：隐藏出口检测+课后习题+全部答案 */
-  body.print-note .sec-out,body.print-note .sec-hw,body.print-note .ans-box{display:none!important}
-  /* 题目卷：只显示出口检测+课后习题 */
+  /* 讲义：只讲解，去掉全部题目（门槛自测/出口检测/课后习题）与答案 */
+  body.print-note .sec-gate,body.print-note .sec-out,body.print-note .sec-hw,body.print-note .sec-ans{display:none!important}
+  /* 题目卷：只题目（门槛自测+出口检测+课后习题），不含答案 */
   body.print-q .sec{display:none!important}
-  body.print-q .sec-out,body.print-q .sec-hw{display:block!important}
-  /* 答案卷：只显示含答案的区块（含自测答案与课后答案，JS 已打 sec-has-ans 标） */
+  body.print-q .sec-gate,body.print-q .sec-out,body.print-q .sec-hw{display:block!important}
+  /* 答案卷：只答案（自测答案+A/B/C组答案，集中在 sec-ans），不含题目与讲解 */
   body.print-a .sec{display:none!important}
-  body.print-a .sec-has-ans{display:block!important}
+  body.print-a .sec-ans{display:block!important}
   .ans-box{border:none;background:transparent;margin:6px 0}
-  .ans-box>.ans-body{display:none!important;padding:0;border:none}
-  body.print-ans .ans-box>.ans-body{display:block!important}
+  .ans-grp{background:transparent;color:var(--ink);padding:0;margin:0 4px 8px 0;font-size:inherit}
   .ans-body p.ans{font-weight:700;margin:4px 0}
 }
 
@@ -231,7 +226,7 @@ section.flash{animation:flash 1.6s ease}
 <p class = "baihua why"><span class = "tag">为什么有用</span>想通"把三维拍回平面"这个办法，你就能看懂并算准身边的立体——给一个柱锥台球，会算它占多大地方（体积）、包它要多少料（表面积）；给空间里几根线几个面，能判断并证明它们平行还是垂直。锥体为什么是 1/3、展开图怎么找最短路、线面平行怎么证，都能顺着"降维"自己想明白，而不是硬背一堆公式和判定。</p>
 </blockquote>
 <hr />
-<div class="sec sec-meta"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
+<div class="sec sec-gate"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
 <ol>
 <li>长方体的体积公式是什么？</li>
 <li>圆的面积、周长公式是什么？</li>
@@ -240,14 +235,14 @@ section.flash{animation:flash 1.6s ease}
 <li>两个平面"平行"和"垂直"在生活中分别是什么样子？</li>
 </ol>
 <p><strong>判定</strong>：5 题答对 4 题以上 → 进章。</p>
-</div><div class="sec sec-meta"><h2 class = "goal">② 学习目标</h2>
+</div><div class="sec sec-goal"><h2 class = "goal">② 学习目标</h2>
 <ul>
 <li>认识柱、锥、台、球的几何特征</li>
 <li>掌握常见几何体（柱锥台球）的表面积与体积公式</li>
 <li>掌握空间点、线、面的位置关系：平行与垂直的判定和性质</li>
 <li>掌握线面平行/垂直、面面平行/垂直的证明（大题第 1 问常考）</li>
 </ul>
-</div><div class="sec sec-meta"><h2 class = "body">③ 正文讲解</h2>
+</div><div class="sec sec-body"><h2 class = "body">③ 正文讲解</h2>
 <p>本章地图：</p>
 <ul>
 <li>3.1 认识空间几何体：柱、锥、台、球长什么样。</li>
@@ -437,7 +432,7 @@ section.flash{animation:flash 1.6s ease}
 <li>用的时候：求三棱锥、多面体内切球半径，别硬画，套 r  =  3V/S全。</li>
 </ul>
 <p><strong>小结</strong>：立体几何证明就两条线——平行找线线平行，垂直找线线垂直；计算套公式，锥体别忘 1/3。</p>
-</div><div class="sec sec-meta"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
+</div><div class="sec sec-ex2"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
 <p class = "ex"><span class = "tag">例题</span><strong>例 1（体积计算）</strong>：正四棱锥底面边长为 2，高为 3，求体积。</p>
 <blockquote>
 <p>自己做：套锥体公式。</p>
@@ -479,7 +474,7 @@ a<sup>2</sup>+b<sup>2</sup> = 41，a<sup>2</sup>+c<sup>2</sup> = 34，b<
 在直角三角形 AOD 中（AO⊥OD）：AO = √(AD<sup>2</sup>−OD<sup>2</sup>) = √(a<sup>2</sup>−a<sup>2</sup>/2) = a/√2。
 ∠ADO 就是 DA 与平面 BCD 所成的角，tan∠ADO = AO/OD = (a/√2)/(a/√2) = 1 ⇒ <strong>∠ADO = 45°</strong>。
 要点：<strong>斜线段等长 ⇒ 射影等长 ⇒ 垂足是底面外心</strong>；线面角  =  斜线与它在面内射影的夹角。</p>
-</div><div class="sec sec-meta"><h2 class = "out">⑤ 出口检测</h2>
+</div><div class="sec sec-out"><h2 class = "out">⑤ 出口检测</h2>
 <p><strong>自测（15 分钟，每题 2 分）</strong>：</p>
 <ol>
 <li>圆柱底面半径 2、高 3，求体积与侧面积。</li>
@@ -507,7 +502,7 @@ a<sup>2</sup>+b<sup>2</sup> = 41，a<sup>2</sup>+c<sup>2</sup> = 34，b<
 <p>11.【考点：位置关系多选】（2025 年新高考Ⅰ卷·多选第 9 题）在正三棱柱 ABC−A<sub>1</sub>B<sub>1</sub>C<sub>1</sub> 中，D 为 BC 的中点，则（ ）。
    A. AD⊥A<sub>1</sub>C　B. BC⊥平面 AA<sub>1</sub>D　C. CC<sub>1</sub>∥平面 AA<sub>1</sub>D　D. AD∥A<sub>1</sub>B<sub>1</sub>
 12.【考点：线面平行证明】（2024 新高考Ⅰ卷·解答第 17 题第 (1) 问）四棱锥 P−ABCD 中，PA⊥底面 ABCD，PA = AC = 2，BC = 1，AB = √3。若 AD⊥PB，证明：AD∥平面 PBC。</p>
-</div><div class="sec sec-meta"><h2 class = "pit">⑥ 常见坑清单</h2>
+</div><div class="sec sec-pit"><h2 class = "pit">⑥ 常见坑清单</h2>
 <ul>
 <li><strong>锥体体积 1/3 别丢</strong>；台体公式里的"根号"别漏。</li>
 <li>线面平行判定：<strong>a ⊄ α 是前提</strong>，a 在面内就不能用。</li>
@@ -640,8 +635,8 @@ a<sup>2</sup>+b<sup>2</sup> = 41，a<sup>2</sup>+c<sup>2</sup> = 34，b<
 <h3>进阶 3：三视图（说明）</h3>
 <p><strong>课标依据/红线</strong>：三视图已从新高考删除，<strong>不考，不必花时间</strong>；斜二测画法画直观图了解即可。</p>
 <hr />
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. V  =  π·2<sup>2</sup>·3  =  12π；S 侧  =  2π·2·3  =  12π；2. V  =  ⅓·4·6  =  8；3. 不能（a ⊂ α，需平面外一条直线）；4. (4/3)πR<sup>3</sup>  =  36π ⇒ R<sup>3</sup>  =  27 ⇒ R  =  3；5. √(4 + 9 + 36)  =  7。</p></div></div>
-</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
+
+</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. V  =  π·2<sup>2</sup>·3  =  12π；S 侧  =  2π·2·3  =  12π；2. V  =  ⅓·4·6  =  8；3. 不能（a ⊂ α，需平面外一条直线）；4. (4/3)πR<sup>3</sup>  =  36π ⇒ R<sup>3</sup>  =  27 ⇒ R  =  3；5. √(4 + 9 + 36)  =  7。</p></div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">A 组答案</p><p><strong>A 组</strong></p>
 <ol>
 <li>表面积 6·9=<strong>54</strong>；体积 3<sup>3</sup>=<strong>27</strong>；体对角线 √3·3=<strong>3√3</strong>。</li>
 <li>V=⅓π·3<sup>2</sup>·4=<strong>12π</strong>；侧面积 π·3·5=<strong>15π</strong>。</li>
@@ -650,14 +645,14 @@ a<sup>2</sup>+b<sup>2</sup> = 41，a<sup>2</sup>+c<sup>2</sup> = 34，b<
 <li>l=√(4+9+16)=<strong>√29</strong>。</li>
 <li>V=⅓·6·5=<strong>10</strong>。</li>
 </ol>
-</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · B 组</button><div class="ans-body"><p><strong>B 组</strong></p>
+</div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">B 组答案</p><p><strong>B 组</strong></p>
 <ol start="7">
 <li>体对角线=√(4+4+4)=2√3=2R ⇒ R=√3。V=(4/3)π(√3)<sup>3</sup>=<strong>4√3 π</strong>。</li>
 <li>连接 AC 交 BD 于 O（O 是 AC 中点），连 OE。在 △ACC<sub>1</sub> 中 O、E 分别是 AC、CC<sub>1</sub> 中点，故 OE∥AC<sub>1</sub>（中位线）。OE⊂平面 BDE，AC<sub>1</sub>⊄平面 BDE ⇒ <strong>AC<sub>1</sub>∥平面 BDE</strong>。</li>
 <li>V=⅓·S底·PA=⅓·4·3=4。等体积法下高由对应底面积决定；此处换顶点后高 h=3V/S△PBC，思路成立（具体数值需先求 △PBC 面积）。</li>
 <li>因为 BC⊥AB（底面正方形邻边垂直），且 BC⊥BB<sub>1</sub>（侧棱 BB<sub>1</sub> 垂直底面 ABCD），而 AB 与 BB<sub>1</sub> 是平面 ABB<sub>1</sub>A<sub>1</sub> 内的两条相交直线，故 BC⊥平面 ABB<sub>1</sub>A<sub>1</sub>。又 BC⊂平面 ABCD，由面面垂直判定，<strong>平面 ABCD⊥平面 ABB<sub>1</sub>A<sub>1</sub></strong>。</li>
 </ol>
-</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · C 组</button><div class="ans-body"><p><strong>C 组</strong></p>
+</div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">C 组答案</p><p><strong>C 组</strong></p>
 <ol start="11">
 <li>
 <p>设底面边长 2、侧棱 2，建系 A(0,0,0)、B(2,0,0)、C(1,√3,0)、D(1.5,√3/2,0)、A<sub>1</sub>(0,0,2)、C<sub>1</sub>(1,√3,2)。
@@ -708,23 +703,15 @@ a<sup>2</sup>+b<sup>2</sup> = 41，a<sup>2</sup>+c<sup>2</sup> = 34，b<
   var dbtn=doc.getElementById('darkbtn');
   function darkLabel(){if(dbtn)dbtn.textContent=doc.body.classList.contains('dark')?'日间':'夜读';}
   if(dbtn){dbtn.addEventListener('click',function(){var on=doc.body.classList.toggle('dark');localStorage.setItem('ebook-dark',on?'1':'0');darkLabel();});darkLabel();}
-  /* 答案折叠 */
-  doc.querySelectorAll('.ans-toggle').forEach(function(btn){
-    btn.addEventListener('click',function(){
-      var box=btn.parentNode;
-      box.classList.toggle('open');
-      btn.textContent=box.classList.contains('open')?'隐藏答案':'显示答案';
-    });
-  });
+  /* 答案默认全部展开（无折叠交互，分组由组标行对应） */
   /* 打印三模式（本页章节） */
   function curSec(){return doc.querySelector('#main section.chapter')}
   function printScope(mode){
-    doc.body.classList.remove('print-note','print-q','print-a','print-ans','print-one');
+    doc.body.classList.remove('print-note','print-q','print-a','print-one');
     var s=curSec();if(s)s.classList.remove('ch-print');
-    doc.querySelectorAll('.sec.sec-has-ans').forEach(function(x){x.classList.remove('sec-has-ans')});
     if(mode==='note')doc.body.classList.add('print-note');
     if(mode==='q')doc.body.classList.add('print-q');
-    if(mode==='a'){doc.body.classList.add('print-a','print-ans');doc.querySelectorAll('.ans-box').forEach(function(b){var p=b.closest('.sec');if(p)p.classList.add('sec-has-ans')});}
+    if(mode==='a')doc.body.classList.add('print-a');
     if(s){s.classList.add('ch-print');doc.body.classList.add('print-one');}
     window.print();
   }

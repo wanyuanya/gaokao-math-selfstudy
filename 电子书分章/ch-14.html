@@ -103,13 +103,9 @@ p.taskA{border-left:4px solid var(--green);background:var(--green-l)}
 p.taskB{border-left:4px solid #3b7dd8;background:var(--blue-l)}
 p.taskC{border-left:4px solid var(--gold);background:var(--gold-l)}
 p.ans{background:var(--blue-l);border:1px dashed #c3cede;border-radius:10px;padding:11px 15px;margin:14px 0}
-.ans-box{margin:16px 0;border:1px solid var(--line);border-radius:10px;background:var(--card);overflow:hidden}
-.ans-box>.ans-toggle{display:block;width:100%;border:none;background:var(--blue-l);color:var(--blue);font-size:13.5px;font-weight:600;padding:10px 14px;cursor:pointer;font-family:inherit;text-align:left;transition:.15s}
-.ans-box>.ans-toggle:hover{background:#d7e3f5}
-.ans-box>.ans-toggle::before{content:"▸ ";transition:transform .15s}
-.ans-box.open>.ans-toggle::before{content:"▾ "}
-.ans-box>.ans-body{display:none;padding:10px 15px 13px;border-top:1px dashed #c3cede}
-.ans-box.open>.ans-body{display:block}
+.ans-box{margin:14px 0;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+.ans-grp{font-size:12px;color:#fff;background:var(--blue);display:inline-block;border-radius:6px;padding:2px 9px;margin:0 0 8px;font-weight:600}
+.ans-box>.ans-body{padding:11px 15px 13px}
 .ans-body p.ans{background:transparent;border:none;padding:0;margin:0 0 8px;font-weight:600}
 span.tag{display:inline-block;background:var(--blue);color:#fff;font-size:11px;border-radius:4px;padding:0 7px;margin-right:8px;vertical-align:2px}
 p.warn span.tag{background:var(--red)}
@@ -181,17 +177,16 @@ section.flash{animation:flash 1.6s ease}
   section.chapter{page-break-after:always;border:none}
   body.print-one section.chapter{display:none!important}
   body.print-one section.chapter.ch-print{display:block!important}
-  /* 讲义：隐藏出口检测+课后习题+全部答案 */
-  body.print-note .sec-out,body.print-note .sec-hw,body.print-note .ans-box{display:none!important}
-  /* 题目卷：只显示出口检测+课后习题 */
+  /* 讲义：只讲解，去掉全部题目（门槛自测/出口检测/课后习题）与答案 */
+  body.print-note .sec-gate,body.print-note .sec-out,body.print-note .sec-hw,body.print-note .sec-ans{display:none!important}
+  /* 题目卷：只题目（门槛自测+出口检测+课后习题），不含答案 */
   body.print-q .sec{display:none!important}
-  body.print-q .sec-out,body.print-q .sec-hw{display:block!important}
-  /* 答案卷：只显示含答案的区块（含自测答案与课后答案，JS 已打 sec-has-ans 标） */
+  body.print-q .sec-gate,body.print-q .sec-out,body.print-q .sec-hw{display:block!important}
+  /* 答案卷：只答案（自测答案+A/B/C组答案，集中在 sec-ans），不含题目与讲解 */
   body.print-a .sec{display:none!important}
-  body.print-a .sec-has-ans{display:block!important}
+  body.print-a .sec-ans{display:block!important}
   .ans-box{border:none;background:transparent;margin:6px 0}
-  .ans-box>.ans-body{display:none!important;padding:0;border:none}
-  body.print-ans .ans-box>.ans-body{display:block!important}
+  .ans-grp{background:transparent;color:var(--ink);padding:0;margin:0 4px 8px 0;font-size:inherit}
   .ans-body p.ans{font-weight:700;margin:4px 0}
 }
 
@@ -231,7 +226,7 @@ section.flash{animation:flash 1.6s ease}
 <p class = "baihua why"><span class = "tag">为什么有用</span>学了这章，立体几何解答题就从"靠灵感想辅助线"变成"照流程算坐标"——只要图形里有现成的墙角（三条两两垂直的棱），建系之后线线角、线面角、二面角和点到面距离都能按公式稳定算出来。想通"几何问题 = 坐标运算、角 = 内积"，法向量和那几个公式就是顺手推出来的，不必死背；这正是把立体几何大题变成可控拿分点的关键。</p>
 </blockquote>
 <hr />
-<div class="sec sec-meta"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
+<div class="sec sec-gate"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
 <ol>
 <li>向量的数量积公式 a · b  =  |a||b|cos θ 还记得吗？</li>
 <li>向量 (1, 2, 3) 的模怎么算？</li>
@@ -240,7 +235,7 @@ section.flash{animation:flash 1.6s ease}
 <li>第 13 章：线面垂直的判定定理是什么？</li>
 </ol>
 <p><strong>判定</strong>：5 题答对 4 题以上 → 进章；否则回 09、13 章复习。</p>
-</div><div class="sec sec-meta"><h2 class = "goal">② 学习目标</h2>
+</div><div class="sec sec-goal"><h2 class = "goal">② 学习目标</h2>
 <ul>
 <li>掌握空间向量的坐标运算（加减、数乘、数量积、模、夹角）</li>
 <li>会用<strong>建系法（坐标法）</strong>解决立体几何大题：</li>
@@ -252,7 +247,7 @@ section.flash{animation:flash 1.6s ease}
 <p>掌握法向量的求法（核心操作）</p>
 </li>
 </ul>
-</div><div class="sec sec-meta"><h2 class = "body">③ 正文讲解</h2>
+</div><div class="sec sec-body"><h2 class = "body">③ 正文讲解</h2>
 <p>本章地图：</p>
 <ul>
 <li>3.1 空间向量的坐标运算：把平面向量搬到三维。</li>
@@ -416,7 +411,7 @@ section.flash{animation:flash 1.6s ease}
 <p><strong>两个最常见失分点</strong>：一是坐标写错（尤其带分数的点），每个点算完都反推一遍棱长；二是线面角公式里写成 cos，记住"线面角用 sin"。二面角若题目说"锐角"就取正，说"钝角"就取负；没说就先算绝对值，再看图形是开口朝哪边。</p>
 <p><strong>小结</strong>：空间向量把立体几何大题变成"算坐标、套公式"的体力活；法向量是钥匙，线面角别写成 cos。</p>
 <p><strong>编者注·本质回扣</strong>：回头看三类角和距离那几个公式，别把它们当四条孤立结论死背，它们其实都是内积 a·b = |a||b|cosθ 这一个式子的变形：线线角、二面角直接就是两个方向（或法）向量的夹角；线面角因为和法向量的夹角正好差一个余角，才把 cos 换成 sin；点到面距离就是连线在法方向上的投影长度。所以建系五步里真正的"发动机"只有一个——数量积。你记住了内积这一颗种子，三类角和距离公式就能自己长出来，不必逐条硬背；这也是本章本质核心"角与距离都是内积的副产品"的落点。</p>
-</div><div class="sec sec-meta"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
+</div><div class="sec sec-ex2"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
 <p class = "ex"><span class = "tag">例题</span><strong>例 1（求法向量）</strong>：平面 α 过点 A(1, 0, 0)、B(0, 1, 0)、C(0, 0, 1)，求 α 的一个法向量。</p>
 <blockquote>
 <p>自己做：取两个向量，列方程组。</p>
@@ -454,7 +449,7 @@ sinθ = |BE·n|/(|BE||n|) = √2/2 ⇒ θ = <strong>45°</strong>。
 <p>(3) 换顶点求体积（等体积法）：V(P−BDE) = V(B−PDE)。面 PDE 即 x = 0，△PDE 中 PD = 2（在 z 轴上），E 到 z 轴距离为 1，故 S△PDE = ½·2·1 = 1；点 B 到面 PDE（x = 0）的距离  =  √2。
 V = ⅓·1·√2 = <strong>√2/3</strong>。</p>
 <p>要点：<strong>建系后每个坐标逐点核对</strong>；平面 PCD 三个点 x 都为 0，一眼看出法向量 (1,0,0)；体积换个好算的底面（△PDE 在坐标面内，面积好算）。</p>
-</div><div class="sec sec-meta"><h2 class = "out">⑤ 出口检测</h2>
+</div><div class="sec sec-out"><h2 class = "out">⑤ 出口检测</h2>
 <p><strong>自测（20 分钟，每题 2 分）</strong>：</p>
 <ol>
 <li>求过 A(1,1,0)、B(0,1,1)、C(1,0,1) 的平面的一个法向量。</li>
@@ -480,7 +475,7 @@ V = ⅓·1·√2 = <strong>√2/3</strong>。</p>
 10.【考点：建系综合】在第 9 题正方体中，求直线 A<sub>1</sub>C 与平面 ABCD 所成角的正切值。</p>
 <h3>C 组 · 真题挑战</h3>
 <p>11.【考点：建系求二面角】（2024 新高考Ⅰ卷·解答第 17 题第 (2) 问）四棱锥 P−ABCD 中，PA⊥底面 ABCD，PA = AC = 2，BC = 1，AB = √3。若 AD⊥DC，且二面角 A−CP−D 的正弦值为 √42/7，求 AD。</p>
-</div><div class="sec sec-meta"><h2 class = "pit">⑥ 常见坑清单</h2>
+</div><div class="sec sec-pit"><h2 class = "pit">⑥ 常见坑清单</h2>
 <ul>
 <li><strong>线面角用 sin</strong>、线线角用 cos（带绝对值），公式别串。</li>
 <li>法向量方程组：<strong>取两个不共线向量</strong>；共线会解不出唯一方向。</li>
@@ -639,8 +634,8 @@ V = ⅓·1·√2 = <strong>√2/3</strong>。</p>
 <p><strong>联动本章</strong>：例 4 第 (3) 问求三棱锥 P−BDE 体积，正是换顶点 V(P−BDE) = V(B−PDE)，把底面换到坐标面 PDE 上，S△PDE = 1、高 = √2，得 V = √2/3；3.4 节点 C<sub>1</sub> 到平面 A<sub>1</sub>BD 的距离（d = 2√3/3）也可用等体积法交叉验算。</p>
 <p>（高级方法手册·7.3）</p>
 <hr />
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. AB  =  (−1, 0, 1)，AC  =  (0, −1, 1)；n·AB  =  −x + z  =  0，n·AC  =  −y + z  =  0 ⇒ x  =  y  =  z，取 (1, 1, 1)；2. √(1+4+4)  =  3；3. cos θ  =  0 ⇒ θ  =  90°；4. sin；5. 点与面上任一点连线在法向量方向上的投影绝对值（|AP·n|/|n|）。</p></div></div>
-</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
+
+</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. AB  =  (−1, 0, 1)，AC  =  (0, −1, 1)；n·AB  =  −x + z  =  0，n·AC  =  −y + z  =  0 ⇒ x  =  y  =  z，取 (1, 1, 1)；2. √(1+4+4)  =  3；3. cos θ  =  0 ⇒ θ  =  90°；4. sin；5. 点与面上任一点连线在法向量方向上的投影绝对值（|AP·n|/|n|）。</p></div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">A 组答案</p><p><strong>A 组</strong></p>
 <ol>
 <li>|a|=√(4+9+36)=<strong>7</strong>。</li>
 <li>a·b=1·2+(−2)(−1)+2·0=2+2+0=<strong>4</strong>。</li>
@@ -649,14 +644,14 @@ V = ⅓·1·√2 = <strong>√2/3</strong>。</p>
 <li>sinθ=|a·n|/(|a||n|)，a 为斜线方向向量，n 为平面法向量。</li>
 <li>平面 2x+2y+z−6=0，d=|0+0+0−6|/√(4+4+1)=6/3=<strong>2</strong>。</li>
 </ol>
-</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · B 组</button><div class="ans-body"><p><strong>B 组</strong></p>
+</div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">B 组答案</p><p><strong>B 组</strong></p>
 <ol start="7">
 <li>建系 A(0,0,0)、B(1,0,0)、D(0,1,0)、D<sub>1</sub>(0,1,1)。BD<sub>1</sub>=(−1,1,1)，底面法向量 n=(0,0,1)。sinθ=|1|/(√3·1)=<strong>√3/3</strong>。</li>
 <li>cosθ=|n<sub>1</sub>·n<sub>2</sub>|/(|n<sub>1</sub>||n<sub>2</sub>|)=1/(√2·√2)=<strong>1/2</strong>。</li>
 <li>面 A<sub>1</sub>BD：A<sub>1</sub>(0,0,1)、B(1,0,0)、D(0,1,0)。A<sub>1</sub>B=(1,0,−1)，A<sub>1</sub>D=(0,1,−1)，法向量 n=(1,1,1)。取 A<sub>1</sub> 为面上点，AA<sub>1</sub>=(0,0,1)。d=|0+0+1|/√3=<strong>√3/3</strong>。</li>
 <li>A<sub>1</sub>C=(1,1,−1)，底面法向量 n=(0,0,1)。线面角 sinθ=1/√3，则 tanθ=sin/√(1−sin<sup>2</sup>)=(1/√3)/√(2/3)=<strong>√2/2</strong>。</li>
 </ol>
-</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · C 组</button><div class="ans-body"><p><strong>C 组</strong></p>
+</div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">C 组答案</p><p><strong>C 组</strong></p>
 <ol start="11">
 <li>建系 A(0,0,0)、C(2,0,0)、P(0,0,2)；由 AB=√3、BC=1 得 B(3/2,√3/2,0)。设 D=(u,v,0)，由 AD⊥DC 得 u<sup>2</sup>+v<sup>2</sup>=2u。平面 ACP 即 y=0，法向量 n<sub>1</sub>=(0,1,0)。平面 DCP 的法向量 n<sub>2</sub>=CP×CD=(−2v, 2u−4, −2v)。由 sin(二面角)=√42/7 得 |cos&lt;n<sub>1</sub>,n<sub>2</sub>&gt;|=√7/7，即 (2−u)/√(2v<sup>2</sup>+(2−u)<sup>2</sup>)=√7/7。平方化简得 v<sup>2</sup>=3(2−u)<sup>2</sup>，结合 v<sup>2</sup>=2u−u<sup>2</sup> 解得 u=3/2（舍去退化 u=2），v=√3/2。于是 AD=√(u<sup>2</sup>+v<sup>2</sup>)=√(9/4+3/4)=<strong>√3</strong>。</li>
 </ol>
@@ -697,23 +692,15 @@ V = ⅓·1·√2 = <strong>√2/3</strong>。</p>
   var dbtn=doc.getElementById('darkbtn');
   function darkLabel(){if(dbtn)dbtn.textContent=doc.body.classList.contains('dark')?'日间':'夜读';}
   if(dbtn){dbtn.addEventListener('click',function(){var on=doc.body.classList.toggle('dark');localStorage.setItem('ebook-dark',on?'1':'0');darkLabel();});darkLabel();}
-  /* 答案折叠 */
-  doc.querySelectorAll('.ans-toggle').forEach(function(btn){
-    btn.addEventListener('click',function(){
-      var box=btn.parentNode;
-      box.classList.toggle('open');
-      btn.textContent=box.classList.contains('open')?'隐藏答案':'显示答案';
-    });
-  });
+  /* 答案默认全部展开（无折叠交互，分组由组标行对应） */
   /* 打印三模式（本页章节） */
   function curSec(){return doc.querySelector('#main section.chapter')}
   function printScope(mode){
-    doc.body.classList.remove('print-note','print-q','print-a','print-ans','print-one');
+    doc.body.classList.remove('print-note','print-q','print-a','print-one');
     var s=curSec();if(s)s.classList.remove('ch-print');
-    doc.querySelectorAll('.sec.sec-has-ans').forEach(function(x){x.classList.remove('sec-has-ans')});
     if(mode==='note')doc.body.classList.add('print-note');
     if(mode==='q')doc.body.classList.add('print-q');
-    if(mode==='a'){doc.body.classList.add('print-a','print-ans');doc.querySelectorAll('.ans-box').forEach(function(b){var p=b.closest('.sec');if(p)p.classList.add('sec-has-ans')});}
+    if(mode==='a')doc.body.classList.add('print-a');
     if(s){s.classList.add('ch-print');doc.body.classList.add('print-one');}
     window.print();
   }

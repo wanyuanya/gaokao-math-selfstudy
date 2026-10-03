@@ -103,13 +103,9 @@ p.taskA{border-left:4px solid var(--green);background:var(--green-l)}
 p.taskB{border-left:4px solid #3b7dd8;background:var(--blue-l)}
 p.taskC{border-left:4px solid var(--gold);background:var(--gold-l)}
 p.ans{background:var(--blue-l);border:1px dashed #c3cede;border-radius:10px;padding:11px 15px;margin:14px 0}
-.ans-box{margin:16px 0;border:1px solid var(--line);border-radius:10px;background:var(--card);overflow:hidden}
-.ans-box>.ans-toggle{display:block;width:100%;border:none;background:var(--blue-l);color:var(--blue);font-size:13.5px;font-weight:600;padding:10px 14px;cursor:pointer;font-family:inherit;text-align:left;transition:.15s}
-.ans-box>.ans-toggle:hover{background:#d7e3f5}
-.ans-box>.ans-toggle::before{content:"▸ ";transition:transform .15s}
-.ans-box.open>.ans-toggle::before{content:"▾ "}
-.ans-box>.ans-body{display:none;padding:10px 15px 13px;border-top:1px dashed #c3cede}
-.ans-box.open>.ans-body{display:block}
+.ans-box{margin:14px 0;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+.ans-grp{font-size:12px;color:#fff;background:var(--blue);display:inline-block;border-radius:6px;padding:2px 9px;margin:0 0 8px;font-weight:600}
+.ans-box>.ans-body{padding:11px 15px 13px}
 .ans-body p.ans{background:transparent;border:none;padding:0;margin:0 0 8px;font-weight:600}
 span.tag{display:inline-block;background:var(--blue);color:#fff;font-size:11px;border-radius:4px;padding:0 7px;margin-right:8px;vertical-align:2px}
 p.warn span.tag{background:var(--red)}
@@ -181,17 +177,16 @@ section.flash{animation:flash 1.6s ease}
   section.chapter{page-break-after:always;border:none}
   body.print-one section.chapter{display:none!important}
   body.print-one section.chapter.ch-print{display:block!important}
-  /* 讲义：隐藏出口检测+课后习题+全部答案 */
-  body.print-note .sec-out,body.print-note .sec-hw,body.print-note .ans-box{display:none!important}
-  /* 题目卷：只显示出口检测+课后习题 */
+  /* 讲义：只讲解，去掉全部题目（门槛自测/出口检测/课后习题）与答案 */
+  body.print-note .sec-gate,body.print-note .sec-out,body.print-note .sec-hw,body.print-note .sec-ans{display:none!important}
+  /* 题目卷：只题目（门槛自测+出口检测+课后习题），不含答案 */
   body.print-q .sec{display:none!important}
-  body.print-q .sec-out,body.print-q .sec-hw{display:block!important}
-  /* 答案卷：只显示含答案的区块（含自测答案与课后答案，JS 已打 sec-has-ans 标） */
+  body.print-q .sec-gate,body.print-q .sec-out,body.print-q .sec-hw{display:block!important}
+  /* 答案卷：只答案（自测答案+A/B/C组答案，集中在 sec-ans），不含题目与讲解 */
   body.print-a .sec{display:none!important}
-  body.print-a .sec-has-ans{display:block!important}
+  body.print-a .sec-ans{display:block!important}
   .ans-box{border:none;background:transparent;margin:6px 0}
-  .ans-box>.ans-body{display:none!important;padding:0;border:none}
-  body.print-ans .ans-box>.ans-body{display:block!important}
+  .ans-grp{background:transparent;color:var(--ink);padding:0;margin:0 4px 8px 0;font-size:inherit}
   .ans-body p.ans{font-weight:700;margin:4px 0}
 }
 
@@ -231,7 +226,7 @@ section.flash{animation:flash 1.6s ease}
 <p class = "baihua why"><span class = "tag">为什么有用</span>想通了"几何关系 = 代数运算"这一步，导航算路程、铺管线找最短距离、判断一条路会不会碰到某个圆，全都变成套公式的代数题；考试里那些"距离、位置、切线"小题，也就不再靠目测，而是算一个 d、比一次 r 就定案。原理想通了，公式是顺带的事，不用死背。</p>
 </blockquote>
 <hr />
-<div class="sec sec-meta"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
+<div class="sec sec-gate"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
 <ol>
 <li>两点 (1, 2)、(3, 4) 连线的斜率是多少？</li>
 <li>平行于 x 轴的直线斜率是多少？</li>
@@ -240,7 +235,7 @@ section.flash{animation:flash 1.6s ease}
 <li>解方程组 2x + y  =  3、x − y  =  0。</li>
 </ol>
 <p><strong>判定</strong>：5 题答对 4 题以上 → 进章。</p>
-</div><div class="sec sec-meta"><h2 class = "goal">② 学习目标</h2>
+</div><div class="sec sec-goal"><h2 class = "goal">② 学习目标</h2>
 <ul>
 <li>掌握直线方程的多种形式与相互转化</li>
 <li>掌握斜率与倾斜角、平行/垂直的斜率条件</li>
@@ -248,7 +243,7 @@ section.flash{animation:flash 1.6s ease}
 <li>掌握圆的标准方程与一般方程、直线与圆的位置关系（含弦长）</li>
 <li>会求圆的切线方程</li>
 </ul>
-</div><div class="sec sec-meta"><h2 class = "body">③ 正文讲解</h2>
+</div><div class="sec sec-body"><h2 class = "body">③ 正文讲解</h2>
 <p><strong>本章结构导图</strong>：</p>
 <pre><code>直线与圆
 ├─ 3.1 倾斜角与斜率 ── 一把&quot;角度↔斜率&quot;的尺子
@@ -520,7 +515,7 @@ d  =  1 &lt; r  =  2 ⇒ 相交。弦长  =  2√(4 − 1)  =  2
 <li class="baihua"><span class="tag">大白话</span>相减消掉了 x<sup>2</sup>、y<sup>2</sup>，剩下的一次方程过两个交点，就是公共弦（相交时）、公切线（相切时）所在直线。</li>
 </ul>
 <p><strong>小结</strong>：圆与圆还是"距离比半径"，只是把"到直线距离"换成"圆心距"。</p>
-</div><div class="sec sec-meta"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
+</div><div class="sec sec-ex2"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
 <p class = "ex"><span class = "tag">例题</span><strong>例 1（垂直斜率）</strong>：直线 l<sub>1</sub>：2x + y − 1  =  0，求与 l<sub>1</sub> 垂直且过点 (1, 2) 的直线方程。</p>
 <blockquote>
 <p>自己做：先求斜率，用点斜式。</p>
@@ -539,7 +534,7 @@ d  =  1 &lt; r  =  2 ⇒ 相交。弦长  =  2√(4 − 1)  =  2
 </blockquote>
 <p>解：直线 x − y + b  =  0，d  =  |0 − 0 + b|/√2  =  |b|/√2  =  2 ⇒ |b|  =  2√2 ⇒ b  =  ±2√2。
 要点：<strong>相切 ⇔ d  =  r</strong>；"相离/相交/相切"一律先算 d。</p>
-</div><div class="sec sec-meta"><h2 class = "out">⑤ 出口检测</h2>
+</div><div class="sec sec-out"><h2 class = "out">⑤ 出口检测</h2>
 <p><strong>自测（15 分钟，每题 2 分）</strong>：</p>
 <ol>
 <li>过 (1, 1)、(3, 5) 的直线斜率是多少？</li>
@@ -568,7 +563,7 @@ d  =  1 &lt; r  =  2 ⇒ 相交。弦长  =  2√(4 − 1)  =  2
 A. (0, 1)　　B. (1, 3)　　C. (3, +∞)　　D. (0, +∞)</p>
 <p><strong>C2.</strong>【考点：点到直线距离算面积·借鉴 2024 新高考Ⅰ卷第 16 题第 (2) 问思想】过椭圆上一点的直线与曲线交于另一点，已知围成三角形面积，反求直线斜率。本题型在第 16 章详解；这里先体会：面积  =  ½·弦长·点到直线距离，"点到直线距离"是本章 3.3 的工具。</p>
 <p><strong>C3.</strong>【考点：切线方程·仿高考】求过原点且与圆 (x − 2)<sup>2</sup> + y<sup>2</sup>  =  1 相切的直线方程。</p>
-</div><div class="sec sec-meta"><h2 class = "pit">⑥ 常见坑清单</h2>
+</div><div class="sec sec-pit"><h2 class = "pit">⑥ 常见坑清单</h2>
 <ul>
 <li>斜率不存在（垂直 x 轴）时公式失效，别硬套 k<sub>1</sub>k<sub>2</sub>  =  −1。</li>
 <li>一般式距离公式：<strong>Ax + By + C  =  0 形式</strong>，先化成这个形式再用。</li>
@@ -713,18 +708,18 @@ A. (0, 1)　　B. (1, 3)　　C. (3, +∞)　　D. (0, +∞)</p>
 <li><strong>✓ 不超纲</strong>（就是斜率公式、点到直线距离公式的"几何读法"）。</li>
 </ul>
 <hr />
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. k = (5−1)/(3−1) = 2；2. y = (2/3)x + 2，k = 2/3；3. |−2|/√2 = √2；4. 圆心 (1, −2)，半径 3；5. d = |0−0|/√2 = 0 &lt; 1 ⇒ 相交（且过圆心，是直径）。</p></div></div>
-</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A1.</strong> k = (−4−2)/(3−(−1)) = −6/4 = <strong>−3/2</strong>。
+
+</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. k = (5−1)/(3−1) = 2；2. y = (2/3)x + 2，k = 2/3；3. |−2|/√2 = √2；4. 圆心 (1, −2)，半径 3；5. d = |0−0|/√2 = 0 &lt; 1 ⇒ 相交（且过圆心，是直径）。</p></div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">A 组答案</p><p><strong>A1.</strong> k = (−4−2)/(3−(−1)) = −6/4 = <strong>−3/2</strong>。
 <strong>A2.</strong> k = tan 120° = −tan 60° = <strong>−√3</strong>；k &lt; 0，直线从左上向右下倾斜。
 <strong>A3.</strong> 斜截式 <strong>y = −2x + 3</strong>；一般式 <strong>2x + y − 3 = 0</strong>。
 <strong>A4.</strong> 原直线斜率 k = −3/4，平行斜率相同。过 (2,−1)：y+1 = (−3/4)(x−2)，整理 <strong>3x + 4y − 2 = 0</strong>。
 <strong>A5.</strong> d = |3·3 − 4·4 + 1|/√(9+16) = |9−16+1|/5 = |−6|/5 = <strong>6/5</strong>。
 <strong>A6.</strong> 标准方程 <strong>(x+1)<sup>2</sup> + (y−2)<sup>2</sup> = 9</strong>；展开 x<sup>2</sup>+2x+1+y<sup>2</sup>−4y+4=9，一般式 <strong>x<sup>2</sup> + y<sup>2</sup> + 2x − 4y − 4 = 0</strong>。</p>
-</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · B 组</button><div class="ans-body"><p><strong>B7.</strong> 系数一致，d = |(−2)−8|/√(9+16) = 10/5 = <strong>2</strong>。
+</div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">B 组答案</p><p><strong>B7.</strong> 系数一致，d = |(−2)−8|/√(9+16) = 10/5 = <strong>2</strong>。
 <strong>B8.</strong> 圆心 (0,0)，d = |0+0−1|/√2 = 1/√2。弦长 = 2√(9 − 1/2) = 2√(17/2) = <strong>√34 ≈ 5.83</strong>。
 <strong>B9.</strong> 设切线 y = kx + 4，圆心 (0,0) 到它距离 = |4|/√(k<sup>2</sup>+1) = r = 2 ⇒ √(k<sup>2</sup>+1) = 2 ⇒ k<sup>2</sup> = 3 ⇒ k = ±√3。切线：<strong>y = √3 x + 4</strong> 和 <strong>y = −√3 x + 4</strong>。（本题无竖直切线漏网。）
 <strong>B10.</strong> 圆心 (1,2) 到直线 x − y + b = 0 距离 d = |1−2+b|/√2 = |b−1|/√2。相交 ⇔ d &lt; 2 ⇒ |b−1| &lt; 2√2 ⇒ <strong>1−2√2 &lt; b &lt; 1+2√2</strong>。</p>
-</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · C 组</button><div class="ans-body"><p><strong>C1.</strong> <strong>B</strong>。圆心到直线距离 d = 2；圆上点到直线距离范围 [|2−r|, 2+r]。距离恰为 1 时：r&lt;1 → 0 个；1&lt;r&lt;3 → 2 个；r&gt;3 → 4 个。"恰 2 个"⇔ <strong>1 &lt; r &lt; 3</strong>。
+</div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">C 组答案</p><p><strong>C1.</strong> <strong>B</strong>。圆心到直线距离 d = 2；圆上点到直线距离范围 [|2−r|, 2+r]。距离恰为 1 时：r&lt;1 → 0 个；1&lt;r&lt;3 → 2 个；r&gt;3 → 4 个。"恰 2 个"⇔ <strong>1 &lt; r &lt; 3</strong>。
 <strong>C2.</strong>（思想题）面积 = ½·弦长·d（d 为第三个顶点到直线的距离），弦长用 2√(r<sup>2</sup>−d<sup>2</sup>) 或联立求得。本章只需掌握"点到直线距离是面积的一条高"。
 <strong>C3.</strong> 设切线 y = kx（过原点），圆 (x−2)<sup>2</sup>+y<sup>2</sup>=1 圆心 (2,0)、r=1。d = |2k|/√(k<sup>2</sup>+1) = 1 ⇒ 4k<sup>2</sup> = k<sup>2</sup>+1 ⇒ k<sup>2</sup> = 1/3 ⇒ k = ±√3/3。切线：<strong>y = (√3/3)x</strong> 和 <strong>y = −(√3/3)x</strong>。</p>
 </div></div></div><div class="sec sec-meta"><h2>一通百通</h2>
@@ -764,23 +759,15 @@ A. (0, 1)　　B. (1, 3)　　C. (3, +∞)　　D. (0, +∞)</p>
   var dbtn=doc.getElementById('darkbtn');
   function darkLabel(){if(dbtn)dbtn.textContent=doc.body.classList.contains('dark')?'日间':'夜读';}
   if(dbtn){dbtn.addEventListener('click',function(){var on=doc.body.classList.toggle('dark');localStorage.setItem('ebook-dark',on?'1':'0');darkLabel();});darkLabel();}
-  /* 答案折叠 */
-  doc.querySelectorAll('.ans-toggle').forEach(function(btn){
-    btn.addEventListener('click',function(){
-      var box=btn.parentNode;
-      box.classList.toggle('open');
-      btn.textContent=box.classList.contains('open')?'隐藏答案':'显示答案';
-    });
-  });
+  /* 答案默认全部展开（无折叠交互，分组由组标行对应） */
   /* 打印三模式（本页章节） */
   function curSec(){return doc.querySelector('#main section.chapter')}
   function printScope(mode){
-    doc.body.classList.remove('print-note','print-q','print-a','print-ans','print-one');
+    doc.body.classList.remove('print-note','print-q','print-a','print-one');
     var s=curSec();if(s)s.classList.remove('ch-print');
-    doc.querySelectorAll('.sec.sec-has-ans').forEach(function(x){x.classList.remove('sec-has-ans')});
     if(mode==='note')doc.body.classList.add('print-note');
     if(mode==='q')doc.body.classList.add('print-q');
-    if(mode==='a'){doc.body.classList.add('print-a','print-ans');doc.querySelectorAll('.ans-box').forEach(function(b){var p=b.closest('.sec');if(p)p.classList.add('sec-has-ans')});}
+    if(mode==='a')doc.body.classList.add('print-a');
     if(s){s.classList.add('ch-print');doc.body.classList.add('print-one');}
     window.print();
   }

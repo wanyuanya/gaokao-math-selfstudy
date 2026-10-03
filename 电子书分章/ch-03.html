@@ -103,13 +103,9 @@ p.taskA{border-left:4px solid var(--green);background:var(--green-l)}
 p.taskB{border-left:4px solid #3b7dd8;background:var(--blue-l)}
 p.taskC{border-left:4px solid var(--gold);background:var(--gold-l)}
 p.ans{background:var(--blue-l);border:1px dashed #c3cede;border-radius:10px;padding:11px 15px;margin:14px 0}
-.ans-box{margin:16px 0;border:1px solid var(--line);border-radius:10px;background:var(--card);overflow:hidden}
-.ans-box>.ans-toggle{display:block;width:100%;border:none;background:var(--blue-l);color:var(--blue);font-size:13.5px;font-weight:600;padding:10px 14px;cursor:pointer;font-family:inherit;text-align:left;transition:.15s}
-.ans-box>.ans-toggle:hover{background:#d7e3f5}
-.ans-box>.ans-toggle::before{content:"▸ ";transition:transform .15s}
-.ans-box.open>.ans-toggle::before{content:"▾ "}
-.ans-box>.ans-body{display:none;padding:10px 15px 13px;border-top:1px dashed #c3cede}
-.ans-box.open>.ans-body{display:block}
+.ans-box{margin:14px 0;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+.ans-grp{font-size:12px;color:#fff;background:var(--blue);display:inline-block;border-radius:6px;padding:2px 9px;margin:0 0 8px;font-weight:600}
+.ans-box>.ans-body{padding:11px 15px 13px}
 .ans-body p.ans{background:transparent;border:none;padding:0;margin:0 0 8px;font-weight:600}
 span.tag{display:inline-block;background:var(--blue);color:#fff;font-size:11px;border-radius:4px;padding:0 7px;margin-right:8px;vertical-align:2px}
 p.warn span.tag{background:var(--red)}
@@ -181,17 +177,16 @@ section.flash{animation:flash 1.6s ease}
   section.chapter{page-break-after:always;border:none}
   body.print-one section.chapter{display:none!important}
   body.print-one section.chapter.ch-print{display:block!important}
-  /* 讲义：隐藏出口检测+课后习题+全部答案 */
-  body.print-note .sec-out,body.print-note .sec-hw,body.print-note .ans-box{display:none!important}
-  /* 题目卷：只显示出口检测+课后习题 */
+  /* 讲义：只讲解，去掉全部题目（门槛自测/出口检测/课后习题）与答案 */
+  body.print-note .sec-gate,body.print-note .sec-out,body.print-note .sec-hw,body.print-note .sec-ans{display:none!important}
+  /* 题目卷：只题目（门槛自测+出口检测+课后习题），不含答案 */
   body.print-q .sec{display:none!important}
-  body.print-q .sec-out,body.print-q .sec-hw{display:block!important}
-  /* 答案卷：只显示含答案的区块（含自测答案与课后答案，JS 已打 sec-has-ans 标） */
+  body.print-q .sec-gate,body.print-q .sec-out,body.print-q .sec-hw{display:block!important}
+  /* 答案卷：只答案（自测答案+A/B/C组答案，集中在 sec-ans），不含题目与讲解 */
   body.print-a .sec{display:none!important}
-  body.print-a .sec-has-ans{display:block!important}
+  body.print-a .sec-ans{display:block!important}
   .ans-box{border:none;background:transparent;margin:6px 0}
-  .ans-box>.ans-body{display:none!important;padding:0;border:none}
-  body.print-ans .ans-box>.ans-body{display:block!important}
+  .ans-grp{background:transparent;color:var(--ink);padding:0;margin:0 4px 8px 0;font-size:inherit}
   .ans-body p.ans{font-weight:700;margin:4px 0}
 }
 
@@ -231,7 +226,7 @@ section.flash{animation:flash 1.6s ease}
 <p class = "baihua why"><span class = "tag">为什么有用</span>学会指对幂，你就有了三件能"估"的具体武器——凡是题目拿三个数比大小、问曲线和直线谁追谁、求含参函数过哪个定点，靠的都是想通"底数决定方向、0 和 1 是天然分界"，而不是把数硬算出来。原理一通，运算和比大小就只是顺手。</p>
 </blockquote>
 <hr />
-<div class="sec sec-meta"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
+<div class="sec sec-gate"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
 <ol>
 <li>计算：2<sup>3</sup>、2<sup>−2</sup>、4^(1/2)。</li>
 <li>计算：2<sup>2</sup>  ×  2<sup>3</sup>。</li>
@@ -240,14 +235,14 @@ section.flash{animation:flash 1.6s ease}
 <li>判断：0.3<sup>2</sup> 与 0.3<sup>3</sup> 哪个大？</li>
 </ol>
 <p><strong>判定</strong>：5 题答对 4 题以上 → 进章；否则先复习 02 章函数概念与初中幂运算。</p>
-</div><div class="sec sec-meta"><h2 class = "goal">② 学习目标</h2>
+</div><div class="sec sec-goal"><h2 class = "goal">② 学习目标</h2>
 <ul>
 <li>熟练进行指数、对数的运算（含分数指数幂、换底公式）</li>
 <li>掌握指数函数 y  =  a<sup>x</sup> 与对数函数 y  =  log<sub>a</sub>x 的图象与性质（定点、单调性、值域）</li>
 <li>认识常见幂函数图象</li>
 <li>会做"比较大小"题（高考小题高频）</li>
 </ul>
-</div><div class="sec sec-meta"><h2 class = "body">③ 正文讲解</h2>
+</div><div class="sec sec-body"><h2 class = "body">③ 正文讲解</h2>
 <p>本章地图：</p>
 <div class = "tbl-wrap"><table style = "table-layout:fixed;max-width:100%"><colgroup><col style = "width:45%"><col style = "width:38%"><col style = "width:17%"></colgroup>
 <thead>
@@ -501,7 +496,7 @@ section.flash{animation:flash 1.6s ease}
 <li>例：y  =  (1/2)^(x<sup>2</sup>−4x+3)。外层 (1/2)^u 是减函数（底&lt;1）；内层 u  =  x<sup>2</sup>−4x+3 在 (−∞, 2] 减、在 [2, +∞) 增。外层减、内层减 ⇒ 复合在 (−∞, 2] <strong>增</strong>；外层减、内层增 ⇒ 复合在 [2, +∞) <strong>减</strong>。</li>
 <li>求这种函数的值域，一般<strong>先换元</strong>（令 u  =  f(x)，先求 u 的范围，再套外层函数的值域）。</li>
 </ul>
-</div><div class="sec sec-meta"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
+</div><div class="sec sec-ex2"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
 <p class = "ex"><span class = "tag">例题</span><strong>例 1（运算）</strong>：计算：(1/2)<sup>−2</sup> + 27^(1/3) + log<sub>2</sub>8 − lg 0.01。</p>
 <blockquote>
 <p>自己做：负指数、分数指数、对数分别算。</p>
@@ -520,7 +515,7 @@ section.flash{animation:flash 1.6s ease}
 </blockquote>
 <p>解：令 x + 1  =  0 ⇒ x  =  −1，此时 f(−1)  =  a<sup>0</sup> − 2  =  1 − 2  =  −1。恒过 (−1, −1)。
 要点：<strong>a<sup>x</sup> 过 (0,1)，平移/伸缩后"让底数项化为 a<sup>0</sup>"</strong>。</p>
-</div><div class="sec sec-meta"><h2 class = "out">⑤ 出口检测</h2>
+</div><div class="sec sec-out"><h2 class = "out">⑤ 出口检测</h2>
 <p><strong>自测（15 分钟，每题 2 分）</strong>：</p>
 <ol>
 <li>计算：log<sub>3</sub>9 + log<sub>3</sub>27。</li>
@@ -559,7 +554,7 @@ section.flash{animation:flash 1.6s ease}
     A. x&gt;y&gt;z　B. x&gt;z&gt;y　C. y&gt;x&gt;z　D. y&gt;z&gt;x</p>
 </li>
 </ol>
-</div><div class="sec sec-meta"><h2 class = "pit">⑥ 常见坑清单</h2>
+</div><div class="sec sec-pit"><h2 class = "pit">⑥ 常见坑清单</h2>
 <ul>
 <li>log<sub>a</sub>(M + N) ≠ log<sub>a</sub>M + log<sub>a</sub>N（对数不分配加法）。</li>
 <li>log<sub>a</sub>(x<sup>2</sup>) 与 2log<sub>a</sub>x 定义域不同，不是同一函数。</li>
@@ -675,8 +670,8 @@ section.flash{animation:flash 1.6s ease}
 <li>依据：指数与对数互化（课标内）。✓ 不超纲。</li>
 </ul>
 <hr />
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. 2 + 3  =  5；2. (√4)<sup>3</sup>  =  2<sup>3</sup>  =  8；3. log<sub>2</sub>3 &gt; log<sub>2</sub>1.5（底 2 &gt; 1 递增）；4. x − 1 &gt; 0 ⇒ x &gt; 1，即 (1, +∞)；5. log<sub>2</sub>2  =  1。</p></div></div>
-</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
+
+</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. 2 + 3  =  5；2. (√4)<sup>3</sup>  =  2<sup>3</sup>  =  8；3. log<sub>2</sub>3 &gt; log<sub>2</sub>1.5（底 2 &gt; 1 递增）；4. x − 1 &gt; 0 ⇒ x &gt; 1，即 (1, +∞)；5. log<sub>2</sub>2  =  1。</p></div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">A 组答案</p><p><strong>A 组</strong></p>
 <ol>
 <li>(−8)^(1/3)=<sup>n</sup>√(−8)=−2；2<sup>−1</sup>=1/2。原式 = −2 × 1/2 = −1。</li>
 <li>3<sup>2</sup>=9 ⇔ log<sub>3</sub>9=2；log<sub>5</sub>125=3 ⇔ 5<sup>3</sup>=125。</li>
@@ -685,14 +680,14 @@ section.flash{animation:flash 1.6s ease}
 <li>令 3<sup>x</sup> 的指数为 0：x=0，f(0)=2×1−1=1。恒过 (0, 1)。</li>
 <li>真数 x&gt;0 且根号内 log<sub>2</sub>x≥0 ⇒ x≥1。定义域 [1, +∞)。</li>
 </ol>
-</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · B 组</button><div class="ans-body"><p><strong>B 组</strong></p>
+</div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">B 组答案</p><p><strong>B 组</strong></p>
 <ol start="7">
 <li>log<sub>2</sub>9 = log<sub>2</sub>3<sup>2</sup> = 2log<sub>2</sub>3；原式 = 2log<sub>2</sub>3·log<sub>3</sub>2 = 2·(log<sub>2</sub>3·log<sub>3</sub>2)。由换底 log<sub>3</sub>2 = 1/log<sub>2</sub>3，相乘=1，故原式 = 2。</li>
 <li>log<sub>0</sub>.<sub>5</sub> 底 &lt;1 递减：真数 3&gt;2 ⇒ log<sub>0</sub>.<sub>5</sub>3 &lt; log<sub>0</sub>.<sub>5</sub>2，两者都 &lt;0（真数&gt;1）；c=0.5<sup>3</sup>=0.125&gt;0。故 a &lt; b &lt; 0 &lt; c，即 a&lt;b&lt;c。</li>
 <li>log<sub>2</sub>x=3 ⇒ x=2<sup>3</sup>=8；4<sup>x</sup>=1/16=4<sup>−2</sup> ⇒ x=−2。</li>
 <li>设 y=x<sup>α</sup>，过 (2,8)：2<sup>α</sup>=8=2<sup>3</sup> ⇒ α=3，f(x)=x<sup>3</sup>。f(−x)=(−x)<sup>3</sup>=−x<sup>3</sup>=−f(x)，为奇函数。</li>
 </ol>
-</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · C 组</button><div class="ans-body"><p><strong>C 组</strong></p>
+</div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">C 组答案</p><p><strong>C 组</strong></p>
 <ol start="11">
 <li>a=0.1·e^0.1≈0.1105；b=1/9≈0.1111；c=−ln0.9=ln(10/9)≈0.1054。排序 c&lt;a&lt;b，选 <strong>C</strong>。</li>
 <li>设公共值为 k，则 x=2^(k−2)，y=3^(k−3)，z=5^(k−5)。取 k=0：x=1/4,y=1/27,z=1/3125，x&gt;y&gt;z（A 可能）；k=6：x=16,y=27,z=5，y&gt;x&gt;z（C 可能）；k=8：x=64,y=243,z=125，y&gt;z&gt;x（D 可能）。要出现 x&gt;z&gt;y，需 x&gt;z 且 z&gt;y，即 (x/z&gt;1) 与 (z/y&gt;1) 同时成立——经检验无这样的 k，故 x&gt;z&gt;y 不可能，选 <strong>B</strong>。</li>
@@ -734,23 +729,15 @@ section.flash{animation:flash 1.6s ease}
   var dbtn=doc.getElementById('darkbtn');
   function darkLabel(){if(dbtn)dbtn.textContent=doc.body.classList.contains('dark')?'日间':'夜读';}
   if(dbtn){dbtn.addEventListener('click',function(){var on=doc.body.classList.toggle('dark');localStorage.setItem('ebook-dark',on?'1':'0');darkLabel();});darkLabel();}
-  /* 答案折叠 */
-  doc.querySelectorAll('.ans-toggle').forEach(function(btn){
-    btn.addEventListener('click',function(){
-      var box=btn.parentNode;
-      box.classList.toggle('open');
-      btn.textContent=box.classList.contains('open')?'隐藏答案':'显示答案';
-    });
-  });
+  /* 答案默认全部展开（无折叠交互，分组由组标行对应） */
   /* 打印三模式（本页章节） */
   function curSec(){return doc.querySelector('#main section.chapter')}
   function printScope(mode){
-    doc.body.classList.remove('print-note','print-q','print-a','print-ans','print-one');
+    doc.body.classList.remove('print-note','print-q','print-a','print-one');
     var s=curSec();if(s)s.classList.remove('ch-print');
-    doc.querySelectorAll('.sec.sec-has-ans').forEach(function(x){x.classList.remove('sec-has-ans')});
     if(mode==='note')doc.body.classList.add('print-note');
     if(mode==='q')doc.body.classList.add('print-q');
-    if(mode==='a'){doc.body.classList.add('print-a','print-ans');doc.querySelectorAll('.ans-box').forEach(function(b){var p=b.closest('.sec');if(p)p.classList.add('sec-has-ans')});}
+    if(mode==='a')doc.body.classList.add('print-a');
     if(s){s.classList.add('ch-print');doc.body.classList.add('print-one');}
     window.print();
   }

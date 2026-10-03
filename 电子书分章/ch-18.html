@@ -103,13 +103,9 @@ p.taskA{border-left:4px solid var(--green);background:var(--green-l)}
 p.taskB{border-left:4px solid #3b7dd8;background:var(--blue-l)}
 p.taskC{border-left:4px solid var(--gold);background:var(--gold-l)}
 p.ans{background:var(--blue-l);border:1px dashed #c3cede;border-radius:10px;padding:11px 15px;margin:14px 0}
-.ans-box{margin:16px 0;border:1px solid var(--line);border-radius:10px;background:var(--card);overflow:hidden}
-.ans-box>.ans-toggle{display:block;width:100%;border:none;background:var(--blue-l);color:var(--blue);font-size:13.5px;font-weight:600;padding:10px 14px;cursor:pointer;font-family:inherit;text-align:left;transition:.15s}
-.ans-box>.ans-toggle:hover{background:#d7e3f5}
-.ans-box>.ans-toggle::before{content:"▸ ";transition:transform .15s}
-.ans-box.open>.ans-toggle::before{content:"▾ "}
-.ans-box>.ans-body{display:none;padding:10px 15px 13px;border-top:1px dashed #c3cede}
-.ans-box.open>.ans-body{display:block}
+.ans-box{margin:14px 0;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+.ans-grp{font-size:12px;color:#fff;background:var(--blue);display:inline-block;border-radius:6px;padding:2px 9px;margin:0 0 8px;font-weight:600}
+.ans-box>.ans-body{padding:11px 15px 13px}
 .ans-body p.ans{background:transparent;border:none;padding:0;margin:0 0 8px;font-weight:600}
 span.tag{display:inline-block;background:var(--blue);color:#fff;font-size:11px;border-radius:4px;padding:0 7px;margin-right:8px;vertical-align:2px}
 p.warn span.tag{background:var(--red)}
@@ -181,17 +177,16 @@ section.flash{animation:flash 1.6s ease}
   section.chapter{page-break-after:always;border:none}
   body.print-one section.chapter{display:none!important}
   body.print-one section.chapter.ch-print{display:block!important}
-  /* 讲义：隐藏出口检测+课后习题+全部答案 */
-  body.print-note .sec-out,body.print-note .sec-hw,body.print-note .ans-box{display:none!important}
-  /* 题目卷：只显示出口检测+课后习题 */
+  /* 讲义：只讲解，去掉全部题目（门槛自测/出口检测/课后习题）与答案 */
+  body.print-note .sec-gate,body.print-note .sec-out,body.print-note .sec-hw,body.print-note .sec-ans{display:none!important}
+  /* 题目卷：只题目（门槛自测+出口检测+课后习题），不含答案 */
   body.print-q .sec{display:none!important}
-  body.print-q .sec-out,body.print-q .sec-hw{display:block!important}
-  /* 答案卷：只显示含答案的区块（含自测答案与课后答案，JS 已打 sec-has-ans 标） */
+  body.print-q .sec-gate,body.print-q .sec-out,body.print-q .sec-hw{display:block!important}
+  /* 答案卷：只答案（自测答案+A/B/C组答案，集中在 sec-ans），不含题目与讲解 */
   body.print-a .sec{display:none!important}
-  body.print-a .sec-has-ans{display:block!important}
+  body.print-a .sec-ans{display:block!important}
   .ans-box{border:none;background:transparent;margin:6px 0}
-  .ans-box>.ans-body{display:none!important;padding:0;border:none}
-  body.print-ans .ans-box>.ans-body{display:block!important}
+  .ans-grp{background:transparent;color:var(--ink);padding:0;margin:0 4px 8px 0;font-size:inherit}
   .ans-body p.ans{font-weight:700;margin:4px 0}
 }
 
@@ -231,7 +226,7 @@ section.flash{animation:flash 1.6s ease}
 <p class = "baihua why"><span class = "tag">为什么有用</span>学了它，"某件事发生的可能性多大""这个方案平均收益多少、稳不稳"这类题就能落地——古典概型数份数、独立重复套二项、不放回用超几何，想通"概率 = 份额"，分布列和期望就是份额的加总，而不是背出来的表格。</p>
 </blockquote>
 <hr />
-<div class="sec sec-meta"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
+<div class="sec sec-gate"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
 <ol>
 <li>掷一枚硬币，正面朝上的概率是多少？</li>
 <li>掷一枚骰子，点数为 3 的概率？</li>
@@ -240,7 +235,7 @@ section.flash{animation:flash 1.6s ease}
 <li>从 1~10 中随机取一个数，取到偶数的概率？</li>
 </ol>
 <p><strong>判定</strong>：5 题答对 4 题以上 → 进章。</p>
-</div><div class="sec sec-meta"><h2 class = "goal">② 学习目标</h2>
+</div><div class="sec sec-goal"><h2 class = "goal">② 学习目标</h2>
 <ul>
 <li>掌握古典概型（等可能事件）概率计算</li>
 <li>掌握互斥事件、对立事件、条件概率、独立事件</li>
@@ -248,7 +243,7 @@ section.flash{animation:flash 1.6s ease}
 <li>掌握二项分布、超几何分布、正态分布（高频考点）</li>
 <li>能完成高考概率解答题（含新情境，2023 起位置常在 18–19 题）</li>
 </ul>
-</div><div class="sec sec-meta"><h2 class = "body">③ 正文讲解</h2>
+</div><div class="sec sec-body"><h2 class = "body">③ 正文讲解</h2>
 <p><strong>本章结构导图</strong>：</p>
 <pre><code>概率
 ├─ 3.1 古典概型 ── 数&quot;有利情况/总情况&quot;
@@ -360,7 +355,7 @@ E(X<sup>2</sup>)  =  0·0.3+1·0.5+4·0.2  =  1.3。D  =  1.3 − 0.
 要点：分情况（选哪袋），各算各的再加起来。</p>
 </blockquote>
 <p><strong>小结</strong>：全概率就是"分情况算概率再加权"。<strong>进阶/选学</strong>：反过来"已知结果求原因"的概率叫贝叶斯公式 P(B<sub>k</sub>|A) = P(B<sub>k</sub>)P(A|B<sub>k</sub>)/ΣP(B<sub>i</sub>)P(A|B<sub>i</sub>)，它在医学检测、垃圾邮件过滤里天天用，新教材把它并入条件概率处理，会套全概率公式即可。</p>
-</div><div class="sec sec-meta"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
+</div><div class="sec sec-ex2"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
 <p class = "ex"><span class = "tag">例题</span><strong>例 1（古典概型）</strong>：同时掷两枚骰子，求点数之和为 7 的概率。</p>
 <blockquote>
 <p>自己做：总数 36，数一数和为 7 的。</p>
@@ -423,7 +418,7 @@ P(k_B = 0) = (1/2)<sup>2</sup> = 1/4，P(k_B = 1) = C(2,1)(1
 </ul>
 <p>E(X)  =  np  =  3 × (4/9)  =  <strong>4/3</strong>。</p>
 <p>要点：<strong>"每组独立、成功概率恒定"→ 二项分布</strong>；先把底层小概率（4/9）算准，再套二项分布列。（对应《高级方法手册》6.4 分布模型。）</p>
-</div><div class="sec sec-meta"><h2 class = "out">⑤ 出口检测</h2>
+</div><div class="sec sec-out"><h2 class = "out">⑤ 出口检测</h2>
 <p><strong>自测（20 分钟，每题 2 分）</strong>：</p>
 <ol>
 <li>掷一枚骰子两次，两次点数相同的概率。</li>
@@ -452,7 +447,7 @@ P(k_B = 0) = (1/2)<sup>2</sup> = 1/4，P(k_B = 1) = C(2,1)(1
 A. P(X&gt;2) &gt; 0.2　　B. P(X&gt;2) &lt; 0.5　　C. P(Y&gt;2) &gt; 0.5　　D. P(Y&gt;2) &lt; 0.8</p>
 <p><strong>C2.</strong>【计数+期望·2025 新高考Ⅰ卷第 14 题】箱子里 5 个球分别标 1~5，有放回取 3 次，记至少被取到一次的不同球个数为 X，求 E(X)。</p>
 <p><strong>C3.</strong>【概率枚举·2024 新高考Ⅰ卷第 14 题】甲卡 {1,3,5,7}、乙卡 {2,4,6,8}，四轮各出一卡比大小，大者得 1 分、用后弃置。求四轮后甲总得分不小于 2 的概率。</p>
-</div><div class="sec sec-meta"><h2 class = "pit">⑥ 常见坑清单</h2>
+</div><div class="sec sec-pit"><h2 class = "pit">⑥ 常见坑清单</h2>
 <ul>
 <li><strong>互斥 ≠ 独立</strong>：互斥事件 P(AB)  =  0，独立事件 P(AB)  =  P(A)P(B)——两个概念方向相反。</li>
 <li>条件概率 P(A|B) 分母是 P(B)，<strong>不是无条件概率</strong>。</li>
@@ -654,18 +649,18 @@ A. P(X&gt;2) &gt; 0.2　　B. P(X&gt;2) &lt; 0.5　　C. P(Y&gt;2) &gt; 0.5　�
 <p><strong>联动本章</strong>：例 6（小白鼠）底层小概率 4/9 算准后，"每组独立、成功概率恒定"直接套二项 B(3,4/9)，E(X)=np=4/3；例 5（灯泡）不放回抽 2 个，用超几何期望 n·M/N=2×27/50=27/25=1.08，与分布列算值互验；3.4 节"有放回 vs 不放回"辨析（期望都是 1.8、方差 0.72 对 0.36）就是这条公式的直接应用。</p>
 <p>（高级方法手册·6.4）</p>
 <hr />
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. 6/36 = 1/6；2. P(A∪B) = 0.4 + 0.5 − 0.4·0.5 = 0.7；3. 4/10 = 0.4；C(4,2)/C(10,2) = 6/45 = 2/15；4. E = 2.5，D = 5·0.5·0.5 = 1.25；5. E(X) = 0·0.3 + 1·0.5 + 2·0.2 = 0.9。</p></div></div>
-</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A1.</strong> 偶数点 {2,4,6} 共 3 种，P = 3/6 = <strong>1/2</strong>。
+
+</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. 6/36 = 1/6；2. P(A∪B) = 0.4 + 0.5 − 0.4·0.5 = 0.7；3. 4/10 = 0.4；C(4,2)/C(10,2) = 6/45 = 2/15；4. E = 2.5，D = 5·0.5·0.5 = 1.25；5. E(X) = 0·0.3 + 1·0.5 + 2·0.2 = 0.9。</p></div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">A 组答案</p><p><strong>A1.</strong> 偶数点 {2,4,6} 共 3 种，P = 3/6 = <strong>1/2</strong>。
 <strong>A2.</strong> P(<span class="ol">A</span>) = 1 − 0.7 = <strong>0.3</strong>。
 <strong>A3.</strong> 第一红后剩 4 红 3 白，P = 4/7。
 <strong>A4.</strong> E = 1·0.2+2·0.5+3·0.3 = 0.2+1+0.9 = <strong>2.1</strong>。
 <strong>A5.</strong> X~B(4,0.8)，P(X=3)=C(4,3)·0.8<sup>3</sup>·0.2 = 4·0.512·0.2 = <strong>0.4096</strong>。
 <strong>A6.</strong> P = C(3,1)C(7,1)/C(10,2) = 21/45 = <strong>7/15</strong>。</p>
-</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · B 组</button><div class="ans-body"><p><strong>B7.</strong> E(X<sup>2</sup>)=1·0.2+4·0.5+9·0.3=0.2+2+2.7=4.9。D=4.9−2.1<sup>2</sup>=4.9−4.41=<strong>0.49</strong>。
+</div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">B 组答案</p><p><strong>B7.</strong> E(X<sup>2</sup>)=1·0.2+4·0.5+9·0.3=0.2+2+2.7=4.9。D=4.9−2.1<sup>2</sup>=4.9−4.41=<strong>0.49</strong>。
 <strong>B8.</strong> 对称轴 μ=2。P(X&lt;0)=P(X&gt;4)=0.2（对称）。P(2&lt;X&lt;4)=0.5−P(X&gt;4)=0.5−0.2=<strong>0.3</strong>。
 <strong>B9.</strong> P = ½·(2/10) + ½·(3/20) = 0.1 + 0.075 = <strong>0.175</strong>。
 <strong>B10.</strong> E(A)=500。E(B)=0.6·1000+0.4·(−200)=600−80=520。E(B)&gt;E(A)，<strong>选 B</strong>（但要提示 B 有亏损风险，需结合方差）。</p>
-</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · C 组</button><div class="ans-body"><p><strong>C1.</strong> <strong>BC</strong>。X~N(1.8,0.1<sup>2</sup>)，2=1.8+2×0.1=μ+2σ，P(X&gt;2)=0.5−0.954/2=0.023&lt;0.5，故 A 错 B 对。Y~N(2.1,0.1<sup>2</sup>)，2=2.1−0.1=μ−σ，P(Y&gt;2)=0.5+0.3413=0.8413&gt;0.5，故 C 对 D 错。
+</div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">C 组答案</p><p><strong>C1.</strong> <strong>BC</strong>。X~N(1.8,0.1<sup>2</sup>)，2=1.8+2×0.1=μ+2σ，P(X&gt;2)=0.5−0.954/2=0.023&lt;0.5，故 A 错 B 对。Y~N(2.1,0.1<sup>2</sup>)，2=2.1−0.1=μ−σ，P(Y&gt;2)=0.5+0.3413=0.8413&gt;0.5，故 C 对 D 错。
 <strong>C2.</strong> E(X)=5·[1−(4/5)<sup>3</sup>]=5·61/125=<strong>61/25=2.44</strong>（期望线性性）。
 <strong>C3.</strong> 24 种配对枚举，得分 ≥2 共 12 种，P=12/24=<strong>1/2</strong>。</p>
 </div></div></div><div class="sec sec-meta"><h2>一通百通</h2>
@@ -705,23 +700,15 @@ A. P(X&gt;2) &gt; 0.2　　B. P(X&gt;2) &lt; 0.5　　C. P(Y&gt;2) &gt; 0.5　�
   var dbtn=doc.getElementById('darkbtn');
   function darkLabel(){if(dbtn)dbtn.textContent=doc.body.classList.contains('dark')?'日间':'夜读';}
   if(dbtn){dbtn.addEventListener('click',function(){var on=doc.body.classList.toggle('dark');localStorage.setItem('ebook-dark',on?'1':'0');darkLabel();});darkLabel();}
-  /* 答案折叠 */
-  doc.querySelectorAll('.ans-toggle').forEach(function(btn){
-    btn.addEventListener('click',function(){
-      var box=btn.parentNode;
-      box.classList.toggle('open');
-      btn.textContent=box.classList.contains('open')?'隐藏答案':'显示答案';
-    });
-  });
+  /* 答案默认全部展开（无折叠交互，分组由组标行对应） */
   /* 打印三模式（本页章节） */
   function curSec(){return doc.querySelector('#main section.chapter')}
   function printScope(mode){
-    doc.body.classList.remove('print-note','print-q','print-a','print-ans','print-one');
+    doc.body.classList.remove('print-note','print-q','print-a','print-one');
     var s=curSec();if(s)s.classList.remove('ch-print');
-    doc.querySelectorAll('.sec.sec-has-ans').forEach(function(x){x.classList.remove('sec-has-ans')});
     if(mode==='note')doc.body.classList.add('print-note');
     if(mode==='q')doc.body.classList.add('print-q');
-    if(mode==='a'){doc.body.classList.add('print-a','print-ans');doc.querySelectorAll('.ans-box').forEach(function(b){var p=b.closest('.sec');if(p)p.classList.add('sec-has-ans')});}
+    if(mode==='a')doc.body.classList.add('print-a');
     if(s){s.classList.add('ch-print');doc.body.classList.add('print-one');}
     window.print();
   }
