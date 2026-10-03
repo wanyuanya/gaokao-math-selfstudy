@@ -170,24 +170,41 @@ section.flash{animation:flash 1.6s ease}
   #topbtn{bottom:84px}
 }
 @media print{
-  #toc,#topbtn,#mnav,#tb,#pbar,.ans-toggle{display:none!important}
+  #toc,#topbtn,#mnav,#tb,#pbar{display:none!important}
   #main{margin:0;max-width:none;padding:0}
-  body{background:#fff;font-size:11.5pt}
-  body.dark{background:#fff;color:#000}
+  body{background:#fff!important;font-size:11.5pt}
+  body.dark{background:#fff!important;color:#000}
+  /* 白纸净化：去卡片底色、去边框阴影、链接纯黑（打印纸上链接无意义） */
+  .sec,.ans-box,.def,.warn,.sum,.note,.baihua,.tbl-wrap,blockquote{background:#fff!important;color:#000!important}
+  .sec,.ans-box{border:1px solid #c5c5c5!important}
+  a{color:#000!important;text-decoration:none!important}
+  .tag{background:#eee!important;color:#000!important;border:1px solid #bbb}
+  /* 屏幕交互区块（配套资料链接/看不懂怎么办/板块信息行）一律不打印 */
+  .ch-sub,.mats,.help{display:none!important}
+  /* 章引言 blockquote：资料索引行（对应方法手册|公式速查）三模式都不打印；本质核心/为什么有用只在讲义保留 */
+  blockquote p:first-of-type{display:none!important}
+  body.print-q blockquote,body.print-a blockquote{display:none!important}
   section.chapter{page-break-after:always;border:none}
   body.print-one section.chapter{display:none!important}
   body.print-one section.chapter.ch-print{display:block!important}
   /* 讲义：只讲解，去掉全部题目（门槛自测/出口检测/课后习题）与答案 */
   body.print-note .sec-gate,body.print-note .sec-out,body.print-note .sec-hw,body.print-note .sec-ans{display:none!important}
-  /* 题目卷：只题目（门槛自测+出口检测+课后习题），不含答案 */
+  body.print-note .sec-goal,body.print-note .sec-ex2{page-break-before:auto}
+  /* 题目卷：只题目（门槛自测+出口检测+课后习题），不含答案；三类题各自分页，题间留作答空间 */
   body.print-q .sec{display:none!important}
   body.print-q .sec-gate,body.print-q .sec-out,body.print-q .sec-hw{display:block!important}
-  /* 答案卷：只答案（自测答案+A/B/C组答案，集中在 sec-ans），不含题目与讲解 */
+  body.print-q .sec-out,body.print-q .sec-hw{page-break-before:always}
+  body.print-q ol li{margin:0 0 16px;line-height:1.9}
+  body.print-q ol li strong{font-weight:700}
+  body.print-q h3{margin:14px 0 8px}
+  body.print-q .sec-gate p:first-of-type,body.print-q .sec-out p:first-of-type{font-weight:700}
+  /* 答案卷：只答案（自测答案+A/B/C组答案，集中在 sec-ans），不含题目与讲解；每块不跨页 */
   body.print-a .sec{display:none!important}
   body.print-a .sec-ans{display:block!important}
-  .ans-box{border:none;background:transparent;margin:6px 0}
-  .ans-grp{background:transparent;color:var(--ink);padding:0;margin:0 4px 8px 0;font-size:inherit}
+  .ans-box{border:none;background:transparent!important;margin:8px 0;page-break-inside:avoid}
+  .ans-grp{background:transparent!important;color:#000!important;padding:0;margin:0 6px 6px 0;font-size:11pt;font-weight:700}
   .ans-body p.ans{font-weight:700;margin:4px 0}
+  .ans-body ol,.ans-body ul{margin:2px 0 6px}
 }
 
 
