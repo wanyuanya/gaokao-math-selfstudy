@@ -1,8 +1,0 @@
-timestamp	commit	skill	old_score	new_score	status	dimension	note	eval_mode
-2026-10-02T22:25	baseline	gaokao-math-selfstudy	-	65.7	baseline	-	结构分(59满分)=65.7: d1=9 d2=8.5 d3=8.5 d4=6.5 d5=9 d6=9 d7=8.5 d9=8.5; dim8=8/10(dry_run, 3 prompt 全 better); 最大加权短板=dim4 检查点设计(gap2.1)	dry_run
-2026-10-02T22:29	91d6935	gaokao-math-selfstudy	65.7	better·clear	keep	dim4	🔴CHECKPOINT/🛑STOP显性标记4个决策点(任务开始/识别题型前/引用结论前/答案交付前), HL-1杠杆, paired better·clear [来源:独立评审组上一轮paired比较(15e4b6b vs d8db275), 0421f7a落格转写]	paired
-2026-10-02T22:32	d8db275	gaokao-math-selfstudy	65.7	better·clear	keep	dim2	加载规则改为Step1-4序列(读文件→路由→加载1卡→执行E段), 含输入/输出契约, paired better·clear [来源:独立评审组上一轮paired比较(15e4b6b vs d8db275), 0421f7a落格转写]	paired
-2026-10-02T22:32	d8db275	gaokao-math-selfstudy	65.7	better·clear	keep	dim3	新增失败模式与兜底fallback三段式表(触发条件/一线修复/仍失败兜底)4行, paired better·clear [来源:独立评审组上一轮paired比较(15e4b6b vs d8db275), 0421f7a落格转写]	paired
-2026-10-02T22:35:42	8b1426a	gaokao-math-selfstudy	65.7	better·clear	keep	dim8	补ch16门槛自测具体5道前置题(来源:素材源16-圆锥曲线.md门槛自测节L12-18逐字复制并实读核验一致, 圆标准方程/两点距离/解方程组/韦达/点到直线距离), 修复独立评审扣分点; 时间戳与AuthorDate对齐(此前硬编码笔误) [来源:主控提交;独立评审组paired未覆盖R4(ch16为内容补强), 已与素材源逐字核验一致+回归22/22支撑]	dry_run
-2026-10-02T22:50	regression	gaokao-math-selfstudy	-	-	keep	dim8	回归22/22全过(含4保真诱饵+9跨能力诱饵,干跑级); 发布包技能包SHA256比对一致; R1-R3=独立评审paired better·clear(压缩前0421f7a落格), R4=内容补强主控核验; 待发布前重跑全量独立评审(dry_run比例提示)	dry_run
-2026-10-02T22:58	paired	gaokao-math-selfstudy	（15e4b6b vs 8b1426a, 4轮）	1-0 better	keep	R1-R3表达层显式化(dim2/3/4 Step+fallback+CHECKPOINT,事实零改动)+R4内容层补ch16门槛自测5题(素材源核验), 无退步; dim8可推至9分水平	paired
