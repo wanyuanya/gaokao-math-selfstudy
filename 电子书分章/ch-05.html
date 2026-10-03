@@ -995,7 +995,13 @@ h(x<sub>0</sub>) = (1+1/x<sub>0</sub>)[1+ln(x<sub>0</sub>+1)]  =  (1+1/x
     if(mode==='q')doc.body.classList.add('print-q');
     if(mode==='a')doc.body.classList.add('print-a');
     if(s){s.classList.add('ch-print');doc.body.classList.add('print-one');}
-    window.print();
+    var restore=function(){doc.body.classList.remove('print-note','print-q','print-a','print-one');var t=curSec();if(t)t.classList.remove('ch-print');};
+    if(window.ebookPrint){
+      window.ebookPrint(mode).then(restore,restore);
+    }else{
+      window.print();
+      restore();
+    }
   }
   var pn=doc.getElementById('printnote'),pq=doc.getElementById('printq'),pa=doc.getElementById('printa');
   if(pn)pn.addEventListener('click',function(){printScope('note')});
