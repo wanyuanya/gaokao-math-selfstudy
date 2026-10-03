@@ -179,6 +179,8 @@ section.flash{animation:flash 1.6s ease}
   body{background:#fff;font-size:11.5pt}
   body.dark{background:#fff;color:#000}
   section.chapter{page-break-after:always;border:none}
+  body.print-one section.chapter{display:none!important}
+  body.print-one section.chapter.ch-print{display:block!important}
   .ans-box{border:none;background:transparent;margin:6px 0}
   .ans-box>.ans-body{display:none!important;padding:0;border:none}
   body.print-ans .ans-box>.ans-body{display:block!important}
@@ -195,8 +197,8 @@ section.flash{animation:flash 1.6s ease}
     <button class="tb-btn" id="minus" title="减小字号">A−</button><span id="fsize"></span><button class="tb-btn" id="plus" title="增大字号">A+</button>
     <button class="tb-btn" id="serifbtn" title="切换正文字体"></button>
     <button class="tb-btn" id="darkbtn" title="深色/日间模式"></button>
-    <button class="tb-btn" id="printq" title="打印题目版（隐藏答案，可当练习卷）">打印题目</button>
-    <button class="tb-btn" id="printa" title="打印答案版（含答案）">打印答案</button>
+    <button class="tb-btn" id="printq" title="打印当前所在章节（隐藏答案，可当练习卷）">打印本章</button>
+    <button class="tb-btn" id="printa" title="打印当前所在章节（含答案）">本章+答案</button>
   </div>
 </div></header>
 <nav id="toc"><div class="toc-title">目 录</div><a href="#ch-00"><span class="no">00</span>高中数学自学系统 · 学习工程</a><a href="#ch-01"><span class="no">01</span>集合与常用逻辑</a><a href="#ch-02"><span class="no">02</span>函数的概念与性质</a><a href="#ch-03"><span class="no">03</span>基本初等函数（指数、对数、幂函数）</a><a href="#ch-04"><span class="no">04</span>函数的应用与方程（零点、二分法、函数模型）</a><a href="#ch-05"><span class="no">05</span>导数及其应用</a><a href="#ch-06"><span class="no">06</span>三角函数的概念与性质</a><a href="#ch-07"><span class="no">07</span>三角恒等变换</a><a href="#ch-08"><span class="no">08</span>解三角形</a><a href="#ch-09"><span class="no">09</span>平面向量</a><a href="#ch-10"><span class="no">10</span>复数</a><a href="#ch-11"><span class="no">11</span>数列</a><a href="#ch-12"><span class="no">12</span>不等式与基本不等式</a><a href="#ch-13"><span class="no">13</span>立体几何初步</a><a href="#ch-14"><span class="no">14</span>空间向量与立体几何</a><a href="#ch-15"><span class="no">15</span>直线与圆</a><a href="#ch-16"><span class="no">16</span>圆锥曲线</a><a href="#ch-17"><span class="no">17</span>计数原理（排列、组合、二项式定理）</a><a href="#ch-18"><span class="no">18</span>概率</a><a href="#ch-19"><span class="no">19</span>统计</a><a href="#ch-20"><span class="no">20</span>附录：不超纲公式与结论</a><div class="toc-foot">《高中数学自学系统》<br>20 章连续学习工程 · 教材级讲解<br>公式速查 · 分层习题 · 真题验收</div></nav>
@@ -1282,9 +1284,8 @@ section.flash{animation:flash 1.6s ease}
 <li>注意：考试若漏掉 B=∅ 这一支，本题几乎必扣分，务必写出来。</li>
 </ul>
 <hr />
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. {x | x ∈ N*，且 x &lt; 5}（或 {1, 2, 3, 4}）；2. 子集 8 个（2<sup>3</sup>）、真子集 7 个；3. A ∩ B  =  {2}、A ∪ B  =  {1, 2, 3}、∁<sub>u</sub>A  =  {3, 4, 5}；4. 充分不必要条件（a  =  0 ⇒ ab  =  0，反例 b  =  0、a  =  1）；5. ∃x ∈ R，x<sup>2</sup> &lt; 0。</p></div></div>
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案</button><div class="ans-body"><h2>课后习题答案</h2>
-<p><strong>A 组</strong></p>
+<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. {x | x ∈ N*，且 x &lt; 5}（或 {1, 2, 3, 4}）；2. 子集 8 个（2<sup>3</sup>）、真子集 7 个；3. A ∩ B  =  {2}、A ∪ B  =  {1, 2, 3}、∁<sub>u</sub>A  =  {3, 4, 5}；4. 充分不必要条件（a  =  0 ⇒ ab  =  0，反例 b  =  0、a  =  1）；5. ∃x ∈ R，x<sup>2</sup> &lt; 0。</p></div></div>
+<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
 <ol>
 <li>C。只有 C 有确定标准（x<sup>2</sup>=4 的解是 ±2，确定）；A、B、D 标准不明确，不满足确定性。</li>
 <li>0 ∈ N；−3 ∉ N（N 不含负整数）；√2 ∉ Q（无理数）；π ∈ R。</li>
@@ -1293,7 +1294,7 @@ section.flash{animation:flash 1.6s ease}
 <li>A∩B = {2, 4}；A∪B = {1, 2, 3, 4, 6}。</li>
 <li>U={1,2,3,4,5,6} 去掉 A={2,4,6}，∁<sub>u</sub>A = {1, 3, 5}。</li>
 </ol>
-<p><strong>B 组</strong></p>
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · B 组</button><div class="ans-body"><p><strong>B 组</strong></p>
 <ol start="7">
 <li>
 <p>A=[−1,3)，B=(1,+∞)。
@@ -1312,7 +1313,7 @@ section.flash{animation:flash 1.6s ease}
 </li>
 <li>否定：∀x ∈ R, x<sup>2</sup> + 2x + 3 &gt; 0。原命题：x<sup>2</sup>+2x+3 = (x+1)<sup>2</sup>+2 ≥ 2 &gt; 0 恒成立，所以原命题 "∃…≤0" 是<strong>假</strong>命题（恒大于 0，不存在 ≤0 的）。</li>
 </ol>
-<p><strong>C 组</strong></p>
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · C 组</button><div class="ans-body"><p><strong>C 组</strong></p>
 <ol start="11">
 <li>A = {x | −5 &lt; x<sup>3</sup> &lt; 5}，即 −∛5 &lt; x &lt; ∛5，∛5 ≈ 1.71，故 A ≈ (−1.71, 1.71)。B={−3,−1,0,2,3} 中落在 (−1.71,1.71) 的只有 −1、0。A∩B = {−1, 0}，选 <strong>A</strong>。</li>
 <li>U = {1,2,3,4,5,6,7,8}（小于 9 的正整数，共 8 个）。A={1,3,5}。∁<sub>u</sub>A = {2,4,6,7,8}，共 <strong>5</strong> 个元素，选 <strong>C</strong>。</li>
@@ -1798,9 +1799,8 @@ section.flash{animation:flash 1.6s ease}
 <li>注意：这条只对奇函数成立，偶函数没有这个配对关系。</li>
 </ul>
 <hr />
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. x ≥ −1 且 x ≠ 3，即 [−1, 3) ∪ (3, +∞)；2. 是同一函数（y  =  x<sup>2</sup>，展开后定义域均为 R）；3. 取值作差：f(x<sub>1</sub>) − f(x<sub>2</sub>)  =  2(x<sub>1</sub> − x<sub>2</sub>) &lt; 0 ⇒ 递增；4. f(−x)  =  x<sup>2</sup> − x ≠ f(x) 且 ≠ −f(x)，非奇非偶；5. f(−2)  =  −5（奇函数 f(−x)  =  −f(x)）。</p></div></div>
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案</button><div class="ans-body"><h2>课后习题答案</h2>
-<p><strong>A 组</strong></p>
+<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. x ≥ −1 且 x ≠ 3，即 [−1, 3) ∪ (3, +∞)；2. 是同一函数（y  =  x<sup>2</sup>，展开后定义域均为 R）；3. 取值作差：f(x<sub>1</sub>) − f(x<sub>2</sub>)  =  2(x<sub>1</sub> − x<sub>2</sub>) &lt; 0 ⇒ 递增；4. f(−x)  =  x<sup>2</sup> − x ≠ f(x) 且 ≠ −f(x)，非奇非偶；5. f(−2)  =  −5（奇函数 f(−x)  =  −f(x)）。</p></div></div>
+<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
 <ol>
 <li>B。A 中 g(x)=x<sup>2</sup>/x 定义域 x≠0，与 f(x)=x 不同；C 中 g(x)=(√x)<sup>2</sup> 定义域 x≥0，不同；D 中 g(x)=x<sup>0</sup> 定义域 x≠0，不同。只有 B：f(x)=|x| 与 g(x)=√(x<sup>2</sup>)=|x|，都是 R 上取绝对值，同一函数。</li>
 <li>(1) [−2, 5)；(2) (−∞, 3]；(3) (0, +∞)。</li>
@@ -1809,14 +1809,14 @@ section.flash{animation:flash 1.6s ease}
 <li>定义域 R 对称。f(−x)=2(−x)<sup>2</sup>+1=2x<sup>2</sup>+1=f(x)，故为<strong>偶函数</strong>。</li>
 <li>f(x)=(x−1)<sup>2</sup>+1 ≥ 1，当 x=1 取到，最小值为 1。</li>
 </ol>
-<p><strong>B 组</strong></p>
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · B 组</button><div class="ans-body"><p><strong>B 组</strong></p>
 <ol start="7">
 <li>任取 x<sub>1</sub>&lt;x<sub>2</sub>。f(x<sub>1</sub>)−f(x<sub>2</sub>)=(−2x<sub>1</sub>+3)−(−2x<sub>2</sub>+3)=−2(x<sub>1</sub>−x<sub>2</sub>)。因 x<sub>1</sub>&lt;x<sub>2</sub>，x<sub>1</sub>−x<sub>2</sub>&lt;0，故差=−2(负)&gt;0，即 f(x<sub>1</sub>)&gt;f(x<sub>2</sub>)，递减。</li>
 <li>奇函数 f(−3)=−f(3)=−(−5)=5。f(0) 存在则 f(0)=0。</li>
 <li>−1≤0 用第一段：f(−1)=−1+1=0；2&gt;0 用第二段：f(2)=4。f(x)=1：x≤0 段 x+1=1⇒x=0；x&gt;0 段 x<sup>2</sup>=1⇒x=1。故 x=0 或 x=1。</li>
 <li>f(x)=(x−1)<sup>2</sup>−1，顶点 x=1 在 [0,3] 内，f(1)=−1（最小）。端点 f(0)=0，f(3)=3。最大 3，最小 −1。</li>
 </ol>
-<p><strong>C 组</strong></p>
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · C 组</button><div class="ans-body"><p><strong>C 组</strong></p>
 <ol start="11">
 <li>定义域 (2x−1)/(2x+1)&gt;0 ⇒ x&gt;1/2 或 x&lt;−1/2，关于原点对称。f(−x)=(−x+a)·ln((−2x−1)/(−2x+1))=(a−x)·ln((2x+1)/(2x−1))=(a−x)·(−ln((2x−1)/(2x+1)))=(x−a)·ln((2x−1)/(2x+1))。偶函数要求 f(−x)=f(x)，即 (x−a)=(x+a)，得 a=0。选 <strong>B</strong>。</li>
 <li>左段 f=−x<sup>2</sup>−2ax−a=−(x+a)<sup>2</sup>+a<sup>2</sup>−a，开口向下，对称轴 x=−a。要在 (−∞,0) 递增，需 0≤−a 即 a≤0。两段在衔接处要"左段右端 ≤ 右段左端"：f(0<sup>−</sup>)=−a ≤ f(0<sup>+</sup>)=e<sup>0</sup>+ln1=1，即 a≥−1。合起来 −1≤a≤0，选 <strong>B</strong>。</li>
@@ -2282,9 +2282,8 @@ section.flash{animation:flash 1.6s ease}
 <li>依据：指数与对数互化（课标内）。✓ 不超纲。</li>
 </ul>
 <hr />
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. 2 + 3  =  5；2. (√4)<sup>3</sup>  =  2<sup>3</sup>  =  8；3. log<sub>2</sub>3 &gt; log<sub>2</sub>1.5（底 2 &gt; 1 递增）；4. x − 1 &gt; 0 ⇒ x &gt; 1，即 (1, +∞)；5. log<sub>2</sub>2  =  1。</p></div></div>
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案</button><div class="ans-body"><h2>课后习题答案</h2>
-<p><strong>A 组</strong></p>
+<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. 2 + 3  =  5；2. (√4)<sup>3</sup>  =  2<sup>3</sup>  =  8；3. log<sub>2</sub>3 &gt; log<sub>2</sub>1.5（底 2 &gt; 1 递增）；4. x − 1 &gt; 0 ⇒ x &gt; 1，即 (1, +∞)；5. log<sub>2</sub>2  =  1。</p></div></div>
+<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
 <ol>
 <li>(−8)^(1/3)=<sup>n</sup>√(−8)=−2；2<sup>−1</sup>=1/2。原式 = −2 × 1/2 = −1。</li>
 <li>3<sup>2</sup>=9 ⇔ log<sub>3</sub>9=2；log<sub>5</sub>125=3 ⇔ 5<sup>3</sup>=125。</li>
@@ -2293,14 +2292,14 @@ section.flash{animation:flash 1.6s ease}
 <li>令 3<sup>x</sup> 的指数为 0：x=0，f(0)=2×1−1=1。恒过 (0, 1)。</li>
 <li>真数 x&gt;0 且根号内 log<sub>2</sub>x≥0 ⇒ x≥1。定义域 [1, +∞)。</li>
 </ol>
-<p><strong>B 组</strong></p>
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · B 组</button><div class="ans-body"><p><strong>B 组</strong></p>
 <ol start="7">
 <li>log<sub>2</sub>9 = log<sub>2</sub>3<sup>2</sup> = 2log<sub>2</sub>3；原式 = 2log<sub>2</sub>3·log<sub>3</sub>2 = 2·(log<sub>2</sub>3·log<sub>3</sub>2)。由换底 log<sub>3</sub>2 = 1/log<sub>2</sub>3，相乘=1，故原式 = 2。</li>
 <li>log<sub>0</sub>.<sub>5</sub> 底 &lt;1 递减：真数 3&gt;2 ⇒ log<sub>0</sub>.<sub>5</sub>3 &lt; log<sub>0</sub>.<sub>5</sub>2，两者都 &lt;0（真数&gt;1）；c=0.5<sup>3</sup>=0.125&gt;0。故 a &lt; b &lt; 0 &lt; c，即 a&lt;b&lt;c。</li>
 <li>log<sub>2</sub>x=3 ⇒ x=2<sup>3</sup>=8；4<sup>x</sup>=1/16=4<sup>−2</sup> ⇒ x=−2。</li>
 <li>设 y=x<sup>α</sup>，过 (2,8)：2<sup>α</sup>=8=2<sup>3</sup> ⇒ α=3，f(x)=x<sup>3</sup>。f(−x)=(−x)<sup>3</sup>=−x<sup>3</sup>=−f(x)，为奇函数。</li>
 </ol>
-<p><strong>C 组</strong></p>
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · C 组</button><div class="ans-body"><p><strong>C 组</strong></p>
 <ol start="11">
 <li>a=0.1·e^0.1≈0.1105；b=1/9≈0.1111；c=−ln0.9=ln(10/9)≈0.1054。排序 c&lt;a&lt;b，选 <strong>C</strong>。</li>
 <li>设公共值为 k，则 x=2^(k−2)，y=3^(k−3)，z=5^(k−5)。取 k=0：x=1/4,y=1/27,z=1/3125，x&gt;y&gt;z（A 可能）；k=6：x=16,y=27,z=5，y&gt;x&gt;z（C 可能）；k=8：x=64,y=243,z=125，y&gt;z&gt;x（D 可能）。要出现 x&gt;z&gt;y，需 x&gt;z 且 z&gt;y，即 (x/z&gt;1) 与 (z/y&gt;1) 同时成立——经检验无这样的 k，故 x&gt;z&gt;y 不可能，选 <strong>B</strong>。</li>
@@ -2693,9 +2692,8 @@ A. (0, 1)　B. (1, 2)　C. (2, 3)　D. (3, 4)</p>
 <li>依据：基本初等函数的运算律（课标内）。✓ 不超纲。</li>
 </ul>
 <hr />
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. f(0)  =  −1 &lt; 0，f(1)  =  e − 1 &gt; 0，异号 ⇒ 有零点；2. 2 个（x  =  1、3）；3. 0 和 2；4. 端点同号但图象"碰到 x 轴又返回"（f(x)  =  x<sup>2</sup> ≥ 0，零点为偶重根）；5. 取中点 c  =  (a+b)/2 并计算 f(c)，比较 f(a)·f(c) 符号决定缩小区间。</p></div></div>
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案</button><div class="ans-body"><h2>课后习题答案</h2>
-<p><strong>A 组</strong></p>
+<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. f(0)  =  −1 &lt; 0，f(1)  =  e − 1 &gt; 0，异号 ⇒ 有零点；2. 2 个（x  =  1、3）；3. 0 和 2；4. 端点同号但图象"碰到 x 轴又返回"（f(x)  =  x<sup>2</sup> ≥ 0，零点为偶重根）；5. 取中点 c  =  (a+b)/2 并计算 f(c)，比较 f(a)·f(c) 符号决定缩小区间。</p></div></div>
+<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
 <ol>
 <li>x<sup>2</sup>−5x+6=(x−2)(x−3)=0，零点为 2 和 3。</li>
 <li>f(1)=1−2−1=−2&lt;0；f(2)=8−4−1=3&gt;0。f 连续，f(1)·f(2)&lt;0，故 (1,2) 内有零点。</li>
@@ -2704,14 +2702,14 @@ A. (0, 1)　B. (1, 2)　C. (2, 3)　D. (3, 4)</p>
 <li>B。y=2·1.1<sup>x</sup> 底数 1.1&gt;1，是指数爆炸增长。</li>
 <li>f(x)=x−lnx。f'(x) 这里先不正式用；直接看：f(1)=1&gt;0，f(e)=e−1≈1.72&gt;0，且 x→0<sup>+</sup> 时 −lnx→+∞，函数在 x=1 附近取最小值 f(1)=1&gt;0。最小值 &gt;0，故没有零点，零点个数 0。</li>
 </ol>
-<p><strong>B 组</strong></p>
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · B 组</button><div class="ans-body"><p><strong>B 组</strong></p>
 <ol start="7">
 <li>f(x)=3<sup>x</sup>+x−3。f(x) 是增函数（3<sup>x</sup> 增、x 增）。f(0)=1+0−3=−2&lt;0；f(1)=3+1−3=1&gt;0。单调 + 变号 ⇒ 在 (0,1) 内恰一个零点，全 R 上仅此一个。</li>
 <li>f(1)=−1&lt;0，f(2)=1&gt;0，零点在 (1,2)。取中点 1.5，f(1.5)=2^1.5−3=2.828−3=−0.172&lt;0，与 f(2) 异号，零点缩到 (1.5,2)。</li>
 <li>长期看指数最快、线性次之、对数最慢：1.01<sup>x</sup> &gt; 100x &gt; lnx。（注意短期 100x 可能领先，但 x→∞ 时指数反超。）</li>
 <li>画 y=2<sup>x</sup> 与 y=x+1：交于 (0,1)（2<sup>0</sup>=1=0+1）和 (1,2)（2<sup>1</sup>=2=1+1）。两条线交于 2 点，故方程 2<sup>x</sup>=x+1 有 2 个解。</li>
 </ol>
-<p><strong>C 组</strong></p>
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · C 组</button><div class="ans-body"><p><strong>C 组</strong></p>
 <ol start="11">
 <li>f(x)=x<sup>3</sup>−x+1。
    - C：f(x)+f(−x)=(x<sup>3</sup>−x+1)+(−x<sup>3</sup>+x+1)=2，即 f(−x)=2−f(x)，图象关于点 (0,1) 对称。<strong>C 正确</strong>。
@@ -3388,9 +3386,8 @@ h(x<sub>0</sub>) = (1+1/x<sub>0</sub>)[1+ln(x<sub>0</sub>+1)]  =  (1+1/x
 <p>超纲红线说明：以上 7 条均为<strong>不超纲（高考可放心用）</strong>——它们本质都是"构造函数+用导数研究单调性"，是课标内方法的组合应用。真正的超纲（如洛必达法则、泰勒展开）<strong>考试禁用</strong>，本手册不收，只在大学再学。</p>
 </blockquote>
 <hr />
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. f′(x)  =  2x − 2，f′(1)  =  0；2. f′(x)  =  3x<sup>2</sup> − 6x  =  3x(x − 2) &lt; 0 ⇒ 0 &lt; x &lt; 2，递减区间 (0, 2)；3. y′  =  e<sup>x</sup>，k  =  e<sup>0</sup>  =  1，切线 y  =  x + 1；4. f′(x)  =  1 − 1/x<sup>2</sup> &gt; 0（x ≥ 1），递增，最小值 f(1)  =  2；5. f′(0)  =  0 但两侧同号（x<sup>3</sup> 恒增），<strong>无极值</strong>。</p></div></div>
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案</button><div class="ans-body"><h2>课后习题答案</h2>
-<p><strong>A 组</strong></p>
+<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. f′(x)  =  2x − 2，f′(1)  =  0；2. f′(x)  =  3x<sup>2</sup> − 6x  =  3x(x − 2) &lt; 0 ⇒ 0 &lt; x &lt; 2，递减区间 (0, 2)；3. y′  =  e<sup>x</sup>，k  =  e<sup>0</sup>  =  1，切线 y  =  x + 1；4. f′(x)  =  1 − 1/x<sup>2</sup> &gt; 0（x ≥ 1），递增，最小值 f(1)  =  2；5. f′(0)  =  0 但两侧同号（x<sup>3</sup> 恒增），<strong>无极值</strong>。</p></div></div>
+<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
 <ol>
 <li>[f(2+Δx)−f(2)]/Δx = [(2+Δx)<sup>2</sup>−4]/Δx = (4Δx+Δx<sup>2</sup>)/Δx = 4+Δx → 4。f′(2)=4。</li>
 <li>f′=4x<sup>3</sup>−6x+2。</li>
@@ -3399,14 +3396,14 @@ h(x<sub>0</sub>) = (1+1/x<sub>0</sub>)[1+ln(x<sub>0</sub>+1)]  =  (1+1/x
 <li>f′=3(x−1)(x+1)=0 ⇒ x=−1（极大），x=1（极小）。极大值 f(−1)=2，极小值 f(1)=−2。</li>
 <li>f′=e<sup>x</sup>−1。f′&gt;0⇔x&gt;0；f′&lt;0⇔x&lt;0。递增 (0,+∞)，递减 (−∞,0)。</li>
 </ol>
-<p><strong>B 组</strong></p>
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · B 组</button><div class="ans-body"><p><strong>B 组</strong></p>
 <ol start="7">
 <li>f=x·lnx，f′=lnx+x·(1/x)=lnx+1。f′&gt;0⇔lnx&gt;−1⇔x&gt;1/e；递减 (0,1/e)，递增 (1/e,+∞)。</li>
 <li>f′=3x<sup>2</sup>−6x=3x(x−2)=0⇒x=0,2（均在[0,3]内）。值：f(0)=1，f(2)=8−12+1=−3，f(3)=27−27+1=1。最大 1，最小 −3。</li>
 <li>g=x+1/x，g′=1−1/x<sup>2</sup>≥0（x≥1），在 x&gt;0 的最小值 g(1)=2。a≤g(x) 恒成立 ⇒ a≤2，a 最大值 2。</li>
 <li>f=lnx/x，f′=[(1/x)·x−lnx·1]/x<sup>2</sup>=(1−lnx)/x<sup>2</sup>。</li>
 </ol>
-<p><strong>C 组</strong></p>
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · C 组</button><div class="ans-body"><p><strong>C 组</strong></p>
 <ol start="11">
 <li>f=ae<sup>x</sup>−lnx，f′=ae<sup>x</sup>−1/x。在 (1,2) 递增需 f′≥0 ⇒ a≥1/(xe<sup>x</sup>)。h(x)=e<sup>−x</sup>/x 在 (1,2) 递减，最大值 h(1)=e<sup>−1</sup>。故 a≥e<sup>−1</sup>，最小值 e<sup>−1</sup>，选 <strong>C</strong>。</li>
 <li>y=e<sup>x</sup>+x 在 (0,1)：y′=e<sup>x</sup>+1，k=2，切线 y−1=2x，即 y=2x+1。它也是 y=ln(x+1)+a 的切线。g′=1/(x+1)=2⇒x=−1/2。g(−1/2)=ln(1/2)+a=−ln2+a。切线在 x=−1/2 的值=2(−1/2)+1=0，故 −ln2+a=0，<strong>a=ln2</strong>。</li>
@@ -3897,9 +3894,8 @@ A. 3　　B. 4　　C. 6　　D. 8</p>
 <p>本章主线（单位圆定义 + 同角关系 + 诱导公式 + 图象性质 + 图象变换）已覆盖高考全部考点。</p>
 <p><strong>本章无对应高级方法手册条目</strong>。说明：《不超纲高级方法手册》"五、三角与解三角形"中的辅助角公式属于下一章（07 三角恒等变换），本章尚不引入；本章所有常用技巧（五点法、由图求 A/ω/φ、象限定号）已在正文 3.5、3.6 讲透，无需额外超纲方法。</p>
 <hr />
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. 120°  =  2π/3 rad；2. sin α  =  √3/2（sin<sup>2</sup>α  =  3/4，第二象限 sin &gt; 0）；3. cos x − cos x  =  0；4. x  =  π/2 + kπ；5. T  =  2π/2  =  π。</p></div></div>
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案</button><div class="ans-body"><h2>课后习题答案</h2>
-<p><strong>A 组</strong></p>
+<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. 120°  =  2π/3 rad；2. sin α  =  √3/2（sin<sup>2</sup>α  =  3/4，第二象限 sin &gt; 0）；3. cos x − cos x  =  0；4. x  =  π/2 + kπ；5. T  =  2π/2  =  π。</p></div></div>
+<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
 <ol>
 <li>(1) 135° = 135×π/180 = <strong>3π/4</strong>；(2) 240° = <strong>4π/3</strong>；(3) −30° = <strong>−π/6</strong>。</li>
 <li>(1) 5π/6 ×180/π = <strong>150°</strong>；(2) 3π/4 = <strong>135°</strong>；(3) π/9 = <strong>20°</strong>。</li>
@@ -3908,14 +3904,14 @@ A. 3　　B. 4　　C. 6　　D. 8</p>
 <li>(1) 130° 在第二象限，sin <strong>&gt;0</strong>；(2) 200° 在第三象限，cos <strong>&lt;0</strong>；(3) −50° 在第四象限，tan <strong>&lt;0</strong>。</li>
 <li>cos<sup>2</sup>α = 1 − 25/169 = 144/169；第二象限 cos&lt;0，cosα = <strong>−12/13</strong>；tanα = (5/13)/(−12/13) = <strong>−5/12</strong>。</li>
 </ol>
-<p><strong>B 组</strong></p>
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · B 组</button><div class="ans-body"><p><strong>B 组</strong></p>
 <ol start="7">
 <li>(1) sin(5π/3) = sin(2π−π/3) = −sin(π/3) = <strong>−√3/2</strong>；(2) cos(7π/6) = cos(π+π/6) = −cos(π/6) = <strong>−√3/2</strong>；(3) tan(−3π/4) = −tan(3π/4) = −(−1) = <strong>1</strong>。</li>
 <li>第四象限 sin&lt;0：sinα = −√(1−9/25) = −4/5。sin(π+α) = −sinα = <strong>4/5</strong>。</li>
 <li>y=2sin x：最大值 <strong>2</strong>、最小值 <strong>−2</strong>、周期 <strong>2π</strong>；对称轴一条为 <strong>x = π/2</strong>。</li>
 <li>A = <strong>3</strong>；T = 2π/2 = <strong>π</strong>；取最大值时 2x−π/6 = π/2，解得 x = <strong>π/3</strong>（x 的一个值）。</li>
 </ol>
-<p><strong>C 组</strong></p>
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · C 组</button><div class="ans-body"><p><strong>C 组</strong></p>
 <ol start="11">
 <li>【2025·第4题】正切 y=tan t 的对称中心在 t = kπ/2（纵坐标乘 2 不改变对称中心的横坐标）。令 a−π/3 = kπ/2 → a = π/3 + kπ/2。a&gt;0 取 k=0，得 a 最小值 <strong>π/3，选 B</strong>。</li>
 <li>【2024·第7题】这是"画图数交点"题，别硬列三角方程——两边振幅不等（一个是 1、一个是 2），"sinA=sinB"那套分角法在这里失效。设 f(x)=sin x−2sin(3x−π/6)。右边 y=2sin(3x−π/6) 振幅 2、周期 2π/3，在 [0,2π] 内正好走 3 个周期，抖得比左边 sin x 快 3 倍。沿区间每隔 π/12 取一个点看 f 的正负号：f(0)=+1、f(π/12)=−0.26、f(5π/12)=+1.48、f(5π/6)=−1.23、f(13π/12)=+0.26、f(17π/12)=−1.48、f(11π/6)=+1.23。相邻两点异号就说明中间穿了一次 x 轴，全程共变号 <strong>6 次</strong>，即两条曲线交 6 次，选 <strong>C</strong>。</li>
@@ -4272,9 +4268,8 @@ A. −3m　　B. −m/3　　C. m/3　　D. 3m</p>
 <li><strong>课标依据 / 超纲红线</strong>：本质是两角和公式的逆用（必修一 5.5），<strong>不超纲，高考解答题可放心使用</strong>。红线提醒：不要额外引入"万能公式""积化和差"等超纲推导过程，合一这一步本身合规。</li>
 </ul>
 <hr />
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. sin 75°  =  sin(45°+30°)  =  (√2/2)(√3/2) + (√2/2)(1/2)  =  (√6+√2)/4；2. cos 2α  =  2·(1/9) − 1  =  −7/9；3. f(x)  =  2 sin(x + π/6)，最大值 2；4. 2sin<sup>2</sup>α − 1  =  −cos 2α；5. (1 + tan α)/(1 − tan α)。</p></div></div>
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案</button><div class="ans-body"><h2>课后习题答案</h2>
-<p><strong>A 组</strong></p>
+<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. sin 75°  =  sin(45°+30°)  =  (√2/2)(√3/2) + (√2/2)(1/2)  =  (√6+√2)/4；2. cos 2α  =  2·(1/9) − 1  =  −7/9；3. f(x)  =  2 sin(x + π/6)，最大值 2；4. 2sin<sup>2</sup>α − 1  =  −cos 2α；5. (1 + tan α)/(1 − tan α)。</p></div></div>
+<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
 <ol>
 <li>sin105° = sin(60°+45°) = (√3/2)(√2/2)+(1/2)(√2/2) = <strong>(√6+√2)/4</strong>。</li>
 <li>cos75° = cos(45°+30°) = (√2/2)(√3/2)−(√2/2)(1/2) = <strong>(√6−√2)/4</strong>。</li>
@@ -4283,14 +4278,14 @@ A. −3m　　B. −m/3　　C. m/3　　D. 3m</p>
 <li>sin<sup>2</sup>15° = (1−cos30°)/2 = (1−√3/2)/2 = <strong>(2−√3)/4</strong>。</li>
 <li>sinx−cosx = √2 sin(x−π/4)（a=1,b=−1,R=√2,φ 在第四象限 = −π/4）；最大值 <strong>√2</strong>。</li>
 </ol>
-<p><strong>B 组</strong></p>
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · B 组</button><div class="ans-body"><p><strong>B 组</strong></p>
 <ol start="7">
 <li>α 第二象限 cosα = −4/5；β 第一象限 sinβ = 12/13。sin(α+β) = sinαcosβ+cosαsinβ = (3/5)(5/13)+(−4/5)(12/13) = 15/65 − 48/65 = <strong>−33/65</strong>。</li>
 <li>f(x) = √3 sinxcosx + cos<sup>2</sup>x = (√3/2)sin2x + (1+cos2x)/2 = (√3/2)sin2x + (1/2)cos2x + 1/2 = sin(2x+π/6) + 1/2。最大值 = 1 + 1/2 = <strong>3/2</strong>。</li>
 <li>sinα = 1/2，α∈(π/2,π)，α = <strong>5π/6</strong>。</li>
 <li>tan15° = tan(45°−30°) = (1−1/√3)/(1+1/√3) = (√3−1)/(√3+1) = <strong>2−√3</strong>。</li>
 </ol>
-<p><strong>C 组</strong>
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · C 组</button><div class="ans-body"><p><strong>C 组</strong>
 11.【2024·第4题】cos(α+β) = cosαcosβ − sinαsinβ = m。由 tanαtanβ = 2 得 sinαsinβ = 2cosαcosβ，代入：cosαcosβ − 2cosαcosβ = −cosαcosβ = m，即 cosαcosβ = −m；进而 sinαsinβ = 2(−m) = −2m。于是 cos(α−β) = cosαcosβ + sinαsinβ = −m + (−2m) = <strong>−3m，选 A</strong>。</p>
 </div></div><h2>一通百通</h2>
 <p>拿到任何一道三角恒等变换题，通用骨架都是四步：<strong>① 先看角——题目里有哪几个角？它们是不是同一个角，还是 α+β、2α、两个不同角在打架；② 配角——把要求的角用已知角表示出来，目标是"统一到一个角"；③ 选公式——见平方就降幂、见 sinx+b cosx 型就合一、见 tanα±tanβ 就配 tan(α±β)；④ 定符号——开方、定象限之前先圈出角的范围，再写正负</strong>。会解一道给值求值，就会解这一整类；这套"先归约到同一个角、再套公式"的骨架，第 08 章解三角形做大题第二问求最值时还要再用一遍（合一之后读最值）。</p>
@@ -4709,9 +4704,8 @@ sin<sup>2</sup>21° + sin<sup>2</sup>39° − 2 sin21°sin39°·(−1/2)  = 
 <li><strong>课标依据 / 超纲红线</strong>：就是正余弦定理 + 辅助角 + 基本不等式的综合（均在必修范围），<strong>不超纲</strong>。红线：别直接套二级结论当证明，大题要写清推导。</li>
 </ul>
 <hr />
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. b  =  a·sinB/sinA  =  1·(√2/2)/(1/2)  =  √2；2. c<sup>2</sup>  =  9 + 25 − 2·3·5·cos120°  =  34 + 15  =  49，c  =  7；3. 最大边 5：5<sup>2</sup>  =  3<sup>2</sup> + 4<sup>2</sup> ⇒ 最大角为直角；4. S  =  ½·2·3·sin30°  =  3/2；5. a : b : c  =  3 : 4 : 5 ⇒ 3<sup>2</sup> + 4<sup>2</sup>  =  5<sup>2</sup> ⇒ 直角三角形。</p></div></div>
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案</button><div class="ans-body"><h2>课后习题答案</h2>
-<p><strong>A 组</strong></p>
+<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. b  =  a·sinB/sinA  =  1·(√2/2)/(1/2)  =  √2；2. c<sup>2</sup>  =  9 + 25 − 2·3·5·cos120°  =  34 + 15  =  49，c  =  7；3. 最大边 5：5<sup>2</sup>  =  3<sup>2</sup> + 4<sup>2</sup> ⇒ 最大角为直角；4. S  =  ½·2·3·sin30°  =  3/2；5. a : b : c  =  3 : 4 : 5 ⇒ 3<sup>2</sup> + 4<sup>2</sup>  =  5<sup>2</sup> ⇒ 直角三角形。</p></div></div>
+<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
 <ol>
 <li>b = a·sinB/sinA = 3√2 × (√2/2)/(√3/2) = 3√2 × √2/√3 = <strong>2√3</strong>。</li>
 <li>sin B = b·sinA/a = √6×(√2/2)/2 = √12/4 = √3/2。B∈(0,π)，B = <strong>60° 或 120°</strong>（两解）。</li>
@@ -4720,7 +4714,7 @@ sin<sup>2</sup>21° + sin<sup>2</sup>39° − 2 sin21°sin39°·(−1/2)  = 
 <li>S = ½ab sinC = ½×4×5×(√3/2) = <strong>5√3</strong>。</li>
 <li>最大边 √7：(√7)<sup>2</sup> = 7，另两边平方和 = 4+9 = 13，7&lt;13 ⇒ 最大边对的角为<strong>锐角</strong>。</li>
 </ol>
-<p><strong>B 组</strong></p>
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · B 组</button><div class="ans-body"><p><strong>B 组</strong></p>
 <ol start="7">
 <li>由正弦定理：sinA cosB = sinB cosA ⇒ sin(A−B) = 0 ⇒ A = B（三角形内）⇒ <strong>等腰三角形</strong>。</li>
 <li>S = ½bc sinA = ½×1×4×sin120° = 2×(√3/2) = <strong>√3</strong>；a<sup>2</sup> = b<sup>2</sup>+c<sup>2</sup>−2bc cosA = 1+16−2×1×4×(−1/2) = 17+4 = 21，a = <strong>√21</strong>。</li>
@@ -4728,7 +4722,7 @@ sin<sup>2</sup>21° + sin<sup>2</sup>39° − 2 sin21°sin39°·(−1/2)  = 
 <li>(1) 由射影定理 a cos C + c cos A = b，条件 2b cosA = c cosA + a cosC = b ⇒ cosA = 1/2 ⇒ A = <strong>60°</strong>。
 (2) a<sup>2</sup> = b<sup>2</sup>+c<sup>2</sup>−2bc cosA：7 = (b+c)<sup>2</sup>−2bc−bc = 16−3bc ⇒ bc = 3。S = ½bc sinA = ½×3×(√3/2) = <strong>3√3/4</strong>。</li>
 </ol>
-<p><strong>C 组</strong></p>
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · C 组</button><div class="ans-body"><p><strong>C 组</strong></p>
 <ol start="11">
 <li>
 <p>(1) 由正弦定理 √3·2R sinA = 2·2R sinC·sinA，消去 sinA：√3 = 2 sinC ⇒ sinC = √3/2 ⇒ C = <strong>60° 或 120°</strong>。排除 120°：若 C=120°，余弦定理 c<sup>2</sup> = a<sup>2</sup>+b<sup>2</sup>−2ab cos120° = a<sup>2</sup>+b<sup>2</sup>+ab = (a+b)<sup>2</sup>−ab，代入 c=√7、a+b=5 得 7 = 25−ab ⇒ ab=18；此时 a、b 是方程 t<sup>2</sup>−5t+18=0 的根，判别式 25−72&lt;0，无实数解，矛盾，故舍 120°、取 <strong>C=60°</strong>。
@@ -5079,9 +5073,8 @@ A. −2　　B. −1　　C. 1　　D. 2</p>
 <p>本章主线（线性运算 + 共线定理 + 数量积 + 坐标法/基底法）已覆盖高考全部考点。</p>
 <p><strong>本章无对应高级方法手册条目</strong>。说明：《不超纲高级方法手册》未单列"平面向量"专题——高考向量题的核心技巧（建系坐标化、用 |a±b|<sup>2</sup> 求模、基底法翻译几何条件）已在正文 3.4、3.5 讲透，全部不超纲。一个可直接用的小结论：<strong>P、A、B 三点共线 ⇔ 存在 x+y = 1 使 OP = x·OA+y·OB</strong>（见速查表第 10 条），小题可秒判共线。</p>
 <hr />
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. a + b  =  (3, 1)，a − b  =  (−1, 3)；2. 共线（1·4 − 2·2  =  0，b  =  2a）；3. 1·x + 2·(−1)  =  0 ⇒ x  =  2；4. cos θ  =  0 ⇒ θ  =  90°（π/2）；5. |a+b|<sup>2</sup>  =  9 + 2·(−6) + 16  =  13，|a + b|  =  √13。</p></div></div>
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案</button><div class="ans-body"><h2>课后习题答案</h2>
-<p><strong>A 组</strong></p>
+<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. a + b  =  (3, 1)，a − b  =  (−1, 3)；2. 共线（1·4 − 2·2  =  0，b  =  2a）；3. 1·x + 2·(−1)  =  0 ⇒ x  =  2；4. cos θ  =  0 ⇒ θ  =  90°（π/2）；5. |a+b|<sup>2</sup>  =  9 + 2·(−6) + 16  =  13，|a + b|  =  √13。</p></div></div>
+<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
 <ol>
 <li>a+b = (2−1, 3+4) = <strong>(1, 7)</strong>；a−b = (2+1, 3−4) = <strong>(3, −1)</strong>；2a−3b = (4,6)−(−3,12) = <strong>(7, −6)</strong>。</li>
 <li>|a| = √(9+16) = <strong>5</strong>；2a = <strong>(6, 8)</strong>，|2a| = <strong>10</strong>。</li>
@@ -5090,14 +5083,14 @@ A. −2　　B. −1　　C. 1　　D. 2</p>
 <li>M = ((1+5)/2, (2+6)/2) = <strong>(3, 4)</strong>。</li>
 <li>cosθ = (1/2)/(1×1) = 1/2，θ∈[0,π]，θ = <strong>60°（π/3）</strong>。</li>
 </ol>
-<p><strong>B 组</strong></p>
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · B 组</button><div class="ans-body"><p><strong>B 组</strong></p>
 <ol start="7">
 <li>a+2b = (1+2x, 0)，a−b = (1−x, 3)。垂直：(1+2x)(1−x) + 0×3 = 0 → 1+x−2x<sup>2</sup> = 0 → 2x<sup>2</sup>−x−1 = 0 → (2x+1)(x−1) = 0，x = <strong>−1/2 或 1</strong>。</li>
 <li>|a−2b|<sup>2</sup> = |a|<sup>2</sup> − 4a·b + 4|b|<sup>2</sup> = 4 − 4×1 + 4×1 = 4，|a−2b| = <strong>2</strong>。</li>
 <li>AC = AB+AD = <strong>a+b</strong>；BD = AD−AB = <strong>b−a</strong>。</li>
 <li>投影 = (a·b)/|a| = (4×1+0×1)/4 = <strong>1</strong>。</li>
 </ol>
-<p><strong>C 组</strong>
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · C 组</button><div class="ans-body"><p><strong>C 组</strong>
 11.【2024·第3题】b−4a = (2, x)−(0,4) = (2, x−4)。b⊥(b−4a) ⇒ b·(b−4a) = 0：2×2 + x(x−4) = 0 → x<sup>2</sup>−4x+4 = 0 → (x−2)<sup>2</sup> = 0 → x = <strong>2，选 D</strong>。</p>
 </div></div><h2>一通百通</h2>
 <p>这一章的"通用骨架"是：<strong>① 看见向量先想成一支可平移的箭头 → ② 能建系就建系，把箭头写成坐标 → ③ 线性问题用坐标加减、共线用 x<sub>1</sub>y<sub>2</sub>−x<sub>2</sub>y<sub>1</sub>=0 → ④ 涉及垂直/夹角/求模/投影就点积 a·b = x<sub>1</sub>x<sub>2</sub>+y<sub>1</sub>y<sub>2</sub></strong>。高考向量小题不管怎么包装，本质都是"把几何条件翻译成坐标或点积，再做算术"。会解一道向量小题，就会解所有向量小题；这套"建系坐标化 + 点积翻译几何"的骨架，到第 14 章空间向量还会原样搬到三维里复用。</p>
@@ -5410,9 +5403,8 @@ A. −1　　B. 0　　C. 1　　D. 6</p>
 <p>本章主线（复数概念 + 共轭/模 + 四则运算 + 几何意义）已覆盖高考全部考点。高考复数题固定出在选择第 1 题附近，难度很低，只要别在 i<sup>2</sup>=−1 和分母实数化两处失手，就是送分题。</p>
 <p><strong>本章无对应高级方法手册条目</strong>。说明：《不超纲高级方法手册》未单列"复数"专题。高考复数题只在第 1 题左右出一道选择，考的就是本章四则运算与 i 的幂循环，全部不超纲。一个可直接用的小结论：<strong>实系数一元二次方程 ax<sup>2</sup>+bx+c = 0 当 Δ&lt;0 时，在复数集内有一对共轭复根 x  =  (−b±√(−Δ)·i)/(2a)</strong>（选学了解）。</p>
 <hr />
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. −i；2. <span class = "ol">z</span>  =  2 + 3i，|z|  =  √13；3. (2+i)(3−i)  =  6 − 2i + 3i − i<sup>2</sup>  =  6 + i + 1  =  <strong>7 + i</strong>；4. (2 + i)/(4 + 1)  =  2/5 + (1/5)i；5. a + 1  =  3 ⇒ a  =  2；b − 2  =  4 ⇒ b  =  6。</p></div></div>
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案</button><div class="ans-body"><h2>课后习题答案</h2>
-<p><strong>A 组</strong></p>
+<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. −i；2. <span class = "ol">z</span>  =  2 + 3i，|z|  =  √13；3. (2+i)(3−i)  =  6 − 2i + 3i − i<sup>2</sup>  =  6 + i + 1  =  <strong>7 + i</strong>；4. (2 + i)/(4 + 1)  =  2/5 + (1/5)i；5. a + 1  =  3 ⇒ a  =  2；b − 2  =  4 ⇒ b  =  6。</p></div></div>
+<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
 <ol>
 <li>i<sup>5</sup> = <strong>i</strong>；i<sup>6</sup> = <strong>−1</strong>；i<sup>7</sup> = <strong>−i</strong>；i<sup>8</sup> = <strong>1</strong>。</li>
 <li>实部 <strong>−3</strong>，虚部 <strong>5</strong>；b≠0，是<strong>虚数</strong>（不是纯虚数，实部不为 0）。</li>
@@ -5421,14 +5413,14 @@ A. −1　　B. 0　　C. 1　　D. 6</p>
 <li>(3+i)/(1+i) = (3+i)(1−i)/[(1+i)(1−i)] = (3−3i+i−i<sup>2</sup>)/2 = (4−2i)/2 = <strong>2 − i</strong>。</li>
 <li>实部：2x−1 = 3 → x = <strong>2</strong>；虚部：y = <strong>−2</strong>。</li>
 </ol>
-<p><strong>B 组</strong></p>
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · B 组</button><div class="ans-body"><p><strong>B 组</strong></p>
 <ol start="7">
 <li>(1+i)/(1−i) = (1+i)<sup>2</sup>/2 = (1+2i−1)/2 = <strong>i</strong>；|i| = <strong>1</strong>。</li>
 <li>z·<span class="ol">z</span> = (1−i)(1+i) = <strong>2</strong>；|z|<sup>2</sup> = 1<sup>2</sup>+(−1)<sup>2</sup> = <strong>2</strong>（与 z·<span class="ol">z</span> 相等）。</li>
 <li>|z| = 1 即点 z 到原点距离为 1，构成<strong>以原点为圆心、半径 1 的单位圆</strong>。</li>
 <li>i+i<sup>2</sup>+i<sup>3</sup>+i<sup>4</sup> = i+(−1)+(−i)+1 = <strong>0</strong>。</li>
 </ol>
-<p><strong>C 组</strong>
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · C 组</button><div class="ans-body"><p><strong>C 组</strong>
 11.【2025·第1题】(1+5i)i = i + 5i<sup>2</sup> = i − 5 = −5 + i。写成 a+bi 形式，实部 −5，虚部 <strong>1，选 C</strong>。</p>
 </div></div><h2>一通百通</h2>
 <p>这一章的"通用骨架"是：<strong>① 拿到复数先整理成 a+bi 标准形 → ② 乘除时把 i 当字母展开、最后把 i<sup>2</sup> 换成 −1 → ③ 除法就分子分母同乘分母共轭做分母实数化 → ④ 涉及距离/图形就翻译成复平面上的点和 |z−z<sub>0</sub>|=r 的圆</strong>。高考复数题不管怎么出，本质都是"会多项式展开 + 会乘共轭"这两件事。会做一道复数小题，就会做所有复数小题；复数的几何意义（点、向量、距离）和第 09 章平面向量是同一张图，后面解析几何里也常借用。</p>
@@ -6010,9 +6002,8 @@ S<sub>n</sub>  =  (1/a<sub>1</sub>−1/a<sub>2</sub>)+(1/a<sub>2</sub>−1/a
 </ol>
 <p>（高级方法手册·3.4）</p>
 <hr />
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. a<sub>10</sub>  =  2 + 9·3  =  29；2. S<sub>5</sub>  =  (2<sup>5</sup> − 1)/(2 − 1)  =  31；3. n  =  1：a<sub>1</sub>  =  1；n ≥ 2：a<sub>n</sub>  =  n<sup>2</sup> − (n−1)<sup>2</sup>  =  2n − 1；合起来 a<sub>n</sub>  =  2n − 1（n  =  1 时也成立）；4. ½[1 − 1/(2n+1)]  =  n/(2n+1)；5. 等差数列（公差 2），a<sub>n</sub>  =  1 + 2(n − 1)  =  2n − 1。</p></div></div>
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案</button><div class="ans-body"><h2>课后习题答案</h2>
-<p><strong>A 组</strong></p>
+<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. a<sub>10</sub>  =  2 + 9·3  =  29；2. S<sub>5</sub>  =  (2<sup>5</sup> − 1)/(2 − 1)  =  31；3. n  =  1：a<sub>1</sub>  =  1；n ≥ 2：a<sub>n</sub>  =  n<sup>2</sup> − (n−1)<sup>2</sup>  =  2n − 1；合起来 a<sub>n</sub>  =  2n − 1（n  =  1 时也成立）；4. ½[1 − 1/(2n+1)]  =  n/(2n+1)；5. 等差数列（公差 2），a<sub>n</sub>  =  1 + 2(n − 1)  =  2n − 1。</p></div></div>
+<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
 <ol>
 <li>n=1：a<sub>1</sub>=S<sub>1</sub>=1；n≥2：a<sub>n</sub>=S<sub>n</sub>−S<sub>n−1</sub>=(2n<sup>2</sup>−n)−[2(n−1)<sup>2</sup>−(n−1)]=4n−3。代 n=1 得 1，吻合。<strong>a<sub>n</sub>=4n−3</strong>。</li>
 <li>a<sub>5</sub>−a<sub>2</sub>=3d=9 ⇒ d=3；a<sub>2</sub>=a<sub>1</sub>+d=5 ⇒ a<sub>1</sub>=2。<strong>d=3，a<sub>1</sub>=2</strong>。</li>
@@ -6021,14 +6012,14 @@ S<sub>n</sub>  =  (1/a<sub>1</sub>−1/a<sub>2</sub>)+(1/a<sub>2</sub>−1/a
 <li>每项=1/k−1/(k+1)，抵消得 1−1/(n+1)=<strong>n/(n+1)</strong>。</li>
 <li>a<sub>5</sub>+a<sub>6</sub>=a<sub>3</sub>+a<sub>8</sub>=<strong>20</strong>（m+n=p+q）。</li>
 </ol>
-<p><strong>B 组</strong></p>
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · B 组</button><div class="ans-body"><p><strong>B 组</strong></p>
 <ol start="7">
 <li>a<sub>1</sub>=S<sub>1</sub>=2k−1；n≥2 a<sub>n</sub>=S<sub>n</sub>−S<sub>n−1</sub>=k·2<sup>n</sup>−1−(k·2<sup>n−1</sup>−1)=k·2<sup>n−1</sup>。等比要求 a<sub>1</sub> 也符合：2k−1=k·2<sup>0</sup>=k ⇒ k=1。此时 a<sub>n</sub>=2<sup>n−1</sup>，<strong>公比 q=2，k=1</strong>。</li>
 <li>S<sub>n</sub>=1·3+2·3<sup>2</sup>+…+n·3<sup>n</sup>；3S<sub>n</sub>=1·3<sup>2</sup>+…+(n−1)3<sup>n</sup>+n·3<sup>n+1</sup>；相减 −2S<sub>n</sub>=(3+3<sup>2</sup>+…+3<sup>n</sup>)−n·3<sup>n+1</sup>=3(3<sup>n</sup>−1)/2−n·3<sup>n+1</sup>，整理得 <strong>S<sub>n</sub>=[(2n−1)3<sup>n+1</sup>+3]/4</strong>。（可用进阶 2 自检：n=1 时 =[(1)·9+3]/4=3 ✓）</li>
 <li>p=3，q=−2，c=q/(p−1)=−1。a<sub>n+1</sub>−1=3(a<sub>n</sub>−1)，{a<sub>n</sub>−1} 首项 1、公比 3，a<sub>n</sub>−1=3<sup>n−1</sup>，<strong>a<sub>n</sub>=3<sup>n−1</sup>+1</strong>。</li>
 <li>a<sub>n</sub>=20−2(n−1)=22−2n。a<sub>n</sub>≥0 得 n≤11，其中 a<sub>11</sub>=0。S<sub>10</sub>=10(20+2)/2=110，S<sub>11</sub>=11(20+0)/2=110，a<sub>12</sub>=−2&lt;0 后 S 开始减小。故 <strong>n=10 或 n=11 时 S<sub>n</sub> 最大，最大值均为 110</strong>。</li>
 </ol>
-<p><strong>C 组</strong></p>
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · C 组</button><div class="ans-body"><p><strong>C 组</strong></p>
 <ol start="11">
 <li>S<sub>8</sub>−S<sub>4</sub>=第 5~8 项和=q<sup>4</sup>·S<sub>4</sub>，即 68−4=q<sup>4</sup>·4 ⇒ q<sup>4</sup>=16 ⇒ <strong>q=±2</strong>。</li>
 <li>由递推 a<sub>n+1</sub>/n = a<sub>n</sub>/(n+1) + 1/[n(n+1)]，两边同乘 n(n+1) 得 (n+1)a<sub>n+1</sub> = n·a<sub>n</sub> + 1。设 b<sub>n</sub> = n·a<sub>n</sub>，则 b<sub>n+1</sub> − b<sub>n</sub> = (n+1)a<sub>n+1</sub> − n·a<sub>n</sub> = 1（常数），故 <strong>{n·a<sub>n</sub>} 是首项 b<sub>1</sub> = 1×3 = 3、公差 1 的等差数列</strong>。由此还能反解出 a<sub>n</sub> = (n+2)/n，供第 (2) 问用。</li>
@@ -6439,9 +6430,8 @@ a<sub>n+1</sub>+1  =  a<sub>n</sub>(a<sub>n</sub>−n)+2 ≥ 2a<sub>n</sub>+
 <h3>进阶 4：柯西 / 琴生 / 排序不等式（选学·验证用）</h3>
 <p><strong>课标依据/红线</strong>：<strong>超纲红线（考试禁用，只用于理解/自检）</strong>——不在教材内，答题卡上不要直接引用。</p>
 <hr />
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. x &lt; −2 或 x &gt; 2；2. x + 4/x ≥ 2√(x·4/x)  =  4，取等 x  =  2，最小值 4；3. a + b ≥ 2√9  =  6，取等 a  =  b  =  3，最小值 6；4. Δ  =  4 − 12 &lt; 0 且开口向上 ⇒ 解集为 R；5. k  =  0 时 1 &gt; 0 成立；k ≠ 0 需 k &gt; 0 且 Δ  =  k<sup>2</sup> − 4k &lt; 0 ⇒ 0 &lt; k &lt; 4；综上 0 ≤ k &lt; 4。</p></div></div>
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案</button><div class="ans-body"><h2>课后习题答案</h2>
-<p><strong>A 组</strong></p>
+<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. x &lt; −2 或 x &gt; 2；2. x + 4/x ≥ 2√(x·4/x)  =  4，取等 x  =  2，最小值 4；3. a + b ≥ 2√9  =  6，取等 a  =  b  =  3，最小值 6；4. Δ  =  4 − 12 &lt; 0 且开口向上 ⇒ 解集为 R；5. k  =  0 时 1 &gt; 0 成立；k ≠ 0 需 k &gt; 0 且 Δ  =  k<sup>2</sup> − 4k &lt; 0 ⇒ 0 &lt; k &lt; 4；综上 0 ≤ k &lt; 4。</p></div></div>
+<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
 <ol>
 <li>(x−2)(x−3)&gt;0，开口向上，"大于取两边"：<strong>x&lt;2 或 x&gt;3</strong>。</li>
 <li>x·(9/x)=9 定，x+9/x ≥ 2√9=<strong>6</strong>，x=3 取等。</li>
@@ -6450,14 +6440,14 @@ a<sub>n+1</sub>+1  =  a<sub>n</sub>(a<sub>n</sub>−n)+2 ≥ 2a<sub>n</sub>+
 <li>开口向上、"小于取中间"：<strong>−2≤x≤1</strong>。</li>
 <li>1/x+1/y=(x+2y)(1/x+1/y)=1+x/y+2y/x+2=3+x/y+2y/x ≥ 3+2√2（x/y=2y/x 即 x=√2 y 取等）。最小值 <strong>3+2√2</strong>。</li>
 </ol>
-<p><strong>B 组</strong></p>
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · B 组</button><div class="ans-body"><p><strong>B 组</strong></p>
 <ol start="7">
 <li>开口向上，Δ=a<sup>2</sup>−36≤0 ⇒ <strong>−6≤a≤6</strong>。</li>
 <li>分解 (x−1)(x−a)&lt;0。若 a&gt;1：1&lt;x&lt;a；若 a&lt;1：a&lt;x&lt;1；若 a=1：(x−1)<sup>2</sup>&lt;0 无解。</li>
 <li>2x·(8/x)=16 定，2x+8/x ≥ 2√16=<strong>8</strong>，2x=8/x 即 x=2 取等。</li>
 <li>k=0 时 1&gt;0 成立；k≠0 需 k&gt;0 且 Δ=k<sup>2</sup>−4k&lt;0 ⇒ 0&lt;k&lt;4。综上 <strong>0≤k&lt;4</strong>。</li>
 </ol>
-<p><strong>C 组</strong></p>
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · C 组</button><div class="ans-body"><p><strong>C 组</strong></p>
 <ol start="11">
 <li>设公共值为 k，则 x=2^{k−2}，y=3^{k−3}，z=5^{k−5}。取对数比较：x=y 在 k≈4.71、x=z 在 k≈7.27、y=z 在 k≈9.30 处互换。随 k 从小到大，可能出现的顺序为 x&gt;y&gt;z（A）、y&gt;x&gt;z（C）、y&gt;z&gt;x（D）、z&gt;y&gt;x；唯独 <strong>x&gt;z&gt;y（选项 B）不可能</strong>，故选 <strong>B</strong>。</li>
 </ol>
@@ -6886,9 +6876,8 @@ a<sup>2</sup>+b<sup>2</sup> = 41，a<sup>2</sup>+c<sup>2</sup> = 34，b<
 <h3>进阶 3：三视图（说明）</h3>
 <p><strong>课标依据/红线</strong>：三视图已从新高考删除，<strong>不考，不必花时间</strong>；斜二测画法画直观图了解即可。</p>
 <hr />
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. V  =  π·2<sup>2</sup>·3  =  12π；S 侧  =  2π·2·3  =  12π；2. V  =  ⅓·4·6  =  8；3. 不能（a ⊂ α，需平面外一条直线）；4. (4/3)πR<sup>3</sup>  =  36π ⇒ R<sup>3</sup>  =  27 ⇒ R  =  3；5. √(4 + 9 + 36)  =  7。</p></div></div>
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案</button><div class="ans-body"><h2>课后习题答案</h2>
-<p><strong>A 组</strong></p>
+<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. V  =  π·2<sup>2</sup>·3  =  12π；S 侧  =  2π·2·3  =  12π；2. V  =  ⅓·4·6  =  8；3. 不能（a ⊂ α，需平面外一条直线）；4. (4/3)πR<sup>3</sup>  =  36π ⇒ R<sup>3</sup>  =  27 ⇒ R  =  3；5. √(4 + 9 + 36)  =  7。</p></div></div>
+<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
 <ol>
 <li>表面积 6·9=<strong>54</strong>；体积 3<sup>3</sup>=<strong>27</strong>；体对角线 √3·3=<strong>3√3</strong>。</li>
 <li>V=⅓π·3<sup>2</sup>·4=<strong>12π</strong>；侧面积 π·3·5=<strong>15π</strong>。</li>
@@ -6897,14 +6886,14 @@ a<sup>2</sup>+b<sup>2</sup> = 41，a<sup>2</sup>+c<sup>2</sup> = 34，b<
 <li>l=√(4+9+16)=<strong>√29</strong>。</li>
 <li>V=⅓·6·5=<strong>10</strong>。</li>
 </ol>
-<p><strong>B 组</strong></p>
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · B 组</button><div class="ans-body"><p><strong>B 组</strong></p>
 <ol start="7">
 <li>体对角线=√(4+4+4)=2√3=2R ⇒ R=√3。V=(4/3)π(√3)<sup>3</sup>=<strong>4√3 π</strong>。</li>
 <li>连接 AC 交 BD 于 O（O 是 AC 中点），连 OE。在 △ACC<sub>1</sub> 中 O、E 分别是 AC、CC<sub>1</sub> 中点，故 OE∥AC<sub>1</sub>（中位线）。OE⊂平面 BDE，AC<sub>1</sub>⊄平面 BDE ⇒ <strong>AC<sub>1</sub>∥平面 BDE</strong>。</li>
 <li>V=⅓·S底·PA=⅓·4·3=4。等体积法下高由对应底面积决定；此处换顶点后高 h=3V/S△PBC，思路成立（具体数值需先求 △PBC 面积）。</li>
 <li>因为 BC⊥AB（底面正方形邻边垂直），且 BC⊥BB<sub>1</sub>（侧棱 BB<sub>1</sub> 垂直底面 ABCD），而 AB 与 BB<sub>1</sub> 是平面 ABB<sub>1</sub>A<sub>1</sub> 内的两条相交直线，故 BC⊥平面 ABB<sub>1</sub>A<sub>1</sub>。又 BC⊂平面 ABCD，由面面垂直判定，<strong>平面 ABCD⊥平面 ABB<sub>1</sub>A<sub>1</sub></strong>。</li>
 </ol>
-<p><strong>C 组</strong></p>
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · C 组</button><div class="ans-body"><p><strong>C 组</strong></p>
 <ol start="11">
 <li>
 <p>设底面边长 2、侧棱 2，建系 A(0,0,0)、B(2,0,0)、C(1,√3,0)、D(1.5,√3/2,0)、A<sub>1</sub>(0,0,2)、C<sub>1</sub>(1,√3,2)。
@@ -7342,9 +7331,8 @@ V = ⅓·1·√2 = <strong>√2/3</strong>。</p>
 <p><strong>联动本章</strong>：例 4 第 (3) 问求三棱锥 P−BDE 体积，正是换顶点 V(P−BDE) = V(B−PDE)，把底面换到坐标面 PDE 上，S△PDE = 1、高 = √2，得 V = √2/3；3.4 节点 C<sub>1</sub> 到平面 A<sub>1</sub>BD 的距离（d = 2√3/3）也可用等体积法交叉验算。</p>
 <p>（高级方法手册·7.3）</p>
 <hr />
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. AB  =  (−1, 0, 1)，AC  =  (0, −1, 1)；n·AB  =  −x + z  =  0，n·AC  =  −y + z  =  0 ⇒ x  =  y  =  z，取 (1, 1, 1)；2. √(1+4+4)  =  3；3. cos θ  =  0 ⇒ θ  =  90°；4. sin；5. 点与面上任一点连线在法向量方向上的投影绝对值（|AP·n|/|n|）。</p></div></div>
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案</button><div class="ans-body"><h2>课后习题答案</h2>
-<p><strong>A 组</strong></p>
+<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. AB  =  (−1, 0, 1)，AC  =  (0, −1, 1)；n·AB  =  −x + z  =  0，n·AC  =  −y + z  =  0 ⇒ x  =  y  =  z，取 (1, 1, 1)；2. √(1+4+4)  =  3；3. cos θ  =  0 ⇒ θ  =  90°；4. sin；5. 点与面上任一点连线在法向量方向上的投影绝对值（|AP·n|/|n|）。</p></div></div>
+<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
 <ol>
 <li>|a|=√(4+9+36)=<strong>7</strong>。</li>
 <li>a·b=1·2+(−2)(−1)+2·0=2+2+0=<strong>4</strong>。</li>
@@ -7353,14 +7341,14 @@ V = ⅓·1·√2 = <strong>√2/3</strong>。</p>
 <li>sinθ=|a·n|/(|a||n|)，a 为斜线方向向量，n 为平面法向量。</li>
 <li>平面 2x+2y+z−6=0，d=|0+0+0−6|/√(4+4+1)=6/3=<strong>2</strong>。</li>
 </ol>
-<p><strong>B 组</strong></p>
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · B 组</button><div class="ans-body"><p><strong>B 组</strong></p>
 <ol start="7">
 <li>建系 A(0,0,0)、B(1,0,0)、D(0,1,0)、D<sub>1</sub>(0,1,1)。BD<sub>1</sub>=(−1,1,1)，底面法向量 n=(0,0,1)。sinθ=|1|/(√3·1)=<strong>√3/3</strong>。</li>
 <li>cosθ=|n<sub>1</sub>·n<sub>2</sub>|/(|n<sub>1</sub>||n<sub>2</sub>|)=1/(√2·√2)=<strong>1/2</strong>。</li>
 <li>面 A<sub>1</sub>BD：A<sub>1</sub>(0,0,1)、B(1,0,0)、D(0,1,0)。A<sub>1</sub>B=(1,0,−1)，A<sub>1</sub>D=(0,1,−1)，法向量 n=(1,1,1)。取 A<sub>1</sub> 为面上点，AA<sub>1</sub>=(0,0,1)。d=|0+0+1|/√3=<strong>√3/3</strong>。</li>
 <li>A<sub>1</sub>C=(1,1,−1)，底面法向量 n=(0,0,1)。线面角 sinθ=1/√3，则 tanθ=sin/√(1−sin<sup>2</sup>)=(1/√3)/√(2/3)=<strong>√2/2</strong>。</li>
 </ol>
-<p><strong>C 组</strong></p>
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · C 组</button><div class="ans-body"><p><strong>C 组</strong></p>
 <ol start="11">
 <li>建系 A(0,0,0)、C(2,0,0)、P(0,0,2)；由 AB=√3、BC=1 得 B(3/2,√3/2,0)。设 D=(u,v,0)，由 AD⊥DC 得 u<sup>2</sup>+v<sup>2</sup>=2u。平面 ACP 即 y=0，法向量 n<sub>1</sub>=(0,1,0)。平面 DCP 的法向量 n<sub>2</sub>=CP×CD=(−2v, 2u−4, −2v)。由 sin(二面角)=√42/7 得 |cos&lt;n<sub>1</sub>,n<sub>2</sub>&gt;|=√7/7，即 (2−u)/√(2v<sup>2</sup>+(2−u)<sup>2</sup>)=√7/7。平方化简得 v<sup>2</sup>=3(2−u)<sup>2</sup>，结合 v<sup>2</sup>=2u−u<sup>2</sup> 解得 u=3/2（舍去退化 u=2），v=√3/2。于是 AD=√(u<sup>2</sup>+v<sup>2</sup>)=√(9/4+3/4)=<strong>√3</strong>。</li>
 </ol>
@@ -7862,19 +7850,18 @@ A. (0, 1)　　B. (1, 3)　　C. (3, +∞)　　D. (0, +∞)</p>
 <li><strong>✓ 不超纲</strong>（就是斜率公式、点到直线距离公式的"几何读法"）。</li>
 </ul>
 <hr />
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. k = (5−1)/(3−1) = 2；2. y = (2/3)x + 2，k = 2/3；3. |−2|/√2 = √2；4. 圆心 (1, −2)，半径 3；5. d = |0−0|/√2 = 0 &lt; 1 ⇒ 相交（且过圆心，是直径）。</p></div></div>
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案</button><div class="ans-body"><h2>课后习题答案</h2>
-<p><strong>A1.</strong> k = (−4−2)/(3−(−1)) = −6/4 = <strong>−3/2</strong>。
+<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. k = (5−1)/(3−1) = 2；2. y = (2/3)x + 2，k = 2/3；3. |−2|/√2 = √2；4. 圆心 (1, −2)，半径 3；5. d = |0−0|/√2 = 0 &lt; 1 ⇒ 相交（且过圆心，是直径）。</p></div></div>
+<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A1.</strong> k = (−4−2)/(3−(−1)) = −6/4 = <strong>−3/2</strong>。
 <strong>A2.</strong> k = tan 120° = −tan 60° = <strong>−√3</strong>；k &lt; 0，直线从左上向右下倾斜。
 <strong>A3.</strong> 斜截式 <strong>y = −2x + 3</strong>；一般式 <strong>2x + y − 3 = 0</strong>。
 <strong>A4.</strong> 原直线斜率 k = −3/4，平行斜率相同。过 (2,−1)：y+1 = (−3/4)(x−2)，整理 <strong>3x + 4y − 2 = 0</strong>。
 <strong>A5.</strong> d = |3·3 − 4·4 + 1|/√(9+16) = |9−16+1|/5 = |−6|/5 = <strong>6/5</strong>。
 <strong>A6.</strong> 标准方程 <strong>(x+1)<sup>2</sup> + (y−2)<sup>2</sup> = 9</strong>；展开 x<sup>2</sup>+2x+1+y<sup>2</sup>−4y+4=9，一般式 <strong>x<sup>2</sup> + y<sup>2</sup> + 2x − 4y − 4 = 0</strong>。</p>
-<p><strong>B7.</strong> 系数一致，d = |(−2)−8|/√(9+16) = 10/5 = <strong>2</strong>。
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · B 组</button><div class="ans-body"><p><strong>B7.</strong> 系数一致，d = |(−2)−8|/√(9+16) = 10/5 = <strong>2</strong>。
 <strong>B8.</strong> 圆心 (0,0)，d = |0+0−1|/√2 = 1/√2。弦长 = 2√(9 − 1/2) = 2√(17/2) = <strong>√34 ≈ 5.83</strong>。
 <strong>B9.</strong> 设切线 y = kx + 4，圆心 (0,0) 到它距离 = |4|/√(k<sup>2</sup>+1) = r = 2 ⇒ √(k<sup>2</sup>+1) = 2 ⇒ k<sup>2</sup> = 3 ⇒ k = ±√3。切线：<strong>y = √3 x + 4</strong> 和 <strong>y = −√3 x + 4</strong>。（本题无竖直切线漏网。）
 <strong>B10.</strong> 圆心 (1,2) 到直线 x − y + b = 0 距离 d = |1−2+b|/√2 = |b−1|/√2。相交 ⇔ d &lt; 2 ⇒ |b−1| &lt; 2√2 ⇒ <strong>1−2√2 &lt; b &lt; 1+2√2</strong>。</p>
-<p><strong>C1.</strong> <strong>B</strong>。圆心到直线距离 d = 2；圆上点到直线距离范围 [|2−r|, 2+r]。距离恰为 1 时：r&lt;1 → 0 个；1&lt;r&lt;3 → 2 个；r&gt;3 → 4 个。"恰 2 个"⇔ <strong>1 &lt; r &lt; 3</strong>。
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · C 组</button><div class="ans-body"><p><strong>C1.</strong> <strong>B</strong>。圆心到直线距离 d = 2；圆上点到直线距离范围 [|2−r|, 2+r]。距离恰为 1 时：r&lt;1 → 0 个；1&lt;r&lt;3 → 2 个；r&gt;3 → 4 个。"恰 2 个"⇔ <strong>1 &lt; r &lt; 3</strong>。
 <strong>C2.</strong>（思想题）面积 = ½·弦长·d（d 为第三个顶点到直线的距离），弦长用 2√(r<sup>2</sup>−d<sup>2</sup>) 或联立求得。本章只需掌握"点到直线距离是面积的一条高"。
 <strong>C3.</strong> 设切线 y = kx（过原点），圆 (x−2)<sup>2</sup>+y<sup>2</sup>=1 圆心 (2,0)、r=1。d = |2k|/√(k<sup>2</sup>+1) = 1 ⇒ 4k<sup>2</sup> = k<sup>2</sup>+1 ⇒ k<sup>2</sup> = 1/3 ⇒ k = ±√3/3。切线：<strong>y = (√3/3)x</strong> 和 <strong>y = −(√3/3)x</strong>。</p>
 </div></div><h2>一通百通</h2>
@@ -8408,19 +8395,18 @@ A. √2　　B. 2　　C. √7　　D. 2√2</p>
 </ul>
 <p>（高级方法手册·2.4）</p>
 <hr />
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. c<sup>2</sup> = 16 − 9 = 7，2c = 2√7；2. y = ±(√5/2)x；3. p = 4，焦点 (2, 0)，准线 x = −2；4. e = c/a = 4/5；5. 代入得 (1/4 + k<sup>2</sup>)x<sup>2</sup> + 2kx + 1 − 1 = 0 ⇒ (k<sup>2</sup> + 1/4)x<sup>2</sup> + 2kx = 0，Δ = 4k<sup>2</sup> ≥ 0 恒成立（此直线恒与椭圆相交，因过 (0,1) 在椭圆内）。</p></div></div>
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案</button><div class="ans-body"><h2>课后习题答案</h2>
-<p><strong>A1.</strong> c = 4，e = c/a = 4/5 ⇒ a = 5。b<sup>2</sup> = a<sup>2</sup>−c<sup>2</sup> = 25−16 = 9。方程 <strong>x<sup>2</sup>/25 + y<sup>2</sup>/9 = 1</strong>。
+<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. c<sup>2</sup> = 16 − 9 = 7，2c = 2√7；2. y = ±(√5/2)x；3. p = 4，焦点 (2, 0)，准线 x = −2；4. e = c/a = 4/5；5. 代入得 (1/4 + k<sup>2</sup>)x<sup>2</sup> + 2kx + 1 − 1 = 0 ⇒ (k<sup>2</sup> + 1/4)x<sup>2</sup> + 2kx = 0，Δ = 4k<sup>2</sup> ≥ 0 恒成立（此直线恒与椭圆相交，因过 (0,1) 在椭圆内）。</p></div></div>
+<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A1.</strong> c = 4，e = c/a = 4/5 ⇒ a = 5。b<sup>2</sup> = a<sup>2</sup>−c<sup>2</sup> = 25−16 = 9。方程 <strong>x<sup>2</sup>/25 + y<sup>2</sup>/9 = 1</strong>。
 <strong>A2.</strong> a=10, b=6, c=8。长轴 20，短轴 12，焦距 16。顶点 (±10,0)、(0,±6)。
 <strong>A3.</strong> a=3, b=4, c=5。焦点 (±5,0)。渐近线 y=±(4/3)x。e=5/3。
 <strong>A4.</strong> 焦点 (−3,0) 开口向左，方程 <strong>y<sup>2</sup> = −12x</strong>（2p=12），准线 x=3。
 <strong>A5.</strong> c<sup>2</sup>=25−16=9，c=3，<strong>e=3/5</strong>。
 <strong>A6.</strong> 代入 y=x+m：x<sup>2</sup>/4+(x+m)<sup>2</sup>=1 ⇒ (5/4)x<sup>2</sup>+2mx+m<sup>2</sup>−1=0。Δ=(2m)<sup>2</sup>−4·(5/4)·(m<sup>2</sup>−1)=4m<sup>2</sup>−5m<sup>2</sup>+5=5−m<sup>2</sup>。Δ&gt;0 ⇒ <strong>−√5&lt;m&lt;√5</strong>。</p>
-<p><strong>B7.</strong> b<sup>2</sup>=16，S=16·tan30°=16·(√3/3)=<strong>16√3/3</strong>。
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · B 组</button><div class="ans-body"><p><strong>B7.</strong> b<sup>2</sup>=16，S=16·tan30°=16·(√3/3)=<strong>16√3/3</strong>。
 <strong>B8.</strong> 联立 (2x)<sup>2</sup>=4x ⇒ 4x<sup>2</sup>−4x=0 ⇒ x=0 或 1。A(0,0)、B(1,2)。|AB|=√(1+4)=<strong>√5</strong>。
 <strong>B9.</strong> 点差法：k·(y<sub>0</sub>/x<sub>0</sub>)=−b<sup>2</sup>/a<sup>2</sup>=−4/16=−1/4。y<sub>0</sub>/x<sub>0</sub>=1/2。k=−1/4·2=<strong>−1/2</strong>。
 <strong>B10.</strong> 通径=2b<sup>2</sup>/a=2·4/3=<strong>8/3</strong>。</p>
-<p><strong>C1.</strong> <strong>D</strong>。虚轴长 2b、实轴长 2a，题意 b/a=√7。e=√(1+b<sup>2</sup>/a<sup>2</sup>)=√(1+7)=√8=<strong>2√2</strong>。
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · C 组</button><div class="ans-body"><p><strong>C1.</strong> <strong>D</strong>。虚轴长 2b、实轴长 2a，题意 b/a=√7。e=√(1+b<sup>2</sup>/a<sup>2</sup>)=√(1+7)=√8=<strong>2√2</strong>。
 <strong>C2.</strong> 过 F<sub>2</sub>(c,0) 竖直线交双曲线：x=c 时 y<sup>2</sup>=b<sup>2</sup>(c<sup>2</sup>/a<sup>2</sup>−1)=b<sup>4</sup>/a<sup>2</sup>，半弦=b<sup>2</sup>/a。|AB|=2b<sup>2</sup>/a=10 ⇒ b<sup>2</sup>/a=5。A(c,b<sup>2</sup>/a)，|F<sub>1</sub>A|=√((2c)<sup>2</sup>+(b<sup>2</sup>/a)<sup>2</sup>)=√(4c<sup>2</sup>+25)=13 ⇒ 4c<sup>2</sup>+25=169 ⇒ c=6。又 c<sup>2</sup>=a<sup>2</sup>+b<sup>2</sup>=36 且 b<sup>2</sup>=5a，得 a<sup>2</sup>+5a=36 ⇒ a=4。<strong>e=c/a=6/4=3/2</strong>。
 <strong>C3.</strong> e=c/a=2√2/3，故 b<sup>2</sup>/a<sup>2</sup>=1−e<sup>2</sup>=1/9，即 b=a/3。|AB|=√(a<sup>2</sup>+b<sup>2</sup>)=√(a<sup>2</sup>+a<sup>2</sup>/9)=a√(10/9)=√10 ⇒ a=3，b=1。标准方程 <strong>x<sup>2</sup>/9 + y<sup>2</sup> = 1</strong>。
 <strong>C4.</strong> 设 AB 中点 M(x<sub>0</sub>,y<sub>0</sub>)，则 x<sub>0</sub>=(x<sub>1</sub>+x<sub>2</sub>)/2=4。点差法两式相减：(x<sub>1</sub><sup>2</sup>−x<sub>2</sub><sup>2</sup>)/25=−(y<sub>1</sub><sup>2</sup>−y<sub>2</sub><sup>2</sup>)/9 ⇒ k_AB=(y<sub>1</sub>−y<sub>2</sub>)/(x<sub>1</sub>−x<sub>2</sub>)=−9(x<sub>1</sub>+x<sub>2</sub>)/[25(y<sub>1</sub>+y<sub>2</sub>)]=−9·8/(25·2y<sub>0</sub>)=−36/(25y<sub>0</sub>)。|DA|=|DB| 说明 D 在 AB 中垂线上，中垂线斜率=25y<sub>0</sub>/36 且过 M(4,y<sub>0</sub>)：令 y=0，0−y<sub>0</sub>=(25y<sub>0</sub>/36)(x_D−4) ⇒ x_D=4−36/25=<strong>64/25</strong>。故 D(<strong>(64/25, 0)</strong>)。</p>
@@ -8798,19 +8784,18 @@ A. √2　　B. 2　　C. √7　　D. 2√2</p>
 <li><strong>✓ 不超纲</strong>。</li>
 </ul>
 <hr />
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. C(6,2) = 15；2. 5! = 120；3. C(6,2) = 15；4. k = 2：C(4,2) = 6；5. 白球捆绑成 1 个整体，与 3 红球共 4 个位置放 1 个整体 + 3 个红球：C(4,1) = 4（或 4!/3! = 4）。</p></div></div>
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案</button><div class="ans-body"><h2>课后习题答案</h2>
-<p><strong>A1.</strong> (1) 分类加法：6+5=<strong>11 种</strong>。(2) 分步乘法：6×5=<strong>30 种</strong>。
+<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. C(6,2) = 15；2. 5! = 120；3. C(6,2) = 15；4. k = 2：C(4,2) = 6；5. 白球捆绑成 1 个整体，与 3 红球共 4 个位置放 1 个整体 + 3 个红球：C(4,1) = 4（或 4!/3! = 4）。</p></div></div>
+<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A1.</strong> (1) 分类加法：6+5=<strong>11 种</strong>。(2) 分步乘法：6×5=<strong>30 种</strong>。
 <strong>A2.</strong> 三人分三个不同职务（有序）：A(8,3)=8×7×6=<strong>336 种</strong>。
 <strong>A3.</strong> 两点一线无顺序：C(10,2)=10×9/2=<strong>45 条</strong>。
 <strong>A4.</strong> C(7,3)=35，C(7,4)=C(7,3)=35（对称性），差 = <strong>0</strong>。选 3 个 = 留下 4 个，所以相等。
 <strong>A5.</strong> 两女捆绑（内部 2!），与 4 男共 5 个整体排 5!：2!·5!=2×120=<strong>240 种</strong>。
 <strong>A6.</strong> T₍<sub>k+1</sub>₎=C(6,k)x<sup>6−k</sup>(−1)<sup>k</sup>，令 6−k=3⇒k=3：C(6,3)(−1)<sup>3</sup>=20×(−1)=<strong>−20</strong>。</p>
-<p><strong>B7.</strong> 男女相间：男先排 3!，女插入（男 _ 男 _ 男 _ ，3 个空位放 3 女）3!，但相间有两种起手（男女男女男女 / 女男女男女男）：2·3!·3!=2×6×6=<strong>72 种</strong>。
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · B 组</button><div class="ans-body"><p><strong>B7.</strong> 男女相间：男先排 3!，女插入（男 _ 男 _ 男 _ ，3 个空位放 3 女）3!，但相间有两种起手（男女男女男女 / 女男女男女男）：2·3!·3!=2×6×6=<strong>72 种</strong>。
 <strong>B8.</strong> 6 本平均分给甲乙丙（组有名字）：C(6,2)C(4,2)C(2,2)=15×6×1=<strong>90 种</strong>（分给三人不再除 3!，因为甲乙丙有区别）。
 <strong>B9.</strong> 隔板法：C(10−1, 3−1)=C(9,2)=<strong>36 种</strong>。
 <strong>B10.</strong> 令 x=1：(2+1)<sup>6</sup>=3<sup>6</sup>=<strong>729</strong>。</p>
-<p><strong>C1.</strong> 把乙的 4 张卡随机配给甲的 4 张（共 4!=24 种配对）。枚举得分：甲 1 谁都比不过（恒 0 贡献），甲 3 只赢乙 2，甲 5 赢乙 2、4，甲 7 赢乙 2、4、6。枚举 24 种配对得分分布：得 0 分 1 种、得 1 分 11 种、得 2 分 11 种、得 3 分 1 种。得分 ≥2 = 11+1 = 12 种。概率 = 12/24 = <strong>1/2</strong>。
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · C 组</button><div class="ans-body"><p><strong>C1.</strong> 把乙的 4 张卡随机配给甲的 4 张（共 4!=24 种配对）。枚举得分：甲 1 谁都比不过（恒 0 贡献），甲 3 只赢乙 2，甲 5 赢乙 2、4，甲 7 赢乙 2、4、6。枚举 24 种配对得分分布：得 0 分 1 种、得 1 分 11 种、得 2 分 11 种、得 3 分 1 种。得分 ≥2 = 11+1 = 12 种。概率 = 12/24 = <strong>1/2</strong>。
 <strong>C2.</strong> 用期望线性性（下一章详述）：设指示变量 I<sub>i</sub> = 1 表示第 i 号球至少被取到一次。X = I<sub>1</sub>+…+I<sub>5</sub>。每个号被取到至少一次的概率 = 1 − (4/5)<sup>3</sup> = 61/125。E(X) = 5×61/125 = <strong>61/25 = 2.44</strong>。
 <strong>C3.</strong> 通项 T₍<sub>k+1</sub>₎=C(6,k)(x<sup>2</sup>)<sup>6−k</sup>(1/x)<sup>k</sup>=C(6,k)x<sup>12−2k</sup>·x<sup>−k</sup>=C(6,k)x<sup>12−3k</sup>。令 12−3k=0 ⇒ k=4。常数项=C(6,4)=C(6,2)=<strong>15</strong>。</p>
 </div></div><h2>一通百通</h2>
@@ -9252,19 +9237,18 @@ A. P(X&gt;2) &gt; 0.2　　B. P(X&gt;2) &lt; 0.5　　C. P(Y&gt;2) &gt; 0.5　�
 <p><strong>联动本章</strong>：例 6（小白鼠）底层小概率 4/9 算准后，"每组独立、成功概率恒定"直接套二项 B(3,4/9)，E(X)=np=4/3；例 5（灯泡）不放回抽 2 个，用超几何期望 n·M/N=2×27/50=27/25=1.08，与分布列算值互验；3.4 节"有放回 vs 不放回"辨析（期望都是 1.8、方差 0.72 对 0.36）就是这条公式的直接应用。</p>
 <p>（高级方法手册·6.4）</p>
 <hr />
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. 6/36 = 1/6；2. P(A∪B) = 0.4 + 0.5 − 0.4·0.5 = 0.7；3. 4/10 = 0.4；C(4,2)/C(10,2) = 6/45 = 2/15；4. E = 2.5，D = 5·0.5·0.5 = 1.25；5. E(X) = 0·0.3 + 1·0.5 + 2·0.2 = 0.9。</p></div></div>
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案</button><div class="ans-body"><h2>课后习题答案</h2>
-<p><strong>A1.</strong> 偶数点 {2,4,6} 共 3 种，P = 3/6 = <strong>1/2</strong>。
+<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. 6/36 = 1/6；2. P(A∪B) = 0.4 + 0.5 − 0.4·0.5 = 0.7；3. 4/10 = 0.4；C(4,2)/C(10,2) = 6/45 = 2/15；4. E = 2.5，D = 5·0.5·0.5 = 1.25；5. E(X) = 0·0.3 + 1·0.5 + 2·0.2 = 0.9。</p></div></div>
+<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A1.</strong> 偶数点 {2,4,6} 共 3 种，P = 3/6 = <strong>1/2</strong>。
 <strong>A2.</strong> P(<span class="ol">A</span>) = 1 − 0.7 = <strong>0.3</strong>。
 <strong>A3.</strong> 第一红后剩 4 红 3 白，P = 4/7。
 <strong>A4.</strong> E = 1·0.2+2·0.5+3·0.3 = 0.2+1+0.9 = <strong>2.1</strong>。
 <strong>A5.</strong> X~B(4,0.8)，P(X=3)=C(4,3)·0.8<sup>3</sup>·0.2 = 4·0.512·0.2 = <strong>0.4096</strong>。
 <strong>A6.</strong> P = C(3,1)C(7,1)/C(10,2) = 21/45 = <strong>7/15</strong>。</p>
-<p><strong>B7.</strong> E(X<sup>2</sup>)=1·0.2+4·0.5+9·0.3=0.2+2+2.7=4.9。D=4.9−2.1<sup>2</sup>=4.9−4.41=<strong>0.49</strong>。
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · B 组</button><div class="ans-body"><p><strong>B7.</strong> E(X<sup>2</sup>)=1·0.2+4·0.5+9·0.3=0.2+2+2.7=4.9。D=4.9−2.1<sup>2</sup>=4.9−4.41=<strong>0.49</strong>。
 <strong>B8.</strong> 对称轴 μ=2。P(X&lt;0)=P(X&gt;4)=0.2（对称）。P(2&lt;X&lt;4)=0.5−P(X&gt;4)=0.5−0.2=<strong>0.3</strong>。
 <strong>B9.</strong> P = ½·(2/10) + ½·(3/20) = 0.1 + 0.075 = <strong>0.175</strong>。
 <strong>B10.</strong> E(A)=500。E(B)=0.6·1000+0.4·(−200)=600−80=520。E(B)&gt;E(A)，<strong>选 B</strong>（但要提示 B 有亏损风险，需结合方差）。</p>
-<p><strong>C1.</strong> <strong>BC</strong>。X~N(1.8,0.1<sup>2</sup>)，2=1.8+2×0.1=μ+2σ，P(X&gt;2)=0.5−0.954/2=0.023&lt;0.5，故 A 错 B 对。Y~N(2.1,0.1<sup>2</sup>)，2=2.1−0.1=μ−σ，P(Y&gt;2)=0.5+0.3413=0.8413&gt;0.5，故 C 对 D 错。
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · C 组</button><div class="ans-body"><p><strong>C1.</strong> <strong>BC</strong>。X~N(1.8,0.1<sup>2</sup>)，2=1.8+2×0.1=μ+2σ，P(X&gt;2)=0.5−0.954/2=0.023&lt;0.5，故 A 错 B 对。Y~N(2.1,0.1<sup>2</sup>)，2=2.1−0.1=μ−σ，P(Y&gt;2)=0.5+0.3413=0.8413&gt;0.5，故 C 对 D 错。
 <strong>C2.</strong> E(X)=5·[1−(4/5)<sup>3</sup>]=5·61/125=<strong>61/25=2.44</strong>（期望线性性）。
 <strong>C3.</strong> 24 种配对枚举，得分 ≥2 共 12 种，P=12/24=<strong>1/2</strong>。</p>
 </div></div><h2>一通百通</h2>
@@ -9630,19 +9614,18 @@ b  =  12.3/10  =  1.23；a  =  <span class = "ol">y</span> − b
 <li><strong>✓ 不超纲</strong>。</li>
 </ul>
 <hr />
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. 40/800 = 1/20 = 5%；2. <span class="ol">x</span> = 6，s<sup>2</sup> = (4+0+4)/3 = 8/3；3. 1；4. 样本中心 (<span class="ol">x</span>, <span class="ol">y</span>)；5. 强正线性相关（|r| 接近 1 且为正）。</p></div></div>
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案</button><div class="ans-body"><h2>课后习题答案</h2>
-<p><strong>A1.</strong> 总 1000，比例 50/1000=1/20。一车间 300/20=<strong>15</strong>，二车间 200/20=<strong>10</strong>，三车间 500/20=<strong>25</strong>。
+<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. 40/800 = 1/20 = 5%；2. <span class="ol">x</span> = 6，s<sup>2</sup> = (4+0+4)/3 = 8/3；3. 1；4. 样本中心 (<span class="ol">x</span>, <span class="ol">y</span>)；5. 强正线性相关（|r| 接近 1 且为正）。</p></div></div>
+<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A1.</strong> 总 1000，比例 50/1000=1/20。一车间 300/20=<strong>15</strong>，二车间 200/20=<strong>10</strong>，三车间 500/20=<strong>25</strong>。
 <strong>A2.</strong> <span class="ol">x</span>=(3+6+9)/3=<strong>6</strong>。s<sup>2</sup>=[(3−6)<sup>2</sup>+0+(9−6)<sup>2</sup>]/3=(9+0+9)/3=<strong>6</strong>。
 <strong>A3.</strong> 频率=0.04×组距10=0.4。频数=500×0.4=<strong>200 人</strong>。
 <strong>A4.</strong> k=N/n=1000/50=<strong>20</strong>（每隔 20 抽 1 个）。
 <strong>A5.</strong> a=<span class="ol">y</span>−b·<span class="ol">x</span>=5−2·3=<strong>−1</strong>。
 <strong>A6.</strong> χ<sup>2</sup>=4.5&gt;3.841 但 &lt;6.635，故<strong>有 95% 把握认为有关，但不到 99%</strong>。</p>
-<p><strong>B7.</strong> 加权平均=(30×80+20×90)/(30+20)=(2400+1800)/50=<strong>84 分</strong>。
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · B 组</button><div class="ans-body"><p><strong>B7.</strong> 加权平均=(30×80+20×90)/(30+20)=(2400+1800)/50=<strong>84 分</strong>。
 <strong>B8.</strong> 方差乘 b<sup>2</sup>=3<sup>2</sup>：新方差=4×9=<strong>36</strong>（加 10 不影响方差）。
 <strong>B9.</strong> <span class="ol">x</span>=2, <span class="ol">y</span>=7/3。Σ(x<sub>i</sub>−<span class="ol">x</span>)<sup>2</sup>=1+0+1=2。Σ(x<sub>i</sub>−<span class="ol">x</span>)(y<sub>i</sub>−<span class="ol">y</span>)=(−1)(1−7/3)+0+(1)(4−7/3)=4/3+5/3=3。b=3/2=<strong>1.5</strong>。
 <strong>B10.</strong> ad−bc=40×30−10×20=1200−200=1000。χ<sup>2</sup>=100×1000<sup>2</sup>/(50×50×60×40)=10<sup>8</sup>/6×10<sup>6</sup>=<strong>50/3≈16.67</strong>。</p>
-<p><strong>C1.</strong> "不正常者患疾病"= 不正常且患病的 180 ÷ 不正常合计 200 = <strong>9/10 = 0.9</strong>。
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · C 组</button><div class="ans-body"><p><strong>C1.</strong> "不正常者患疾病"= 不正常且患病的 180 ÷ 不正常合计 200 = <strong>9/10 = 0.9</strong>。
 <strong>C2.</strong> χ<sup>2</sup>=1000×(20×20−180×780)<sup>2</sup>/(200×800×800×200)=<strong>765.6</strong>。765.6 &gt; 10.828，故在 α=0.001 下，<strong>有 99.9% 的把握认为超声波检查结果与患该疾病有关</strong>。
 <strong>C3.</strong> 比例 4:3:3 共 10 份，高一占 4/10。高一抽 50×4/10=<strong>20 人</strong>。</p>
 </div></div><h2>一通百通</h2>
@@ -10281,10 +10264,21 @@ b  =  12.3/10  =  1.23；a  =  <span class = "ol">y</span> − b
       btn.textContent=box.classList.contains('open')?'隐藏答案':'显示答案';
     });
   });
-  /* ===== 打印：题目版（隐藏答案）/ 答案版（含答案） ===== */
+  /* ===== 打印：只打印当前所在章节；题目版（隐藏答案）/ 答案版（含答案） ===== */
+  function printScope(withAns){
+    doc.body.classList.remove('print-ans');doc.body.classList.remove('print-one');
+    doc.querySelectorAll('section.chapter.ch-print').forEach(function(s){s.classList.remove('ch-print')});
+    if(withAns)doc.body.classList.add('print-ans');
+    var cur=null;
+    links.forEach(function(l){if(l.classList.contains('on'))cur=l.getAttribute('href')});
+    var id=(cur||'#ch-00').slice(1);
+    var sec=doc.getElementById(id);
+    if(sec){sec.classList.add('ch-print');doc.body.classList.add('print-one');}
+    window.print();
+  }
   var pq=doc.getElementById('printq'),pa=doc.getElementById('printa');
-  if(pq)pq.addEventListener('click',function(){doc.body.classList.remove('print-ans');window.print();});
-  if(pa)pa.addEventListener('click',function(){doc.body.classList.add('print-ans');window.print();});
+  if(pq)pq.addEventListener('click',function(){printScope(false)});
+  if(pa)pa.addEventListener('click',function(){printScope(true)});
   /* ===== 站内搜索（跨章，防抖 200ms） ===== */
   var idx=secs.map(function(s){
     var h1=s.querySelector('h1');
