@@ -1,28 +1,52 @@
-MIT License
+高中数学自学系统 · 许可协议（GAOKAO-MATH-SELFSTUDY LICENSE v1.0）
 
-Copyright (c) 2026 wanyuanya（高中数学自学系统 作者）
+Copyright (c) 2026 wanyuanya（联系 QQ：2779015494）
+开源地址：https://github.com/wanyuanya/gaokao-math-selfstudy
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+------------------------------------------------------------
+中文条款
+------------------------------------------------------------
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+1. 允许的用途（Permitted）
+   个人学习、研究、教学参考，以及一切非商业用途下的使用、复制、修改与分发；
+   分发或转载时必须保留本许可协议与版权声明，并注明出处与原作者。
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+2. 禁止的用途（Prohibited）
+   任何商业用途，包括但不限于：
+   - 直接或间接销售本软件、电子书内容或其任何部分；
+   - 将本软件用于付费课程、付费培训、商业出版物、商业网站、企业/机构内部商业化部署；
+   - 以任何收费或营利形式二次分发、打包、转售；
+   - 去除、篡改或隐藏本版权声明与许可协议后进行分发。
 
----
+3. 内容与免责（No Warranty）
+   - 电子书正文、例题、习题、方法手册等由作者整理编写，经多轮校对与真题核验，
+     但不保证完全无错误；发现错误欢迎反馈，作者将及时修正。
+   - 引用的教材、历年真题等为第三方版权材料，仅作个人学习参考指引，不随本包分发，
+     版权归原作者/出版方所有；请自行获取并遵守其使用规定。
+   - 本软件按"现状"提供，不附带任何明示或默示的担保。
+     使用者应自行判断内容的适用性，作者不对因使用本软件产生的任何直接或间接损失负责。
+   - 高考政策、试卷结构以官方发布为准，本软件内容不构成任何考试保证。
 
-说明：本许可证仅适用于本仓库内自创内容（电子书、公式整理、方法手册、
-系统文档、技能包）。教材与真题等第三方版权材料不在本仓库中，
-其版权归原权利方所有，请按 `系统文档\00_素材清单与来源.md` 自行获取，
-仅限个人学习与研究使用。
+4. 联系与反馈
+   QQ：2779015494 ｜ 开源地址：https://github.com/wanyuanya/gaokao-math-selfstudy
+
+------------------------------------------------------------
+English Terms
+------------------------------------------------------------
+
+1. Permitted: personal study, research, teaching reference, and any non-commercial
+   use, including copying, modification and redistribution, provided that this license
+   and the copyright notice are retained with attribution.
+
+2. Prohibited: any commercial use, including but not limited to selling the software
+   or its content; use in paid courses, paid training, commercial publications,
+   commercial websites, or enterprise/institutional commercial deployment;
+   paid redistribution in any form; removal or alteration of this license notice.
+
+3. No Warranty: the e-book content is compiled by the author with best efforts and
+   is not guaranteed error-free. Third-party materials (textbooks, past exam papers)
+   belong to their respective owners and are referenced for personal study only.
+   The software is provided "as is" without warranty of any kind. Use at your own risk;
+   the author is not liable for any loss arising from its use.
+
+4. Contact: QQ 2779015494 ｜ https://github.com/wanyuanya/gaokao-math-selfstudy
