@@ -181,6 +181,14 @@ section.flash{animation:flash 1.6s ease}
   section.chapter{page-break-after:always;border:none}
   body.print-one section.chapter{display:none!important}
   body.print-one section.chapter.ch-print{display:block!important}
+  /* 讲义：隐藏出口检测+课后习题+全部答案 */
+  body.print-note .sec-out,body.print-note .sec-hw,body.print-note .ans-box{display:none!important}
+  /* 题目卷：只显示出口检测+课后习题 */
+  body.print-q .sec{display:none!important}
+  body.print-q .sec-out,body.print-q .sec-hw{display:block!important}
+  /* 答案卷：只显示含答案的区块（含自测答案与课后答案，JS 已打 sec-has-ans 标） */
+  body.print-a .sec{display:none!important}
+  body.print-a .sec-has-ans{display:block!important}
   .ans-box{border:none;background:transparent;margin:6px 0}
   .ans-box>.ans-body{display:none!important;padding:0;border:none}
   body.print-ans .ans-box>.ans-body{display:block!important}
@@ -197,8 +205,9 @@ section.flash{animation:flash 1.6s ease}
     <button class="tb-btn" id="minus" title="减小字号">A−</button><span id="fsize"></span><button class="tb-btn" id="plus" title="增大字号">A+</button>
     <button class="tb-btn" id="serifbtn" title="切换正文字体"></button>
     <button class="tb-btn" id="darkbtn" title="深色/日间模式"></button>
-    <button class="tb-btn" id="printq" title="打印当前所在章节（隐藏答案，可当练习卷）">打印本章</button>
-    <button class="tb-btn" id="printa" title="打印当前所在章节（含答案）">本章+答案</button>
+    <button class="tb-btn" id="printnote" title="打印当前章节讲义（不含题目与答案）">打印讲义</button>
+    <button class="tb-btn" id="printq" title="打印当前章节所有题目（练习卷）">打印题目</button>
+    <button class="tb-btn" id="printa" title="打印当前章节所有答案（答案卷）">打印答案</button>
   </div>
 </div></header>
 <nav id="toc"><div class="toc-title">目 录</div><a href="#ch-00"><span class="no">00</span>高中数学自学系统 · 学习工程</a><a href="#ch-01"><span class="no">01</span>集合与常用逻辑</a><a href="#ch-02"><span class="no">02</span>函数的概念与性质</a><a href="#ch-03"><span class="no">03</span>基本初等函数（指数、对数、幂函数）</a><a href="#ch-04"><span class="no">04</span>函数的应用与方程（零点、二分法、函数模型）</a><a href="#ch-05"><span class="no">05</span>导数及其应用</a><a href="#ch-06"><span class="no">06</span>三角函数的概念与性质</a><a href="#ch-07"><span class="no">07</span>三角恒等变换</a><a href="#ch-08"><span class="no">08</span>解三角形</a><a href="#ch-09"><span class="no">09</span>平面向量</a><a href="#ch-10"><span class="no">10</span>复数</a><a href="#ch-11"><span class="no">11</span>数列</a><a href="#ch-12"><span class="no">12</span>不等式与基本不等式</a><a href="#ch-13"><span class="no">13</span>立体几何初步</a><a href="#ch-14"><span class="no">14</span>空间向量与立体几何</a><a href="#ch-15"><span class="no">15</span>直线与圆</a><a href="#ch-16"><span class="no">16</span>圆锥曲线</a><a href="#ch-17"><span class="no">17</span>计数原理（排列、组合、二项式定理）</a><a href="#ch-18"><span class="no">18</span>概率</a><a href="#ch-19"><span class="no">19</span>统计</a><a href="#ch-20"><span class="no">20</span>附录：不超纲公式与结论</a><div class="toc-foot">《高中数学自学系统》<br>20 章连续学习工程 · 教材级讲解<br>公式速查 · 分层习题 · 真题验收</div></nav>
@@ -210,7 +219,7 @@ section.flash{animation:flash 1.6s ease}
 版本：基线 v0.1（2026-10-02）｜ 全书 19 章 + 第 20 章附录（不超纲公式与结论，2026-10-03 新增），逐章迭代中</p>
 </blockquote>
 <hr />
-<h2>这本书是什么</h2>
+<div class="sec sec-meta"><h2>这本书是什么</h2>
 <blockquote>
 <p><strong>本章本质核心</strong>：高中三年数学的本质是"造工具 → 用工具"——先学会一个个工具（集合、函数、导数、数列……），再学会把工具组合起来解题；本书（包括 00 章之后 01–20 章）就是把这套工具按"谁是谁的前置"排成一条能自检的流水线。这一章不讲数学，只讲这条流水线的地图和用法；后面每一章，都只是这条主线的一种情形。</p>
 <p class="baihua why"><span class="tag">为什么有用</span>想通这套主线感，你拿到任何新章节都会自学——先问"它是什么工具、为什么放这里、学了能解决什么、拿真题怎么验收"，这正是考高分甚至满分的人与只会刷题的人的分水岭：前者每学一样都挂到主线上，考场上看到题目就知道该拔哪把武器；后者学完就散，考场上东翻西找。</p>
@@ -225,7 +234,7 @@ section.flash{animation:flash 1.6s ease}
   2. <strong>新教材对标</strong>——2019 人教 A 版是新高考Ⅰ卷的考点范围，当"考试地图"；
   3. <strong>真题验收</strong>——2020–2025 新高考Ⅰ卷真题，当"毕业考试"。</li>
 </ul>
-<h2>每章怎么学（六步闭环）</h2>
+</div><div class="sec sec-meta"><h2>每章怎么学（六步闭环）</h2>
 <pre><code>① 门槛自测   5 题，答对 4 题以上才进章；不过关 → 回到&quot;前置章节&quot;补
 ② 学习目标   本章学完必须会什么（就是出口检测的考核项）
 ③ 正文讲解   教材级完整正文：引入 → 定义 → 几何意义 → 性质推导 → 计算流程 → 跟讲例题 → 小结，每章配 2-4 张图
@@ -241,7 +250,7 @@ section.flash{animation:flash 1.6s ease}
 <li><strong>本章公式速查表</strong>：把本章全部公式按主题分组列好，每条附记忆要点，与《高中数学常用公式·修订版》口径一致；</li>
 <li><strong>高级方法·进阶</strong>：标"进阶/选学"，与主线分离；每条讲清适用信号、操作步骤、例题与课标依据，明确区分"不超纲（高考可用）"与"超纲红线（考试禁用，只用于理解/自检）"。</li>
 </ul>
-<h2>全书 19 章蓝图与进度</h2>
+</div><div class="sec sec-meta"><h2>全书 19 章蓝图与进度</h2>
 <div class="tbl-wrap"><table style="table-layout:fixed;max-width:100%"><colgroup><col style="width:6%"><col style="width:8%"><col style="width:11%"><col style="width:6%"><col style="width:37%"><col style="width:24%"><col style="width:8%"></colgroup>
 <thead>
 <tr>
@@ -431,7 +440,7 @@ section.flash{animation:flash 1.6s ease}
 <blockquote>
 <p>方法专题（不超纲高级方法）不是独立章节，而是嵌在对应章：<strong>05 导数章</strong>附极值点偏移/隐零点/同构；<strong>16 圆锥曲线章</strong>附齐次化/点差法；<strong>11 数列章</strong>附放缩；<strong>12 不等式章</strong>附切线放缩。详见《不超纲高级方法手册.md》。</p>
 </blockquote>
-<h2>每章配套素材（学的时候同时翻开）</h2>
+</div><div class="sec sec-meta"><h2>每章配套素材（学的时候同时翻开）</h2>
 <div class="tbl-wrap"><table style="table-layout:fixed;max-width:100%"><colgroup><col style="width:17%"><col style="width:50%"><col style="width:33%"></colgroup>
 <thead>
 <tr>
@@ -488,7 +497,7 @@ section.flash{animation:flash 1.6s ease}
 </tr>
 </tbody>
 </table></div>
-<h2>进度打卡表（打印/复制用）</h2>
+</div><div class="sec sec-meta"><h2>进度打卡表（打印/复制用）</h2>
 <div class="tbl-wrap"><table style="table-layout:fixed;max-width:100%"><colgroup><col style="width:66%"><col style="width:6%"><col style="width:6%"><col style="width:6%"><col style="width:6%"><col style="width:10%"></colgroup>
 <thead>
 <tr>
@@ -660,20 +669,20 @@ section.flash{animation:flash 1.6s ease}
 <blockquote>
 <p>口径说明：系统主文档《高中数学自学系统.md》的<strong>8 阶段主进度表</strong>（阶段 0~7，按学期/周推进）与本节 9 节点归组口径不同——主文档按时段分 8 阶段，本节按 19 章内容分 9 节点，两者是同一套学习内容的两套编排，进度对照以主文档 8 阶段表为准。</p>
 </blockquote>
-<h2>一通百通</h2>
+</div><div class="sec sec-meta"><h2>一通百通</h2>
 <p>这一章的"通用骨架"就是：<strong>拿到任何一个章节，都按"它是什么工具 → 为什么放这里 → 学完能解决什么 → 拿真题验收"四问走一遍</strong>。四问走熟了，你会学的就不只这一章——高中三年的每一章都是同一个套路：先认识工具（概念与定义），再摸清脾气（性质与公式），然后上手（例题与习题），最后上考场（真题）。会学一章，就会学所有章。</p>
-<h2>跨章结合</h2>
+</div><div class="sec sec-meta"><h2>跨章结合</h2>
 <p>全书最重要的四个"跨章结合点"，也是新高考Ⅰ卷综合题的四大产地（均为综合原理说明，非真题）：
 - <strong>函数 + 导数 + 不等式</strong>：恒成立、最值、范围问题——05 章导数的单调性 + 12 章不等式放缩，是解答压轴的主战场；
 - <strong>三角 + 向量 + 解析几何</strong>：解三角形、建系求角距离——08 章正余弦 + 09 章向量 + 14 章空间向量，一套"翻译成代数"的思路贯到底；
 - <strong>数列 + 不等式</strong>：放缩求范围、证不等式——11 章的通项求和 + 12 章的放缩工具，压轴第二战场；
 - <strong>概率 + 统计 + 计数</strong>：古典概型数个数、回归与独立性检验——17 章计数 + 18 章概率 + 19 章统计，解答题中段的固定组合。
 这些结合点在你学完对应各章后自然能接上——本表的作用是让你心里先有一张"哪里会结合"的地图，学的时候有意识地看两章怎么碰头。</p>
-<h2>本章与前后章</h2>
+</div><div class="sec sec-meta"><h2>本章与前后章</h2>
 <p>00 章是全书的地图与总闸，它自己不讲数学，但后面 01–19 章怎么排、每章和谁联动，都在这一章讲清。学每一章之前回来看一眼"全书蓝图与进度"表：你要学的这一章，前置是谁（欠了谁要先补）、出口通向谁（学完了为哪章铺路）。20 章附录是考前扫的"公式备查仓"，和 00 章一个管"怎么学"、一个管"考什么公式"，都是支撑主线的外围站。</p>
-<h2>高考怎么考</h2>
+</div><div class="sec sec-meta"><h2>高考怎么考</h2>
 <p>新高考Ⅰ卷全卷 19 题本身就是这张地图的缩影：第 1、2 题通常是集合或复数小题（01、10 章），函数与导数横跨小题压轴与解答压轴（02–05 章），三角恒等与解三角形固定在解答题第一题附近（06–08 章），数列解答题（11 章）、立体几何解答题（13–14 章）、解析几何解答压轴（15–16 章）、概率统计解答题（17–19 章）依次登场。卷面考的不是某一章的孤岛知识，而是你把各章工具串起来用的能力——这正是 00 章想让你先建立的"主线感"：知道每道题背后是哪个工具，才知道该用哪一站的武器。</p>
-<h2>考场通用策略</h2>
+</div><div class="sec sec-meta"><h2>考场通用策略</h2>
 <p><strong>大白话·本质一句话</strong>：考场策略的本质是"先拿稳的，再啃难的"——先用特殊值、端点、草图把选项圈出来，再用正规方法确认，选择题永远比证明题好得分。</p>
 <div class="tbl-wrap"><table style="table-layout:fixed;max-width:100%"><colgroup><col style="width:15%"><col style="width:56%"><col style="width:29%"></colgroup>
 <thead>
@@ -719,13 +728,13 @@ section.flash{animation:flash 1.6s ease}
 <p>（高级方法手册·八）</p>
 <blockquote>
 <p>联动"四问骨架 / 怎么学"：这 6 条不是另起炉灶，而是"每章怎么学（六步闭环）"第 ⑤ 步出口检测、真题验收时的考场动作——学完一章做真题、卡时间的时候，就该自觉先用"特殊值 / 端点 / 草图"把选项圈出来，再回本章用正规方法确认。拿到任何一章先问的"它是什么工具 → 为什么放这里 → 学完能干什么 → 拿真题怎么验收"四问里，这张表就是最后一问"真题怎么验收"的快拔顺序：知道该拔哪把武器之后，还得知道先拔哪把、怎么快拔。表中每条都能回主线找到正规做法——端点验证对应 05 章导数的必要性探路，先猜后证对应 11 章数列（猜想 + 数学归纳法），数形结合对应 04 章零点与 02 章函数图象；特殊值、极限估值、选项结构则是纯选择题技巧，只用于圈选项，不能写进证明过程。</p>
-</blockquote></section><section class="chapter" id="ch-01"><div class="ch-head" data-no="01"><div class="ch-no">第01章</div><h1 class="ch-title">集合与常用逻辑</h1><div class="ch-sub">板块：集合与逻辑 ｜ 前置：初中数系、一元一次/二次方程与不等式 ｜ 老教材：必修1 第1章 ｜ 新教材：必修一 第1章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后学习）">老教材·必修1</a><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后对标）">新教材·必修第一册</a><a href="../公式/高中数学公式速查手册.html#ch-01" title="本章公式速查（按章手册，直达本章）">公式速查手册</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
+</blockquote></div></section><section class="chapter" id="ch-01"><div class="ch-head" data-no="01"><div class="ch-no">第01章</div><h1 class="ch-title">集合与常用逻辑</h1><div class="ch-sub">板块：集合与逻辑 ｜ 前置：初中数系、一元一次/二次方程与不等式 ｜ 老教材：必修1 第1章 ｜ 新教材：必修一 第1章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后学习）">老教材·必修1</a><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后对标）">新教材·必修第一册</a><a href="../公式/高中数学公式速查手册.html#ch-01" title="本章公式速查（按章手册，直达本章）">公式速查手册</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
 <p>对应方法手册：无（基础章） ｜ 公式速查：修订版 第1部分+第14部分（集合与逻辑）</p>
 <p><strong>本章本质核心</strong>：集合是把对象按确定标准"装进一个筐"的容器语言，逻辑是判断一句话成不成立的校验规则——它们自己几乎不单独考，却是全书所有"解集、定义域、值域、取值范围"的书写语言。本章全部内容（三性、运算、包含、充分必要、量词否定）都是这一个原理的变体：<strong>先把话翻译成"谁在哪个筐里"，再用筐的关系（包含、交并、补）回答一切问题</strong>。</p>
 <p class = "baihua why"><span class = "tag">为什么有用</span>集合是全书所有"答案"的标准写法——从第 2 章起，函数定义域、值域、不等式解集、参数的取值范围，高考卷面上全要用集合或区间表达；逻辑（充分必要、量词否定）是"恒成立""存在""至少有一个"这类高级题目的翻译工具。学通本章，你不是多会了两个小知识点，而是拿到了读题和写答案的底层语法。</p>
 </blockquote>
 <hr />
-<h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
+<div class="sec sec-meta"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
 <ol>
 <li>写出方程 x<sup>2</sup> − 3x + 2  =  0 的所有实数解。</li>
 <li>不等式 x − 1 ≥ 0 的解集是什么？</li>
@@ -734,7 +743,7 @@ section.flash{animation:flash 1.6s ease}
 <li>用一句话说明"偶数"是什么意思。</li>
 </ol>
 <p><strong>判定</strong>：5 题答对 4 题以上 → 进章；否则先复习初中"数系、方程、不等式"（老教材必修1 第 1 章前 3 页有数集复习）。</p>
-<h2 class = "goal">② 学习目标</h2>
+</div><div class="sec sec-meta"><h2 class = "goal">② 学习目标</h2>
 <p>学完本章，你必须能：</p>
 <ul>
 <li>用列举法、描述法表示集合；判断元素与集合的关系（∈ / ∉）</li>
@@ -743,7 +752,7 @@ section.flash{animation:flash 1.6s ease}
 <li>判断命题间的充分、必要、充要关系</li>
 <li>写出含量词命题的否定</li>
 </ul>
-<h2 class = "body">③ 正文讲解</h2>
+</div><div class="sec sec-meta"><h2 class = "body">③ 正文讲解</h2>
 <p>先给你一张"本章地图"，学的时候知道自己走到哪了：</p>
 <div class = "tbl-wrap"><table style = "table-layout:fixed;max-width:100%"><colgroup><col style = "width:37%"><col style = "width:42%"><col style = "width:21%"></colgroup>
 <thead>
@@ -1045,7 +1054,7 @@ section.flash{animation:flash 1.6s ease}
 所以 <strong>B  =  {2, 3, 4, 8}</strong>。
 要点：抽象集合关系别空想，画个 Venn 图把已知分区填好，剩下的元素自然归位——这就是数形结合的威力。</p>
 <p><strong>小结</strong>：集合题"能画就不算"，数轴和 Venn 图就是你的两把尺子。</p>
-<h2 class = "ex2">④ 例题详解（先做再看）</h2>
+</div><div class="sec sec-meta"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
 <p class = "ex"><span class = "tag">例题</span><strong>例 1（教材必修1 第1章例题）</strong>：写出集合 {a, b} 的所有子集，并指出哪些是真子集。</p>
 <blockquote>
 <p>自己做：别漏 ∅。</p>
@@ -1082,7 +1091,7 @@ section.flash{animation:flash 1.6s ease}
 </ul>
 <p>综上，<strong>a  =  0，或 a  =  1/3，或 a  =  −1</strong>。
 要点：含参集合 B ⊆ A 时，第一件事就是讨论"B 会不会是空集"（这里 a = 0 时 B 自动为空）——漏掉这一支几乎必扣分。</p>
-<h2 class = "out">⑤ 出口检测</h2>
+</div><div class="sec sec-meta"><h2 class = "out">⑤ 出口检测</h2>
 <p><strong>自测（15 分钟，每题 2 分，10 分过关）</strong>：</p>
 <ol>
 <li>用描述法表示"大于 0 且小于 5 的整数"。</li>
@@ -1100,7 +1109,7 @@ section.flash{animation:flash 1.6s ease}
 <li>标准：每题 <strong>1 分钟内</strong>完成且全对 → 本章过关；超时或做错 → 回到 3.3 节重做数轴法练习。</li>
 </ul>
 <p><strong>过关标准</strong>：自测 ≥ 10 分 且 真题验收全对 → 在 00 篇打卡表打勾，进入第 02 章。</p>
-<h2>课后习题（分层练习）</h2>
+</div><div class="sec sec-hw"><h2>课后习题（分层练习）</h2>
 <blockquote>
 <p>A 组基础巩固（教材练习级）；B 组能力提升（高考中档）；C 组真题挑战（新高考真题，标年份题号）。答案见章末。</p>
 </blockquote>
@@ -1156,7 +1165,7 @@ section.flash{animation:flash 1.6s ease}
     A. 2　B. 1　C. 2/3　D. −1</p>
 </li>
 </ol>
-<h2 class = "pit">⑥ 常见坑清单（错一次记一次）</h2>
+</div><div class="sec sec-meta"><h2 class = "pit">⑥ 常见坑清单（错一次记一次）</h2>
 <ul>
 <li>空集 ∅ 不是 {0}：∅ 不含任何元素，{0} 含一个元素 0。</li>
 <li>∅ ⊆ A 恒成立，写子集时漏 ∅ 是高频失分点。</li>
@@ -1164,7 +1173,7 @@ section.flash{animation:flash 1.6s ease}
 <li>充要条件方向反：p 是 q 的充分条件 ⇔ p ⇒ q（p 在前）。"谁是谁的"顺序别搞反。</li>
 <li>量词否定只换量词+否结论，<strong>不要</strong>否定原命题的条件。</li>
 </ul>
-<h2>本章公式速查表</h2>
+</div><div class="sec sec-meta"><h2>本章公式速查表</h2>
 <blockquote>
 <p>与《高中数学常用公式·修订版》第一部分（集合）、第十四部分（常用逻辑用语）核对一致。</p>
 </blockquote>
@@ -1267,7 +1276,7 @@ section.flash{animation:flash 1.6s ease}
 <li>用的时候：否定命题先换量词、再对词；"至少有一个"否定成"一个也没有"，"至多有一个"否定成"至少有两个"。</li>
 <li>记忆要点：全称特称互换 + 连接词或且互换。</li>
 </ul>
-<h2>高级方法·进阶</h2>
+</div><div class="sec sec-meta"><h2>高级方法·进阶</h2>
 <p><strong>本章对应方法手册：无直接对应章节</strong>（集合与逻辑是全书最基础的工具章，《不超纲高级方法手册》没有专门收录压轴方法）。这里只补两个把本章用"快"的小技巧，都是课标内、高考可放心用的：</p>
 <p><strong>进阶 1：充要条件的"集合包含法"（不超纲，高考可放心用）</strong></p>
 <ul>
@@ -1285,7 +1294,7 @@ section.flash{animation:flash 1.6s ease}
 </ul>
 <hr />
 <div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. {x | x ∈ N*，且 x &lt; 5}（或 {1, 2, 3, 4}）；2. 子集 8 个（2<sup>3</sup>）、真子集 7 个；3. A ∩ B  =  {2}、A ∪ B  =  {1, 2, 3}、∁<sub>u</sub>A  =  {3, 4, 5}；4. 充分不必要条件（a  =  0 ⇒ ab  =  0，反例 b  =  0、a  =  1）；5. ∃x ∈ R，x<sup>2</sup> &lt; 0。</p></div></div>
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
+</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
 <ol>
 <li>C。只有 C 有确定标准（x<sup>2</sup>=4 的解是 ±2，确定）；A、B、D 标准不明确，不满足确定性。</li>
 <li>0 ∈ N；−3 ∉ N（N 不含负整数）；√2 ∉ Q（无理数）；π ∈ R。</li>
@@ -1324,23 +1333,23 @@ section.flash{animation:flash 1.6s ease}
 </ul>
 </li>
 </ol>
-</div></div><h2>一通百通</h2>
+</div></div></div><div class="sec sec-meta"><h2>一通百通</h2>
 <p>这一章的"通用骨架"只有四步：<strong>① 问对象是谁（元素还是集合？）→ ② 问关系是什么（属于/包含/相等/运算？）→ ③ 翻译（画数轴或 Venn，把文字变成图形）→ ④ 按图回答</strong>。高考集合题年年出现在第 1 题，本质全是这一套：看清对象 → 定关系 → 画图 → 读数。会解一道集合题，就会解所有集合题；这套"先翻译再画图"的骨架，后面解不等式、解函数定义域、解圆锥曲线取值范围，还会一再出现。</p>
-<h2>跨章结合</h2>
+</div><div class="sec sec-meta"><h2>跨章结合</h2>
 <p>本章的原理和后面这些章碰在一起，就会长出高考里反复出现的典型问题：
 - <strong>集合运算 ⇔ 02 章函数的定义域/值域</strong>：求两个函数定义域的交并补，几乎年年以"集合小题"形式出现（2023/2025 卷 T2 就是集合运算与不等式解集的结合，见本章 C 组真题）；
 - <strong>充分必要条件 ⇔ 12 章不等式恒成立 / 16 章参数范围</strong>：把"p 是 q 的什么条件"翻译成"两个集合谁包含谁"，本质和"参数取什么值时不等式恒成立"是同一个"小推大"思维（综合原理说明，非真题）。
 记住这两条结合点，你在 02、12、16 章再见到集合，就知道它只是换了身衣服的同一个工具。</p>
-<h2>本章与前后章</h2>
+</div><div class="sec sec-meta"><h2>本章与前后章</h2>
 <p>集合与逻辑是全书的第一站：它前面接初中的数系、方程与不等式（门槛自测已帮你确认），后面接<strong>第 2 章函数</strong>——函数的定义域、值域、单调区间全部用集合与区间书写；<strong>第 12 章不等式</strong>的解集、<strong>第 16 章圆锥曲线</strong>的参数的取值范围，也都是集合运算的化装舞会。充分必要条件这套"小推大"逻辑，更是后面"恒成立"类问题的底层思维。学完这一章，你手里有了全书第一件工具：一套把"自然语言"翻译成"集合语言"的能力。</p>
-<h2>高考怎么考</h2>
-<p>新高考Ⅰ卷里集合几乎锁定第 1 题（2020–2024 卷 T1、2023/2025 卷 T2），考法高度套路化：交并补运算（常与一元二次不等式、指对数函数值域结合）、子集个数、充分必要条件判断（翻译成集合包含最快）；常用逻辑偶尔混进多选题的选项判断。难度低、位置固定、必须 1 分钟内拿下——它考的不是集合本身，而是你"翻译+画图"的熟练度，为全卷节省时间。</p></section><section class="chapter" id="ch-02"><div class="ch-head" data-no="02"><div class="ch-no">第02章</div><h1 class="ch-title">函数的概念与性质</h1><div class="ch-sub">板块：函数与导数 ｜ 前置：第 01 章（集合）、初中函数初步 ｜ 老教材：必修1 第1章 1.2–1.3 ｜ 新教材：必修一 第3章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后学习）">老教材·必修1</a><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后对标）">新教材·必修第一册</a><a href="../公式/高中数学公式速查手册.html#ch-02" title="本章公式速查（按章手册，直达本章）">公式速查手册</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
+</div><div class="sec sec-meta"><h2>高考怎么考</h2>
+<p>新高考Ⅰ卷里集合几乎锁定第 1 题（2020–2024 卷 T1、2023/2025 卷 T2），考法高度套路化：交并补运算（常与一元二次不等式、指对数函数值域结合）、子集个数、充分必要条件判断（翻译成集合包含最快）；常用逻辑偶尔混进多选题的选项判断。难度低、位置固定、必须 1 分钟内拿下——它考的不是集合本身，而是你"翻译+画图"的熟练度，为全卷节省时间。</p></div></section><section class="chapter" id="ch-02"><div class="ch-head" data-no="02"><div class="ch-no">第02章</div><h1 class="ch-title">函数的概念与性质</h1><div class="ch-sub">板块：函数与导数 ｜ 前置：第 01 章（集合）、初中函数初步 ｜ 老教材：必修1 第1章 1.2–1.3 ｜ 新教材：必修一 第3章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后学习）">老教材·必修1</a><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后对标）">新教材·必修第一册</a><a href="../公式/高中数学公式速查手册.html#ch-02" title="本章公式速查（按章手册，直达本章）">公式速查手册</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
 <p>对应方法手册：无（基础章） ｜ 公式速查：修订版 第2部分</p>
 <p><strong>本章本质核心</strong>：函数就是一条"输入 x → 按规则 f → 唯一输出 y"的传送带——本章讲的一切都是这条传送带的侧面：定义域管"哪些 x 允许上车"，单调与奇偶管"传送带怎么弯、左右对不对称"，最值管"传送带最高最低落在哪"，分段函数只是同一条传送带按区间换了段路面。本章所有题型（求定义域、证单调、判奇偶、求最值）都是这一条"输入→输出规则"的变体。</p>
 <p class = "baihua why"><span class = "tag">为什么有用</span>学会这一章，你手里就有了一把"拆任何新函数"的通用尺子——后面 03 指对、06 三角、11 数列里再陌生的函数，你都能照同一套路问出"x 能取哪、随 x 怎么涨、左右对不对称、最高最低在哪"。想通这条输入输出规则，新函数不用背也能自己分析。</p>
 </blockquote>
 <hr />
-<h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
+<div class="sec sec-meta"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
 <ol>
 <li>集合 A  =  {x | x &gt; =  1}，B  =  {x | x &lt; 3}，求 A ∩ B。</li>
 <li>一次函数 y  =  2x + 1，当 x  =  3 时 y 是多少？</li>
@@ -1349,7 +1358,7 @@ section.flash{animation:flash 1.6s ease}
 <li>反比例函数 y  =  1/x 的图象分布在哪些象限？</li>
 </ol>
 <p><strong>判定</strong>：5 题答对 4 题以上 → 进章；否则先回初中复习"一次/二次/反比例函数"。</p>
-<h2 class = "goal">② 学习目标</h2>
+</div><div class="sec sec-meta"><h2 class = "goal">② 学习目标</h2>
 <p>学完本章，你必须能：</p>
 <ul>
 <li>说出函数的定义与三要素；判断两个函数是否为同一函数</li>
@@ -1357,7 +1366,7 @@ section.flash{animation:flash 1.6s ease}
 <li>用定义证明函数的单调性；判断/证明函数的奇偶性</li>
 <li>求简单函数在闭区间上的最值</li>
 </ul>
-<h2 class = "body">③ 正文讲解</h2>
+</div><div class="sec sec-meta"><h2 class = "body">③ 正文讲解</h2>
 <p>本章地图：</p>
 <div class = "tbl-wrap"><table style = "table-layout:fixed;max-width:100%"><colgroup><col style = "width:36%"><col style = "width:40%"><col style = "width:24%"></colgroup>
 <thead>
@@ -1581,7 +1590,7 @@ section.flash{animation:flash 1.6s ease}
 <p><strong>【跟讲例题 3.7-1】（苏州教研·专题2，原书p.14）</strong> 把 y = f(x) 的图象先向右平移 2 个单位、再向上平移 3 个单位，求新图象的解析式。
 解：右移 2 → y = f(x−2)；再上移 3 → <strong>y  =  f(x−2) + 3</strong>。
 要点：左右平移动的是 x（括号里"左加右减"），上下平移动的是整个函数值（"上加下减"）。</p>
-<h2 class = "ex2">④ 例题详解（先做再看）</h2>
+</div><div class="sec sec-meta"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
 <p class = "ex"><span class = "tag">例题</span><strong>例 1（教材必修1 1.2 实例改编）</strong>：判断下列每组中的两个函数是否为同一函数：
 (1) f(x)  =  x，g(x)  =  √x · √x
 (2) f(x)  =  x<sup>2</sup>，g(t)  =  t<sup>2</sup></p>
@@ -1617,7 +1626,7 @@ section.flash{animation:flash 1.6s ease}
 </blockquote>
 <p>解：定义域 R，关于原点对称。f(−x)  =  (−x)<sup>3</sup> + (−x)  =  −x<sup>3</sup> − x  =  −(x<sup>3</sup> + x)  =  −f(x)。故 f(x) 为<strong>奇函数</strong>。
 要点：奇函数定义域含 0 时 f(0)  =  0（本题 f(0)  =  0 可作验证）。</p>
-<h2 class = "out">⑤ 出口检测</h2>
+</div><div class="sec sec-meta"><h2 class = "out">⑤ 出口检测</h2>
 <p><strong>自测（15 分钟，每题 2 分，10 分过关）</strong>：</p>
 <ol>
 <li>求函数 f(x)  =  1/(x − 3) + √(x + 1) 的定义域。</li>
@@ -1632,7 +1641,7 @@ section.flash{animation:flash 1.6s ease}
 <li>标准：每题 2 分钟内完成且全对 → 本章过关；超时或做错 → 回到 3.3/3.4 节重做。</li>
 </ul>
 <p><strong>过关标准</strong>：自测 ≥ 10 分 且 真题验收全对 → 在 00 篇打卡表打勾，进入第 03 章。</p>
-<h2>课后习题（分层练习）</h2>
+</div><div class="sec sec-hw"><h2>课后习题（分层练习）</h2>
 <h3>A 组 基础巩固</h3>
 <ol>
 <li>
@@ -1674,7 +1683,7 @@ section.flash{animation:flash 1.6s ease}
     A. f(10)&gt;100　B. f(20)&gt;1000　C. f(10)&lt;1000　D. f(20)&lt;10000</p>
 </li>
 </ol>
-<h2 class = "pit">⑥ 常见坑清单</h2>
+</div><div class="sec sec-meta"><h2 class = "pit">⑥ 常见坑清单</h2>
 <ul>
 <li><strong>同一函数≠解析式长得像</strong>：先比定义域，再比对应关系。如 y  =  x 与 y  =  √(x<sup>2</sup>)：定义域都是 R（x<sup>2</sup>≥0 恒成立），但对应关系不同——√(x<sup>2</sup>)  =  |x|，前者值域 R、后者值域 [0, +∞)，所以不是同一函数。</li>
 <li><strong>"单调区间"要分开写</strong>：y  =  1/x 说"在 (−∞, 0) 和 (0, +∞) 上分别递减"，不能说"整个定义域递减"。</li>
@@ -1682,7 +1691,7 @@ section.flash{animation:flash 1.6s ease}
 <li><strong>f(0)  =  0 只对奇函数且 0 在定义域内</strong>成立，偶函数不适用。</li>
 <li><strong>值域不是定义域</strong>：f(x)  =  x<sup>2</sup> 定义域 R、值域 [0, +∞)，别混。</li>
 </ul>
-<h2>本章公式速查表</h2>
+</div><div class="sec sec-meta"><h2>本章公式速查表</h2>
 <blockquote>
 <p>与《高中数学常用公式·修订版》第二部分（函数与导数）核对一致。</p>
 </blockquote>
@@ -1782,7 +1791,7 @@ section.flash{animation:flash 1.6s ease}
 <li class="baihua"><span class="tag">大白话</span>一个函数分几段写，每段一个范围配一个式子。</li>
 <li>用的时候：求 f(某值) 先看它落在哪段，再套那段的式子；画图注意端点实心空心。</li>
 </ul>
-<h2>高级方法·进阶</h2>
+</div><div class="sec sec-meta"><h2>高级方法·进阶</h2>
 <p><strong>本章对应方法手册：无直接对应压轴章节</strong>（函数概念与性质是基础章，《不超纲高级方法手册》的"函数与导数"方法要等学完第 05 章导数才用得上）。这里补两个课标内、可放心用的小技巧：</p>
 <p><strong>进阶 1：复合函数单调性"同增异减"（不超纲，高考可放心用）</strong></p>
 <ul>
@@ -1800,7 +1809,7 @@ section.flash{animation:flash 1.6s ease}
 </ul>
 <hr />
 <div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. x ≥ −1 且 x ≠ 3，即 [−1, 3) ∪ (3, +∞)；2. 是同一函数（y  =  x<sup>2</sup>，展开后定义域均为 R）；3. 取值作差：f(x<sub>1</sub>) − f(x<sub>2</sub>)  =  2(x<sub>1</sub> − x<sub>2</sub>) &lt; 0 ⇒ 递增；4. f(−x)  =  x<sup>2</sup> − x ≠ f(x) 且 ≠ −f(x)，非奇非偶；5. f(−2)  =  −5（奇函数 f(−x)  =  −f(x)）。</p></div></div>
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
+</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
 <ol>
 <li>B。A 中 g(x)=x<sup>2</sup>/x 定义域 x≠0，与 f(x)=x 不同；C 中 g(x)=(√x)<sup>2</sup> 定义域 x≥0，不同；D 中 g(x)=x<sup>0</sup> 定义域 x≠0，不同。只有 B：f(x)=|x| 与 g(x)=√(x<sup>2</sup>)=|x|，都是 R 上取绝对值，同一函数。</li>
 <li>(1) [−2, 5)；(2) (−∞, 3]；(3) (0, +∞)。</li>
@@ -1822,23 +1831,23 @@ section.flash{animation:flash 1.6s ease}
 <li>左段 f=−x<sup>2</sup>−2ax−a=−(x+a)<sup>2</sup>+a<sup>2</sup>−a，开口向下，对称轴 x=−a。要在 (−∞,0) 递增，需 0≤−a 即 a≤0。两段在衔接处要"左段右端 ≤ 右段左端"：f(0<sup>−</sup>)=−a ≤ f(0<sup>+</sup>)=e<sup>0</sup>+ln1=1，即 a≥−1。合起来 −1≤a≤0，选 <strong>B</strong>。</li>
 <li>由 f(x)&gt;f(x−1)+f(x−2) 且 f(0)=0,f(1)=1,f(2)=2，f 至少按斐波那契速度增长：f(20) 下界约 10953&gt;1000，故 f(20)&gt;1000 一定成立。A、C 的 f(10) 下界约 89，不能断定 &gt;100 或 &lt;1000；D 说 f(20)&lt;10000，但下界已超 10000，不成立。选 <strong>B</strong>。</li>
 </ol>
-</div></div><h2>一通百通</h2>
+</div></div></div><div class="sec sec-meta"><h2>一通百通</h2>
 <p>这一章的"通用骨架"是三步：<strong>① 先圈定义域（把分母≠0、根号内≥0 这些红线列成不等式取交集）→ ② 再把规则 f(x) 用起来（求代数值按区间套式子，证单调按"取值—作差—变形—定号"，判奇偶先查对称再算 f(−x)）→ ③ 最后借单调和奇偶把结论读出来</strong>。高考里不管是求定义域、证单调、判奇偶还是比大小，本质都是这三步的排列组合：先定 x 的活动范围，再对规则动手，最后让性质帮你读数。会解一道函数性质题，就会解这一类；这套"定义域先行"的骨架，后面 03 章指对函数、04 章零点、05 章导数题里还会反复用。</p>
-<h2>跨章结合</h2>
+</div><div class="sec sec-meta"><h2>跨章结合</h2>
 <ul>
 <li><strong>02 的"奇偶性定义 + 定义域对称" 碰 03 章对数真数条件</strong>：题目把对数嵌进函数里考奇偶，典型如 2023 新高考Ⅰ卷 T4（f(x)=(x+a)·ln((2x−1)/(2x+1)) 为偶函数求 a）。想通了就知道：第一步永远是先让真数&gt;0 把定义域求出来、看它是否关于原点对称（这是 03 的规矩），第二步才按 f(−x)=f(x) 对比系数（这是 02 的规矩）。参数 a 是两条规矩碰出来的，不是背出来的。</li>
 <li><strong>02 的"取值—作差—定号判单调" 碰 05 章导数</strong>：导数题第 1 问求单调区间、求最值，本质还是 02 章那套"x 变大时 y 涨还是跌"，只是把"作差变形定号"换成"求 f′(x) 看正负"（综合原理说明，非真题）。想明白这一点，05 章的导数就不是一座全新的山，而是 02 单调性的更快算法。</li>
 </ul>
-<h2>本章与前后章</h2>
+</div><div class="sec sec-meta"><h2>本章与前后章</h2>
 <p>本章接在第 01 章集合之后：01 章教会你"用区间和集合写范围"，本章把这套语言第一次用到主角身上——函数的定义域、值域、单调区间全是 01 章那套区间记号。本章是整个函数板块的地基：后面第 03 章指对幂函数、第 04 章零点与方程、第 05 章导数，都是先拿本章的"定义域、单调、奇偶"去套一个具体的新函数；第 06 章三角函数、第 11 章数列、第 12 章不等式里见到的"函数性质"，判断套路也都是本章这一套。学完本章，你手里有了一套"研究任何一个新函数"的通用动作。</p>
-<h2>高考怎么考</h2>
-<p>本章在新高考Ⅰ卷里以函数性质小题为主，位置在选择题中段：2023 卷 T4（含参奇偶性）、2024 卷 T6（分段函数单调衔接）、2024 卷 T8（函数递推与增长）都是本章地盘。考法套路固定：先卡定义域（分母、根号），再用单调与奇偶去比大小、求参数范围、判对称。难度从中档到压轴小题都有，特点是"不算难但容易在定义域端点开小差"——本章练熟的"定义域先行"，就是为了不在这几题上丢不该丢的分。</p></section><section class="chapter" id="ch-03"><div class="ch-head" data-no="03"><div class="ch-no">第03章</div><h1 class="ch-title">基本初等函数（指数、对数、幂函数）</h1><div class="ch-sub">板块：函数与导数 ｜ 前置：第 02 章 ｜ 老教材：必修1 第2章 ｜ 新教材：必修一 第4章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后学习）">老教材·必修1</a><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后对标）">新教材·必修第一册</a><a href="../公式/高中数学公式速查手册.html#ch-03" title="本章公式速查（按章手册，直达本章）">公式速查手册</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
+</div><div class="sec sec-meta"><h2>高考怎么考</h2>
+<p>本章在新高考Ⅰ卷里以函数性质小题为主，位置在选择题中段：2023 卷 T4（含参奇偶性）、2024 卷 T6（分段函数单调衔接）、2024 卷 T8（函数递推与增长）都是本章地盘。考法套路固定：先卡定义域（分母、根号），再用单调与奇偶去比大小、求参数范围、判对称。难度从中档到压轴小题都有，特点是"不算难但容易在定义域端点开小差"——本章练熟的"定义域先行"，就是为了不在这几题上丢不该丢的分。</p></div></section><section class="chapter" id="ch-03"><div class="ch-head" data-no="03"><div class="ch-no">第03章</div><h1 class="ch-title">基本初等函数（指数、对数、幂函数）</h1><div class="ch-sub">板块：函数与导数 ｜ 前置：第 02 章 ｜ 老教材：必修1 第2章 ｜ 新教材：必修一 第4章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后学习）">老教材·必修1</a><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后对标）">新教材·必修第一册</a><a href="../公式/高中数学公式速查手册.html#ch-03" title="本章公式速查（按章手册，直达本章）">公式速查手册</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
 <p>公式速查：修订版 第2部分（指数/对数）</p>
 <p><strong>本章本质核心</strong>：指数、对数、幂函数其实是同一个"增长/收缩"原理的三副面孔——指数函数是"底数固定、指数在变"，对数是它的逆操作（把乘法变回加法），幂函数是"底数在变、指数固定"；而这三副面孔的脾气（增还是减、过哪个定点、值落哪一档）几乎全由"底数 a&gt;1 还是 0&lt;a&lt;1"这一件事决定。本章所有题型（指数对数运算、求过定点、比较大小）都是这一条原理的变体。</p>
 <p class = "baihua why"><span class = "tag">为什么有用</span>学会指对幂，你就有了三件能"估"的具体武器——凡是题目拿三个数比大小、问曲线和直线谁追谁、求含参函数过哪个定点，靠的都是想通"底数决定方向、0 和 1 是天然分界"，而不是把数硬算出来。原理一通，运算和比大小就只是顺手。</p>
 </blockquote>
 <hr />
-<h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
+<div class="sec sec-meta"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
 <ol>
 <li>计算：2<sup>3</sup>、2<sup>−2</sup>、4^(1/2)。</li>
 <li>计算：2<sup>2</sup>  ×  2<sup>3</sup>。</li>
@@ -1847,14 +1856,14 @@ section.flash{animation:flash 1.6s ease}
 <li>判断：0.3<sup>2</sup> 与 0.3<sup>3</sup> 哪个大？</li>
 </ol>
 <p><strong>判定</strong>：5 题答对 4 题以上 → 进章；否则先复习 02 章函数概念与初中幂运算。</p>
-<h2 class = "goal">② 学习目标</h2>
+</div><div class="sec sec-meta"><h2 class = "goal">② 学习目标</h2>
 <ul>
 <li>熟练进行指数、对数的运算（含分数指数幂、换底公式）</li>
 <li>掌握指数函数 y  =  a<sup>x</sup> 与对数函数 y  =  log<sub>a</sub>x 的图象与性质（定点、单调性、值域）</li>
 <li>认识常见幂函数图象</li>
 <li>会做"比较大小"题（高考小题高频）</li>
 </ul>
-<h2 class = "body">③ 正文讲解</h2>
+</div><div class="sec sec-meta"><h2 class = "body">③ 正文讲解</h2>
 <p>本章地图：</p>
 <div class = "tbl-wrap"><table style = "table-layout:fixed;max-width:100%"><colgroup><col style = "width:45%"><col style = "width:38%"><col style = "width:17%"></colgroup>
 <thead>
@@ -2108,7 +2117,7 @@ section.flash{animation:flash 1.6s ease}
 <li>例：y  =  (1/2)^(x<sup>2</sup>−4x+3)。外层 (1/2)^u 是减函数（底&lt;1）；内层 u  =  x<sup>2</sup>−4x+3 在 (−∞, 2] 减、在 [2, +∞) 增。外层减、内层减 ⇒ 复合在 (−∞, 2] <strong>增</strong>；外层减、内层增 ⇒ 复合在 [2, +∞) <strong>减</strong>。</li>
 <li>求这种函数的值域，一般<strong>先换元</strong>（令 u  =  f(x)，先求 u 的范围，再套外层函数的值域）。</li>
 </ul>
-<h2 class = "ex2">④ 例题详解（先做再看）</h2>
+</div><div class="sec sec-meta"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
 <p class = "ex"><span class = "tag">例题</span><strong>例 1（运算）</strong>：计算：(1/2)<sup>−2</sup> + 27^(1/3) + log<sub>2</sub>8 − lg 0.01。</p>
 <blockquote>
 <p>自己做：负指数、分数指数、对数分别算。</p>
@@ -2127,7 +2136,7 @@ section.flash{animation:flash 1.6s ease}
 </blockquote>
 <p>解：令 x + 1  =  0 ⇒ x  =  −1，此时 f(−1)  =  a<sup>0</sup> − 2  =  1 − 2  =  −1。恒过 (−1, −1)。
 要点：<strong>a<sup>x</sup> 过 (0,1)，平移/伸缩后"让底数项化为 a<sup>0</sup>"</strong>。</p>
-<h2 class = "out">⑤ 出口检测</h2>
+</div><div class="sec sec-meta"><h2 class = "out">⑤ 出口检测</h2>
 <p><strong>自测（15 分钟，每题 2 分）</strong>：</p>
 <ol>
 <li>计算：log<sub>3</sub>9 + log<sub>3</sub>27。</li>
@@ -2138,7 +2147,7 @@ section.flash{animation:flash 1.6s ease}
 </ol>
 <p><strong>真题验收</strong>：<code>数学自学系统素材\02_历年真题(新高考Ⅰ卷)\</code> 中任选 2020–2024 卷 2 道指数/对数运算或比较大小小题（多在选择题第 6–8 题区间）：每题 2 分钟、全对过关。</p>
 <p><strong>过关标准</strong>：自测 ≥ 10 分 且 真题全对 → 打卡，进入 04 章。</p>
-<h2>课后习题（分层练习）</h2>
+</div><div class="sec sec-hw"><h2>课后习题（分层练习）</h2>
 <h3>A 组 基础巩固</h3>
 <ol>
 <li>【考点：指数运算】计算：(−8)^(1/3)  ×  2<sup>−1</sup>。</li>
@@ -2166,7 +2175,7 @@ section.flash{animation:flash 1.6s ease}
     A. x&gt;y&gt;z　B. x&gt;z&gt;y　C. y&gt;x&gt;z　D. y&gt;z&gt;x</p>
 </li>
 </ol>
-<h2 class = "pit">⑥ 常见坑清单</h2>
+</div><div class="sec sec-meta"><h2 class = "pit">⑥ 常见坑清单</h2>
 <ul>
 <li>log<sub>a</sub>(M + N) ≠ log<sub>a</sub>M + log<sub>a</sub>N（对数不分配加法）。</li>
 <li>log<sub>a</sub>(x<sup>2</sup>) 与 2log<sub>a</sub>x 定义域不同，不是同一函数。</li>
@@ -2174,7 +2183,7 @@ section.flash{animation:flash 1.6s ease}
 <li>底数范围：a &gt; 0 且 a ≠ 1；真数必须 &gt; 0，<strong>负数没有对数</strong>。</li>
 <li>比较大小先定符号再定 1，别硬算。</li>
 </ul>
-<h2>本章公式速查表</h2>
+</div><div class="sec sec-meta"><h2>本章公式速查表</h2>
 <blockquote>
 <p>与《高中数学常用公式·修订版》第二部分 8（基本初等函数）核对一致。</p>
 </blockquote>
@@ -2265,7 +2274,7 @@ section.flash{animation:flash 1.6s ease}
 <li>用的时候：同底看单调、同指看幂函数；两数接近时构造函数或作差作商。</li>
 <li>记忆要点："先定符号，再定过不过 1"。</li>
 </ul>
-<h2>高级方法·进阶</h2>
+</div><div class="sec sec-meta"><h2>高级方法·进阶</h2>
 <p><strong>对应方法手册：1.7 小题·比较大小的构造模型速查</strong>。下面把本章的"比较大小"从"四招"升级成"构造函数"。</p>
 <p><strong>进阶 1：中间量 + 同型函数构造（不超纲，高考可放心用）</strong></p>
 <ul>
@@ -2283,7 +2292,7 @@ section.flash{animation:flash 1.6s ease}
 </ul>
 <hr />
 <div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. 2 + 3  =  5；2. (√4)<sup>3</sup>  =  2<sup>3</sup>  =  8；3. log<sub>2</sub>3 &gt; log<sub>2</sub>1.5（底 2 &gt; 1 递增）；4. x − 1 &gt; 0 ⇒ x &gt; 1，即 (1, +∞)；5. log<sub>2</sub>2  =  1。</p></div></div>
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
+</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
 <ol>
 <li>(−8)^(1/3)=<sup>n</sup>√(−8)=−2；2<sup>−1</sup>=1/2。原式 = −2 × 1/2 = −1。</li>
 <li>3<sup>2</sup>=9 ⇔ log<sub>3</sub>9=2；log<sub>5</sub>125=3 ⇔ 5<sup>3</sup>=125。</li>
@@ -2304,23 +2313,23 @@ section.flash{animation:flash 1.6s ease}
 <li>a=0.1·e^0.1≈0.1105；b=1/9≈0.1111；c=−ln0.9=ln(10/9)≈0.1054。排序 c&lt;a&lt;b，选 <strong>C</strong>。</li>
 <li>设公共值为 k，则 x=2^(k−2)，y=3^(k−3)，z=5^(k−5)。取 k=0：x=1/4,y=1/27,z=1/3125，x&gt;y&gt;z（A 可能）；k=6：x=16,y=27,z=5，y&gt;x&gt;z（C 可能）；k=8：x=64,y=243,z=125，y&gt;z&gt;x（D 可能）。要出现 x&gt;z&gt;y，需 x&gt;z 且 z&gt;y，即 (x/z&gt;1) 与 (z/y&gt;1) 同时成立——经检验无这样的 k，故 x&gt;z&gt;y 不可能，选 <strong>B</strong>。</li>
 </ol>
-</div></div><h2>一通百通</h2>
+</div></div></div><div class="sec sec-meta"><h2>一通百通</h2>
 <p>这一章的"通用骨架"是三步：<strong>① 先盯住底数（a&gt;1 还是 0&lt;a&lt;1，这一条定了增还是减）→ ② 再用定点和中间量把数分档（指数恒正、对数真数&gt;0，往 0 和 1 上靠，先分出正负、是否过 1）→ ③ 最后拿同底单调性或指对互化精排</strong>。高考里不管是指对运算、求过定点还是三个数比大小，本质都是这三步：先判底数定方向，再借 0、1 分档，最后用单调性收口。会做一道比大小题，就会做这一类；这套"先定底数、再分档、后精排"的顺序，04 章零点、05 章导数里估函数值时还会接着用。</p>
-<h2>跨章结合</h2>
+</div><div class="sec sec-meta"><h2>跨章结合</h2>
 <ul>
 <li><strong>03 的"指对估值 + 单调性" 碰 02 章的比大小骨架</strong>：典型如 2022 新高考Ⅰ卷 T7（a=0.1e^0.1、b=1/9、c=−ln0.9 三数排序）。这题没人硬算 e^0.1，靠的是 02 章"先分正负、再分是否过 1"的分档动作，加上 03 章"同底看单调、指对互化"的工具，三个数各归其档再精排——想通了是"比"出来的，不是"算"出来的。</li>
 <li><strong>03 的"指数爆炸增长" 碰 04 章零点与二分法</strong>：e<sup>x</sup>、ln x 这些曲线和一条直线能有几个交点，本质就是问"爆炸增长的指数曲线"和"匀速直线"谁先追上谁（综合原理说明，非真题）。04 章用零点定理判断交点个数，用的还是本章这几条曲线的脾气。</li>
 </ul>
-<h2>本章与前后章</h2>
+</div><div class="sec sec-meta"><h2>本章与前后章</h2>
 <p>本章接在第 02 章函数性质之后：02 章教你的"定义域、单调、奇偶"那套通用动作，本章第一次套在指数、对数、幂这三个具体函数上——定义域看真数&gt;0、单调看底数和 1 的大小、奇偶用正负成对的模型判断，全是 02 章骨架的复用。本章是"基本初等函数"的总仓库，向后直接喂给第 04 章函数的应用与方程（零点、二分法、指数模型）和第 05 章导数（e<sup>x</sup>、ln x 是导数题里最常出现的函数）。学完本章，你手里多了三个"会爆炸增长、会平滑收缩"的具体函数，后面估任何函数值、画任何草图都离不开它们。</p>
-<h2>高考怎么考</h2>
-<p>本章在新高考Ⅰ卷里以"指数对数运算 + 比大小"小题为主，多在选择题第 6–8 题区间，常和函数性质揉在一起考：2022 卷 T7（指对常数混比）、2025 卷 T8（连等式设值比大小）都是本章地盘。考法高度套路化：运算靠指数律、对数律和换底，比大小靠"先分正负与是否过 1、再用单调精排"。它不考偏题怪题，就考你底数判断熟不熟、0 和 1 这两个中间量用得快不快——这正是本章"一通百通"骨架要练到肌肉记忆的原因。</p></section><section class="chapter" id="ch-04"><div class="ch-head" data-no="04"><div class="ch-no">第04章</div><h1 class="ch-title">函数的应用与方程（零点、二分法、函数模型）</h1><div class="ch-sub">板块：函数与导数 ｜ 前置：第 03 章 ｜ 老教材：必修1 第3章 ｜ 新教材：必修一 第4章 4.5</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后学习）">老教材·必修1</a><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后对标）">新教材·必修第一册</a><a href="../公式/高中数学公式速查手册.html#ch-04" title="本章公式速查（按章手册，直达本章）">公式速查手册</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
+</div><div class="sec sec-meta"><h2>高考怎么考</h2>
+<p>本章在新高考Ⅰ卷里以"指数对数运算 + 比大小"小题为主，多在选择题第 6–8 题区间，常和函数性质揉在一起考：2022 卷 T7（指对常数混比）、2025 卷 T8（连等式设值比大小）都是本章地盘。考法高度套路化：运算靠指数律、对数律和换底，比大小靠"先分正负与是否过 1、再用单调精排"。它不考偏题怪题，就考你底数判断熟不熟、0 和 1 这两个中间量用得快不快——这正是本章"一通百通"骨架要练到肌肉记忆的原因。</p></div></section><section class="chapter" id="ch-04"><div class="ch-head" data-no="04"><div class="ch-no">第04章</div><h1 class="ch-title">函数的应用与方程（零点、二分法、函数模型）</h1><div class="ch-sub">板块：函数与导数 ｜ 前置：第 03 章 ｜ 老教材：必修1 第3章 ｜ 新教材：必修一 第4章 4.5</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后学习）">老教材·必修1</a><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后对标）">新教材·必修第一册</a><a href="../公式/高中数学公式速查手册.html#ch-04" title="本章公式速查（按章手册，直达本章）">公式速查手册</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
 <p>公式速查：修订版 第2部分</p>
 <p><strong>本章本质核心</strong>：函数应用的本质是"两次翻译"——先把一个现实问题（或一个带参数的方程、不等式）翻译成"函数的零点、恒成立或最值"，再把算出来的函数结论翻译回题目要的答案。本章从零点存在定理、二分法、零点个数，到恒成立、根的分布、增长模型，全都是这一个原理的变体：<strong>先把问题建成 y = f(x)，再靠图象和最值说话</strong>。</p>
 <p class = "baihua why"><span class = "tag">为什么有用</span>想通了"问题 → 函数 → 结论 → 答案"这条翻译链，你就不必死记"恒成立看 max/min""二分法砍一半"——遇到任何带参数的方程、不等式、利润最值题，都能自己推出该看哪个最值、根大概落在哪，而不是套模板碰运气。</p>
 </blockquote>
 <hr />
-<h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
+<div class="sec sec-meta"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
 <ol>
 <li>解方程 x<sup>2</sup> − 3x + 2  =  0。</li>
 <li>二次函数 y  =  x<sup>2</sup> − 1 的图象与 x 轴有几个交点？</li>
@@ -2329,14 +2338,14 @@ section.flash{animation:flash 1.6s ease}
 <li>指数函数 y  =  2<sup>x</sup> 与 y  =  3<sup>x</sup> 谁增长更快？</li>
 </ol>
 <p><strong>判定</strong>：5 题答对 4 题以上 → 进章。</p>
-<h2 class = "goal">② 学习目标</h2>
+</div><div class="sec sec-meta"><h2 class = "goal">② 学习目标</h2>
 <ul>
 <li>理解函数零点  =  方程根  =  与 x 轴交点的横坐标（三件同一件事）</li>
 <li>会用零点存在定理判断零点所在区间；会数零点个数</li>
 <li>掌握二分法求近似解的步骤</li>
 <li>认识三类增长模型（指数/对数/幂）的差异</li>
 </ul>
-<h2 class = "body">③ 正文讲解</h2>
+</div><div class="sec sec-meta"><h2 class = "body">③ 正文讲解</h2>
 <p>本章地图：</p>
 <div class = "tbl-wrap"><table style = "table-layout:fixed;max-width:100%"><colgroup><col style = "width:39%"><col style = "width:44%"><col style = "width:17%"></colgroup>
 <thead>
@@ -2515,7 +2524,7 @@ section.flash{animation:flash 1.6s ease}
 f(1) = 1+λ+3λ−9 = 4λ−8&lt;0 ⇒ <strong>λ&lt;2</strong>。
 要点：开口向上的抛物线，要 1 夹在两根中间，只要 f(1) 掉到 x 轴下方即可，Δ 都不用算。</p>
 <p><strong>小结</strong>：同区间三抓（Δ、对称轴、端点值），异区间一抓（端点值符号）；画抛物线脑子里过一遍，符号就不会反。</p>
-<h2 class = "ex2">④ 例题详解（先做再看）</h2>
+</div><div class="sec sec-meta"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
 <p class = "ex"><span class = "tag">例题</span><strong>例 1（零点存在定理）</strong>：函数 f(x)  =  x<sup>3</sup> + x − 1 在下列哪个区间内必有零点？
 A. (0, 1)　B. (1, 2)　C. (2, 3)　D. (3, 4)</p>
 <blockquote>
@@ -2538,7 +2547,7 @@ A. (0, 1)　B. (1, 2)　C. (2, 3)　D. (3, 4)</p>
 第二次：c  =  1.25，f(1.25)  =  −0.047 &lt; 0 → 零点在 (1.25, 1.5)；
 第三次：c  =  1.375，f(1.375)  ≈  0.6 &gt; 0 → 零点在 (1.25, 1.375)，区间长 0.125 &lt; 0.25。
 取近似值 1.25（或 1.3）。要点：<strong>每次只看 f(中点) 符号，区间一分为二</strong>。</p>
-<h2 class = "out">⑤ 出口检测</h2>
+</div><div class="sec sec-meta"><h2 class = "out">⑤ 出口检测</h2>
 <p><strong>自测（15 分钟，每题 2 分）</strong>：</p>
 <ol>
 <li>判断 f(x)  =  e<sup>x</sup> + x − 2 在区间 (0, 1) 内是否有零点。</li>
@@ -2549,7 +2558,7 @@ A. (0, 1)　B. (1, 2)　C. (2, 3)　D. (3, 4)</p>
 </ol>
 <p><strong>真题验收</strong>：2020–2024 新高考Ⅰ卷中零点/函数图象交点类小题 1~2 道（多在选择题 8–12 题区间）：每题 3 分钟、全对过关。</p>
 <p><strong>过关标准</strong>：自测 ≥ 10 分 且 真题全对 → 打卡，进入 05 章。</p>
-<h2>课后习题（分层练习）</h2>
+</div><div class="sec sec-hw"><h2>课后习题（分层练习）</h2>
 <h3>A 组 基础巩固</h3>
 <ol>
 <li>【考点：零点定义】求 f(x) = x<sup>2</sup>−5x+6 的零点。</li>
@@ -2577,7 +2586,7 @@ A. (0, 1)　B. (1, 2)　C. (2, 3)　D. (3, 4)</p>
     A. f(x) 有两个极值点　B. f(x) 有三个零点
     C. 点 (0,1) 是曲线 y = f(x) 的对称中心　D. 直线 y = 2x 是曲线 y = f(x) 的切线</li>
 </ol>
-<h2 class = "pit">⑥ 常见坑清单</h2>
+</div><div class="sec sec-meta"><h2 class = "pit">⑥ 常见坑清单</h2>
 <ul>
 <li>零点存在定理只说"至少一个"，只有<strong>加单调性</strong>才能说"恰一个"。</li>
 <li>f(a)·f(b) &lt; 0 是充分条件不是必要条件——别用"端点同号"判定"没有零点"。</li>
@@ -2585,7 +2594,7 @@ A. (0, 1)　B. (1, 2)　C. (2, 3)　D. (3, 4)</p>
 <li>拆函数求交点时注意：两边函数都单调且方向相反 → 恰一个；方向相同 → 可能 0/1/2 个，逐个检验。</li>
 <li>二分法收敛：每次都把区间长度减半。</li>
 </ul>
-<h2>本章公式速查表</h2>
+</div><div class="sec sec-meta"><h2>本章公式速查表</h2>
 <blockquote>
 <p>与《高中数学常用公式·修订版》第二部分核对一致。</p>
 </blockquote>
@@ -2659,7 +2668,7 @@ A. (0, 1)　B. (1, 2)　C. (2, 3)　D. (3, 4)</p>
 <li>用的时候：开口向上 a&gt;0；先画抛物线，再写不等式组；一根大于 m 一根小于 m 时，直接 f(m)&lt;0，Δ 都不用算。</li>
 <li>记忆要点："同区间三抓（Δ、轴、端点），异区间一抓（端点符号）"。</li>
 </ul>
-<h2>高级方法·进阶</h2>
+</div><div class="sec sec-meta"><h2>高级方法·进阶</h2>
 <p><strong>本章对应方法手册：无直接对应压轴章节</strong>（零点、二分法、增长模型是教材主线，《不超纲高级方法手册》的"函数与导数"方法要等第 05 章导数）。这里给两个课标内、可放心用的小技巧：</p>
 <p><strong>进阶 1：数形结合数零点（不超纲，高考可放心用）</strong></p>
 <ul>
@@ -2693,7 +2702,7 @@ A. (0, 1)　B. (1, 2)　C. (2, 3)　D. (3, 4)</p>
 </ul>
 <hr />
 <div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. f(0)  =  −1 &lt; 0，f(1)  =  e − 1 &gt; 0，异号 ⇒ 有零点；2. 2 个（x  =  1、3）；3. 0 和 2；4. 端点同号但图象"碰到 x 轴又返回"（f(x)  =  x<sup>2</sup> ≥ 0，零点为偶重根）；5. 取中点 c  =  (a+b)/2 并计算 f(c)，比较 f(a)·f(c) 符号决定缩小区间。</p></div></div>
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
+</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
 <ol>
 <li>x<sup>2</sup>−5x+6=(x−2)(x−3)=0，零点为 2 和 3。</li>
 <li>f(1)=1−2−1=−2&lt;0；f(2)=8−4−1=3&gt;0。f 连续，f(1)·f(2)&lt;0，故 (1,2) 内有零点。</li>
@@ -2717,24 +2726,24 @@ A. (0, 1)　B. (1, 2)　C. (2, 3)　D. (3, 4)</p>
    - A、D 两问要用到导数（第05章正式讲）：f'(x)=3x<sup>2</sup>−1=0 有两个解 → 两个极值点（A 正确）；斜率 2 对应 f'(x)=2⇒x=±1，代入得切线分别为 y=2x−1、y=2x+3，都不是 y=2x（D 错误）。
    综上正确选项为 <strong>AC</strong>。</li>
 </ol>
-</div></div><h2>一通百通</h2>
+</div></div></div><div class="sec sec-meta"><h2>一通百通</h2>
 <p>这一章的"通用骨架"三步：<strong>① 把题目翻译成一个函数 y=f(x)（解方程就令 f(x)=0，不等式就移项成一边）→ ② 看图象、算最值：用两端符号定"有没有"、用单调定"有几个"、用最值定参数范围 → ③ 把函数结论翻译回题目要的答案</strong>。不管零点存在定理、二分法、零点个数，还是恒成立、根的分布、利润最值，骨子里都是这三步：先建模、再看图求最值、最后回译。会做一道零点题，就会做所有"方程—函数—图象"的题；这套"先翻译、再看图、后回译"的骨架，下一章用导数求函数最值时还会原样复用。</p>
-<h2>跨章结合</h2>
+</div><div class="sec sec-meta"><h2>跨章结合</h2>
 <ul>
 <li><strong>零点存在定理 × 05 章导数（隐零点）</strong>：本章 3.2 教你"两端异号就有根"，3.4 教你"单调 + 变号就恰一个"；到了 05 章导数压轴，f′(x)=0 的根常常解不出显式，这时正是回头用本章这两条——先证 f′ 在区间两端变号、再证它单调，就敢把这个零点设为 x<sub>0</sub>"设而不求"、整体代换。05 章例 6（苏州教研·专题51·例21，求 k_max=3）就是这么干的：x<sub>0</sub>∈(2,3) 解不出来，但靠零点存在定理确认它唯一存在，再用 p(x<sub>0</sub>)=0 整体代换。本章的零点工具，正是导数压轴"隐零点"的地基。</li>
 <li><strong>恒成立转最值 × 12 章基本不等式</strong>：本章 3.6 把"恒成立"翻译成求最值；分离参数后那个新函数的最值，有时不必求导，用 12 章的基本不等式（如 x+1/x ≥ 2）一步就能估出来——本章例 3.6-2 里那个 −(x+1/x) 的最值，本质就是对勾函数、基本不等式的变形。两章一碰，恒成立题就多了一条"不求导也能出最值"的快路。（此点为综合原理说明，非真题。）</li>
 </ul>
-<h2>本章与前后章</h2>
+</div><div class="sec sec-meta"><h2>本章与前后章</h2>
 <p>这一章是函数主线的"第一次实战"：它前面接 <strong>第 02 章函数概念与性质</strong>（单调、最值、图象）和 <strong>第 03 章指对幂函数</strong>（增长模型、算函数值）——没有前两章的图象和基本函数，这章连 f(a)、f(b) 都算不出来；它后面直接通向 <strong>第 05 章导数</strong>：这章靠"单调性 + 变号"数零点、靠"最值"做恒成立，可一旦函数复杂到看不出单调、求不出最值，就得请导数当新工具。学完这章，你手里多了一套"把现实问题翻译成函数、再翻译回答案"的本事，它正是下一章求导、求极值、解压轴的地基。</p>
-<h2>高考怎么考</h2>
-<p>这一章在新高考Ⅰ卷里通常以<strong>小题</strong>出现：零点存在定理判断根所在区间、零点个数（常和函数图象交点、单调性结合）、二分法近似解，多落在选择题中后段；恒成立、根的分布这类更像"工具"，往往嵌进函数与导数解答题的第一问，而不是单独成题（本章 C 组收录的 2022 新高考Ⅰ卷第 10 题多选，就把零点个数、对称中心和切线揉在一起考）。难度以中档为主，不偏不怪——它真正的分量不在这几道小题，而在于给第 05 章导数压轴备好"数零点、求最值"这两块基本功。</p></section><section class="chapter" id="ch-05"><div class="ch-head" data-no="05"><div class="ch-no">第05章</div><h1 class="ch-title">导数及其应用</h1><div class="ch-sub">板块：函数与导数 ｜ 前置：第 02 章（单调性概念） ｜ 老教材：选修2-2 第1章 ｜ 新教材：选择性必修二 第5章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后学习）">老教材·选修2-2</a><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后对标）">新教材·选择性必修第二册</a><a href="../公式/高中数学公式速查手册.html#ch-05" title="本章公式速查（按章手册，直达本章）">公式速查手册</a><a href="../系统文档/不超纲高级方法手册.md" title="不超纲高级方法（嵌本章）">高级方法手册</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
+</div><div class="sec sec-meta"><h2>高考怎么考</h2>
+<p>这一章在新高考Ⅰ卷里通常以<strong>小题</strong>出现：零点存在定理判断根所在区间、零点个数（常和函数图象交点、单调性结合）、二分法近似解，多落在选择题中后段；恒成立、根的分布这类更像"工具"，往往嵌进函数与导数解答题的第一问，而不是单独成题（本章 C 组收录的 2022 新高考Ⅰ卷第 10 题多选，就把零点个数、对称中心和切线揉在一起考）。难度以中档为主，不偏不怪——它真正的分量不在这几道小题，而在于给第 05 章导数压轴备好"数零点、求最值"这两块基本功。</p></div></section><section class="chapter" id="ch-05"><div class="ch-head" data-no="05"><div class="ch-no">第05章</div><h1 class="ch-title">导数及其应用</h1><div class="ch-sub">板块：函数与导数 ｜ 前置：第 02 章（单调性概念） ｜ 老教材：选修2-2 第1章 ｜ 新教材：选择性必修二 第5章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后学习）">老教材·选修2-2</a><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后对标）">新教材·选择性必修第二册</a><a href="../公式/高中数学公式速查手册.html#ch-05" title="本章公式速查（按章手册，直达本章）">公式速查手册</a><a href="../系统文档/不超纲高级方法手册.md" title="不超纲高级方法（嵌本章）">高级方法手册</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
 <p>方法手册：极值点偏移 / 隐零点 / 同构 / 切线放缩（嵌本章末）
 公式速查：修订版 第2部分（导数公式）</p>
 <p><strong>本章本质核心</strong>：导数的本质是"瞬时变化率"——它就是曲线在某一点的切线斜率，一个数。本章从切线方程、单调区间、极值、最值，到恒成立、端点效应、切线放缩，全都是这一个原理的变体：<strong>算出 f′(x) 这个"斜率函数"，再看它的正负号，就回答了一切问题</strong>——斜率正就涨、斜率负就跌、斜率由正转负就是山顶、斜率贴着曲线就是切线。</p>
 <p class = "baihua why"><span class = "tag">为什么有用</span>想通了"导数就是斜率、斜率正负就是升降"这一件事，你就不用背"单调区间怎么求、极值怎么判、切线怎么写"——拿到任何函数，求一次导、看符号，单调、极值、最值、切线全自己长出来；高考导数解答题第一问，就是这条原理的直接套用。</p>
 </blockquote>
 <hr />
-<h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
+<div class="sec sec-meta"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
 <ol>
 <li>求 f(x)  =  x<sup>2</sup> 在 x  =  1 处的函数值；f(1 + Δx) − f(1) 是多少？</li>
 <li>直线斜率公式是什么？（过两点 (x<sub>1</sub>,y<sub>1</sub>)、(x<sub>2</sub>,y<sub>2</sub>)）</li>
@@ -2743,7 +2752,7 @@ A. (0, 1)　B. (1, 2)　C. (2, 3)　D. (3, 4)</p>
 <li>1/x 在 x &gt; 0 时随 x 增大如何变化？</li>
 </ol>
 <p><strong>判定</strong>：5 题答对 4 题以上 → 进章。</p>
-<h2 class = "goal">② 学习目标</h2>
+</div><div class="sec sec-meta"><h2 class = "goal">② 学习目标</h2>
 <ul>
 <li>理解导数的定义（极限）与几何意义（切线斜率）</li>
 <li>背熟基本求导公式与四则运算法则</li>
@@ -2751,7 +2760,7 @@ A. (0, 1)　B. (1, 2)　C. (2, 3)　D. (3, 4)</p>
 <li>会求曲线在某点的切线方程</li>
 <li>（进阶）认识极值点偏移、隐零点、同构三类压轴路径（进方法手册）</li>
 </ul>
-<h2 class = "body">③ 正文讲解</h2>
+</div><div class="sec sec-meta"><h2 class = "body">③ 正文讲解</h2>
 <p>本章地图：</p>
 <div class = "tbl-wrap"><table style = "table-layout:fixed;max-width:100%"><colgroup><col style = "width:37%"><col style = "width:41%"><col style = "width:22%"></colgroup>
 <thead>
@@ -2937,7 +2946,7 @@ A. (0, 1)　B. (1, 2)　C. (2, 3)　D. (3, 4)</p>
 <p><strong>经验二：∀x≥p 时 f(x)≥0 恒成立 → 端点效应 / 含参转化</strong>（苏州教研·专题51，题型7）。
 当端点处恰好 f(p) = 0 时，先算 f′(p)、f″(p) 的符号来定分类标准；一次求导定不了号就二次求导，用 f″ 的含参端点（如 f″(0) = 1−2a）当分界，再分两类说清：函数单调时成立，函数不单调时必在小区间 (p, p+δ) 内破掉。</p>
 <p><strong>小技巧</strong>（苏州教研·专题51）：如果由 f′(p) = 0 或 f″(p) = 0 能直接解出参数的值，这个值就是分类讨论的分界点。</p>
-<h2 class = "ex2">④ 例题详解（先做再看）</h2>
+</div><div class="sec sec-meta"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
 <p class = "ex"><span class = "tag">例题</span><strong>例 1（切线）</strong>：求曲线 y  =  x<sup>3</sup> 在点 (1, 1) 处的切线方程。</p>
 <blockquote>
 <p>自己做：斜率  =  导数值。</p>
@@ -2997,7 +3006,7 @@ h′(x) = [x−1−ln(x+1)]/x<sup>2</sup>。记分子 p(x) = x−1−ln(
 h(x<sub>0</sub>) = (1+1/x<sub>0</sub>)[1+ln(x<sub>0</sub>+1)]  =  (1+1/x<sub>0</sub>)·x<sub>0</sub>  =  x<sub>0</sub>+1 ∈(3,4)。
 要 k&lt;h(x) 恒成立，k 须小于 h 的下确界（介于 3 与 4 之间），故正整数 <strong>k 最大值为 3</strong>。
 要点：f′(x) = 0 的根 x<sub>0</sub> 解不出显式，就设为 x<sub>0</sub>，用 p(x<sub>0</sub>) = 0（即 ln(x<sub>0</sub>+1) = x<sub>0</sub>−1）整体代换，把 h(x<sub>0</sub>) 化简成 x<sub>0</sub>+1，再由 x<sub>0</sub>∈(2,3) 估值。</p>
-<h2 class = "out">⑤ 出口检测</h2>
+</div><div class="sec sec-meta"><h2 class = "out">⑤ 出口检测</h2>
 <p><strong>自测（20 分钟，每题 2 分）</strong>：</p>
 <ol>
 <li>求 f(x)  =  x<sup>2</sup> − 2x 在 x  =  1 处的导数。</li>
@@ -3008,7 +3017,7 @@ h(x<sub>0</sub>) = (1+1/x<sub>0</sub>)[1+ln(x<sub>0</sub>+1)]  =  (1+1/x
 </ol>
 <p><strong>真题验收</strong>：2020–2024 新高考Ⅰ卷<strong>导数解答题第 1 问</strong>（求单调区间/切线/极值，多为 22 题第 1 问或 2024 起新结构对应位置）：独立做 1 道，20 分钟内完成、第 1 问满分 → 过关。</p>
 <p><strong>过关标准</strong>：自测 ≥ 10 分 且 真题第 1 问完成 → 打卡。</p>
-<h2>课后习题（分层练习）</h2>
+</div><div class="sec sec-hw"><h2>课后习题（分层练习）</h2>
 <h3>A 组 基础巩固</h3>
 <ol>
 <li>【考点：导数定义】f(x) = x<sup>2</sup>，用定义求 f′(2)。</li>
@@ -3050,7 +3059,7 @@ h(x<sub>0</sub>) = (1+1/x<sub>0</sub>)[1+ln(x<sub>0</sub>+1)]  =  (1+1/x
 <p>【考点：构造函数求最值】（苏州教研·专题51，原书p.167，例7）已知 f(x) = e<sup>x</sup>，g(x) = ln(x/2)+1/2。若 f(a) = g(b)，求 b−a 的最小值。</p>
 </li>
 </ol>
-<h2 class = "pit">⑥ 常见坑清单</h2>
+</div><div class="sec sec-meta"><h2 class = "pit">⑥ 常见坑清单</h2>
 <ul>
 <li><strong>极值点 ≠ 导数为零的点</strong>：f′(x<sub>0</sub>)  =  0 是必要条件，两侧必须变号。</li>
 <li><strong>定义域先行</strong>：f(x)  =  x − ln x 定义域 (0, +∞)，求导后写单调区间不能超出定义域。</li>
@@ -3059,7 +3068,7 @@ h(x<sub>0</sub>) = (1+1/x<sub>0</sub>)[1+ln(x<sub>0</sub>+1)]  =  (1+1/x
 <li>(a<sup>x</sup>)′  =  a<sup>x</sup>·ln a，只有 (e<sup>x</sup>)′  =  e<sup>x</sup> 没有系数。</li>
 <li>恒成立：a ≤ g(x) 恒成立 ⇔ a ≤ g(x)_min；a ≥ g(x) 恒成立 ⇔ a ≥ g(x)_max。</li>
 </ul>
-<h2>本章公式速查表</h2>
+</div><div class="sec sec-meta"><h2>本章公式速查表</h2>
 <blockquote>
 <p>与《高中数学常用公式·修订版》第二部分（函数与导数）核对一致。</p>
 </blockquote>
@@ -3169,7 +3178,7 @@ h(x<sub>0</sub>) = (1+1/x<sub>0</sub>)[1+ln(x<sub>0</sub>+1)]  =  (1+1/x
 <li class = "baihua"><span class = "tag">大白话</span>要更紧的放缩时，把二次项也补上；可由两次求导证（h″ = e<sup>x</sup>−1≥0）。</li>
 <li>用的时候：直接放 e<sup>x</sup>≥x+1 太松时换这条；答题卡上引用要补一句"可由导数证明"。</li>
 </ul>
-<h2>高级方法·进阶</h2>
+</div><div class="sec sec-meta"><h2>高级方法·进阶</h2>
 <blockquote>
 <p>对应《不超纲高级方法手册》一.1.1–1.7。每条按"适用信号→操作步骤→例题→课标依据/超纲红线"给出。</p>
 </blockquote>
@@ -3387,7 +3396,7 @@ h(x<sub>0</sub>) = (1+1/x<sub>0</sub>)[1+ln(x<sub>0</sub>+1)]  =  (1+1/x
 </blockquote>
 <hr />
 <div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. f′(x)  =  2x − 2，f′(1)  =  0；2. f′(x)  =  3x<sup>2</sup> − 6x  =  3x(x − 2) &lt; 0 ⇒ 0 &lt; x &lt; 2，递减区间 (0, 2)；3. y′  =  e<sup>x</sup>，k  =  e<sup>0</sup>  =  1，切线 y  =  x + 1；4. f′(x)  =  1 − 1/x<sup>2</sup> &gt; 0（x ≥ 1），递增，最小值 f(1)  =  2；5. f′(0)  =  0 但两侧同号（x<sup>3</sup> 恒增），<strong>无极值</strong>。</p></div></div>
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
+</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
 <ol>
 <li>[f(2+Δx)−f(2)]/Δx = [(2+Δx)<sup>2</sup>−4]/Δx = (4Δx+Δx<sup>2</sup>)/Δx = 4+Δx → 4。f′(2)=4。</li>
 <li>f′=4x<sup>3</sup>−6x+2。</li>
@@ -3423,23 +3432,23 @@ h(x<sub>0</sub>) = (1+1/x<sub>0</sub>)[1+ln(x<sub>0</sub>+1)]  =  (1+1/x
 <p>设 f(a)=g(b)=t，则 e<sup>a</sup>=ln(b/2)+1/2=t，故 a=lnt，b=2·e^(t−1/2)（t&gt;0）。记 h(t)=b−a=2e^(t−1/2)−lnt，h′(t)=2e^(t−1/2)−1/t。注意 h′(1/2)=2·1−2=0，且 h′ 递增（h″=2e^(t−1/2)+1/t<sup>2</sup>&gt;0），故 h 在 t=1/2 处取最小值 h(1/2)=2·e<sup>0</sup>−ln(1/2)=2+ln2。<strong>b−a 最小值=2+ln2</strong>。（复算：h(1/2)=2−ln(1/2)=2+ln2≈2.693 ✓）</p>
 </li>
 </ol>
-</div></div><h2>一通百通</h2>
+</div></div></div><div class="sec sec-meta"><h2>一通百通</h2>
 <p>这一章的"通用骨架"只有五步：<strong>① 写定义域 → ② 求 f′(x) 并因式分解 → ③ 令 f′=0 找分界点、穿根法判 f′ 正负 → ④ 根据正负号写单调区间、找极值、比出最值 → ⑤ 恒成立就分离参数，转成求这个新函数的最值</strong>。不管求切线、求单调区间、求极值最值，还是压轴的恒成立、端点效应、隐零点，骨子里都是"求导 → 判正负 → 下结论"这一条线。会做一道 f(x)=x<sup>3</sup>−3x 的题，就会做所有导数解答题的第一问；这套"求导判号"的骨架，后面解析几何求最值、压轴不等式放缩时还会一再回来用。</p>
-<h2>跨章结合</h2>
+</div><div class="sec sec-meta"><h2>跨章结合</h2>
 <ul>
 <li><strong>导数求最值 × 04 章恒成立（同一问题的两代工具）</strong>：本章 3.5 和 04 章 3.6 讲的其实是同一件事——"恒成立求参"翻译成"求最值"，区别只在求最值的工具。04 章例 3.6-1、3.6-2 靠二次函数、对勾函数肉眼看出最值；本章例 3（x−lnx ≥ a 恒成立）、例 4（端点效应，答 a≤1/2）是同一个问题，换成导数这个更强的最值工具来做。两章是一条线的两段：函数简单时肉眼求最值，函数复杂时求导求最值。</li>
 <li><strong>切线放缩 × 12 章不等式证明</strong>：本章"高级方法"里的 e<sup>x</sup> ≥ x+1、lnx ≤ x−1（苏州教研·专题51），本身就是用导数证出来的（令 g=e<sup>x</sup>−x−1，最小值在 x=0 取 0）；证含 e<sup>x</sup>、lnx 的不等式时，先用这两条把超越项"砍"成多项式，再用 12 章的不等式常规手段解——本章 C 组 16（证 n<sup>n</sup>/(n+1)<sup>n+1</sup> &lt; 1/(n·e)，苏州教研·专题51·例27）就是这条结合点的成品。</li>
 </ul>
-<h2>本章与前后章</h2>
+</div><div class="sec sec-meta"><h2>本章与前后章</h2>
 <p>这一章是全书函数主线的"总收束"，也是解答压轴的入口。它前面的硬前置是 <strong>第 02 章函数概念与性质</strong>（单调性、最值、图象的直觉，蓝图标的前置就是它）；同时它把 <strong>第 04 章</strong>那套"恒成立转最值、靠图象说话"的工具接过来——04 章靠作差和肉眼判断单调、求最值，函数一复杂就抓瞎，本章的导数正是来把它"算得出来"。它向后则是两条综合线的武器：<strong>第 11 章数列</strong>的单调与最值、<strong>第 16 章圆锥曲线</strong>的最值问题，以及全书压轴的函数与导数综合题，都要回来用本章的"求导判号"。学完这一章，你才算真正握住了高中函数的最后一把钥匙。</p>
-<h2>高考怎么考</h2>
-<p>这一章是新高考Ⅰ卷<strong>解答压轴</strong>的固定入口：几乎年年的导数解答题（第 22 题或新结构对应位置）第一问，就是"求单调区间、求切线、求极值/最值"——这正是本章 3.3、3.4 的标准流程，必须稳拿满分；第二问再上难度，考恒成立求参、端点效应、隐零点、切线放缩这类本章末"高级方法"。小题里它也常露面：切线方程与求参数（如本章 C 组收录的 2023 新高考Ⅰ卷第 6 题、2024 新高考Ⅰ卷第 13 题、2025 新高考Ⅰ卷第 12 题），多为中档选择填空。一句话：导数题的第一问是"送分"，第二问才是"拉分"，而能不能拉分，取决于本章这套"求导判号"基本功扎不扎实。</p></section><section class="chapter" id="ch-06"><div class="ch-head" data-no="06"><div class="ch-no">第06章</div><h1 class="ch-title">三角函数的概念与性质</h1><div class="ch-sub">板块：三角函数 ｜ 前置：第 02 章 ｜ 老教材：必修4 第1章 ｜ 新教材：必修一 第5章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后学习）">老教材·必修4</a><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后对标）">新教材·必修第一册</a><a href="../公式/高中数学公式速查手册.html#ch-06" title="本章公式速查（按章手册，直达本章）">公式速查手册</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
+</div><div class="sec sec-meta"><h2>高考怎么考</h2>
+<p>这一章是新高考Ⅰ卷<strong>解答压轴</strong>的固定入口：几乎年年的导数解答题（第 22 题或新结构对应位置）第一问，就是"求单调区间、求切线、求极值/最值"——这正是本章 3.3、3.4 的标准流程，必须稳拿满分；第二问再上难度，考恒成立求参、端点效应、隐零点、切线放缩这类本章末"高级方法"。小题里它也常露面：切线方程与求参数（如本章 C 组收录的 2023 新高考Ⅰ卷第 6 题、2024 新高考Ⅰ卷第 13 题、2025 新高考Ⅰ卷第 12 题），多为中档选择填空。一句话：导数题的第一问是"送分"，第二问才是"拉分"，而能不能拉分，取决于本章这套"求导判号"基本功扎不扎实。</p></div></section><section class="chapter" id="ch-06"><div class="ch-head" data-no="06"><div class="ch-no">第06章</div><h1 class="ch-title">三角函数的概念与性质</h1><div class="ch-sub">板块：三角函数 ｜ 前置：第 02 章 ｜ 老教材：必修4 第1章 ｜ 新教材：必修一 第5章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后学习）">老教材·必修4</a><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后对标）">新教材·必修第一册</a><a href="../公式/高中数学公式速查手册.html#ch-06" title="本章公式速查（按章手册，直达本章）">公式速查手册</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
 <p>公式速查：修订版 第3部分（三角函数）</p>
 <p><strong>本章本质核心</strong>：三角函数本质上就是"圆周运动的坐标投影"——把角的终边放到单位圆上，那个交点绕原点转一圈，它的横坐标就是 cos、纵坐标就是 sin；后面所有东西——象限正负号、同角关系 sin<sup>2</sup>+cos<sup>2</sup> = 1、周期 2π、图象的波浪、奇偶对称——全是这一个模型的自然推论。不用死背：让那个动点转起来，转一整圈坐标回到原位，一切性质就都跟着出来了。
 <strong>为什么有用</strong>：想通"单位圆上那个点一转、横纵坐标就是 cos、sin"这一件事，你既看得懂现实里所有周而复始的现象（交流电按正弦波动、声波传播、弹簧振动），也能把高考里"给波形求 A/ω/φ、数两条曲线交点个数"这类题一眼看穿——原理想通了，性质表只是想通之后顺带的速查。</p>
 </blockquote>
 <hr />
-<h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
+<div class="sec sec-meta"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
 <ol>
 <li>直角三角形中，30° 角的正弦值是多少？</li>
 <li>一个圆的周长公式是什么？半圆的弧长呢？</li>
@@ -3448,7 +3457,7 @@ h(x<sub>0</sub>) = (1+1/x<sub>0</sub>)[1+ln(x<sub>0</sub>+1)]  =  (1+1/x
 <li>函数 y  =  sin x 的值最大是多少？（凭初中印象）</li>
 </ol>
 <p><strong>判定</strong>：5 题答对 4 题以上 → 进章。</p>
-<h2 class = "goal">② 学习目标</h2>
+</div><div class="sec sec-meta"><h2 class = "goal">② 学习目标</h2>
 <ul>
 <li>理解弧度制；进行弧度与角度互化</li>
 <li>用单位圆定义任意角三角函数（sin、cos、tan）</li>
@@ -3456,7 +3465,7 @@ h(x<sub>0</sub>) = (1+1/x<sub>0</sub>)[1+ln(x<sub>0</sub>+1)]  =  (1+1/x
 <li>掌握 y  =  sin x、y  =  cos x、y  =  tan x 的图象与性质（定义域/值域/周期/单调/对称）</li>
 <li>会画/理解 y  =  A sin(ωx + φ) 的图象变换</li>
 </ul>
-<h2 class = "body">③ 正文讲解</h2>
+</div><div class="sec sec-meta"><h2 class = "body">③ 正文讲解</h2>
 <p>先给你一张本章的"地图"，看完心里有数再往下钻：</p>
 <pre><code>任意角（正/负/零角、象限角）
         ↓
@@ -3687,7 +3696,7 @@ y  =  A sin(ωx+φ)（实际波动，比如交流电、声波）
 <p><strong>陷阱</strong>：T  =  2π/ω，别把 ω 和 T 搞反——y = sin 2x 的周期是 π，不是 2π。</p>
 <p><strong>小结</strong>：这一章把"角"从初中的直角三角形推广到了单位圆，又从单位圆长出了一整套周期函数。记住三件事：sin 是纵坐标、cos 是横坐标、一切大角都靠诱导公式化回锐角。</p>
 <hr />
-<h2 class = "ex2">④ 例题详解（先做再看）</h2>
+</div><div class="sec sec-meta"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
 <p class = "ex"><span class = "tag">例题</span><strong>例 1（同角关系）</strong>：已知 sin α  =  3/5，且 α 在第二象限，求 cos α 与 tan α。</p>
 <blockquote>
 <p>自己做：用平方关系 + 象限定符号。</p>
@@ -3718,7 +3727,7 @@ f(x)  =  4 sin t + 1 ∈ [4·(−1/2)+1, 4·1+1]  =  <strong>[−1, 5]</
 m ≤ min(f(x)+10)  =  −1+10  =  9；m ≥ max(f(x)−10)  =  5−10  =  −5。
 故 <strong>m∈[−5, 9]</strong>。
 要点：<strong>求 y = A sin(ωx+φ) 在区间上的值域，先把 ωx+φ 整体换元成 t，再看 sin t 在 t 的区间上的最大/最小</strong>；恒成立问题最后归到"m 夹在值域两端"。</p>
-<h2 class = "out">⑤ 出口检测</h2>
+</div><div class="sec sec-meta"><h2 class = "out">⑤ 出口检测</h2>
 <p><strong>自测（15 分钟，每题 2 分）</strong>：</p>
 <ol>
 <li>把 120° 化成弧度。</li>
@@ -3729,7 +3738,7 @@ m ≤ min(f(x)+10)  =  −1+10  =  9；m ≥ max(f(x)−10)  =  5−
 </ol>
 <p><strong>真题验收</strong>：2020–2024 新高考Ⅰ卷三角函数小题 2 道（图象性质/诱导/同角，多在选择题 5–8 题区间）：每题 2 分钟、全对过关。</p>
 <p><strong>过关标准</strong>：自测 ≥ 10 分 且 真题全对 → 打卡，进入 07 章。</p>
-<h2>课后习题（分层练习）</h2>
+</div><div class="sec sec-hw"><h2>课后习题（分层练习）</h2>
 <blockquote>
 <p>A 组打基础，B 组练中档，C 组碰真题。每题前标了考点，做完对章末答案。</p>
 </blockquote>
@@ -3753,7 +3762,7 @@ m ≤ min(f(x)+10)  =  −1+10  =  9；m ≥ max(f(x)−10)  =  5−
 A. π/6　　B. π/3　　C. π/2　　D. 4π/3</p>
 <p>12.【考点：正弦型曲线交点个数】（2024 新高考Ⅰ卷·第 7 题）当 x∈[0, 2π] 时，曲线 y = sin x 与 y = 2sin(3x − π/6) 的交点个数为（　）
 A. 3　　B. 4　　C. 6　　D. 8</p>
-<h2 class="pit">⑥ 常见坑清单</h2>
+</div><div class="sec sec-pit"><h2 class="pit">⑥ 常见坑清单</h2>
 <ul>
 <li><strong>象限定符号</strong>：平方关系开方后正负号由象限决定，不是默认正。</li>
 <li>诱导公式"符号看象限"：把 α 当锐角，看原角所在象限<strong>原函数</strong>的符号。</li>
@@ -3762,7 +3771,7 @@ A. 3　　B. 4　　C. 6　　D. 8</p>
 <li>弧度值要带"rad"感：高中做题默认弧度，角度要换算。</li>
 </ul>
 <hr />
-<h2>本章公式速查表</h2>
+</div><div class="sec sec-meta"><h2>本章公式速查表</h2>
 <blockquote>
 <p>与《高中数学常用公式·修订版》第三部分核对一致。</p>
 </blockquote>
@@ -3890,12 +3899,12 @@ A. 3　　B. 4　　C. 6　　D. 8</p>
 <li class="baihua"><span class="tag">大白话</span>背熟这四组勾股数，遇到直角三角形边长能立刻写出 sin、cos、tan。</li>
 <li>用的时候：给了两条边长求三角值，先看是不是这几组勾股数，是的话直接读比值，<strong>但别忘了先按象限定符号</strong>。</li>
 </ul>
-<h2>高级方法·进阶</h2>
+</div><div class="sec sec-meta"><h2>高级方法·进阶</h2>
 <p>本章主线（单位圆定义 + 同角关系 + 诱导公式 + 图象性质 + 图象变换）已覆盖高考全部考点。</p>
 <p><strong>本章无对应高级方法手册条目</strong>。说明：《不超纲高级方法手册》"五、三角与解三角形"中的辅助角公式属于下一章（07 三角恒等变换），本章尚不引入；本章所有常用技巧（五点法、由图求 A/ω/φ、象限定号）已在正文 3.5、3.6 讲透，无需额外超纲方法。</p>
 <hr />
 <div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. 120°  =  2π/3 rad；2. sin α  =  √3/2（sin<sup>2</sup>α  =  3/4，第二象限 sin &gt; 0）；3. cos x − cos x  =  0；4. x  =  π/2 + kπ；5. T  =  2π/2  =  π。</p></div></div>
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
+</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
 <ol>
 <li>(1) 135° = 135×π/180 = <strong>3π/4</strong>；(2) 240° = <strong>4π/3</strong>；(3) −30° = <strong>−π/6</strong>。</li>
 <li>(1) 5π/6 ×180/π = <strong>150°</strong>；(2) 3π/4 = <strong>135°</strong>；(3) π/9 = <strong>20°</strong>。</li>
@@ -3916,25 +3925,25 @@ A. 3　　B. 4　　C. 6　　D. 8</p>
 <li>【2025·第4题】正切 y=tan t 的对称中心在 t = kπ/2（纵坐标乘 2 不改变对称中心的横坐标）。令 a−π/3 = kπ/2 → a = π/3 + kπ/2。a&gt;0 取 k=0，得 a 最小值 <strong>π/3，选 B</strong>。</li>
 <li>【2024·第7题】这是"画图数交点"题，别硬列三角方程——两边振幅不等（一个是 1、一个是 2），"sinA=sinB"那套分角法在这里失效。设 f(x)=sin x−2sin(3x−π/6)。右边 y=2sin(3x−π/6) 振幅 2、周期 2π/3，在 [0,2π] 内正好走 3 个周期，抖得比左边 sin x 快 3 倍。沿区间每隔 π/12 取一个点看 f 的正负号：f(0)=+1、f(π/12)=−0.26、f(5π/12)=+1.48、f(5π/6)=−1.23、f(13π/12)=+0.26、f(17π/12)=−1.48、f(11π/6)=+1.23。相邻两点异号就说明中间穿了一次 x 轴，全程共变号 <strong>6 次</strong>，即两条曲线交 6 次，选 <strong>C</strong>。</li>
 </ol>
-</div></div><h2>一通百通</h2>
+</div></div></div><div class="sec sec-meta"><h2>一通百通</h2>
 <p>遇到三角函数的概念题、图象性质题、由图求解析式题，通用骨架只有三步：<strong>① 脑子里先放一个单位圆、一个动点 P(x,y)；② 把题目问的东西翻译成 P 的坐标（sin=y、cos=x、tan=y/x）或它转了多少角度；③ 让 P 转起来看坐标怎么重复，周期、最值、对称、单调就全读出来了</strong>。会这一道"单位圆投影"题，后面同角求值、诱导化简、画波形、求 A/ω/φ 这一整类题都会——这套"先建单位圆、再读坐标"的骨架，第 07 章做恒等变换、第 08 章解三角形时还会反复用到。</p>
-<h2>跨章结合</h2>
+</div><div class="sec sec-meta"><h2>跨章结合</h2>
 <ul>
 <li><strong>06 的"单位圆坐标投影" + 第 02 章函数的"换元求值域 / 恒成立"</strong>：把 ωx+φ 整体换元成 t，再看 sin t 在 t 的区间上取到最大、最小，就解决了"已知 f(x)=4sin(2x+π/6)+1 在某区间上的值域、反推恒成立参数 m 的范围"这类题（苏州教研·专题27，即本章例 4，答案 m∈[−5,9]）。这是"三角函数"撞上"函数值域与恒成立"的典型结合点。</li>
 <li><strong>06 的"画波形看交点" + 区间讨论</strong>：两条三角函数曲线在给定区间交几次，靠画图看正负号变号、不用硬列三角方程——这正是 2024 新高考Ⅰ卷第 7 题（y=sin x 与 y=2sin(3x−π/6) 在 [0,2π] 内交点 6 个，答案 C）；而 2025 新高考Ⅰ卷第 4 题（y=2tan(x−π/3) 的对称中心，答案 B），本质也是把 tan 的对称中心知识套到平移后的曲线上。</li>
 <li><strong>06 的 y=A sin(ωx+φ) + 第 02 章函数图象变换</strong>（综合原理说明，非真题）：正弦型曲线的"左右平移 φ、横向压缩 1/ω、纵向拉伸 A"，就是第 02 章学过的函数图象"平移 + 伸缩"那套动作，原样搬到正弦波上——想通 02 章的图象变换，这里三个参数各管一段就不用死记。</li>
 <li><strong>06 由图反求 ω、φ + 第 15 章直线与圆</strong>（综合原理说明，非真题）：用对称轴 x=m、对称中心 (m,0) 反解 ω、φ 时，本质是"令 ωx+φ=kπ/2，解出 x 落在某条竖直直线上"——这一步"把几何对称条件翻成关于 x 的方程"，和第 15 章处理直线方程、用条件定参数是同一种动作。</li>
 </ul>
-<h2>本章与前后章</h2>
+</div><div class="sec sec-meta"><h2>本章与前后章</h2>
 <p>本章上接第 02 章函数（定义域、值域、奇偶性那套语言），把"函数"第一次用到"周期现象"上；再往前是初中直角三角形里的锐角三角比，本章把它推广到了任意角、推广到单位圆。本章是三角函数板块的地基：第 07 章的和差角、倍角、辅助角公式，全都建立在本章的单位圆定义和同角关系 sin<sup>2</sup>+cos<sup>2</sup>=1 之上；第 08 章解三角形里的正弦、余弦定理，又是把这些三角函数用到三角形的边角上去。学完本章，你手里有了一个能描述一切周而复始现象（潮汐、交流电、声波）的数学模型。</p>
-<h2>高考怎么考</h2>
-<p>新高考Ⅰ卷里三角函数概念与性质通常出 1~2 道小题，位置在选择题中段（第 4~8 题一带），考法集中在：由图象/对称中心求参数（如 2025 新高考Ⅰ卷第 4 题，y=2tan(x−π/3) 的对称中心，答案 B，a 的最小值 π/3）、两条三角函数曲线在给定区间内的交点个数（如 2024 新高考Ⅰ卷第 7 题，靠画图数变号、交点 6 次）、同角关系与诱导公式化简。难度中等、套路固定——核心还是"脑子里有没有那个转着的单位圆"，会画波形、会读 A/ω/φ，这些题就是送分。</p></section><section class="chapter" id="ch-07"><div class="ch-head" data-no="07"><div class="ch-no">第07章</div><h1 class="ch-title">三角恒等变换</h1><div class="ch-sub">板块：三角函数 ｜ 前置：第 06 章 ｜ 老教材：必修4 第3章 ｜ 新教材：必修一 第5章 5.5</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后学习）">老教材·必修4</a><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后对标）">新教材·必修第一册</a><a href="../公式/高中数学公式速查手册.html#ch-07" title="本章公式速查（按章手册，直达本章）">公式速查手册</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
+</div><div class="sec sec-meta"><h2>高考怎么考</h2>
+<p>新高考Ⅰ卷里三角函数概念与性质通常出 1~2 道小题，位置在选择题中段（第 4~8 题一带），考法集中在：由图象/对称中心求参数（如 2025 新高考Ⅰ卷第 4 题，y=2tan(x−π/3) 的对称中心，答案 B，a 的最小值 π/3）、两条三角函数曲线在给定区间内的交点个数（如 2024 新高考Ⅰ卷第 7 题，靠画图数变号、交点 6 次）、同角关系与诱导公式化简。难度中等、套路固定——核心还是"脑子里有没有那个转着的单位圆"，会画波形、会读 A/ω/φ，这些题就是送分。</p></div></section><section class="chapter" id="ch-07"><div class="ch-head" data-no="07"><div class="ch-no">第07章</div><h1 class="ch-title">三角恒等变换</h1><div class="ch-sub">板块：三角函数 ｜ 前置：第 06 章 ｜ 老教材：必修4 第3章 ｜ 新教材：必修一 第5章 5.5</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后学习）">老教材·必修4</a><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后对标）">新教材·必修第一册</a><a href="../公式/高中数学公式速查手册.html#ch-07" title="本章公式速查（按章手册，直达本章）">公式速查手册</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
 <p>公式速查：修订版 第3部分（和差/倍角/辅助角）</p>
 <p><strong>本章本质核心</strong>：三角恒等变换的本质是"把不同角的三角函数，统一换成同一个角的三角函数"——题目里冒出 α+β、α−β、2α、两个不同角相加，看着乱，其实都是同一个归约动作：想办法把它们压回到同一个角，再算。本章全部公式（两角差的余弦、和差角、二倍角、降幂、辅助角）都是这一个归约原理的变体；根只有一块砖 cos(α−β)，其余全是它推出来的。
 <strong>为什么有用</strong>：想通"把不同角归约到同一个角"这一招，你就能把乱成一团的 sin、cos 混合式化简成一根干净的正弦波，最大值、周期、单调区间直接读出来；物理里交流电叠加、两个简谐运动合成，背后都是这一手合一变形——想通归约原理，比死背和差角表管用得多。</p>
 </blockquote>
 <hr />
-<h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
+<div class="sec sec-meta"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
 <ol>
 <li>sin 30°、cos 60°、tan 45° 各是多少？</li>
 <li>sin<sup>2</sup>α + cos<sup>2</sup>α  =  ？</li>
@@ -3943,14 +3952,14 @@ A. 3　　B. 4　　C. 6　　D. 8</p>
 <li>判断 sin(α + β) 是否等于 sin α + sin β。</li>
 </ol>
 <p><strong>判定</strong>：5 题答对 4 题以上 → 进章。</p>
-<h2 class = "goal">② 学习目标</h2>
+</div><div class="sec sec-meta"><h2 class = "goal">② 学习目标</h2>
 <ul>
 <li>背熟并会用和差角公式、二倍角公式</li>
 <li>会用降幂公式化简求值</li>
 <li>会用辅助角公式把 asin x + bcos x 合成一个正弦</li>
 <li>能解决"给值求值、给值求角"两类恒等变换题</li>
 </ul>
-<h2 class = "body">③ 正文讲解</h2>
+</div><div class="sec sec-meta"><h2 class = "body">③ 正文讲解</h2>
 <p>上一章我们有了 sin、cos、tan，这一章要让它们"互相变换"。先看地图：</p>
 <pre><code>两角差的余弦公式 C(α−β)   ← 一切公式的根（用单位圆两点距离推出）
         ↓ 把 β 换成 −β、把 α−β 推广
@@ -4059,7 +4068,7 @@ f(x)  =  2 sin(x + π/3)。最大值 <strong>2</strong>，周期 <strong>2π
 要点：配角思想——不用单独求 α、β，把目标角配成已知角的和差。</p>
 <p><strong>进阶/选学（超纲红线，只用于理解）</strong>：老教材里还有"积化和差、和差化积"两组公式（如 sinαcosβ  =  ½[sin(α+β)+sin(α−β)]）。<strong>新高考已不要求直接背，考试禁用这两组公式跳步</strong>，需要时用和差角公式现场推。知道有这回事、能推出来即可，别在卷子上直接套。</p>
 <hr />
-<h2 class = "ex2">④ 例题详解（先做再看）</h2>
+</div><div class="sec sec-meta"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
 <p class = "ex"><span class = "tag">例题</span><strong>例 1（给值求值）</strong>：已知 sin α  =  3/5（α 在第二象限），求 sin 2α 和 cos 2α。</p>
 <blockquote>
 <p>自己做：先补 cos α。</p>
@@ -4096,7 +4105,7 @@ y  =  3 sinθ + 5[(√3/2)cosθ + (1/2)sinθ]  =  (3+5/2)sinθ + (5√3/
 合一：振幅 R  =  √((11/2)<sup>2</sup> + (5√3/2)<sup>2</sup>)  =  √((121+75)/4)  =  √(196/4)  =  √49  =  <strong>7</strong>。
 故 y 的最大值就是振幅 <strong>7</strong>。
 要点：<strong>两个不同角的 sin、cos 相加，先用配角把它们并到同一个角 θ，再用辅助角公式合一，最大值直接读振幅 R</strong>。</p>
-<h2 class = "out">⑤ 出口检测</h2>
+</div><div class="sec sec-meta"><h2 class = "out">⑤ 出口检测</h2>
 <p><strong>自测（15 分钟，每题 2 分）</strong>：</p>
 <ol>
 <li>sin 75° 的值（用和角公式）。</li>
@@ -4107,7 +4116,7 @@ y  =  3 sinθ + 5[(√3/2)cosθ + (1/2)sinθ]  =  (3+5/2)sinθ + (5√3/
 </ol>
 <p><strong>真题验收</strong>：2020–2024 新高考Ⅰ卷恒等变换/合一变形小题 1~2 道（多在选择题 6–10 题区间）：每题 3 分钟、全对过关。</p>
 <p><strong>过关标准</strong>：自测 ≥ 10 分 且 真题全对 → 打卡，进入 08 章。</p>
-<h2>课后习题（分层练习）</h2>
+</div><div class="sec sec-hw"><h2>课后习题（分层练习）</h2>
 <p><strong>A 组·基础巩固</strong></p>
 <p>1.【考点：和角公式】求 sin 105°（提示：105° = 60°+45°）。
 2.【考点：差角公式】求 cos 75°（75° = 45°−(−30°)，或 75° = 45°+30°）。
@@ -4126,7 +4135,7 @@ y  =  3 sinθ + 5[(√3/2)cosθ + (1/2)sinθ]  =  (3+5/2)sinθ + (5√3/
 </blockquote>
 <p>11.【考点：和差角公式综合】（2024 新高考Ⅰ卷·第 4 题）已知 cos(α+β) = m，tanα·tanβ = 2，则 cos(α−β) =（　）
 A. −3m　　B. −m/3　　C. m/3　　D. 3m</p>
-<h2 class="pit">⑥ 常见坑清单</h2>
+</div><div class="sec sec-pit"><h2 class="pit">⑥ 常见坑清单</h2>
 <ul>
 <li><strong>sin(α ± β) 与 cos(α ± β) 中间符号相反</strong>：cos 是"cos cos ∓ sin sin"，别记成同号。</li>
 <li>二倍角 cos 2α 三种写法要灵活换：求 sin<sup>2</sup>α 用 1 − 2sin<sup>2</sup>α 反解最方便。</li>
@@ -4135,7 +4144,7 @@ A. −3m　　B. −m/3　　C. m/3　　D. 3m</p>
 <li>降幂公式方向：见到 cos<sup>2</sup>α、sin<sup>2</sup>α 想降幂，见到 cos 2α 想升幂。</li>
 </ul>
 <hr />
-<h2>本章公式速查表</h2>
+</div><div class="sec sec-meta"><h2>本章公式速查表</h2>
 <blockquote>
 <p>与《高中数学常用公式·修订版》第三部分第 8、9 条核对一致。</p>
 </blockquote>
@@ -4236,7 +4245,7 @@ A. −3m　　B. −m/3　　C. m/3　　D. 3m</p>
 <li class="baihua"><span class="tag">大白话</span>合一后是 y=R sin(x+φ)，对称轴一定过峰或谷，也就是函数取到 ±R 的地方。</li>
 <li>用的时候：题目说"f(x) 关于 x=x0 对称"，立刻知 f(x0) 等于振幅 ±√(a<sup>2</sup>+b<sup>2</sup>)，不用求导。</li>
 </ul>
-<h2>高级方法·进阶</h2>
+</div><div class="sec sec-meta"><h2>高级方法·进阶</h2>
 <blockquote>
 <p>本区分两层：下方 #### 5.1 是《手册》五.5.1 的<strong>全量原文收录</strong>，紧随其后的 ### 进阶·辅助角公式是本章已有的<strong>浓缩速记版</strong>，两者同根。</p>
 </blockquote>
@@ -4269,7 +4278,7 @@ A. −3m　　B. −m/3　　C. m/3　　D. 3m</p>
 </ul>
 <hr />
 <div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. sin 75°  =  sin(45°+30°)  =  (√2/2)(√3/2) + (√2/2)(1/2)  =  (√6+√2)/4；2. cos 2α  =  2·(1/9) − 1  =  −7/9；3. f(x)  =  2 sin(x + π/6)，最大值 2；4. 2sin<sup>2</sup>α − 1  =  −cos 2α；5. (1 + tan α)/(1 − tan α)。</p></div></div>
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
+</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
 <ol>
 <li>sin105° = sin(60°+45°) = (√3/2)(√2/2)+(1/2)(√2/2) = <strong>(√6+√2)/4</strong>。</li>
 <li>cos75° = cos(45°+30°) = (√2/2)(√3/2)−(√2/2)(1/2) = <strong>(√6−√2)/4</strong>。</li>
@@ -4287,25 +4296,25 @@ A. −3m　　B. −m/3　　C. m/3　　D. 3m</p>
 </ol>
 </div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · C 组</button><div class="ans-body"><p><strong>C 组</strong>
 11.【2024·第4题】cos(α+β) = cosαcosβ − sinαsinβ = m。由 tanαtanβ = 2 得 sinαsinβ = 2cosαcosβ，代入：cosαcosβ − 2cosαcosβ = −cosαcosβ = m，即 cosαcosβ = −m；进而 sinαsinβ = 2(−m) = −2m。于是 cos(α−β) = cosαcosβ + sinαsinβ = −m + (−2m) = <strong>−3m，选 A</strong>。</p>
-</div></div><h2>一通百通</h2>
+</div></div></div><div class="sec sec-meta"><h2>一通百通</h2>
 <p>拿到任何一道三角恒等变换题，通用骨架都是四步：<strong>① 先看角——题目里有哪几个角？它们是不是同一个角，还是 α+β、2α、两个不同角在打架；② 配角——把要求的角用已知角表示出来，目标是"统一到一个角"；③ 选公式——见平方就降幂、见 sinx+b cosx 型就合一、见 tanα±tanβ 就配 tan(α±β)；④ 定符号——开方、定象限之前先圈出角的范围，再写正负</strong>。会解一道给值求值，就会解这一整类；这套"先归约到同一个角、再套公式"的骨架，第 08 章解三角形做大题第二问求最值时还要再用一遍（合一之后读最值）。</p>
-<h2>跨章结合</h2>
+</div><div class="sec sec-meta"><h2>跨章结合</h2>
 <ul>
 <li><strong>07 的"辅助角合一" + 第 06 章的"y=A sin(ωx+φ) 读法"</strong>：把 a sin x+b cos x 合一成 R sin(x+φ) 后，最大值就是振幅 R、周期与单调区间全部直接读——本章例 2（f(x)=sin x+√3 cos x 最大值 2）和苏州教研·专题30 的综合题（y=3sin(x+20°)+5cos(x−10°)，先配角并到同一角 θ 再合一，最大值=7）都是这一结合点。</li>
 <li><strong>07 的"tan 变形公式" + 特殊角凑角</strong>：看到"tanα±tanβ 和 tanα tanβ 同框"，用 tanα+tanβ=tan(α+β)(1−tanα tanβ) 整体代换、乘积项抵消——苏州教研·专题29 的 tan18°+tan42°+√3 tan18°tan42°=√3（本章例 4）就是这一结合点的成品。</li>
 <li><strong>07 的"辅助角求最值" + 第 05 章导数求最值</strong>（综合原理说明，非真题）：求 a sin x+b cos x 的最值，合一后直接读振幅 R 最快；若改用第 05 章对 f(x)=a sin x+b cos x 求导、令 f′(x)=a cos x−b sin x=0 找驻点，两条路殊途同归——合一公式本质上就是"不用求导、一步读出那个极值"。</li>
 <li><strong>07 的"恒等变换" + 第 16 章椭圆参数方程</strong>（综合原理说明，非真题）：椭圆常写成 x=a cosθ、y=b sinθ 的参数形式，椭圆上一点到直线的距离、或三角形面积最值，代入后往往冒出来 a sinθ+b cosθ 型的混合式，最后仍靠本章的辅助角合一收尾。</li>
 </ul>
-<h2>本章与前后章</h2>
+</div><div class="sec sec-meta"><h2>本章与前后章</h2>
 <p>本章紧接第 06 章：没有第 06 章的单位圆定义、同角关系 sin<sup>2</sup>+cos<sup>2</sup>=1 和诱导公式，本章的和差角公式连推导的地基都没有。本章又为第 08 章解三角形备好武器——大题第二问求面积、周长的最值范围，最后一步往往就是靠本章的辅助角公式把多个三角函数合一、再读出最大值。同时，本章的合一变形也回头解释了第 06 章 y=A sin(ωx+φ) 里那串参数到底怎么来的。所以这一章是三角函数板块承上启下的枢纽：向上把三角函数之间打通，向下给解三角形递工具。</p>
-<h2>高考怎么考</h2>
-<p>新高考Ⅰ卷里恒等变换大多以 1 道小题出现（选择题第 4~10 题一带），偶尔融进解三角形大题。典型考法：给 tanα·tanβ 之类的乘积条件，求 cos(α−β) 与 cos(α+β) 的关系（如 2024 新高考Ⅰ卷第 4 题，cos(α+β)=m、tanα·tanβ=2，答案为 −3m）；求 a sin x+b cos x 型函数的最大值、周期、单调区间（辅助角合一后直接读）；以及 tan18°+tan42° 这类"tan 加减 + tan 乘积"的整体代换。难度中档，关键不是背公式，而是看出"该把哪几个角归约成一个"。</p></section><section class="chapter" id="ch-08"><div class="ch-head" data-no="08"><div class="ch-no">第08章</div><h1 class="ch-title">解三角形</h1><div class="ch-sub">板块：三角函数 ｜ 前置：第 07 章 ｜ 老教材：必修5 第1章 ｜ 新教材：必修二 第6章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后学习）">老教材·必修5</a><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后对标）">新教材·必修第二册</a><a href="../公式/高中数学公式速查手册.html#ch-08" title="本章公式速查（按章手册，直达本章）">公式速查手册</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
+</div><div class="sec sec-meta"><h2>高考怎么考</h2>
+<p>新高考Ⅰ卷里恒等变换大多以 1 道小题出现（选择题第 4~10 题一带），偶尔融进解三角形大题。典型考法：给 tanα·tanβ 之类的乘积条件，求 cos(α−β) 与 cos(α+β) 的关系（如 2024 新高考Ⅰ卷第 4 题，cos(α+β)=m、tanα·tanβ=2，答案为 −3m）；求 a sin x+b cos x 型函数的最大值、周期、单调区间（辅助角合一后直接读）；以及 tan18°+tan42° 这类"tan 加减 + tan 乘积"的整体代换。难度中档，关键不是背公式，而是看出"该把哪几个角归约成一个"。</p></div></section><section class="chapter" id="ch-08"><div class="ch-head" data-no="08"><div class="ch-no">第08章</div><h1 class="ch-title">解三角形</h1><div class="ch-sub">板块：三角函数 ｜ 前置：第 07 章 ｜ 老教材：必修5 第1章 ｜ 新教材：必修二 第6章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后学习）">老教材·必修5</a><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后对标）">新教材·必修第二册</a><a href="../公式/高中数学公式速查手册.html#ch-08" title="本章公式速查（按章手册，直达本章）">公式速查手册</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
 <p>公式速查：修订版 第3部分（正余弦定理）</p>
 <p><strong>本章本质核心</strong>：解三角形的本质就是"六个元素（三条边 a、b、c 和三个角 A、B、C）里知三求其余"——三角形一共六个量，只要给够独立的三个（至少含一条边），剩下的全能算出来。正弦定理和余弦定理就是沟通"边"与"角"的两个翻译器：正弦定理管"角↔它对的那条边"的比例，余弦定理管"三边↔夹角"；本章所有题型（求边、求角、判形状、求面积）都是这两个翻译器的来回调用。
 <strong>为什么有用</strong>：想通"边和角能互相翻译"这一点，现实里够不着的河宽、塔高、两点距离，只要测一两个角和一段走得到的距离就能算出来；考卷上那道必考的解三角形解答题，本质就是这套翻译来回倒腾——想明白正余弦定理为什么成立，大题套路自然就通了。</p>
 </blockquote>
 <hr />
-<h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
+<div class="sec sec-meta"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
 <ol>
 <li>三角形内角和是多少度？</li>
 <li>直角三角形中 sin A  =  对边/斜边，对吗？</li>
@@ -4314,14 +4323,14 @@ A. −3m　　B. −m/3　　C. m/3　　D. 3m</p>
 <li>已知三角形两边及夹角，能唯一确定三角形吗？</li>
 </ol>
 <p><strong>判定</strong>：5 题答对 4 题以上 → 进章。</p>
-<h2 class = "goal">② 学习目标</h2>
+</div><div class="sec sec-meta"><h2 class = "goal">② 学习目标</h2>
 <ul>
 <li>掌握正弦定理、余弦定理及其变形</li>
 <li>会用正余弦定理解三角形（解边、解角、判定形状）</li>
 <li>掌握三角形面积公式（含正弦形式）</li>
 <li>能完成高考"解三角形解答题"（第 17 题左右，必考大题）</li>
 </ul>
-<h2 class = "body">③ 正文讲解</h2>
+</div><div class="sec sec-meta"><h2 class = "body">③ 正文讲解</h2>
 <p>解三角形，就是知道三角形里的几个边角条件，把剩下的边和角全部算出来。工具只有两把：正弦定理、余弦定理。先看地图：</p>
 <pre><code>已知条件三选二
    ├─ 两角一边  ──→ 正弦定理
@@ -4459,7 +4468,7 @@ sinA·cosB  =  sinB·cosA ⇒ sinA·cosB − cosA·sinB  =  0 ⇒ <stron
 <p><strong>小结</strong>：正弦定理管"角↔对边比例"，余弦定理管"三边↔夹角"；面积公式串起两边一夹角。做题先判类型，再套定理，最后别忘检验角的范围和两解。</p>
 <p><strong>编者注·本质回扣</strong>：把这一章和前两章连起来看，你会发现它没引入任何新东西。正弦定理、余弦定理不过是把第 06、07 章的 sin、cos 从单位圆搬进了三角形：正弦定理说"角对的边成比例"，余弦定理是勾股定理带上 cos 修正项的推广（直角时 cos90° = 0 就退回勾股）。所谓"知三求其余"，就是手里攥着六个量里的三个，用这两个翻译器把"边"翻成"角"、再把"角"翻回"边"，来回倒腾直到六个量全齐。判形状、求面积、求范围，全是这套翻译的具体应用。</p>
 <hr />
-<h2 class = "ex2">④ 例题详解（先做再看）</h2>
+</div><div class="sec sec-meta"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
 <p class = "ex"><span class = "tag">例题</span><strong>例 1（正弦定理）</strong>：在 △ABC 中，A  =  60°，B  =  45°，a  =  √6，求 b。</p>
 <blockquote>
 <p>自己做：a/sinA  =  b/sinB。</p>
@@ -4491,7 +4500,7 @@ sin<sup>2</sup>A  =  sin<sup>2</sup>B + sin<sup>2</sup>C − 2 sinB sinC cos
 sin<sup>2</sup>21° + sin<sup>2</sup>39° − 2 sin21°sin39°·(−1/2)  =  sin<sup>2</sup>120°，
 即 sin<sup>2</sup>21° + sin<sup>2</sup>39° + sin21°sin39°  =  sin<sup>2</sup>120°  =  (√3/2)<sup>2</sup>  =  <strong>3/4</strong>。
 要点：<strong>看到"sin<sup>2</sup>B + sin<sup>2</sup>C ± sinB sinC"这种结构，就把它对应到正余弦整合定理</strong>——只要 B+C = 60°（第三角 120°），"±"号正好配 cos120° = −1/2，整体等于 sin<sup>2</sup>(第三角)。</p>
-<h2 class = "out">⑤ 出口检测</h2>
+</div><div class="sec sec-meta"><h2 class = "out">⑤ 出口检测</h2>
 <p><strong>自测（20 分钟，每题 2 分）</strong>：</p>
 <ol>
 <li>在 △ABC 中，A  =  30°，B  =  45°，a  =  1，求 b。</li>
@@ -4502,7 +4511,7 @@ sin<sup>2</sup>21° + sin<sup>2</sup>39° − 2 sin21°sin39°·(−1/2)  = 
 </ol>
 <p><strong>真题验收</strong>：完成 2020–2024 新高考Ⅰ卷<strong>解三角形解答题</strong> 1 道（通常第 17 题）：两问独立完成、20 分钟内、得分 ≥ 80% → 过关。</p>
 <p><strong>过关标准</strong>：自测 ≥ 10 分 且 真题大题达标 → 打卡。</p>
-<h2>课后习题（分层练习）</h2>
+</div><div class="sec sec-hw"><h2>课后习题（分层练习）</h2>
 <p><strong>A 组·基础巩固</strong></p>
 <p>1.【考点：正弦定理】在 △ABC 中，A = 60°，B = 45°，a = 3√2，求 b。
 2.【考点：正弦定理】在 △ABC 中，a = 2，b = √6，A = 45°，求 B。
@@ -4521,7 +4530,7 @@ sin<sup>2</sup>21° + sin<sup>2</sup>39° − 2 sin21°sin39°·(−1/2)  = 
 </blockquote>
 <p>11.【考点：解三角形大题】在 △ABC 中，内角 A、B、C 对边为 a、b、c，已知 √3 a = 2c sin A。(1) 求角 C；(2) 若 c = √7，a+b = 5，求 △ABC 的面积。
 12.【考点：正弦定理+面积】在 △ABC 中，已知 sin A : sin B : sin C = 3 : 5 : 7，且最大边 c = 14。(1) 求其余两边 a、b；(2) 求 △ABC 的面积。</p>
-<h2 class="pit">⑥ 常见坑清单</h2>
+</div><div class="sec sec-pit"><h2 class="pit">⑥ 常见坑清单</h2>
 <ul>
 <li><strong>正弦定理求角可能两解</strong>：已知两边及一边对角，先判断解的个数再写答案。</li>
 <li>余弦定理的角：cos A 由三边求，<strong>分子是 b<sup>2</sup> + c<sup>2</sup> − a<sup>2</sup></strong>（对边平方带负号）。</li>
@@ -4530,7 +4539,7 @@ sin<sup>2</sup>21° + sin<sup>2</sup>39° − 2 sin21°sin39°·(−1/2)  = 
 <li>大题里"cos A 用余弦定理"与"sin A 用同角关系"常配合，先求 cos 再转 sin。</li>
 </ul>
 <hr />
-<h2>本章公式速查表</h2>
+</div><div class="sec sec-meta"><h2>本章公式速查表</h2>
 <blockquote>
 <p>与《高中数学常用公式·修订版》第三部分第 10、11 条核对一致。</p>
 </blockquote>
@@ -4639,7 +4648,7 @@ sin<sup>2</sup>21° + sin<sup>2</sup>39° − 2 sin21°sin39°·(−1/2)  = 
 <li class="baihua"><span class="tag">大白话</span>两个正弦相等，在三角形里要么两角相等，要么它们的二倍角互余（推出直角）。</li>
 <li>用的时候：判形状时见到 sin2A=sin2B，要想到"等腰或直角"两种可能，别漏直角。</li>
 </ul>
-<h2>高级方法·进阶</h2>
+</div><div class="sec sec-meta"><h2>高级方法·进阶</h2>
 <blockquote>
 <p>本区分两层：下方 #### 5.2 / 5.3 是《手册》第五部分的<strong>全量原文收录</strong>，紧随其后的 ### 进阶 1 / 2 是本章已有的<strong>浓缩速记版</strong>，两者同根。</p>
 </blockquote>
@@ -4705,7 +4714,7 @@ sin<sup>2</sup>21° + sin<sup>2</sup>39° − 2 sin21°sin39°·(−1/2)  = 
 </ul>
 <hr />
 <div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. b  =  a·sinB/sinA  =  1·(√2/2)/(1/2)  =  √2；2. c<sup>2</sup>  =  9 + 25 − 2·3·5·cos120°  =  34 + 15  =  49，c  =  7；3. 最大边 5：5<sup>2</sup>  =  3<sup>2</sup> + 4<sup>2</sup> ⇒ 最大角为直角；4. S  =  ½·2·3·sin30°  =  3/2；5. a : b : c  =  3 : 4 : 5 ⇒ 3<sup>2</sup> + 4<sup>2</sup>  =  5<sup>2</sup> ⇒ 直角三角形。</p></div></div>
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
+</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
 <ol>
 <li>b = a·sinB/sinA = 3√2 × (√2/2)/(√3/2) = 3√2 × √2/√3 = <strong>2√3</strong>。</li>
 <li>sin B = b·sinA/a = √6×(√2/2)/2 = √12/4 = √3/2。B∈(0,π)，B = <strong>60° 或 120°</strong>（两解）。</li>
@@ -4733,25 +4742,25 @@ sin<sup>2</sup>21° + sin<sup>2</sup>39° − 2 sin21°sin39°·(−1/2)  = 
 (2) cos C = (a<sup>2</sup>+b<sup>2</sup>−c<sup>2</sup>)/(2ab) = (36+100−196)/(2×6×10) = −60/120 = −1/2 ⇒ C = 120°。S = ½ab sinC = ½×6×10×(√3/2) = <strong>15√3</strong>。</p>
 </li>
 </ol>
-</div></div><h2>一通百通</h2>
+</div></div></div><div class="sec sec-meta"><h2>一通百通</h2>
 <p>解三角形的通用骨架只有三步：<strong>① 先数条件——题目给了六个量（三边三角）里的哪三个？是"两角一边""两边夹角""三边"还是"两边一对角"；② 选翻译器——两角一边、两边一对角用正弦定理，两边夹角、三边用余弦定理，求面积就套 ½·两边·夹角正弦；③ 边不够就边角互化——把"边的齐次式"整体换成"角的正弦"，或反过来，统一变量后再算，最后圈出角的范围、检查有没有两解</strong>。会解一道解三角形题，就会解这一整类；这套"先判条件类型、再选定理翻译"的骨架，就是新高考那道必考大题的全部套路。</p>
-<h2>跨章结合</h2>
+</div><div class="sec sec-meta"><h2>跨章结合</h2>
 <ul>
 <li><strong>08 的"正弦定理边角互化" + 第 07 章的"辅助角合一"</strong>：大题第一问先用正弦定理把边的齐次式换成角，第二问多个角的三角函数相加，再用 07 章的辅助角公式合一求最值——这是新高考解三角形解答题的标准两连（苏州教研·专题30）。</li>
 <li><strong>08 的"正余弦整合定理" + 07 的 sin<sup>2</sup>、sin·sin 结构</strong>：看到 sin<sup>2</sup>B+sin<sup>2</sup>C±sinB sinC 且两角和确定，直接对应正余弦整合定理、一步化成 sin<sup>2</sup>(第三角)——苏州教研·专题30 的 sin<sup>2</sup>21°+sin<sup>2</sup>39°+sin21°sin39°=3/4（本章例 4）就是这一结合点。</li>
 <li><strong>08 的"正余弦定理" + 第 09 章向量的数量积</strong>（综合原理说明，非真题）：向量数量积 a·b=|a||b|cosθ，本质就是余弦定理两边同时乘一条边——用数量积算三角形夹角、判断垂直（直角），和正余弦定理互为翻译；建系后解三角形，最后一步常落到数量积上。</li>
 <li><strong>08 的"解三角形" + 第 16 章解析几何的几何条件</strong>（综合原理说明，非真题）：解析几何大题里"某角为直角 / 两边成夹角 / 三角形面积最值"这类条件，常常要翻译成三角形的边角关系（或向量夹角）来列方程——本章的正余弦定理就是把"几何条件"翻成"可算等式"的那座桥。</li>
 </ul>
-<h2>本章与前后章</h2>
+</div><div class="sec sec-meta"><h2>本章与前后章</h2>
 <p>本章是三角函数板块的收官应用章：它前面的第 06 章给了你 sin、cos、tan 的定义和图象，第 07 章给了你和差角、倍角、辅助角这些"加工"工具——本章就是把这些工具全部用回到三角形的边角上。具体地说，正弦定理来自第 06 章的单位圆与外接圆，大题第二问求面积、周长的最值时，要靠第 07 章的辅助角公式合一后再求范围。学完本章，三角函数这条线（06→07→08）就闭环了：从"角是什么"到"角怎么变换"，再到"角怎么用来量三角形、测距离"。</p>
-<h2>高考怎么考</h2>
-<p>解三角形是新高考Ⅰ卷<strong>必考的解答题</strong>，通常放在卷面解答题的第 1 题（第 17 题左右），两问结构固定：第一问给一组边角混合条件求某条边或某个角（第一步往往是正弦定理做边角互化），第二问求面积、周长或它们的最值范围（要配合余弦定理凑完全平方、再用辅助角或基本不等式）。偶尔也以小题形式考"两边一对角的两解判断"，以及 sin<sup>2</sup>B+sin<sup>2</sup>C±sinB sinC 这类结构一步化角（如 sin<sup>2</sup>21°+sin<sup>2</sup>39°+sin21°sin39°=3/4）。这道大题位置靠前、套路成熟，是整张卷子必须稳稳拿下的一道解答题。</p></section><section class="chapter" id="ch-09"><div class="ch-head" data-no="09"><div class="ch-no">第09章</div><h1 class="ch-title">平面向量</h1><div class="ch-sub">板块：向量与复数 ｜ 前置：第 02、06 章 ｜ 老教材：必修4 第2章 ｜ 新教材：必修二 第6章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后学习）">老教材·必修4</a><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后对标）">新教材·必修第二册</a><a href="../公式/高中数学公式速查手册.html#ch-09" title="本章公式速查（按章手册，直达本章）">公式速查手册</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
+</div><div class="sec sec-meta"><h2>高考怎么考</h2>
+<p>解三角形是新高考Ⅰ卷<strong>必考的解答题</strong>，通常放在卷面解答题的第 1 题（第 17 题左右），两问结构固定：第一问给一组边角混合条件求某条边或某个角（第一步往往是正弦定理做边角互化），第二问求面积、周长或它们的最值范围（要配合余弦定理凑完全平方、再用辅助角或基本不等式）。偶尔也以小题形式考"两边一对角的两解判断"，以及 sin<sup>2</sup>B+sin<sup>2</sup>C±sinB sinC 这类结构一步化角（如 sin<sup>2</sup>21°+sin<sup>2</sup>39°+sin21°sin39°=3/4）。这道大题位置靠前、套路成熟，是整张卷子必须稳稳拿下的一道解答题。</p></div></section><section class="chapter" id="ch-09"><div class="ch-head" data-no="09"><div class="ch-no">第09章</div><h1 class="ch-title">平面向量</h1><div class="ch-sub">板块：向量与复数 ｜ 前置：第 02、06 章 ｜ 老教材：必修4 第2章 ｜ 新教材：必修二 第6章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后学习）">老教材·必修4</a><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后对标）">新教材·必修第二册</a><a href="../公式/高中数学公式速查手册.html#ch-09" title="本章公式速查（按章手册，直达本章）">公式速查手册</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
 <p>公式速查：修订版 第7部分（平面向量）</p>
 <p><strong>本章本质核心</strong>：向量的本质是"既有大小又有方向的箭头"——它不关心起点在哪，可以随便平移；所有运算都是这支箭头的几何动作：加减是把箭头首尾相接或共起点合并（平移），数乘是拉长/压短/反向，数量积 a·b 是"把 b 投影到 a 方向上再乘 a 的模"（投影）。本章全部题型（共线、垂直、夹角、求模、投影、建系解几何）都是这一个原理的变体。</p>
 <p class = "baihua why"><span class = "tag">为什么有用</span>想通"向量 = 可平移的箭头、点积 = 投影"，你就不用背一堆几何二级结论——垂直、夹角、求模、投影、三点共线全都能现场推出来；后面立体几何建系求角和距离，靠的也是这一套，学一次用两章。</p>
 </blockquote>
 <hr />
-<h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
+<div class="sec sec-meta"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
 <ol>
 <li>直角坐标系中点 (2, 3) 到原点的距离是多少？</li>
 <li>直角三角形中 cos θ  =  邻边/斜边，对吗？</li>
@@ -4760,7 +4769,7 @@ sin<sup>2</sup>21° + sin<sup>2</sup>39° − 2 sin21°sin39°·(−1/2)  = 
 <li>什么是平行四边形法则？（初中见过吗）</li>
 </ol>
 <p><strong>判定</strong>：5 题答对 4 题以上 → 进章。</p>
-<h2 class = "goal">② 学习目标</h2>
+</div><div class="sec sec-meta"><h2 class = "goal">② 学习目标</h2>
 <ul>
 <li>理解向量的概念（大小 + 方向）与表示</li>
 <li>掌握向量加法（三角形/平行四边形法则）、减法、数乘</li>
@@ -4768,7 +4777,7 @@ sin<sup>2</sup>21° + sin<sup>2</sup>39° − 2 sin21°sin39°·(−1/2)  = 
 <li>掌握数量积（点乘）的定义、坐标公式及其应用（垂直、夹角、投影）</li>
 <li>会用向量解决平面几何问题（基底法、坐标法）</li>
 </ul>
-<h2 class = "body">③ 正文讲解</h2>
+</div><div class="sec sec-meta"><h2 class = "body">③ 正文讲解</h2>
 <p>先想一个生活场景。你推箱子，用多大力（大小）、朝哪个方向推（方向），两个信息缺一不可——只说"用 50 牛的力"不说方向，箱子动不了。这种"既有大小、又有方向"的量，就是向量。本章地图：</p>
 <pre><code>向量是什么（大小+方向）
    ↓
@@ -4891,7 +4900,7 @@ sin<sup>2</sup>21° + sin<sup>2</sup>39° − 2 sin21°sin39°·(−1/2)  = 
 要点：系数都等于 1/2 就是中点。</p>
 <p><strong>小结</strong>：向量是"带方向的量"；加减数乘管线性运算，坐标化后变成算术；数量积 a·b 是把"垂直、夹角、模"翻译成代数的钥匙。</p>
 <hr />
-<h2 class = "ex2">④ 例题详解（先做再看）</h2>
+</div><div class="sec sec-meta"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
 <p class = "ex"><span class = "tag">例题</span><strong>例 1（坐标运算）</strong>：已知 a  =  (1, 2)，b  =  (3, −1)。
 (1) 求 a + b、2a − b；(2) 求 a · b；(3) 判断 a 与 b 是否垂直。</p>
 <blockquote>
@@ -4924,7 +4933,7 @@ PA·PB  =  (1−u)(1−2u)/u  =  2u + 1/u − 3。
 由基本不等式 2u + 1/u ≥ 2√(2u·(1/u))  =  2√2，当且仅当 2u  =  1/u 即 u  =  1/√2 时取等。
 故 PA·PB 的最小值  =  <strong>2√2 − 3</strong>。
 要点：<strong>切线（或任意两线段）的数量积最值，先把夹角设成单变量、把模也用它表示，再用基本不等式求最值</strong>；这是"数量积+基本不等式"的标准搭配。</p>
-<h2 class = "out">⑤ 出口检测</h2>
+</div><div class="sec sec-meta"><h2 class = "out">⑤ 出口检测</h2>
 <p><strong>自测（15 分钟，每题 2 分）</strong>：</p>
 <ol>
 <li>已知 a  =  (1, 2)，b  =  (2, −1)，求 a + b 与 a − b。</li>
@@ -4935,7 +4944,7 @@ PA·PB  =  (1−u)(1−2u)/u  =  2u + 1/u − 3。
 </ol>
 <p><strong>真题验收</strong>：2020–2024 新高考Ⅰ卷向量小题 2 道（数量积/垂直/夹角，多在选择题 3–7 题区间）：每题 2 分钟、全对过关。</p>
 <p><strong>过关标准</strong>：自测 ≥ 10 分 且 真题全对 → 打卡。</p>
-<h2>课后习题（分层练习）</h2>
+</div><div class="sec sec-hw"><h2>课后习题（分层练习）</h2>
 <p><strong>A 组·基础巩固</strong></p>
 <p>1.【考点：坐标加减】已知 a = (2, 3)，b = (−1, 4)，求 a+b、a−b、2a−3b。
 2.【考点：数乘与模】已知 a = (3, 4)，求 |a| 和 2a 的坐标与模。
@@ -4954,7 +4963,7 @@ PA·PB  =  (1−u)(1−2u)/u  =  2u + 1/u − 3。
 </blockquote>
 <p>11.【考点：向量垂直+坐标运算】（2024 新高考Ⅰ卷·第 3 题）已知向量 a = (0, 1)，b = (2, x)，若 b ⊥ (b − 4a)，则 x =（　）
 A. −2　　B. −1　　C. 1　　D. 2</p>
-<h2 class="pit">⑥ 常见坑清单</h2>
+</div><div class="sec sec-pit"><h2 class="pit">⑥ 常见坑清单</h2>
 <ul>
 <li><strong>向量有方向，比较大小只比模</strong>；a ≥ b 这种写法不存在。</li>
 <li>共线 ⇔ x<sub>1</sub>y<sub>2</sub> − x<sub>2</sub>y<sub>1</sub> = 0；垂直 ⇔ x<sub>1</sub>x<sub>2</sub> + y<sub>1</sub>y<sub>2</sub> = 0。<strong>两个公式交叉使用是最高频错误</strong>。</li>
@@ -4964,7 +4973,7 @@ A. −2　　B. −1　　C. 1　　D. 2</p>
 <li>夹角范围 [0, π]：cos θ 为负说明夹角为钝角。</li>
 </ul>
 <hr />
-<h2>本章公式速查表</h2>
+</div><div class="sec sec-meta"><h2>本章公式速查表</h2>
 <blockquote>
 <p>与《高中数学常用公式·修订版》第七部分核对一致。</p>
 </blockquote>
@@ -5069,12 +5078,12 @@ A. −2　　B. −1　　C. 1　　D. 2</p>
 <li class="baihua"><span class="tag">大白话</span>分点坐标是两端点坐标按 λ 的"加权混合"，权重在两端点间按 λ 分配。</li>
 <li>用的时候：已知分点比 λ，直接套；λ=1 退化成中点公式。</li>
 </ul>
-<h2>高级方法·进阶</h2>
+</div><div class="sec sec-meta"><h2>高级方法·进阶</h2>
 <p>本章主线（线性运算 + 共线定理 + 数量积 + 坐标法/基底法）已覆盖高考全部考点。</p>
 <p><strong>本章无对应高级方法手册条目</strong>。说明：《不超纲高级方法手册》未单列"平面向量"专题——高考向量题的核心技巧（建系坐标化、用 |a±b|<sup>2</sup> 求模、基底法翻译几何条件）已在正文 3.4、3.5 讲透，全部不超纲。一个可直接用的小结论：<strong>P、A、B 三点共线 ⇔ 存在 x+y = 1 使 OP = x·OA+y·OB</strong>（见速查表第 10 条），小题可秒判共线。</p>
 <hr />
 <div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. a + b  =  (3, 1)，a − b  =  (−1, 3)；2. 共线（1·4 − 2·2  =  0，b  =  2a）；3. 1·x + 2·(−1)  =  0 ⇒ x  =  2；4. cos θ  =  0 ⇒ θ  =  90°（π/2）；5. |a+b|<sup>2</sup>  =  9 + 2·(−6) + 16  =  13，|a + b|  =  √13。</p></div></div>
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
+</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
 <ol>
 <li>a+b = (2−1, 3+4) = <strong>(1, 7)</strong>；a−b = (2+1, 3−4) = <strong>(3, −1)</strong>；2a−3b = (4,6)−(−3,12) = <strong>(7, −6)</strong>。</li>
 <li>|a| = √(9+16) = <strong>5</strong>；2a = <strong>(6, 8)</strong>，|2a| = <strong>10</strong>。</li>
@@ -5092,23 +5101,23 @@ A. −2　　B. −1　　C. 1　　D. 2</p>
 </ol>
 </div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · C 组</button><div class="ans-body"><p><strong>C 组</strong>
 11.【2024·第3题】b−4a = (2, x)−(0,4) = (2, x−4)。b⊥(b−4a) ⇒ b·(b−4a) = 0：2×2 + x(x−4) = 0 → x<sup>2</sup>−4x+4 = 0 → (x−2)<sup>2</sup> = 0 → x = <strong>2，选 D</strong>。</p>
-</div></div><h2>一通百通</h2>
+</div></div></div><div class="sec sec-meta"><h2>一通百通</h2>
 <p>这一章的"通用骨架"是：<strong>① 看见向量先想成一支可平移的箭头 → ② 能建系就建系，把箭头写成坐标 → ③ 线性问题用坐标加减、共线用 x<sub>1</sub>y<sub>2</sub>−x<sub>2</sub>y<sub>1</sub>=0 → ④ 涉及垂直/夹角/求模/投影就点积 a·b = x<sub>1</sub>x<sub>2</sub>+y<sub>1</sub>y<sub>2</sub></strong>。高考向量小题不管怎么包装，本质都是"把几何条件翻译成坐标或点积，再做算术"。会解一道向量小题，就会解所有向量小题；这套"建系坐标化 + 点积翻译几何"的骨架，到第 14 章空间向量还会原样搬到三维里复用。</p>
-<h2>跨章结合</h2>
+</div><div class="sec sec-meta"><h2>跨章结合</h2>
 <ul>
 <li><strong>向量数量积 ⇔ 第 14 章空间向量与立体几何</strong>：本章的数量积 a·b=x<sub>1</sub>x<sub>2</sub>+y<sub>1</sub>y<sub>2</sub>、求模 |a|<sup>2</sup>=a·a、垂直 ⇔ 点积为 0，搬到三维就是 x<sub>1</sub>x<sub>2</sub>+y<sub>1</sub>y<sub>2</sub>+z<sub>1</sub>z<sub>2</sub>——立体几何里建系后求线线角、线面角、点到面距离，全是这一套二维点积的三维版。想通"点积=投影"，第 14 章那些角和距离公式就不是新东西，而是同一原理多写一个坐标。（综合原理说明，非真题）</li>
 <li><strong>向量线性运算 ⇔ 第 15 章直线与圆</strong>：直线的方向向量、斜率 k，本质就是"一支箭头的坐标比"；两点决定直线，用的也是向量 AB=(x<sub>2</sub>−x<sub>1</sub>, y<sub>2</sub>−y<sub>1</sub>)。你在本章练熟的坐标加减、中点公式，到解析几何里写直线方程、算点线距离时会一再出现。（综合原理说明，非真题）</li>
 </ul>
-<h2>本章与前后章</h2>
+</div><div class="sec sec-meta"><h2>本章与前后章</h2>
 <p>平面向量前接第 02 章（函数与坐标）和第 06 章（三角函数的夹角与直角三角形）——向量的坐标来自坐标系，夹角公式来自 cosθ；它本身是个"几何→代数"的转换器，向后直接喂给第 14 章空间向量与立体几何：把向量从二维搬到三维、建系求线面角和距离，靠的就是本章这套线性运算和数量积。同时向量也是后面解析几何（15、16 章）里"翻译几何条件"的常用语言。</p>
-<h2>高考怎么考</h2>
-<p>新高考Ⅰ卷里向量固定在小题区间（选择题 3–7 题附近），年年一两道，考法高度套路：数量积求夹角、垂直条件、求模（先平方用 |a±b|<sup>2</sup> 展开）、共线判定，以及坐标法解平面几何。真题如 2024 新高考Ⅰ卷第 3 题（向量垂直+坐标运算，答案 x=2 选 D）就是典型。难度中档、位置靠前，考的不是新结论，而是你"建系、写坐标、点积翻译"这一步熟不熟。</p></section><section class="chapter" id="ch-10"><div class="ch-head" data-no="10"><div class="ch-no">第10章</div><h1 class="ch-title">复数</h1><div class="ch-sub">板块：向量与复数 ｜ 前置：第 02 章 ｜ 老教材：选修1-2 / 2-2 复数章 ｜ 新教材：必修二 第7章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后学习）">老教材·选修1-2</a><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后对标）">新教材·必修第二册</a><a href="../公式/高中数学公式速查手册.html#ch-10" title="本章公式速查（按章手册，直达本章）">公式速查手册</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
+</div><div class="sec sec-meta"><h2>高考怎么考</h2>
+<p>新高考Ⅰ卷里向量固定在小题区间（选择题 3–7 题附近），年年一两道，考法高度套路：数量积求夹角、垂直条件、求模（先平方用 |a±b|<sup>2</sup> 展开）、共线判定，以及坐标法解平面几何。真题如 2024 新高考Ⅰ卷第 3 题（向量垂直+坐标运算，答案 x=2 选 D）就是典型。难度中档、位置靠前，考的不是新结论，而是你"建系、写坐标、点积翻译"这一步熟不熟。</p></div></section><section class="chapter" id="ch-10"><div class="ch-head" data-no="10"><div class="ch-no">第10章</div><h1 class="ch-title">复数</h1><div class="ch-sub">板块：向量与复数 ｜ 前置：第 02 章 ｜ 老教材：选修1-2 / 2-2 复数章 ｜ 新教材：必修二 第7章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后学习）">老教材·选修1-2</a><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后对标）">新教材·必修第二册</a><a href="../公式/高中数学公式速查手册.html#ch-10" title="本章公式速查（按章手册，直达本章）">公式速查手册</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
 <p>公式速查：修订版 第10部分（复数）</p>
 <p><strong>本章本质核心</strong>：复数的本质是"把数从一维直线搬到二维平面"——规定 i<sup>2</sup> = −1 等于把 i 当成一个"逆时针转 90°"的算子，于是每个复数 z = a+bi 就是复平面上的一个点（或一支从原点出发的向量），|z| 就是它到原点的距离。本章全部内容（相等、共轭、模、四则运算、复根）都是这一个原理的变体：运算像多项式展开，唯一新规则是 i<sup>2</sup> = −1，几何上和第 09 章向量是同一张图。</p>
 <p class = "baihua why"><span class = "tag">为什么有用</span>想通"i 是转 90°、z = a+bi 是平面上的点"，复数运算就只是多项式展开加一条 i<sup>2</sup> = −1，除法会乘共轭就行——卷面上固定的第 1 题送分等于白捡；它的几何意义还能帮你看懂圆和旋转。</p>
 </blockquote>
 <hr />
-<h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
+<div class="sec sec-meta"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
 <ol>
 <li>方程 x<sup>2</sup> + 1  =  0 在实数范围内有解吗？</li>
 <li>(a + b)(a − b)  =  a<sup>2</sup> − b<sup>2</sup> 成立吗？</li>
@@ -5117,14 +5126,14 @@ A. −2　　B. −1　　C. 1　　D. 2</p>
 <li>判断：负数能不能开平方？</li>
 </ol>
 <p><strong>判定</strong>：5 题答对 4 题以上 → 进章。</p>
-<h2 class = "goal">② 学习目标</h2>
+</div><div class="sec sec-meta"><h2 class = "goal">② 学习目标</h2>
 <ul>
 <li>理解虚数单位 i（i<sup>2</sup>  =  −1）与复数的概念</li>
 <li>掌握复数相等、共轭复数、复数的模</li>
 <li>掌握复数的四则运算（重点：除法  =  分母实数化）</li>
 <li>了解复数的几何意义（复平面）</li>
 </ul>
-<h2 class = "body">③ 正文讲解</h2>
+</div><div class="sec sec-meta"><h2 class = "body">③ 正文讲解</h2>
 <p><strong>先想一个让人"卡住"的问题</strong>：方程 x<sup>2</sup> + 1  =  0，在实数范围内没解——因为没有哪个实数的平方是 −1。数学家不甘心：那就规定一个新数 i，让它满足 i<sup>2</sup>  =  −1。有了 i，负数就能开平方了，二次方程也总是有解了。这就是复数的来历。</p>
 <p><strong>这段历史值得知道</strong>：i 刚被提出时，连数学家都觉得别扭——"平方是负数的数，存在吗？"所以给它起名叫"虚数"，意思是"虚幻的数"。后来发现它能描述交流电、波浪、量子力学，才成了正经工具。名字里的"虚"只是历史玩笑，别被它吓到。本章地图：</p>
 <pre><code>i（规定 i<sup>2</sup> = −1）
@@ -5242,7 +5251,7 @@ A. −2　　B. −1　　C. 1　　D. 2</p>
 要点：见到 <span class = "ol">z</span> 就设 z  =  a+bi 展开，再用"实部 = 实部、虚部 = 虚部"列两个方程。</p>
 <p><strong>小结</strong>：复数  =  实数 + 一个 i；运算像多项式，只多一条 i<sup>2</sup> = −1；除法靠乘共轭"实数化"；几何上它就是复平面上的点和向量。考试拿分的关键就两处：i<sup>2</sup> = −1 别代错，除法别忘了乘共轭。</p>
 <hr />
-<h2 class = "ex2">④ 例题详解（先做再看）</h2>
+</div><div class="sec sec-meta"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
 <p class = "ex"><span class = "tag">例题</span><strong>例 1（运算 + 纯虚数）</strong>：已知 z  =  (1 + i)(2 − i)，求 z 的实部与虚部。</p>
 <blockquote>
 <p>自己做：展开，i<sup>2</sup> 换成 −1。</p>
@@ -5261,7 +5270,7 @@ A. −2　　B. −1　　C. 1　　D. 2</p>
 </blockquote>
 <p>解：|z|  =  √(9 + 16)  =  5；z·<span class = "ol">z</span>  =  3<sup>2</sup> + 4<sup>2</sup>  =  25  =  |z|<sup>2</sup>。
 要点：<strong>z·<span class = "ol">z</span>  =  |z|<sup>2</sup> 恒成立</strong>，小题常用来化简。</p>
-<h2 class = "out">⑤ 出口检测</h2>
+</div><div class="sec sec-meta"><h2 class = "out">⑤ 出口检测</h2>
 <p><strong>自测（12 分钟，每题 2 分）</strong>：</p>
 <ol>
 <li>计算 i<sup>3</sup>。</li>
@@ -5272,7 +5281,7 @@ A. −2　　B. −1　　C. 1　　D. 2</p>
 </ol>
 <p><strong>真题验收</strong>：2025 新高考Ⅰ卷 <strong>选择题第 1 题</strong>（复数运算）＋ 2020–2024 卷中复数小题 1 道：每题 1 分钟、全对过关。</p>
 <p><strong>过关标准</strong>：自测 ≥ 10 分 且 真题全对 → 打卡。</p>
-<h2>课后习题（分层练习）</h2>
+</div><div class="sec sec-hw"><h2>课后习题（分层练习）</h2>
 <p><strong>A 组·基础巩固</strong></p>
 <p>1.【考点：i 的幂】计算 i<sup>5</sup>、i<sup>6</sup>、i<sup>7</sup>、i<sup>8</sup>。
 2.【考点：实部虚部】写出 z = −3 + 5i 的实部和虚部，它是实数、虚数还是纯虚数？
@@ -5291,7 +5300,7 @@ A. −2　　B. −1　　C. 1　　D. 2</p>
 </blockquote>
 <p>11.【考点：复数乘法+虚部】（2025 新高考Ⅰ卷·第 1 题）(1 + 5i)i 的虚部为（　）
 A. −1　　B. 0　　C. 1　　D. 6</p>
-<h2 class="pit">⑥ 常见坑清单</h2>
+</div><div class="sec sec-pit"><h2 class="pit">⑥ 常见坑清单</h2>
 <ul>
 <li>i<sup>2</sup> = −1：乘完别忘把 i<sup>2</sup> 换成 −1，这是唯一易错代换。</li>
 <li>复数相等：<strong>必须两个条件同时成立</strong>（实部、虚部各自相等）。</li>
@@ -5301,7 +5310,7 @@ A. −1　　B. 0　　C. 1　　D. 6</p>
 <li>i 的幂循环：i<sup>4n</sup> = 1，i<sup>4n+1</sup> = i，i<sup>4n+2</sup> = −1，i<sup>4n+3</sup> = −i。</li>
 </ul>
 <hr />
-<h2>本章公式速查表</h2>
+</div><div class="sec sec-meta"><h2>本章公式速查表</h2>
 <blockquote>
 <p>与《高中数学常用公式·修订版》第十部分核对一致。</p>
 </blockquote>
@@ -5399,12 +5408,12 @@ A. −1　　B. 0　　C. 1　　D. 6</p>
 <li class="baihua"><span class="tag">大白话</span>自然数→整数→有理数→实数→复数，一层比一层大；注意实数里成立的运算性质（如"任何数平方非负"）到复数里不一定成立。</li>
 <li>用的时候：判断"能不能比大小"时心里有这条链——只有实数能比大小，复数不能。</li>
 </ul>
-<h2>高级方法·进阶</h2>
+</div><div class="sec sec-meta"><h2>高级方法·进阶</h2>
 <p>本章主线（复数概念 + 共轭/模 + 四则运算 + 几何意义）已覆盖高考全部考点。高考复数题固定出在选择第 1 题附近，难度很低，只要别在 i<sup>2</sup>=−1 和分母实数化两处失手，就是送分题。</p>
 <p><strong>本章无对应高级方法手册条目</strong>。说明：《不超纲高级方法手册》未单列"复数"专题。高考复数题只在第 1 题左右出一道选择，考的就是本章四则运算与 i 的幂循环，全部不超纲。一个可直接用的小结论：<strong>实系数一元二次方程 ax<sup>2</sup>+bx+c = 0 当 Δ&lt;0 时，在复数集内有一对共轭复根 x  =  (−b±√(−Δ)·i)/(2a)</strong>（选学了解）。</p>
 <hr />
 <div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. −i；2. <span class = "ol">z</span>  =  2 + 3i，|z|  =  √13；3. (2+i)(3−i)  =  6 − 2i + 3i − i<sup>2</sup>  =  6 + i + 1  =  <strong>7 + i</strong>；4. (2 + i)/(4 + 1)  =  2/5 + (1/5)i；5. a + 1  =  3 ⇒ a  =  2；b − 2  =  4 ⇒ b  =  6。</p></div></div>
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
+</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
 <ol>
 <li>i<sup>5</sup> = <strong>i</strong>；i<sup>6</sup> = <strong>−1</strong>；i<sup>7</sup> = <strong>−i</strong>；i<sup>8</sup> = <strong>1</strong>。</li>
 <li>实部 <strong>−3</strong>，虚部 <strong>5</strong>；b≠0，是<strong>虚数</strong>（不是纯虚数，实部不为 0）。</li>
@@ -5422,23 +5431,23 @@ A. −1　　B. 0　　C. 1　　D. 6</p>
 </ol>
 </div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · C 组</button><div class="ans-body"><p><strong>C 组</strong>
 11.【2025·第1题】(1+5i)i = i + 5i<sup>2</sup> = i − 5 = −5 + i。写成 a+bi 形式，实部 −5，虚部 <strong>1，选 C</strong>。</p>
-</div></div><h2>一通百通</h2>
+</div></div></div><div class="sec sec-meta"><h2>一通百通</h2>
 <p>这一章的"通用骨架"是：<strong>① 拿到复数先整理成 a+bi 标准形 → ② 乘除时把 i 当字母展开、最后把 i<sup>2</sup> 换成 −1 → ③ 除法就分子分母同乘分母共轭做分母实数化 → ④ 涉及距离/图形就翻译成复平面上的点和 |z−z<sub>0</sub>|=r 的圆</strong>。高考复数题不管怎么出，本质都是"会多项式展开 + 会乘共轭"这两件事。会做一道复数小题，就会做所有复数小题；复数的几何意义（点、向量、距离）和第 09 章平面向量是同一张图，后面解析几何里也常借用。</p>
-<h2>跨章结合</h2>
+</div><div class="sec sec-meta"><h2>跨章结合</h2>
 <ul>
 <li><strong>复数的模与几何意义 ⇔ 第 15 章直线与圆</strong>：|z−z<sub>0</sub>|=r 在复平面上是以 z<sub>0</sub> 为圆心、r 为半径的圆，和解析几何里 "(x−a)<sup>2</sup>+(y−b)<sup>2</sup>=r<sup>2</sup>" 是同一件事的两种写法；|z|=1 的单位圆、两点距离 |z<sub>1</sub>−z<sub>2</sub>|，都是后面解析几何圆方程的"二维坐标版"。想通这一层，复平面上看图和解析几何画圆就打通了。（综合原理说明，非真题）</li>
 <li><strong>复数坐标 ⇔ 第 16 章圆锥曲线</strong>：复平面的实轴、虚轴就是直角坐标系的 x 轴、y 轴，z=a+bi 对应点 (a,b)，本质和向量（第 09 章）共用一张图。高考里复数本身只出现在第 1 题送分位置（如 2025 新高考Ⅰ卷第 1 题、2023 年卷第 1 题均考复数），但这套"把数看成点、把运算看成向量"的眼光，是后面看懂解析几何的底子。</li>
 </ul>
-<h2>本章与前后章</h2>
+</div><div class="sec sec-meta"><h2>本章与前后章</h2>
 <p>复数前接第 02 章（函数与实数系、坐标系）——它是在实数不够用（负数开平方）时把数系从一维扩到二维；几何上它和第 09 章平面向量共用一张复平面图（a+bi 对应向量 (a,b)）。它向后不直接推哪一章，但作为第 01 章集合与逻辑里"数集包含链 R⊂C"的落脚点，以及卷面上固定的第 1 题送分小题，地位是"小而稳"。学完它，你手里多了一套能让负数开平方、能描述旋转的二维数。</p>
-<h2>高考怎么考</h2>
-<p>新高考Ⅰ卷里复数固定在选择题第 1 题附近，难度很低、是全卷送分题：考法集中在四则运算（尤其除法的分母实数化）、求实部虚部、共轭与模、i 的幂循环。真题如 2025 新高考Ⅰ卷第 1 题（(1+5i)i 的虚部，答案选 C），以及 2023 年卷第 1 题也考复数（该年集合退到第 2 题）。它考的不是思维，而是你别在 i<sup>2</sup>=−1 和乘共轭两处失手——一分钟内必须拿下，为后面大题省时间。</p></section><section class="chapter" id="ch-11"><div class="ch-head" data-no="11"><div class="ch-no">第11章</div><h1 class="ch-title">数列</h1><div class="ch-sub">板块：数列 ｜ 前置：第 02 章 ｜ 老教材：必修5 第2章 ｜ 新教材：选择性必修二 第4章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后学习）">老教材·必修5</a><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后对标）">新教材·选择性必修第二册</a><a href="../公式/高中数学公式速查手册.html#ch-11" title="本章公式速查（按章手册，直达本章）">公式速查手册</a><a href="../系统文档/不超纲高级方法手册.md" title="不超纲高级方法（嵌本章）">高级方法手册</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
+</div><div class="sec sec-meta"><h2>高考怎么考</h2>
+<p>新高考Ⅰ卷里复数固定在选择题第 1 题附近，难度很低、是全卷送分题：考法集中在四则运算（尤其除法的分母实数化）、求实部虚部、共轭与模、i 的幂循环。真题如 2025 新高考Ⅰ卷第 1 题（(1+5i)i 的虚部，答案选 C），以及 2023 年卷第 1 题也考复数（该年集合退到第 2 题）。它考的不是思维，而是你别在 i<sup>2</sup>=−1 和乘共轭两处失手——一分钟内必须拿下，为后面大题省时间。</p></div></section><section class="chapter" id="ch-11"><div class="ch-head" data-no="11"><div class="ch-no">第11章</div><h1 class="ch-title">数列</h1><div class="ch-sub">板块：数列 ｜ 前置：第 02 章 ｜ 老教材：必修5 第2章 ｜ 新教材：选择性必修二 第4章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后学习）">老教材·必修5</a><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后对标）">新教材·选择性必修第二册</a><a href="../公式/高中数学公式速查手册.html#ch-11" title="本章公式速查（按章手册，直达本章）">公式速查手册</a><a href="../系统文档/不超纲高级方法手册.md" title="不超纲高级方法（嵌本章）">高级方法手册</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
 <p>方法手册：数列放缩（嵌本章末） ｜ 公式速查：修订版 第8部分（数列）</p>
 <p><strong>本章本质核心</strong>：数列的本质是"按规则一个接一个排下去的一列数"——它就是定义在正整数上的函数 a<sub>n</sub> = f(n)。等差（相邻两项差固定）和等比（相邻两项比固定）是最简单的两种规则；本章所有内容（通项公式、前 n 项和 S<sub>n</sub>、由 S<sub>n</sub> 求 a<sub>n</sub>、裂项/错位相减求和、由递推求通项、放缩证不等式），都是围绕"规则与项的关系"展开的变体。</p>
 <p class = "baihua why"><span class = "tag">为什么有用</span>想通"数列是定义在正整数上的函数、规则决定一切"，等差等比的通项求和、由 S<sub>n</sub> 求 a<sub>n</sub>、递推构造就都能现场推；高考固定的数列解答题第二题，套路就是定规则、求基本量、再求和或放缩，想通原理比死记公式稳。</p>
 </blockquote>
 <hr />
-<h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
+<div class="sec sec-meta"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
 <ol>
 <li>1 + 2 + 3 + … + 100  =  ？（高斯算法）</li>
 <li>写出 2、4、6、8、… 的第 n 项。</li>
@@ -5447,14 +5456,14 @@ A. −1　　B. 0　　C. 1　　D. 6</p>
 <li>解方程 2<sup>n</sup>  =  8。</li>
 </ol>
 <p><strong>判定</strong>：5 题答对 4 题以上 → 进章。</p>
-<h2 class = "goal">② 学习目标</h2>
+</div><div class="sec sec-meta"><h2 class = "goal">② 学习目标</h2>
 <ul>
 <li>掌握等差数列与等比数列的定义、通项、前 n 项和、常用性质</li>
 <li>会根据"前 n 项和 S<sub>n</sub>"求通项 a<sub>n</sub>（S<sub>n</sub> 与 a<sub>n</sub> 关系）</li>
 <li>掌握三种求和方法：裂项相消、错位相减、分组求和</li>
 <li>能完成高考数列解答题（第 17–19 题区间，必考）</li>
 </ul>
-<h2 class = "body">③ 正文讲解</h2>
+</div><div class="sec sec-meta"><h2 class = "body">③ 正文讲解</h2>
 <p>先花两分钟看一眼本章地图，知道自己走到哪了：</p>
 <ul>
 <li>3.1 数列是什么：把一列数看成"编号→数值"的对应，引出 a<sub>n</sub> 与 S<sub>n</sub>。</li>
@@ -5686,7 +5695,7 @@ a<sub>n</sub>  =  S<sub>n</sub>−S<sub>n−1</sub>  =  2a<sub>n</sub>�
 <li>用的时候：第二步必须<strong>用上归纳假设 a<sub>k</sub> 成立</strong>这个条件，不能空证 a_{k+1}。苏州书提醒："由 n = k 推 n = k+1 这一步，可用分析法（执果索因）找思路。"</li>
 <li>注意：并非所有与正整数有关的命题都能直接用数学归纳法；它和放缩法、分析法常搭配使用。</li>
 </ul>
-<h2 class = "ex2">④ 例题详解（先做再看）</h2>
+</div><div class="sec sec-meta"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
 <p class = "ex"><span class = "tag">例题</span><strong>例 1（等差数列基本量）</strong>：等差数列 {a<sub>n</sub>}，a<sub>3</sub>  =  7，a<sub>7</sub>  =  15，求通项与前 10 项和。</p>
 <blockquote>
 <p>自己做：先求 a<sub>1</sub> 和 d。</p>
@@ -5729,7 +5738,7 @@ S<sub>10</sub>  =  10(a<sub>1</sub> + a<sub>10</sub>)/2  =  10(3 + 21)/2
 S<sub>n</sub>  =  (1/a<sub>1</sub>−1/a<sub>2</sub>)+(1/a<sub>2</sub>−1/a<sub>3</sub>)+…+(1/a<sub>n</sub>−1/a<sub>n+1</sub>)  =  1/a<sub>1</sub> − 1/a<sub>n+1</sub>。
 故 S<sub>n</sub> + 1/a<sub>n+1</sub>  =  1/a<sub>1</sub>  =  1/√2  =  <strong>√2/2</strong>。证毕。
 要点：<strong>见到 a<sub>n+1</sub>  =  a<sub>n</sub>(a<sub>n</sub>+c) 型递推，两边取倒数必出裂项</strong>；这是递推与裂项相消的经典接口。</p>
-<h2 class = "out">⑤ 出口检测</h2>
+</div><div class="sec sec-meta"><h2 class = "out">⑤ 出口检测</h2>
 <p><strong>自测（20 分钟，每题 2 分）</strong>：</p>
 <ol>
 <li>等差数列 a<sub>1</sub>  =  2，d  =  3，求 a<sub>10</sub>。</li>
@@ -5740,7 +5749,7 @@ S<sub>n</sub>  =  (1/a<sub>1</sub>−1/a<sub>2</sub>)+(1/a<sub>2</sub>−1/a
 </ol>
 <p><strong>真题验收</strong>：完成 2020–2024 新高考Ⅰ卷<strong>数列解答题</strong> 1 道（等差等比通项 + 求和方法）：两问独立完成、20 分钟内、得分 ≥ 80% → 过关。</p>
 <p><strong>过关标准</strong>：自测 ≥ 10 分 且 真题大题达标 → 打卡。</p>
-<h2>课后习题（分层练习）</h2>
+</div><div class="sec sec-hw"><h2>课后习题（分层练习）</h2>
 <blockquote>
 <p>A 组教材练习级，B 组高考中档，C 组真题。答案见章末"课后习题答案"。</p>
 </blockquote>
@@ -5759,7 +5768,7 @@ S<sub>n</sub>  =  (1/a<sub>1</sub>−1/a<sub>2</sub>)+(1/a<sub>2</sub>−1/a
 <h3>C 组 · 真题挑战</h3>
 <p>11.【考点：等比分段和】（2025 年新高考Ⅰ卷·填空第 13 题）若一个等比数列的前 4 项和为 4，前 8 项和为 68，则该等比数列的公比为<strong><em>_</em></strong>_。
 12.【考点：递推证等差】（2025 年新高考Ⅰ卷·解答第 16 题第 (1) 问）设数列 {a<sub>n</sub>} 满足 a<sub>1</sub> = 3，a<sub>n+1</sub>/n  =  a<sub>n</sub>/(n+1) + 1/[n(n+1)]。证明：{n·a<sub>n</sub>} 为等差数列。</p>
-<h2 class = "pit">⑥ 常见坑清单</h2>
+</div><div class="sec sec-meta"><h2 class = "pit">⑥ 常见坑清单</h2>
 <ul>
 <li>a<sub>n</sub>  =  S<sub>n</sub> − S<sub>n−1</sub> <strong>只对 n ≥ 2 成立</strong>，n  =  1 要单独验 a<sub>1</sub>  =  S<sub>1</sub>，不一致就分段写。</li>
 <li>等比数列前 n 项和：<strong>先判 q  =  1 还是 q ≠ 1</strong>，q 是参数时必须分类讨论。</li>
@@ -5768,7 +5777,7 @@ S<sub>n</sub>  =  (1/a<sub>1</sub>−1/a<sub>2</sub>)+(1/a<sub>2</sub>−1/a
 <li>错位相减：<strong>相减后等比首项是第二项（q·a<sub>1</sub>）不是 a<sub>1</sub></strong>，指数和项数数清楚。</li>
 <li>等差数列 S<sub>n</sub> 最大/最小：找 d 变号处（a<sub>n</sub> 由正转负）。</li>
 </ul>
-<h2>本章公式速查表</h2>
+</div><div class="sec sec-meta"><h2>本章公式速查表</h2>
 <blockquote>
 <p>口径与《高中数学常用公式·修订版》第八部分（数列）一致。</p>
 </blockquote>
@@ -5908,7 +5917,7 @@ S<sub>n</sub>  =  (1/a<sub>1</sub>−1/a<sub>2</sub>)+(1/a<sub>2</sub>−1/a
 <li class="baihua"><span class="tag">大白话</span>第一张骨牌倒了 + 前一张倒后一张必倒 = 全部倒。</li>
 <li>用的时候：第二步证 a_{k+1} 时一定要把 a<sub>k</sub> 的归纳条件代进去；思路卡住用分析法。</li>
 </ul>
-<h2>高级方法·进阶</h2>
+</div><div class="sec sec-meta"><h2>高级方法·进阶</h2>
 <blockquote>
 <p>对应《不超纲高级方法手册》第三部分"数列"。每条都标了能不能直接搬上高考答题卡。</p>
 </blockquote>
@@ -6003,7 +6012,7 @@ S<sub>n</sub>  =  (1/a<sub>1</sub>−1/a<sub>2</sub>)+(1/a<sub>2</sub>−1/a
 <p>（高级方法手册·3.4）</p>
 <hr />
 <div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. a<sub>10</sub>  =  2 + 9·3  =  29；2. S<sub>5</sub>  =  (2<sup>5</sup> − 1)/(2 − 1)  =  31；3. n  =  1：a<sub>1</sub>  =  1；n ≥ 2：a<sub>n</sub>  =  n<sup>2</sup> − (n−1)<sup>2</sup>  =  2n − 1；合起来 a<sub>n</sub>  =  2n − 1（n  =  1 时也成立）；4. ½[1 − 1/(2n+1)]  =  n/(2n+1)；5. 等差数列（公差 2），a<sub>n</sub>  =  1 + 2(n − 1)  =  2n − 1。</p></div></div>
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
+</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
 <ol>
 <li>n=1：a<sub>1</sub>=S<sub>1</sub>=1；n≥2：a<sub>n</sub>=S<sub>n</sub>−S<sub>n−1</sub>=(2n<sup>2</sup>−n)−[2(n−1)<sup>2</sup>−(n−1)]=4n−3。代 n=1 得 1，吻合。<strong>a<sub>n</sub>=4n−3</strong>。</li>
 <li>a<sub>5</sub>−a<sub>2</sub>=3d=9 ⇒ d=3；a<sub>2</sub>=a<sub>1</sub>+d=5 ⇒ a<sub>1</sub>=2。<strong>d=3，a<sub>1</sub>=2</strong>。</li>
@@ -6024,23 +6033,23 @@ S<sub>n</sub>  =  (1/a<sub>1</sub>−1/a<sub>2</sub>)+(1/a<sub>2</sub>−1/a
 <li>S<sub>8</sub>−S<sub>4</sub>=第 5~8 项和=q<sup>4</sup>·S<sub>4</sub>，即 68−4=q<sup>4</sup>·4 ⇒ q<sup>4</sup>=16 ⇒ <strong>q=±2</strong>。</li>
 <li>由递推 a<sub>n+1</sub>/n = a<sub>n</sub>/(n+1) + 1/[n(n+1)]，两边同乘 n(n+1) 得 (n+1)a<sub>n+1</sub> = n·a<sub>n</sub> + 1。设 b<sub>n</sub> = n·a<sub>n</sub>，则 b<sub>n+1</sub> − b<sub>n</sub> = (n+1)a<sub>n+1</sub> − n·a<sub>n</sub> = 1（常数），故 <strong>{n·a<sub>n</sub>} 是首项 b<sub>1</sub> = 1×3 = 3、公差 1 的等差数列</strong>。由此还能反解出 a<sub>n</sub> = (n+2)/n，供第 (2) 问用。</li>
 </ol>
-</div></div><h2>一通百通</h2>
+</div></div></div><div class="sec sec-meta"><h2>一通百通</h2>
 <p>这一章的"通用骨架"是：<strong>① 先认清规则——是等差（差固定）还是等比（比固定），或题目只给了递推 → ② 抓住两个基本量（等差 a<sub>1</sub>、d；等比 a<sub>1</sub>、q），把条件翻译成它们的方程 → ③ 已知 S<sub>n</sub> 就作差求 a<sub>n</sub>（n=1 单独验）→ ④ 求和看信号：分母乘积用裂项、等差×等比用错位相减、能拆就分组；证不等式就先放缩再求和</strong>。高考数列解答题不管怎么变，本质都是"先定规则、再求基本量、后求和/放缩"。会做一道数列大题，就会做所有数列大题；这套"规则—基本量—求和"的骨架，和第 12 章不等式求最值、放缩常常搭手出现。</p>
-<h2>跨章结合</h2>
+</div><div class="sec sec-meta"><h2>跨章结合</h2>
 <ul>
 <li><strong>数列递推 ⇔ 第 04 章函数的应用与方程</strong>：递推式 a<sub>n+1</sub>=f(a<sub>n</sub>) 本质就是同一个函数 f 反复作用在首项上——求通项、看它收不收敛、有没有最大项，背后是函数迭代和函数单调性的思想（苏州教研·专题31 也提醒：研究数列单调性要先引进对应连续函数 y=f(x) 再求导，不能直接对 a<sub>n</sub>=f(n) 求导）。想通这一层，数列和函数就不是两块知识。（综合原理说明，非真题）</li>
 <li><strong>数列求和与放缩 ⇔ 第 05 章导数、第 12 章不等式</strong>：数列大题第二问"证 S<sub>n</sub> 小于某个常数"，动作是先放缩成等比或裂项再求和，和第 12 章基本不等式求最值、第 05 章用导数证不等式是同一套"放缩—夹逼"思路。例如 2025 新高考Ⅰ卷解答第 16 题第 (1) 问，由相邻两项的关系证一个新数列为等差数列，靠的就是"作差看是不是常数"——这正是本章 a<sub>n+1</sub>−a<sub>n</sub>=d 的判定动作在大题里的原样复用。</li>
 </ul>
-<h2>本章与前后章</h2>
+</div><div class="sec sec-meta"><h2>本章与前后章</h2>
 <p>数列前接第 02 章（函数与基本运算）——它本质就是定义在正整数上的函数，通项 a<sub>n</sub>=f(n)、前 n 项和都是函数思想的离散版本。它向后直接接第 12 章不等式：数列大题第二问"证 S<sub>n</sub> 小于某个常数"就是放缩法，和基本不等式、最值问题是同一类；同时数列里的函数思想（单调性、最值、对应函数求导）也回头强化第 02 章。学完它，你手里有了一套处理"离散变化"的工具。</p>
-<h2>高考怎么考</h2>
-<p>新高考Ⅰ卷里数列固定出解答题第二题附近（第 17–19 题区间），通常两问：第一问求通项或证等差等比（如 2025 新高考Ⅰ卷解答第 16 题第 (1) 问，由递推证 {n·a<sub>n</sub>} 为等差数列），第二问求和或证不等式；小题里也常插一道（如 2025 卷填空第 13 题，等比前 4 项和 4、前 8 项和 68 求公比）。难度中档、是必须拿下的大题，考的就是"基本量法 + 三种求和 + 放缩"这套固定动作。</p></section><section class="chapter" id="ch-12"><div class="ch-head" data-no="12"><div class="ch-no">第12章</div><h1 class="ch-title">不等式与基本不等式</h1><div class="ch-sub">板块：不等式 ｜ 前置：第 02 章 ｜ 老教材：必修5 第3章 ｜ 新教材：必修一 第2章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后学习）">老教材·必修5</a><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后对标）">新教材·必修第一册</a><a href="../公式/高中数学公式速查手册.html#ch-12" title="本章公式速查（按章手册，直达本章）">公式速查手册</a><a href="../系统文档/不超纲高级方法手册.md" title="不超纲高级方法（嵌本章）">高级方法手册</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
+</div><div class="sec sec-meta"><h2>高考怎么考</h2>
+<p>新高考Ⅰ卷里数列固定出解答题第二题附近（第 17–19 题区间），通常两问：第一问求通项或证等差等比（如 2025 新高考Ⅰ卷解答第 16 题第 (1) 问，由递推证 {n·a<sub>n</sub>} 为等差数列），第二问求和或证不等式；小题里也常插一道（如 2025 卷填空第 13 题，等比前 4 项和 4、前 8 项和 68 求公比）。难度中档、是必须拿下的大题，考的就是"基本量法 + 三种求和 + 放缩"这套固定动作。</p></div></section><section class="chapter" id="ch-12"><div class="ch-head" data-no="12"><div class="ch-no">第12章</div><h1 class="ch-title">不等式与基本不等式</h1><div class="ch-sub">板块：不等式 ｜ 前置：第 02 章 ｜ 老教材：必修5 第3章 ｜ 新教材：必修一 第2章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后学习）">老教材·必修5</a><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后对标）">新教材·必修第一册</a><a href="../公式/高中数学公式速查手册.html#ch-12" title="本章公式速查（按章手册，直达本章）">公式速查手册</a><a href="../系统文档/不超纲高级方法手册.md" title="不超纲高级方法（嵌本章）">高级方法手册</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
 <p>方法手册：切线放缩（嵌本章末） ｜ 公式速查：修订版 第9部分（不等式）</p>
 <p><strong>本章本质核心</strong>：不等式的本质就是"比较大小"——本章从头到尾都在回答同一个问题："谁大谁小、大多少"。解一元二次不等式（ax<sup>2</sup>+bx+c&gt;0），是在问"x 取哪些值时左边比 0 大"；基本不等式 √(ab)≤(a+b)/2，是在规定"和与积谁不超过谁"；求最值、恒成立、证明不等式，本质都是把"谁大谁小"用代数式说清楚。本章所有题型（解不等式、套基本不等式、求最值、证不等式）都是这一个原理的变体。</p>
 <p class = "baihua why"><span class = "tag">为什么有用</span>想通了"比较大小"这件事，你就能独立解决两类高考高频题——求最值（用料最省、围面最大这类优化问题的数学内核就是"和定积最大、积定和最小"）和恒成立求参数。不用背套路，遇到任何"给条件求最大/最小"的题，认准谁是固定的"和"、谁是固定的"积"，自己就能把最值推出来。</p>
 </blockquote>
 <hr />
-<h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
+<div class="sec sec-meta"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
 <ol>
 <li>解不等式 x − 3 &gt; 0。</li>
 <li>解方程 x<sup>2</sup> − 5x + 6  =  0（因式分解）。</li>
@@ -6049,7 +6058,7 @@ S<sub>n</sub>  =  (1/a<sub>1</sub>−1/a<sub>2</sub>)+(1/a<sub>2</sub>−1/a
 <li>比较 1/2 与 2/3 的大小。</li>
 </ol>
 <p><strong>判定</strong>：5 题答对 4 题以上 → 进章。</p>
-<h2 class = "goal">② 学习目标</h2>
+</div><div class="sec sec-meta"><h2 class = "goal">② 学习目标</h2>
 <ul>
 <li>掌握一元二次不等式的解法（口诀：先因式分解，再看开口，大于取两边、小于取中间）</li>
 <li>熟练运用<strong>基本不等式</strong>求最值（一正二定三相等）</li>
@@ -6057,7 +6066,7 @@ S<sub>n</sub>  =  (1/a<sub>1</sub>−1/a<sub>2</sub>)+(1/a<sub>2</sub>−1/a
 <li>会解恒成立问题（分离参数 / 判别式法）</li>
 <li>（进阶）切线放缩证明不等式（进方法手册）</li>
 </ul>
-<h2 class = "body">③ 正文讲解</h2>
+</div><div class="sec sec-meta"><h2 class = "body">③ 正文讲解</h2>
 <p>本章地图：</p>
 <ul>
 <li>3.1 一元二次不等式：把二次函数图像"翻下来"读解集，口诀"大于取两边、小于取中间"。</li>
@@ -6216,7 +6225,7 @@ a<sub>n+1</sub>+1  =  a<sub>n</sub>(a<sub>n</sub>−n)+2 ≥ 2a<sub>n</sub>+
 </ol>
 <p>讨论完一定要写"综上所述，原不等式的解集是……"（分类整合思想）。</p>
 <p><strong>反用</strong>：如果不等式的解集已经给你了，那解集的端点值一定是对应方程 ax<sup>2</sup>+bx+c = 0 的根——可以直接代进去求参数。</p>
-<h2 class = "ex2">④ 例题详解（先做再看）</h2>
+</div><div class="sec sec-meta"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
 <p class = "ex"><span class = "tag">例题</span><strong>例 1（二次不等式）</strong>：解不等式 x<sup>2</sup> − 5x + 6 &lt; 0。</p>
 <blockquote>
 <p>自己做：因式分解 → 小于取中间。</p>
@@ -6237,7 +6246,7 @@ a<sub>n+1</sub>+1  =  a<sub>n</sub>(a<sub>n</sub>−n)+2 ≥ 2a<sub>n</sub>+
 </blockquote>
 <p>解：Δ  =  a<sup>2</sup> − 16 ≤ 0 ⇒ −4 ≤ a ≤ 4。
 要点：<strong>二次函数恒非负（a &gt; 0）⇔ Δ ≤ 0</strong>；这是小题秒杀结论。</p>
-<h2 class = "out">⑤ 出口检测</h2>
+</div><div class="sec sec-meta"><h2 class = "out">⑤ 出口检测</h2>
 <p><strong>自测（15 分钟，每题 2 分）</strong>：</p>
 <ol>
 <li>解不等式 x<sup>2</sup> − 4 &gt; 0。</li>
@@ -6248,7 +6257,7 @@ a<sub>n+1</sub>+1  =  a<sub>n</sub>(a<sub>n</sub>−n)+2 ≥ 2a<sub>n</sub>+
 </ol>
 <p><strong>真题验收</strong>：2020–2024 新高考Ⅰ卷基本不等式/恒成立小题 1~2 道（多在选择题 7–12 题区间）：每题 3 分钟、全对过关。</p>
 <p><strong>过关标准</strong>：自测 ≥ 10 分 且 真题全对 → 打卡。</p>
-<h2>课后习题（分层练习）</h2>
+</div><div class="sec sec-hw"><h2>课后习题（分层练习）</h2>
 <blockquote>
 <p>A 组教材练习级，B 组高考中档，C 组真题。答案见章末。</p>
 </blockquote>
@@ -6268,7 +6277,7 @@ a<sub>n+1</sub>+1  =  a<sub>n</sub>(a<sub>n</sub>−n)+2 ≥ 2a<sub>n</sub>+
 <p>11.【考点：比较大小】（2025 年新高考Ⅰ卷·选择题第 8 题）若实数 x、y、z 满足 2 + log<sub>2</sub>x  =  3 + log<sub>3</sub>y  =  5 + log<sub>5</sub>z，则 x、y、z 的大小关系不可能是（ ）。
    A. x&gt;y&gt;z　B. x&gt;z&gt;y　C. y&gt;x&gt;z　D. y&gt;z&gt;x
    （说明：本题融合对数运算与不等式比较大小，是"不等式性质 + 对数"的综合小题；可借助中间值与作差比较分析。）</p>
-<h2 class = "pit">⑥ 常见坑清单</h2>
+</div><div class="sec sec-meta"><h2 class = "pit">⑥ 常见坑清单</h2>
 <ul>
 <li><strong>一正</strong>：基本不等式只对正数成立，x &lt; 0 时要先提负号或加绝对值。</li>
 <li><strong>三相等</strong>：等号取不到时最值不成立——a  =  b 是否可取得先检验。</li>
@@ -6277,7 +6286,7 @@ a<sub>n+1</sub>+1  =  a<sub>n</sub>(a<sub>n</sub>−n)+2 ≥ 2a<sub>n</sub>+
 <li>恒成立"分离参数"：<strong>分离后别忘了定义域对参数的约束</strong>。</li>
 <li>1/x + 1/y 类题优先想"1 的代换"或直接 xy 上下界。</li>
 </ul>
-<h2>本章公式速查表</h2>
+</div><div class="sec sec-meta"><h2>本章公式速查表</h2>
 <blockquote>
 <p>口径与《高中数学常用公式·修订版》第九部分（不等式）一致。</p>
 </blockquote>
@@ -6376,7 +6385,7 @@ a<sub>n+1</sub>+1  =  a<sub>n</sub>(a<sub>n</sub>−n)+2 ≥ 2a<sub>n</sub>+
 <li class="baihua"><span class="tag">大白话</span>参数临界值就是让"退化"发生的那些点。</li>
 <li>用的时候：讨论完写"综上所述"；已知解集反求参数时，端点代入方程。</li>
 </ul>
-<h2>高级方法·进阶</h2>
+</div><div class="sec sec-meta"><h2>高级方法·进阶</h2>
 <blockquote>
 <p>对应《不超纲高级方法手册》第四部分"不等式"。
 本区分两层：下面 #### 4.1 / 4.2 / 4.3 是《手册》原文<strong>全量收录</strong>（含操作细节），紧随其后的 ### 进阶 1~3 是本章已有的<strong>浓缩速记版</strong>，两者同根——考前速扫看浓缩版，查操作细节看 #### 版。4.4（柯西 / 琴生 / 排序不等式）为超纲验证条目，按分工由第 20 章超纲专区收录，本章不展开。</p>
@@ -6431,7 +6440,7 @@ a<sub>n+1</sub>+1  =  a<sub>n</sub>(a<sub>n</sub>−n)+2 ≥ 2a<sub>n</sub>+
 <p><strong>课标依据/红线</strong>：<strong>超纲红线（考试禁用，只用于理解/自检）</strong>——不在教材内，答题卡上不要直接引用。</p>
 <hr />
 <div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. x &lt; −2 或 x &gt; 2；2. x + 4/x ≥ 2√(x·4/x)  =  4，取等 x  =  2，最小值 4；3. a + b ≥ 2√9  =  6，取等 a  =  b  =  3，最小值 6；4. Δ  =  4 − 12 &lt; 0 且开口向上 ⇒ 解集为 R；5. k  =  0 时 1 &gt; 0 成立；k ≠ 0 需 k &gt; 0 且 Δ  =  k<sup>2</sup> − 4k &lt; 0 ⇒ 0 &lt; k &lt; 4；综上 0 ≤ k &lt; 4。</p></div></div>
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
+</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
 <ol>
 <li>(x−2)(x−3)&gt;0，开口向上，"大于取两边"：<strong>x&lt;2 或 x&gt;3</strong>。</li>
 <li>x·(9/x)=9 定，x+9/x ≥ 2√9=<strong>6</strong>，x=3 取等。</li>
@@ -6451,23 +6460,23 @@ a<sub>n+1</sub>+1  =  a<sub>n</sub>(a<sub>n</sub>−n)+2 ≥ 2a<sub>n</sub>+
 <ol start="11">
 <li>设公共值为 k，则 x=2^{k−2}，y=3^{k−3}，z=5^{k−5}。取对数比较：x=y 在 k≈4.71、x=z 在 k≈7.27、y=z 在 k≈9.30 处互换。随 k 从小到大，可能出现的顺序为 x&gt;y&gt;z（A）、y&gt;x&gt;z（C）、y&gt;z&gt;x（D）、z&gt;y&gt;x；唯独 <strong>x&gt;z&gt;y（选项 B）不可能</strong>，故选 <strong>B</strong>。</li>
 </ol>
-</div></div><h2>一通百通</h2>
+</div></div></div><div class="sec sec-meta"><h2>一通百通</h2>
 <p>遇到本章任何题，本质都是"先把谁和谁比说清楚，再算这个差（或比值）的符号"：解二次不等式先求根、看开口，套"大于取两边、小于取中间"；求最值先认准"一正二定三相等"——和定就挤积的最大值、积定就挤和的最小值；恒成立先翻译成"参数 ≤ 右边的最小值"或"参数 ≥ 右边的最大值"。会这一套，解二次不等式、用基本不等式求最值、证不等式就是同一把"比较大小"尺子的不同量法。这套"先翻译大小关系、再定符号"的骨架，后面函数值域（02）、导数求单调与最值（05）里还会一再用到。</p>
-<h2>跨章结合</h2>
+</div><div class="sec sec-meta"><h2>跨章结合</h2>
 <ul>
 <li><strong>本章二次不等式 × 第 02 章二次函数</strong>：解一元二次不等式根本不是另一套技术，就是把二次函数图像"翻下来"读——抛物线在 x 轴上方对应的 x 区间就是 &gt;0 的解。想通这一点，你不用记"大于取两边、小于取中间"的口诀也能自己画出解集；Δ 的三种情况、开口方向全由图像决定。（综合原理说明，非真题）</li>
 <li><strong>本章比较与放缩 × 第 11 章数列</strong>：数列里的不等式证明，是"数列递推"和"不等式放缩"两件事碰在一起——先用数学归纳法把通项压出一个下界（如 a<sub>n</sub>≥n+2），再用不等式把每一项放大成等比数列，最后求和。本章 3.5 那道苏州教研题（a<sub>n+1</sub>=a<sub>n</sub><sup>2</sup>−na<sub>n</sub>+1，原书 p.143）正是这个结合的样板。（苏州教研·专题40）</li>
 </ul>
-<h2>本章与前后章</h2>
+</div><div class="sec sec-meta"><h2>本章与前后章</h2>
 <p>按全书蓝图，12 章的前置是第 02 章函数——解二次不等式靠二次函数图像"翻下来读解集"，因式分解、一元二次方程更是初中老本；它和第 11 章数列同属"数列+不等式"这一阶段，数列题里的放缩、求和不等式（如本章 3.5 那道 a<sub>n+1</sub>=a<sub>n</sub><sup>2</sup>−na<sub>n</sub>+1 的经典证明）用的正是本章的比较与最值工具。往后，第 05 章导数求单调区间、极值，本质就是解 f′(x)&gt;0；第 16 章圆锥曲线的"取值范围""恒成立"，也都是不等式的活。学完这章，你手里多了一把"比较大小"的通用尺。</p>
-<h2>高考怎么考</h2>
-<p>新高考Ⅰ卷里不等式很少单独出大题，主要藏在小题里：基本不等式求最值（"1 的代换"是最高频）、恒成立求参数范围、以及和指对数函数结合的比较大小（如本章 C 组 2025 年卷第 8 题）。二次不等式的解法则更多作为函数、数列、解析几何题的中间步骤出现，不单独成题。位置多在选择题中段，难度中档，3 分钟内拿下——它考的不是背公式，而是"把谁和谁比"一眼看对。</p></section><section class="chapter" id="ch-13"><div class="ch-head" data-no="13"><div class="ch-no">第13章</div><h1 class="ch-title">立体几何初步</h1><div class="ch-sub">板块：立体几何 ｜ 前置：初中几何基础 ｜ 老教材：必修2 第1章 ｜ 新教材：必修二 第8章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后学习）">老教材·必修2</a><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后对标）">新教材·必修第二册</a><a href="../公式/高中数学公式速查手册.html#ch-13" title="本章公式速查（按章手册，直达本章）">公式速查手册</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
+</div><div class="sec sec-meta"><h2>高考怎么考</h2>
+<p>新高考Ⅰ卷里不等式很少单独出大题，主要藏在小题里：基本不等式求最值（"1 的代换"是最高频）、恒成立求参数范围、以及和指对数函数结合的比较大小（如本章 C 组 2025 年卷第 8 题）。二次不等式的解法则更多作为函数、数列、解析几何题的中间步骤出现，不单独成题。位置多在选择题中段，难度中档，3 分钟内拿下——它考的不是背公式，而是"把谁和谁比"一眼看对。</p></div></section><section class="chapter" id="ch-13"><div class="ch-head" data-no="13"><div class="ch-no">第13章</div><h1 class="ch-title">立体几何初步</h1><div class="ch-sub">板块：立体几何 ｜ 前置：初中几何基础 ｜ 老教材：必修2 第1章 ｜ 新教材：必修二 第8章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后学习）">老教材·必修2</a><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后对标）">新教材·必修第二册</a><a href="../公式/高中数学公式速查手册.html#ch-13" title="本章公式速查（按章手册，直达本章）">公式速查手册</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
 <p>公式速查：修订版 第4部分（立体几何）</p>
 <p><strong>本章本质核心</strong>：立体几何初步的本质是"把空间里的问题降维到平面来解决"——人脑只会算平面图形，所以学立体几何就是想办法把三维图形"拍扁"成二维：展开图把侧面铺平成矩形或扇形、截面把球切出一个圆、斜二测把立体画成平面直观图；而四个公理、平行与垂直的判定定理，就是允许你这样"拍扁"和"翻译"的通行证。本章所有公式（体积表面积、球截面、展开最短路径）与所有证明（线面平行、线面垂直），都是"降维"这一个动作的变体。</p>
 <p class = "baihua why"><span class = "tag">为什么有用</span>想通"把三维拍回平面"这个办法，你就能看懂并算准身边的立体——给一个柱锥台球，会算它占多大地方（体积）、包它要多少料（表面积）；给空间里几根线几个面，能判断并证明它们平行还是垂直。锥体为什么是 1/3、展开图怎么找最短路、线面平行怎么证，都能顺着"降维"自己想明白，而不是硬背一堆公式和判定。</p>
 </blockquote>
 <hr />
-<h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
+<div class="sec sec-meta"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
 <ol>
 <li>长方体的体积公式是什么？</li>
 <li>圆的面积、周长公式是什么？</li>
@@ -6476,14 +6485,14 @@ a<sub>n+1</sub>+1  =  a<sub>n</sub>(a<sub>n</sub>−n)+2 ≥ 2a<sub>n</sub>+
 <li>两个平面"平行"和"垂直"在生活中分别是什么样子？</li>
 </ol>
 <p><strong>判定</strong>：5 题答对 4 题以上 → 进章。</p>
-<h2 class = "goal">② 学习目标</h2>
+</div><div class="sec sec-meta"><h2 class = "goal">② 学习目标</h2>
 <ul>
 <li>认识柱、锥、台、球的几何特征</li>
 <li>掌握常见几何体（柱锥台球）的表面积与体积公式</li>
 <li>掌握空间点、线、面的位置关系：平行与垂直的判定和性质</li>
 <li>掌握线面平行/垂直、面面平行/垂直的证明（大题第 1 问常考）</li>
 </ul>
-<h2 class = "body">③ 正文讲解</h2>
+</div><div class="sec sec-meta"><h2 class = "body">③ 正文讲解</h2>
 <p>本章地图：</p>
 <ul>
 <li>3.1 认识空间几何体：柱、锥、台、球长什么样。</li>
@@ -6673,7 +6682,7 @@ a<sub>n+1</sub>+1  =  a<sub>n</sub>(a<sub>n</sub>−n)+2 ≥ 2a<sub>n</sub>+
 <li>用的时候：求三棱锥、多面体内切球半径，别硬画，套 r  =  3V/S全。</li>
 </ul>
 <p><strong>小结</strong>：立体几何证明就两条线——平行找线线平行，垂直找线线垂直；计算套公式，锥体别忘 1/3。</p>
-<h2 class = "ex2">④ 例题详解（先做再看）</h2>
+</div><div class="sec sec-meta"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
 <p class = "ex"><span class = "tag">例题</span><strong>例 1（体积计算）</strong>：正四棱锥底面边长为 2，高为 3，求体积。</p>
 <blockquote>
 <p>自己做：套锥体公式。</p>
@@ -6715,7 +6724,7 @@ a<sup>2</sup>+b<sup>2</sup> = 41，a<sup>2</sup>+c<sup>2</sup> = 34，b<
 在直角三角形 AOD 中（AO⊥OD）：AO = √(AD<sup>2</sup>−OD<sup>2</sup>) = √(a<sup>2</sup>−a<sup>2</sup>/2) = a/√2。
 ∠ADO 就是 DA 与平面 BCD 所成的角，tan∠ADO = AO/OD = (a/√2)/(a/√2) = 1 ⇒ <strong>∠ADO = 45°</strong>。
 要点：<strong>斜线段等长 ⇒ 射影等长 ⇒ 垂足是底面外心</strong>；线面角  =  斜线与它在面内射影的夹角。</p>
-<h2 class = "out">⑤ 出口检测</h2>
+</div><div class="sec sec-meta"><h2 class = "out">⑤ 出口检测</h2>
 <p><strong>自测（15 分钟，每题 2 分）</strong>：</p>
 <ol>
 <li>圆柱底面半径 2、高 3，求体积与侧面积。</li>
@@ -6726,7 +6735,7 @@ a<sup>2</sup>+b<sup>2</sup> = 41，a<sup>2</sup>+c<sup>2</sup> = 34，b<
 </ol>
 <p><strong>真题验收</strong>：2020–2024 新高考Ⅰ卷立体几何小题 1~2 道（体积/表面积/位置关系，多在选择题 3–7 题区间）＋ 解答题第 1 问（证明平行或垂直）：每题限时完成、全对 → 过关。</p>
 <p><strong>过关标准</strong>：自测 ≥ 10 分 且 真题达标 → 打卡。</p>
-<h2>课后习题（分层练习）</h2>
+</div><div class="sec sec-hw"><h2>课后习题（分层练习）</h2>
 <h3>A 组 · 基础巩固</h3>
 <p>1.【考点：正方体表面积体积】正方体棱长为 3，求它的表面积、体积与体对角线长。
 2.【考点：圆锥体积侧面积】圆锥底面半径 3、高 4，求体积与侧面积（母线 l = 5）。
@@ -6743,7 +6752,7 @@ a<sup>2</sup>+b<sup>2</sup> = 41，a<sup>2</sup>+c<sup>2</sup> = 34，b<
 <p>11.【考点：位置关系多选】（2025 年新高考Ⅰ卷·多选第 9 题）在正三棱柱 ABC−A<sub>1</sub>B<sub>1</sub>C<sub>1</sub> 中，D 为 BC 的中点，则（ ）。
    A. AD⊥A<sub>1</sub>C　B. BC⊥平面 AA<sub>1</sub>D　C. CC<sub>1</sub>∥平面 AA<sub>1</sub>D　D. AD∥A<sub>1</sub>B<sub>1</sub>
 12.【考点：线面平行证明】（2024 新高考Ⅰ卷·解答第 17 题第 (1) 问）四棱锥 P−ABCD 中，PA⊥底面 ABCD，PA = AC = 2，BC = 1，AB = √3。若 AD⊥PB，证明：AD∥平面 PBC。</p>
-<h2 class = "pit">⑥ 常见坑清单</h2>
+</div><div class="sec sec-meta"><h2 class = "pit">⑥ 常见坑清单</h2>
 <ul>
 <li><strong>锥体体积 1/3 别丢</strong>；台体公式里的"根号"别漏。</li>
 <li>线面平行判定：<strong>a ⊄ α 是前提</strong>，a 在面内就不能用。</li>
@@ -6752,7 +6761,7 @@ a<sup>2</sup>+b<sup>2</sup> = 41，a<sup>2</sup>+c<sup>2</sup> = 34，b<
 <li>三视图已从新高考删除，不考，别花时间。</li>
 <li>证明线面垂直：必须证与面内<strong>两条相交</strong>直线垂直，一条不够。</li>
 </ul>
-<h2>本章公式速查表</h2>
+</div><div class="sec sec-meta"><h2>本章公式速查表</h2>
 <blockquote>
 <p>口径与《高中数学常用公式·修订版》第四部分（立体几何）一致。</p>
 </blockquote>
@@ -6859,7 +6868,7 @@ a<sup>2</sup>+b<sup>2</sup> = 41，a<sup>2</sup>+c<sup>2</sup> = 34，b<
 <li class="baihua"><span class="tag">大白话</span>从球心拆成一堆高为 r 的小棱锥，体积加起来解 r。</li>
 <li>用的时候：求三棱锥 / 多面体内切球半径专用。</li>
 </ul>
-<h2>高级方法·进阶</h2>
+</div><div class="sec sec-meta"><h2>高级方法·进阶</h2>
 <blockquote>
 <p>对应《不超纲高级方法手册》第七部分"立体几何"。</p>
 </blockquote>
@@ -6877,7 +6886,7 @@ a<sup>2</sup>+b<sup>2</sup> = 41，a<sup>2</sup>+c<sup>2</sup> = 34，b<
 <p><strong>课标依据/红线</strong>：三视图已从新高考删除，<strong>不考，不必花时间</strong>；斜二测画法画直观图了解即可。</p>
 <hr />
 <div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. V  =  π·2<sup>2</sup>·3  =  12π；S 侧  =  2π·2·3  =  12π；2. V  =  ⅓·4·6  =  8；3. 不能（a ⊂ α，需平面外一条直线）；4. (4/3)πR<sup>3</sup>  =  36π ⇒ R<sup>3</sup>  =  27 ⇒ R  =  3；5. √(4 + 9 + 36)  =  7。</p></div></div>
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
+</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
 <ol>
 <li>表面积 6·9=<strong>54</strong>；体积 3<sup>3</sup>=<strong>27</strong>；体对角线 √3·3=<strong>3√3</strong>。</li>
 <li>V=⅓π·3<sup>2</sup>·4=<strong>12π</strong>；侧面积 π·3·5=<strong>15π</strong>。</li>
@@ -6907,23 +6916,23 @@ a<sup>2</sup>+b<sup>2</sup> = 41，a<sup>2</sup>+c<sup>2</sup> = 34，b<
 <p>建系 A(0,0,0)、C(2,0,0)、P(0,0,2)；由 AB=√3、BC=1 得 B(3/2,√3/2,0)。设 D=(u,v,0)。由 AD⊥PB：(D−A)·(B−P)=(u,v,0)·(3/2,√3/2,−2)=3u/2+(√3/2)v=0，即 v=−√3 u。平面 PBC 的法向量可取 n=(√3,1,√3)（取相反方向）。AD·n=√3 u+v=√3 u−√3 u=0，故 AD⊥n，又 AD⊄平面 PBC，所以 <strong>AD∥平面 PBC</strong>。</p>
 </li>
 </ol>
-</div></div><h2>一通百通</h2>
+</div></div></div><div class="sec sec-meta"><h2>一通百通</h2>
 <p>遇到本章的题，本质都是"先把三维降维成二维，再用平面几何算"：计算题认准几何体类型套公式（柱 V=Sh、锥 V=⅓·S底·h 千万别丢 1/3、球 V=4πR<sup>3</sup>/3）；求距离或表面最短路径，就把侧面展开、把锥体补形，把它搬回平面用勾股；证明题认准一条链——证线面平行就在面内找线线平行（看到两个中点先想中位线），证线面垂直就找面内两条相交直线。会这一套，体积、外接球、平行垂直证明都是"降维"这一个动作的变体。</p>
-<h2>跨章结合</h2>
+</div><div class="sec sec-meta"><h2>跨章结合</h2>
 <ul>
 <li><strong>本章平行垂直证明 × 初中平面几何技巧</strong>：一旦按判定定理把"线面关系"降维成"线线关系"，后面用的全是你初中就熟的工具——找线线平行靠中位线、平行四边形；找线线垂直靠等腰三角形三线合一、勾股逆定理、直径对直角。本章例 2（证 AC<sub>1</sub>∥平面 BDE）就是"两个中点 → 中位线"的典型。（综合原理说明，非真题）</li>
 <li><strong>本章几何法 × 第 14 章建系法</strong>：同一道立体几何解答题，高考常拆成两问联合作答——第 (1) 问用本章几何法证线面平行或垂直，第 (2) 问转去第 14 章建系求角、求距离。既有真题 2024 新高考Ⅰ卷解答第 17 题就是这个组合：第 (1) 问证 AD∥平面 PBC（本章 C 组第 12 题），第 (2) 问建系求 AD（14 章 C 组第 11 题）。</li>
 </ul>
-<h2>本章与前后章</h2>
+</div><div class="sec sec-meta"><h2>本章与前后章</h2>
 <p>按全书蓝图，13 章的前置就是初中几何——平面几何里的勾股定理、中位线、等腰三角形三线合一、直径对直角，本章全部直接搬用，只是放进了三维背景里。它后面接第 14 章空间向量：13 章用"几何法"（看图、找线线关系、作辅助线）做证明和计算，14 章则把同一幅图形建系翻译成坐标运算，两条路解的是同一类立体几何题。学完这章你先在脑子里建立起三维直观，14 章只是给这套直观装上坐标。</p>
-<h2>高考怎么考</h2>
-<p>新高考Ⅰ卷里本章主要出"立体几何小题"：体积/表面积计算、外接球补形、球的截面、以及空间线面位置关系的多选判断（如本章 C 组 2025 年多选第 9 题正三棱柱）；另外解答题的第 1 问（证线面平行或垂直，如本章 C 组 2024 年解答第 17 题第 (1) 问）几乎固定考本章这套几何证明。它是立体几何大题的"送分入口"，难度中档，考的就是你会不会把空间关系降维成平面关系。</p></section><section class="chapter" id="ch-14"><div class="ch-head" data-no="14"><div class="ch-no">第14章</div><h1 class="ch-title">空间向量与立体几何</h1><div class="ch-sub">板块：立体几何 ｜ 前置：第 09、13 章 ｜ 老教材：选修2-1 第3章 ｜ 新教材：选择性必修一 第1章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后学习）">老教材·选修2-1</a><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后对标）">新教材·选择性必修第一册</a><a href="../公式/高中数学公式速查手册.html#ch-14" title="本章公式速查（按章手册，直达本章）">公式速查手册</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
+</div><div class="sec sec-meta"><h2>高考怎么考</h2>
+<p>新高考Ⅰ卷里本章主要出"立体几何小题"：体积/表面积计算、外接球补形、球的截面、以及空间线面位置关系的多选判断（如本章 C 组 2025 年多选第 9 题正三棱柱）；另外解答题的第 1 问（证线面平行或垂直，如本章 C 组 2024 年解答第 17 题第 (1) 问）几乎固定考本章这套几何证明。它是立体几何大题的"送分入口"，难度中档，考的就是你会不会把空间关系降维成平面关系。</p></div></section><section class="chapter" id="ch-14"><div class="ch-head" data-no="14"><div class="ch-no">第14章</div><h1 class="ch-title">空间向量与立体几何</h1><div class="ch-sub">板块：立体几何 ｜ 前置：第 09、13 章 ｜ 老教材：选修2-1 第3章 ｜ 新教材：选择性必修一 第1章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后学习）">老教材·选修2-1</a><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后对标）">新教材·选择性必修第一册</a><a href="../公式/高中数学公式速查手册.html#ch-14" title="本章公式速查（按章手册，直达本章）">公式速查手册</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
 <p>公式速查：修订版 第4部分（立体几何）</p>
 <p><strong>本章本质核心</strong>：空间向量的本质是"给空间装上坐标"——把第 13 章那些靠眼睛看、靠辅助线想的几何关系，统统翻译成数字（坐标）运算。建系之后，一条线是什么就变成一个方向向量，一个面是什么就变成一个法向量；而"角"和"距离"看着是几何量，其实都是内积 a·b 的副产品——夹角靠 cosθ = 内积/(模 × 模)，垂直靠内积 = 0，距离靠连线在法方向上的投影。本章全部题型（三类角、点到面距离、建系大题）都是这一个原理的变体。</p>
 <p class = "baihua why"><span class = "tag">为什么有用</span>学了这章，立体几何解答题就从"靠灵感想辅助线"变成"照流程算坐标"——只要图形里有现成的墙角（三条两两垂直的棱），建系之后线线角、线面角、二面角和点到面距离都能按公式稳定算出来。想通"几何问题 = 坐标运算、角 = 内积"，法向量和那几个公式就是顺手推出来的，不必死背；这正是把立体几何大题变成可控拿分点的关键。</p>
 </blockquote>
 <hr />
-<h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
+<div class="sec sec-meta"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
 <ol>
 <li>向量的数量积公式 a · b  =  |a||b|cos θ 还记得吗？</li>
 <li>向量 (1, 2, 3) 的模怎么算？</li>
@@ -6932,7 +6941,7 @@ a<sup>2</sup>+b<sup>2</sup> = 41，a<sup>2</sup>+c<sup>2</sup> = 34，b<
 <li>第 13 章：线面垂直的判定定理是什么？</li>
 </ol>
 <p><strong>判定</strong>：5 题答对 4 题以上 → 进章；否则回 09、13 章复习。</p>
-<h2 class = "goal">② 学习目标</h2>
+</div><div class="sec sec-meta"><h2 class = "goal">② 学习目标</h2>
 <ul>
 <li>掌握空间向量的坐标运算（加减、数乘、数量积、模、夹角）</li>
 <li>会用<strong>建系法（坐标法）</strong>解决立体几何大题：</li>
@@ -6944,7 +6953,7 @@ a<sup>2</sup>+b<sup>2</sup> = 41，a<sup>2</sup>+c<sup>2</sup> = 34，b<
 <p>掌握法向量的求法（核心操作）</p>
 </li>
 </ul>
-<h2 class = "body">③ 正文讲解</h2>
+</div><div class="sec sec-meta"><h2 class = "body">③ 正文讲解</h2>
 <p>本章地图：</p>
 <ul>
 <li>3.1 空间向量的坐标运算：把平面向量搬到三维。</li>
@@ -7108,7 +7117,7 @@ a<sup>2</sup>+b<sup>2</sup> = 41，a<sup>2</sup>+c<sup>2</sup> = 34，b<
 <p><strong>两个最常见失分点</strong>：一是坐标写错（尤其带分数的点），每个点算完都反推一遍棱长；二是线面角公式里写成 cos，记住"线面角用 sin"。二面角若题目说"锐角"就取正，说"钝角"就取负；没说就先算绝对值，再看图形是开口朝哪边。</p>
 <p><strong>小结</strong>：空间向量把立体几何大题变成"算坐标、套公式"的体力活；法向量是钥匙，线面角别写成 cos。</p>
 <p><strong>编者注·本质回扣</strong>：回头看三类角和距离那几个公式，别把它们当四条孤立结论死背，它们其实都是内积 a·b = |a||b|cosθ 这一个式子的变形：线线角、二面角直接就是两个方向（或法）向量的夹角；线面角因为和法向量的夹角正好差一个余角，才把 cos 换成 sin；点到面距离就是连线在法方向上的投影长度。所以建系五步里真正的"发动机"只有一个——数量积。你记住了内积这一颗种子，三类角和距离公式就能自己长出来，不必逐条硬背；这也是本章本质核心"角与距离都是内积的副产品"的落点。</p>
-<h2 class = "ex2">④ 例题详解（先做再看）</h2>
+</div><div class="sec sec-meta"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
 <p class = "ex"><span class = "tag">例题</span><strong>例 1（求法向量）</strong>：平面 α 过点 A(1, 0, 0)、B(0, 1, 0)、C(0, 0, 1)，求 α 的一个法向量。</p>
 <blockquote>
 <p>自己做：取两个向量，列方程组。</p>
@@ -7146,7 +7155,7 @@ sinθ = |BE·n|/(|BE||n|) = √2/2 ⇒ θ = <strong>45°</strong>。
 <p>(3) 换顶点求体积（等体积法）：V(P−BDE) = V(B−PDE)。面 PDE 即 x = 0，△PDE 中 PD = 2（在 z 轴上），E 到 z 轴距离为 1，故 S△PDE = ½·2·1 = 1；点 B 到面 PDE（x = 0）的距离  =  √2。
 V = ⅓·1·√2 = <strong>√2/3</strong>。</p>
 <p>要点：<strong>建系后每个坐标逐点核对</strong>；平面 PCD 三个点 x 都为 0，一眼看出法向量 (1,0,0)；体积换个好算的底面（△PDE 在坐标面内，面积好算）。</p>
-<h2 class = "out">⑤ 出口检测</h2>
+</div><div class="sec sec-meta"><h2 class = "out">⑤ 出口检测</h2>
 <p><strong>自测（20 分钟，每题 2 分）</strong>：</p>
 <ol>
 <li>求过 A(1,1,0)、B(0,1,1)、C(1,0,1) 的平面的一个法向量。</li>
@@ -7157,7 +7166,7 @@ V = ⅓·1·√2 = <strong>√2/3</strong>。</p>
 </ol>
 <p><strong>真题验收</strong>：完成 2020–2024 新高考Ⅰ卷<strong>立体几何解答题</strong> 1 道（建系求角/距离）：建系、法向量、公式三步完整、25 分钟内、得分 ≥ 80% → 过关。</p>
 <p><strong>过关标准</strong>：自测 ≥ 10 分 且 真题达标 → 打卡。</p>
-<h2>课后习题（分层练习）</h2>
+</div><div class="sec sec-hw"><h2>课后习题（分层练习）</h2>
 <h3>A 组 · 基础巩固</h3>
 <p>1.【考点：向量的模】向量 a = (2,3,6)，求 |a|。
 2.【考点：数量积】a = (1,−2,2)，b = (2,−1,0)，求 a·b。
@@ -7172,7 +7181,7 @@ V = ⅓·1·√2 = <strong>√2/3</strong>。</p>
 10.【考点：建系综合】在第 9 题正方体中，求直线 A<sub>1</sub>C 与平面 ABCD 所成角的正切值。</p>
 <h3>C 组 · 真题挑战</h3>
 <p>11.【考点：建系求二面角】（2024 新高考Ⅰ卷·解答第 17 题第 (2) 问）四棱锥 P−ABCD 中，PA⊥底面 ABCD，PA = AC = 2，BC = 1，AB = √3。若 AD⊥DC，且二面角 A−CP−D 的正弦值为 √42/7，求 AD。</p>
-<h2 class = "pit">⑥ 常见坑清单</h2>
+</div><div class="sec sec-meta"><h2 class = "pit">⑥ 常见坑清单</h2>
 <ul>
 <li><strong>线面角用 sin</strong>、线线角用 cos（带绝对值），公式别串。</li>
 <li>法向量方程组：<strong>取两个不共线向量</strong>；共线会解不出唯一方向。</li>
@@ -7181,7 +7190,7 @@ V = ⅓·1·√2 = <strong>√2/3</strong>。</p>
 <li>距离公式：AP 用"任意点 − 平面上的点"，<strong>分母是法向量模</strong>。</li>
 <li>坐标写错是最常见失分点：每个点坐标算完检查一遍再代入。</li>
 </ul>
-<h2>本章公式速查表</h2>
+</div><div class="sec sec-meta"><h2>本章公式速查表</h2>
 <blockquote>
 <p>口径与《高中数学常用公式·修订版》第四部分（空间向量部分）一致。</p>
 </blockquote>
@@ -7255,7 +7264,7 @@ V = ⅓·1·√2 = <strong>√2/3</strong>。</p>
 <li class="baihua"><span class="tag">大白话</span>斜面积投影到另一个面，乘以 cosθ。</li>
 <li>用的时候：法向量不好求时，用射影面积比反求二面角。</li>
 </ul>
-<h2>高级方法·进阶</h2>
+</div><div class="sec sec-meta"><h2>高级方法·进阶</h2>
 <blockquote>
 <p>对应《不超纲高级方法手册》第七部分"立体几何"（空间向量部分）。</p>
 </blockquote>
@@ -7332,7 +7341,7 @@ V = ⅓·1·√2 = <strong>√2/3</strong>。</p>
 <p>（高级方法手册·7.3）</p>
 <hr />
 <div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. AB  =  (−1, 0, 1)，AC  =  (0, −1, 1)；n·AB  =  −x + z  =  0，n·AC  =  −y + z  =  0 ⇒ x  =  y  =  z，取 (1, 1, 1)；2. √(1+4+4)  =  3；3. cos θ  =  0 ⇒ θ  =  90°；4. sin；5. 点与面上任一点连线在法向量方向上的投影绝对值（|AP·n|/|n|）。</p></div></div>
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
+</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
 <ol>
 <li>|a|=√(4+9+36)=<strong>7</strong>。</li>
 <li>a·b=1·2+(−2)(−1)+2·0=2+2+0=<strong>4</strong>。</li>
@@ -7352,23 +7361,23 @@ V = ⅓·1·√2 = <strong>√2/3</strong>。</p>
 <ol start="11">
 <li>建系 A(0,0,0)、C(2,0,0)、P(0,0,2)；由 AB=√3、BC=1 得 B(3/2,√3/2,0)。设 D=(u,v,0)，由 AD⊥DC 得 u<sup>2</sup>+v<sup>2</sup>=2u。平面 ACP 即 y=0，法向量 n<sub>1</sub>=(0,1,0)。平面 DCP 的法向量 n<sub>2</sub>=CP×CD=(−2v, 2u−4, −2v)。由 sin(二面角)=√42/7 得 |cos&lt;n<sub>1</sub>,n<sub>2</sub>&gt;|=√7/7，即 (2−u)/√(2v<sup>2</sup>+(2−u)<sup>2</sup>)=√7/7。平方化简得 v<sup>2</sup>=3(2−u)<sup>2</sup>，结合 v<sup>2</sup>=2u−u<sup>2</sup> 解得 u=3/2（舍去退化 u=2），v=√3/2。于是 AD=√(u<sup>2</sup>+v<sup>2</sup>)=√(9/4+3/4)=<strong>√3</strong>。</li>
 </ol>
-</div></div><h2>一通百通</h2>
+</div></div></div><div class="sec sec-meta"><h2>一通百通</h2>
 <p>遇到立体几何解答题，本质都是"建系→写坐标→求法向量→用内积套公式"这一条流水线：先找三条两两垂直的棱建系（大题要写一句垂直依据），把每个点坐标写对——错一个坐标全题崩；要角就取方向向量或法向量，线线角、二面角用 cos，线面角用 sin；要距离就套 d=|AP·n|/|n|。会这五步，第 13 章那些靠辅助线、靠灵感的难题，到这里都退化成算坐标。这套"几何问题坐标化、坐标问题内积化"的骨架，和后面解析几何（15、16 章）是同一个思想。</p>
-<h2>跨章结合</h2>
+</div><div class="sec sec-meta"><h2>跨章结合</h2>
 <ul>
 <li><strong>本章坐标运算 × 第 09 章平面向量</strong>：本章的加减、数乘、数量积、模、夹角公式，一个符号都没改，只是把坐标从二维 (x,y) 升到三维 (x,y,z)。所以平面向量（09 章）学扎实了，空间向量等于白送；门槛自测第 1 题就是在考你这条迁移。（综合原理说明，非真题）</li>
 <li><strong>本章建系求角 × 第 13 章几何证明</strong>：高考立体几何解答题固定是"两段式"——第 (1) 问用 13 章几何法证线面平行或垂直，第 (2) 问转本章建系求二面角或距离。既有真题 2024 新高考Ⅰ卷解答第 17 题即如此：第 (1) 问证 AD∥平面 PBC（见 13 章 C 组第 12 题），第 (2) 问建系、用二面角条件反求 AD（本章 C 组第 11 题）。</li>
 </ul>
-<h2>本章与前后章</h2>
+</div><div class="sec sec-meta"><h2>本章与前后章</h2>
 <p>按全书蓝图，14 章的前置是第 09 章平面向量（数量积、模、夹角那套结论直接从二维搬到三维，本章不再重讲）和第 13 章立体几何初步（你得先有空间直观，知道线面垂直是建系选轴的依据）。它不教新的几何概念，只把 13 章"看图证关系"换成"建系算坐标"。学完它，立体几何大题你就有了一条不依赖灵感的流水线，直接通向高考解答题的固定位置。</p>
-<h2>高考怎么考</h2>
-<p>按全书蓝图，本章锁定新高考Ⅰ卷的"立体几何解答题"（约在解答第 17 题附近）：第 1 问往往是 13 章那套几何证明（证线面平行或垂直），第 2 问才是本章的主场——建系求线面角、二面角或点到面的距离（如本章 C 组 2024 年解答第 17 题第 (2) 问）。它是全卷中档偏上的"必拿分大题"，套路固定、不考灵感：练熟五步模板、坐标逐个核对、线面角记得用 sin，这一问基本稳拿。</p></section><section class="chapter" id="ch-15"><div class="ch-head" data-no="15"><div class="ch-no">第15章</div><h1 class="ch-title">直线与圆</h1><div class="ch-sub">板块：解析几何 ｜ 前置：第 02 章 ｜ 老教材：必修2 第3章 ｜ 新教材：选择性必修一 第2章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后学习）">老教材·必修2</a><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后对标）">新教材·选择性必修第一册</a><a href="../公式/高中数学公式速查手册.html#ch-15" title="本章公式速查（按章手册，直达本章）">公式速查手册</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
+</div><div class="sec sec-meta"><h2>高考怎么考</h2>
+<p>按全书蓝图，本章锁定新高考Ⅰ卷的"立体几何解答题"（约在解答第 17 题附近）：第 1 问往往是 13 章那套几何证明（证线面平行或垂直），第 2 问才是本章的主场——建系求线面角、二面角或点到面的距离（如本章 C 组 2024 年解答第 17 题第 (2) 问）。它是全卷中档偏上的"必拿分大题"，套路固定、不考灵感：练熟五步模板、坐标逐个核对、线面角记得用 sin，这一问基本稳拿。</p></div></section><section class="chapter" id="ch-15"><div class="ch-head" data-no="15"><div class="ch-no">第15章</div><h1 class="ch-title">直线与圆</h1><div class="ch-sub">板块：解析几何 ｜ 前置：第 02 章 ｜ 老教材：必修2 第3章 ｜ 新教材：选择性必修一 第2章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后学习）">老教材·必修2</a><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后对标）">新教材·选择性必修第一册</a><a href="../公式/高中数学公式速查手册.html#ch-15" title="本章公式速查（按章手册，直达本章）">公式速查手册</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
 <p>公式速查：修订版 第5部分（直线与圆）</p>
 <p><strong>本章本质核心</strong>：直线与圆是解析几何的第一步——给"几何图形"装上"方程"这台计算器。从此平行、垂直、距离、相切、相交，这些靠眼睛看的几何关系，全部变成坐标代数运算：平行比斜率 k<sub>1</sub> = k<sub>2</sub>、垂直看 k<sub>1</sub>k<sub>2</sub> = −1，距离套 |Ax<sub>0</sub>+By<sub>0</sub>+C|/√(A<sup>2</sup>+B<sup>2</sup>)，圆与直线的位置关系就比"圆心到直线距离 d"和"半径 r"两个数。本章所有题型都是这一个原理的变体；而圆的"圆心 (a,b)+半径 r"是最短的信息包，记住它，标准方程、弦长、切线全从这两个数长出来。</p>
 <p class = "baihua why"><span class = "tag">为什么有用</span>想通了"几何关系 = 代数运算"这一步，导航算路程、铺管线找最短距离、判断一条路会不会碰到某个圆，全都变成套公式的代数题；考试里那些"距离、位置、切线"小题，也就不再靠目测，而是算一个 d、比一次 r 就定案。原理想通了，公式是顺带的事，不用死背。</p>
 </blockquote>
 <hr />
-<h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
+<div class="sec sec-meta"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
 <ol>
 <li>两点 (1, 2)、(3, 4) 连线的斜率是多少？</li>
 <li>平行于 x 轴的直线斜率是多少？</li>
@@ -7377,7 +7386,7 @@ V = ⅓·1·√2 = <strong>√2/3</strong>。</p>
 <li>解方程组 2x + y  =  3、x − y  =  0。</li>
 </ol>
 <p><strong>判定</strong>：5 题答对 4 题以上 → 进章。</p>
-<h2 class = "goal">② 学习目标</h2>
+</div><div class="sec sec-meta"><h2 class = "goal">② 学习目标</h2>
 <ul>
 <li>掌握直线方程的多种形式与相互转化</li>
 <li>掌握斜率与倾斜角、平行/垂直的斜率条件</li>
@@ -7385,7 +7394,7 @@ V = ⅓·1·√2 = <strong>√2/3</strong>。</p>
 <li>掌握圆的标准方程与一般方程、直线与圆的位置关系（含弦长）</li>
 <li>会求圆的切线方程</li>
 </ul>
-<h2 class = "body">③ 正文讲解</h2>
+</div><div class="sec sec-meta"><h2 class = "body">③ 正文讲解</h2>
 <p><strong>本章结构导图</strong>：</p>
 <pre><code>直线与圆
 ├─ 3.1 倾斜角与斜率 ── 一把&quot;角度↔斜率&quot;的尺子
@@ -7657,7 +7666,7 @@ d  =  1 &lt; r  =  2 ⇒ 相交。弦长  =  2√(4 − 1)  =  2
 <li class="baihua"><span class="tag">大白话</span>相减消掉了 x<sup>2</sup>、y<sup>2</sup>，剩下的一次方程过两个交点，就是公共弦（相交时）、公切线（相切时）所在直线。</li>
 </ul>
 <p><strong>小结</strong>：圆与圆还是"距离比半径"，只是把"到直线距离"换成"圆心距"。</p>
-<h2 class = "ex2">④ 例题详解（先做再看）</h2>
+</div><div class="sec sec-meta"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
 <p class = "ex"><span class = "tag">例题</span><strong>例 1（垂直斜率）</strong>：直线 l<sub>1</sub>：2x + y − 1  =  0，求与 l<sub>1</sub> 垂直且过点 (1, 2) 的直线方程。</p>
 <blockquote>
 <p>自己做：先求斜率，用点斜式。</p>
@@ -7676,7 +7685,7 @@ d  =  1 &lt; r  =  2 ⇒ 相交。弦长  =  2√(4 − 1)  =  2
 </blockquote>
 <p>解：直线 x − y + b  =  0，d  =  |0 − 0 + b|/√2  =  |b|/√2  =  2 ⇒ |b|  =  2√2 ⇒ b  =  ±2√2。
 要点：<strong>相切 ⇔ d  =  r</strong>；"相离/相交/相切"一律先算 d。</p>
-<h2 class = "out">⑤ 出口检测</h2>
+</div><div class="sec sec-meta"><h2 class = "out">⑤ 出口检测</h2>
 <p><strong>自测（15 分钟，每题 2 分）</strong>：</p>
 <ol>
 <li>过 (1, 1)、(3, 5) 的直线斜率是多少？</li>
@@ -7687,7 +7696,7 @@ d  =  1 &lt; r  =  2 ⇒ 相交。弦长  =  2√(4 − 1)  =  2
 </ol>
 <p><strong>真题验收</strong>：2020–2024 新高考Ⅰ卷直线圆小题 1~2 道（距离/位置/切线，多在选择题 5–8 题区间）：每题 3 分钟、全对过关。</p>
 <p><strong>过关标准</strong>：自测 ≥ 10 分 且 真题全对 → 打卡，进入 16 章。</p>
-<h2>课后习题（分层练习）</h2>
+</div><div class="sec sec-hw"><h2>课后习题（分层练习）</h2>
 <h3>A 基础巩固（教材练习级）</h3>
 <p><strong>A1.</strong>【考点：两点斜率】求过 A(−1, 2)、B(3, −4) 两点直线的斜率。</p>
 <p><strong>A2.</strong>【考点：倾斜角与斜率】直线倾斜角 α  =  120°，求斜率 k；并说明这条直线是往哪个方向倾斜的。</p>
@@ -7705,7 +7714,7 @@ d  =  1 &lt; r  =  2 ⇒ 相交。弦长  =  2√(4 − 1)  =  2
 A. (0, 1)　　B. (1, 3)　　C. (3, +∞)　　D. (0, +∞)</p>
 <p><strong>C2.</strong>【考点：点到直线距离算面积·借鉴 2024 新高考Ⅰ卷第 16 题第 (2) 问思想】过椭圆上一点的直线与曲线交于另一点，已知围成三角形面积，反求直线斜率。本题型在第 16 章详解；这里先体会：面积  =  ½·弦长·点到直线距离，"点到直线距离"是本章 3.3 的工具。</p>
 <p><strong>C3.</strong>【考点：切线方程·仿高考】求过原点且与圆 (x − 2)<sup>2</sup> + y<sup>2</sup>  =  1 相切的直线方程。</p>
-<h2 class = "pit">⑥ 常见坑清单</h2>
+</div><div class="sec sec-meta"><h2 class = "pit">⑥ 常见坑清单</h2>
 <ul>
 <li>斜率不存在（垂直 x 轴）时公式失效，别硬套 k<sub>1</sub>k<sub>2</sub>  =  −1。</li>
 <li>一般式距离公式：<strong>Ax + By + C  =  0 形式</strong>，先化成这个形式再用。</li>
@@ -7714,7 +7723,7 @@ A. (0, 1)　　B. (1, 3)　　C. (3, +∞)　　D. (0, +∞)</p>
 <li>弦长公式 2√(r<sup>2</sup> − d<sup>2</sup>)：d 是圆心到直线距离，不是弦到圆心的距离。</li>
 </ul>
 <hr />
-<h2>本章公式速查表</h2>
+</div><div class="sec sec-meta"><h2>本章公式速查表</h2>
 <blockquote>
 <p>与《高中数学常用公式·修订版》第五部分"直线与圆"逐条核对一致。</p>
 </blockquote>
@@ -7819,7 +7828,7 @@ A. (0, 1)　　B. (1, 3)　　C. (3, +∞)　　D. (0, +∞)</p>
 <li class="baihua"><span class="tag">大白话</span>作两条平行直线距离 d′，数它们和圆交几个点；d 由大到小，个数从 1→2→3→4。</li>
 <li>用的时候：C1 那类"圆上到某直线距离等于定值的点有几个"直接套。</li>
 </ul>
-<h2>高级方法·进阶</h2>
+</div><div class="sec sec-meta"><h2>高级方法·进阶</h2>
 <p>本章主线方法（算 d、比 r、配方、点斜式）已被新教材完整覆盖，<strong>不超纲高级方法手册中无"直线与圆"的专属进阶节</strong>。下面两条是本章内可以让你算得更快的"小经验"，均在课标范围内。</p>
 <p><strong>进阶 1：圆上到定直线距离为定值的点个数（适用信号→步骤→例）</strong></p>
 <ul>
@@ -7851,7 +7860,7 @@ A. (0, 1)　　B. (1, 3)　　C. (3, +∞)　　D. (0, +∞)</p>
 </ul>
 <hr />
 <div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. k = (5−1)/(3−1) = 2；2. y = (2/3)x + 2，k = 2/3；3. |−2|/√2 = √2；4. 圆心 (1, −2)，半径 3；5. d = |0−0|/√2 = 0 &lt; 1 ⇒ 相交（且过圆心，是直径）。</p></div></div>
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A1.</strong> k = (−4−2)/(3−(−1)) = −6/4 = <strong>−3/2</strong>。
+</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A1.</strong> k = (−4−2)/(3−(−1)) = −6/4 = <strong>−3/2</strong>。
 <strong>A2.</strong> k = tan 120° = −tan 60° = <strong>−√3</strong>；k &lt; 0，直线从左上向右下倾斜。
 <strong>A3.</strong> 斜截式 <strong>y = −2x + 3</strong>；一般式 <strong>2x + y − 3 = 0</strong>。
 <strong>A4.</strong> 原直线斜率 k = −3/4，平行斜率相同。过 (2,−1)：y+1 = (−3/4)(x−2)，整理 <strong>3x + 4y − 2 = 0</strong>。
@@ -7864,24 +7873,24 @@ A. (0, 1)　　B. (1, 3)　　C. (3, +∞)　　D. (0, +∞)</p>
 </div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · C 组</button><div class="ans-body"><p><strong>C1.</strong> <strong>B</strong>。圆心到直线距离 d = 2；圆上点到直线距离范围 [|2−r|, 2+r]。距离恰为 1 时：r&lt;1 → 0 个；1&lt;r&lt;3 → 2 个；r&gt;3 → 4 个。"恰 2 个"⇔ <strong>1 &lt; r &lt; 3</strong>。
 <strong>C2.</strong>（思想题）面积 = ½·弦长·d（d 为第三个顶点到直线的距离），弦长用 2√(r<sup>2</sup>−d<sup>2</sup>) 或联立求得。本章只需掌握"点到直线距离是面积的一条高"。
 <strong>C3.</strong> 设切线 y = kx（过原点），圆 (x−2)<sup>2</sup>+y<sup>2</sup>=1 圆心 (2,0)、r=1。d = |2k|/√(k<sup>2</sup>+1) = 1 ⇒ 4k<sup>2</sup> = k<sup>2</sup>+1 ⇒ k<sup>2</sup> = 1/3 ⇒ k = ±√3/3。切线：<strong>y = (√3/3)x</strong> 和 <strong>y = −(√3/3)x</strong>。</p>
-</div></div><h2>一通百通</h2>
+</div></div></div><div class="sec sec-meta"><h2>一通百通</h2>
 <p>直线与圆这一类题，通用骨架就三步：<strong>① 把图形"翻译"成方程（直线写一般式 Ax+By+C=0，圆配方读出圆心 (a,b) 和半径 r）→ ② 把几何关系翻译成代数（平行/垂直比斜率，距离套 |Ax<sub>0</sub>+By<sub>0</sub>+C|/√(A<sup>2</sup>+B<sup>2</sup>)，位置关系比 d 和 r）→ ③ 按代数结果直接下结论</strong>。九成的直线圆题不用真解交点：算一个 d、比一次 r，相离/相切/相交、弦长、切线全出来。会做这一道骨架题 = 会做这一整类；这套"先翻译、再代数、后下结论"的打法，到第 16 章圆锥曲线联立大题还会原样复用，只是把"圆"换成"椭圆、双曲线、抛物线"。</p>
-<h2>跨章结合</h2>
+</div><div class="sec sec-meta"><h2>跨章结合</h2>
 <ul>
 <li><strong>本章"点到直线距离" + 第 08 章解三角形"面积=½·底·高"</strong>：直线与曲线围成的三角形，面积常常就是"½·弦长·第三个顶点到这条弦所在直线的距离"——本章 3.3 的距离公式就是这条高。本章 C2 已点明：面积 = ½·弦长·d，"点到直线距离"是本章工具（该题型在第 16 章详解）。（综合原理说明，非新数值题）</li>
 <li><strong>本章"算 d、比 r" + 第 02 章"二次方程判别式 Δ"</strong>：直线和圆联立消元后，判别式的正负其实就是 d 与 r 大小关系的代数化身——Δ&gt;0 相交（此时 d&lt;r）、Δ=0 相切（d=r）、Δ&lt;0 相离（d&gt;r）。换成圆锥曲线后这套"联立看 Δ"的流程直接复用。既有真题即本章 C1（2025 新高考Ⅰ卷第 7 题，圆上到直线距离为定值的点有几个，答案选 B，即 1&lt;r&lt;3），本质就是本章距离公式的活用。</li>
 </ul>
-<h2>本章与前后章</h2>
+</div><div class="sec sec-meta"><h2>本章与前后章</h2>
 <p>本章前接<strong>第 02 章</strong>（函数与方程：点斜式 y=kx+b 就是一次函数，方程与不等式的代数运算是本章地基），是解析几何的开门第一课；后接<strong>第 16 章圆锥曲线</strong>——椭圆、双曲线、抛物线的联立、弦长、距离判定，用的全是本章的"一般式、点到直线距离、联立消元"这套工具。学完这章，你手里有了三件通用武器：斜率判方向、距离算远近、d 比 r 判位置，它们是后面所有解析几何大题的地基。</p>
-<h2>高考怎么考</h2>
-<p>直线与圆在新高考Ⅰ卷里是<strong>小题常客</strong>，多年落在选择题第 5~8 题区间（如 2025 新高考Ⅰ卷第 7 题即本章 C1，考"圆上到直线距离为定值的点有几个"，答案选 B，即 1&lt;r&lt;3），考法集中在：斜率与平行垂直判定、点到直线/平行线距离、直线与圆位置关系与弦长、过圆外点求切线。难度中等偏易、3 分钟一道，几乎不单独出大题；但它是圆锥曲线大题的"工具间"——压轴题里的弦长、点到直线距离、联立判别，背后都站着本章的公式。想通了"几何变代数"，这几分是稳拿的送分题。</p></section><section class="chapter" id="ch-16"><div class="ch-head" data-no="16"><div class="ch-no">第16章</div><h1 class="ch-title">圆锥曲线</h1><div class="ch-sub">板块：解析几何 ｜ 前置：第 08、15 章 ｜ 老教材：选修2-1 第2章 ｜ 新教材：选择性必修一 第3章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后学习）">老教材·选修2-1</a><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后对标）">新教材·选择性必修第一册</a><a href="../公式/高中数学公式速查手册.html#ch-16" title="本章公式速查（按章手册，直达本章）">公式速查手册</a><a href="../系统文档/不超纲高级方法手册.md" title="不超纲高级方法（嵌本章）">高级方法手册</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
+</div><div class="sec sec-meta"><h2>高考怎么考</h2>
+<p>直线与圆在新高考Ⅰ卷里是<strong>小题常客</strong>，多年落在选择题第 5~8 题区间（如 2025 新高考Ⅰ卷第 7 题即本章 C1，考"圆上到直线距离为定值的点有几个"，答案选 B，即 1&lt;r&lt;3），考法集中在：斜率与平行垂直判定、点到直线/平行线距离、直线与圆位置关系与弦长、过圆外点求切线。难度中等偏易、3 分钟一道，几乎不单独出大题；但它是圆锥曲线大题的"工具间"——压轴题里的弦长、点到直线距离、联立判别，背后都站着本章的公式。想通了"几何变代数"，这几分是稳拿的送分题。</p></div></section><section class="chapter" id="ch-16"><div class="ch-head" data-no="16"><div class="ch-no">第16章</div><h1 class="ch-title">圆锥曲线</h1><div class="ch-sub">板块：解析几何 ｜ 前置：第 08、15 章 ｜ 老教材：选修2-1 第2章 ｜ 新教材：选择性必修一 第3章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后学习）">老教材·选修2-1</a><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后对标）">新教材·选择性必修第一册</a><a href="../公式/高中数学公式速查手册.html#ch-16" title="本章公式速查（按章手册，直达本章）">公式速查手册</a><a href="../系统文档/不超纲高级方法手册.md" title="不超纲高级方法（嵌本章）">高级方法手册</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
 <p>方法手册：齐次化 / 点差法 / 设而不求 / 焦点三角形（嵌本章末）
 公式速查：修订版 第6部分（圆锥曲线）</p>
 <p><strong>本章本质核心</strong>：圆锥曲线的本质是"到一个定点（焦点）与到一条定直线（准线）距离之比为定值 e 的点的轨迹"。e 是唯一的档位开关：e&lt;1 是椭圆、e = 1 是抛物线、e&gt;1 是双曲线——三种曲线不是三样新东西，而是同一个定义的三个档位。本章所有题型都是这一个原理的变体：椭圆"距离和 = 2a"、双曲线"距离差 = 2a"、抛物线"到焦点 = 到准线"，焦点弦、离心率、联立韦达，全是这一个定义换着马甲出现。</p>
 <p class = "baihua why"><span class = "tag">为什么有用</span>行星绕太阳的轨道是椭圆、卫星天线的反光面是抛物线——现实里这些曲线都是"按距离规则画出来的"。想通了 e 这个开关，你就明白为什么离心率一确定曲线形状就定了；想通了"设而不求"，高考压轴大题里那些求弦长、证过定点、算定值的题，就有了一套固定打法，而不是见一题慌一题。</p>
 </blockquote>
 <hr />
-<h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
+<div class="sec sec-meta"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
 <ol>
 <li>圆的标准方程是什么？（第 15 章）</li>
 <li>两点间距离公式。</li>
@@ -7890,7 +7899,7 @@ A. (0, 1)　　B. (1, 3)　　C. (3, +∞)　　D. (0, +∞)</p>
 <li>点到直线距离公式。</li>
 </ol>
 <p><strong>判定</strong>：5 题答对 4 题以上 → 进章；否则回 15 章复习。</p>
-<h2 class = "goal">② 学习目标</h2>
+</div><div class="sec sec-meta"><h2 class = "goal">② 学习目标</h2>
 <ul>
 <li>掌握椭圆、双曲线、抛物线的定义、标准方程与基本性质</li>
 <li>掌握离心率、焦点三角形、通径等高频结论</li>
@@ -7898,7 +7907,7 @@ A. (0, 1)　　B. (1, 3)　　C. (3, +∞)　　D. (0, +∞)</p>
 <li>掌握弦长公式、中点弦（点差法）</li>
 <li>能完成高考圆锥曲线解答题（压轴，第 1 问通常求方程/离心率）</li>
 </ul>
-<h2 class = "body">③ 正文讲解</h2>
+</div><div class="sec sec-meta"><h2 class = "body">③ 正文讲解</h2>
 <p><strong>本章结构导图</strong>：</p>
 <pre><code>圆锥曲线
 ├─ 3.1 椭圆 ── 距离之和 = 2a，扁的圆，行星轨道
@@ -8073,7 +8082,7 @@ A. (0, 1)　　B. (1, 3)　　C. (3, +∞)　　D. (0, +∞)</p>
 </blockquote>
 <p><strong>常见陷阱</strong>：求出方程后要回头看有没有该排除的点（如轨迹是一段弧、要去掉某些点），保证"纯粹性"。</p>
 <p><strong>小结</strong>：轨迹题先认方法——像定义用定义法，有关联点用代入法，两条动直线交点用交轨法，都不像就直接法/参数法列方程。</p>
-<h2 class = "ex2">④ 例题详解（先做再看）</h2>
+</div><div class="sec sec-meta"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
 <p class = "ex"><span class = "tag">例题</span><strong>例 1（求椭圆方程）</strong>：椭圆焦点 (±√5, 0)，离心率 √5/3，求标准方程。</p>
 <blockquote>
 <p>自己做：c、e → a → b。</p>
@@ -8116,7 +8125,7 @@ CM⃗·CN⃗  =  x<sub>1</sub>x<sub>2</sub> + (y<sub>1</sub>−n)(y<sub>2</s
 要它与 k 无关，让分子分母成倍数：取 <strong>n  =  4</strong>，则 1−4k<sup>2</sup>  =  −(4k<sup>2</sup>−1)，上式  =  8·(−1) + (4+1)<sup>2</sup>  =  −8 + 25  =  <strong>17</strong>。
 故存在定点 <strong>C(0, 4)</strong>，使 CM⃗·CN⃗ ≡ 17。
 要点：<strong>全程只写韦达、不解根</strong>（设而不求）；让含 k 的分子与分母配成倍数消掉 k，即得定点 n。对应方法手册 2.4。</p>
-<h2 class = "out">⑤ 出口检测</h2>
+</div><div class="sec sec-meta"><h2 class = "out">⑤ 出口检测</h2>
 <p><strong>自测（20 分钟，每题 2 分）</strong>：</p>
 <ol>
 <li>椭圆 x<sup>2</sup>/16 + y<sup>2</sup>/9  =  1 的焦距是多少？</li>
@@ -8127,7 +8136,7 @@ CM⃗·CN⃗  =  x<sub>1</sub>x<sub>2</sub> + (y<sub>1</sub>−n)(y<sub>2</s
 </ol>
 <p><strong>真题验收</strong>：完成 2020–2024 新高考Ⅰ卷<strong>圆锥曲线解答题第 1 问</strong> 1 道（求方程/离心率/焦点三角形）+ 小题 1 道：每题限时、全对 → 过关。</p>
 <p><strong>过关标准</strong>：自测 ≥ 10 分 且 真题达标 → 打卡。</p>
-<h2>课后习题（分层练习）</h2>
+</div><div class="sec sec-hw"><h2>课后习题（分层练习）</h2>
 <h3>A 基础巩固</h3>
 <p><strong>A1.</strong>【椭圆方程】椭圆焦点 (±4, 0)，离心率 4/5，求标准方程。</p>
 <p><strong>A2.</strong>【椭圆性质】椭圆 x<sup>2</sup>/100 + y<sup>2</sup>/36  =  1，求长轴长、短轴长、焦距、顶点坐标。</p>
@@ -8146,7 +8155,7 @@ A. √2　　B. 2　　C. √7　　D. 2√2</p>
 <p><strong>C2.</strong>【双曲线离心率·2024 新高考Ⅰ卷第 12 题】设双曲线 x<sup>2</sup>/a<sup>2</sup> − y<sup>2</sup>/b<sup>2</sup>  =  1（a&gt;0,b&gt;0）的左右焦点为 F<sub>1</sub>、F<sub>2</sub>，过 F<sub>2</sub> 作平行于 y 轴的直线交 C 于 A、B 两点，若 |F<sub>1</sub>A|  =  13，|AB|  =  10，则 C 的离心率为＿＿＿＿。</p>
 <p><strong>C3.</strong>【椭圆方程·2025 新高考Ⅰ卷第 18 题第 (1) 问】设椭圆 x<sup>2</sup>/a<sup>2</sup> + y<sup>2</sup>/b<sup>2</sup>  =  1（a&gt;b&gt;0）的离心率为 2√2/3，下顶点为 A，右顶点为 B，|AB|  =  √10。求椭圆的标准方程。</p>
 <p><strong>C4.</strong>【点差法·中垂线】（苏州教研·专题47，原书p.153）已知 A(x<sub>1</sub>,y<sub>1</sub>)、B(x<sub>2</sub>,y<sub>2</sub>) 两点在椭圆 x<sup>2</sup>/25 + y<sup>2</sup>/9  =  1 上，且 x<sub>1</sub> + x<sub>2</sub>  =  8。试在 x 轴上求一点 D，使得 |DA|  =  |DB|。</p>
-<h2 class = "pit">⑥ 常见坑清单</h2>
+</div><div class="sec sec-meta"><h2 class = "pit">⑥ 常见坑清单</h2>
 <ul>
 <li><strong>椭圆 c<sup>2</sup>  =  a<sup>2</sup> − b<sup>2</sup>、双曲线 c<sup>2</sup>  =  a<sup>2</sup> + b<sup>2</sup></strong>——符号相反是最高频错误。</li>
 <li>双曲线渐近线：焦点在 x 轴时 y  =  ±(b/a)x，<strong>别把 a、b 颠倒</strong>。</li>
@@ -8156,7 +8165,7 @@ A. √2　　B. 2　　C. √7　　D. 2√2</p>
 <li>斜率不存在（直线垂直 x 轴）情况单独讨论，别默认 y  =  kx + m。</li>
 </ul>
 <hr />
-<h2>本章公式速查表</h2>
+</div><div class="sec sec-meta"><h2>本章公式速查表</h2>
 <blockquote>
 <p>与《高中数学常用公式·修订版》第六部分"圆锥曲线"逐条核对一致。</p>
 </blockquote>
@@ -8285,7 +8294,7 @@ A. √2　　B. 2　　C. √7　　D. 2√2</p>
 <li class = "baihua"><span class = "tag">大白话</span>已知弦中点求斜率，两式一减直接出，省掉联立。</li>
 <li>用的时候：椭圆是负号、双曲线是正号；用完要代回验证 Δ &gt; 0。</li>
 </ul>
-<h2>高级方法·进阶</h2>
+</div><div class="sec sec-meta"><h2>高级方法·进阶</h2>
 <blockquote>
 <p>对应《不超纲高级方法手册》二.2.1～二.2.4。每条标注课标红线。</p>
 </blockquote>
@@ -8396,7 +8405,7 @@ A. √2　　B. 2　　C. √7　　D. 2√2</p>
 <p>（高级方法手册·2.4）</p>
 <hr />
 <div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. c<sup>2</sup> = 16 − 9 = 7，2c = 2√7；2. y = ±(√5/2)x；3. p = 4，焦点 (2, 0)，准线 x = −2；4. e = c/a = 4/5；5. 代入得 (1/4 + k<sup>2</sup>)x<sup>2</sup> + 2kx + 1 − 1 = 0 ⇒ (k<sup>2</sup> + 1/4)x<sup>2</sup> + 2kx = 0，Δ = 4k<sup>2</sup> ≥ 0 恒成立（此直线恒与椭圆相交，因过 (0,1) 在椭圆内）。</p></div></div>
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A1.</strong> c = 4，e = c/a = 4/5 ⇒ a = 5。b<sup>2</sup> = a<sup>2</sup>−c<sup>2</sup> = 25−16 = 9。方程 <strong>x<sup>2</sup>/25 + y<sup>2</sup>/9 = 1</strong>。
+</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A1.</strong> c = 4，e = c/a = 4/5 ⇒ a = 5。b<sup>2</sup> = a<sup>2</sup>−c<sup>2</sup> = 25−16 = 9。方程 <strong>x<sup>2</sup>/25 + y<sup>2</sup>/9 = 1</strong>。
 <strong>A2.</strong> a=10, b=6, c=8。长轴 20，短轴 12，焦距 16。顶点 (±10,0)、(0,±6)。
 <strong>A3.</strong> a=3, b=4, c=5。焦点 (±5,0)。渐近线 y=±(4/3)x。e=5/3。
 <strong>A4.</strong> 焦点 (−3,0) 开口向左，方程 <strong>y<sup>2</sup> = −12x</strong>（2p=12），准线 x=3。
@@ -8410,22 +8419,22 @@ A. √2　　B. 2　　C. √7　　D. 2√2</p>
 <strong>C2.</strong> 过 F<sub>2</sub>(c,0) 竖直线交双曲线：x=c 时 y<sup>2</sup>=b<sup>2</sup>(c<sup>2</sup>/a<sup>2</sup>−1)=b<sup>4</sup>/a<sup>2</sup>，半弦=b<sup>2</sup>/a。|AB|=2b<sup>2</sup>/a=10 ⇒ b<sup>2</sup>/a=5。A(c,b<sup>2</sup>/a)，|F<sub>1</sub>A|=√((2c)<sup>2</sup>+(b<sup>2</sup>/a)<sup>2</sup>)=√(4c<sup>2</sup>+25)=13 ⇒ 4c<sup>2</sup>+25=169 ⇒ c=6。又 c<sup>2</sup>=a<sup>2</sup>+b<sup>2</sup>=36 且 b<sup>2</sup>=5a，得 a<sup>2</sup>+5a=36 ⇒ a=4。<strong>e=c/a=6/4=3/2</strong>。
 <strong>C3.</strong> e=c/a=2√2/3，故 b<sup>2</sup>/a<sup>2</sup>=1−e<sup>2</sup>=1/9，即 b=a/3。|AB|=√(a<sup>2</sup>+b<sup>2</sup>)=√(a<sup>2</sup>+a<sup>2</sup>/9)=a√(10/9)=√10 ⇒ a=3，b=1。标准方程 <strong>x<sup>2</sup>/9 + y<sup>2</sup> = 1</strong>。
 <strong>C4.</strong> 设 AB 中点 M(x<sub>0</sub>,y<sub>0</sub>)，则 x<sub>0</sub>=(x<sub>1</sub>+x<sub>2</sub>)/2=4。点差法两式相减：(x<sub>1</sub><sup>2</sup>−x<sub>2</sub><sup>2</sup>)/25=−(y<sub>1</sub><sup>2</sup>−y<sub>2</sub><sup>2</sup>)/9 ⇒ k_AB=(y<sub>1</sub>−y<sub>2</sub>)/(x<sub>1</sub>−x<sub>2</sub>)=−9(x<sub>1</sub>+x<sub>2</sub>)/[25(y<sub>1</sub>+y<sub>2</sub>)]=−9·8/(25·2y<sub>0</sub>)=−36/(25y<sub>0</sub>)。|DA|=|DB| 说明 D 在 AB 中垂线上，中垂线斜率=25y<sub>0</sub>/36 且过 M(4,y<sub>0</sub>)：令 y=0，0−y<sub>0</sub>=(25y<sub>0</sub>/36)(x_D−4) ⇒ x_D=4−36/25=<strong>64/25</strong>。故 D(<strong>(64/25, 0)</strong>)。</p>
-</div></div><h2>一通百通</h2>
+</div></div></div><div class="sec sec-meta"><h2>一通百通</h2>
 <p>圆锥曲线大题的通用骨架就是三步：<strong>① 设线、联立（直线 y=kx+m 代入曲线，消元得一元二次方程，先写 Δ&gt;0）→ ② 韦达（整体写出 x<sub>1</sub>+x<sub>2</sub>、x<sub>1</sub>x<sub>2</sub>，绝不真解根）→ ③ 翻译条件（把弦长、面积、中点、斜率积、向量数量积这些几何要求，全部用韦达整体代换，最后解出参数或证明定值）</strong>。中点弦还有一条提速道——点差法（两式相减直接出斜率与中点关系）。会这一套"联立→韦达→翻译条件"的设而不求，椭圆、双曲线、抛物线的大题就通了：曲线换了，流程一模一样。</p>
-<h2>跨章结合</h2>
+</div><div class="sec sec-meta"><h2>跨章结合</h2>
 <ul>
 <li><strong>本章"联立韦达" + 第 15 章"点到直线距离/弦长公式"</strong>：高考大题里"直线与曲线相交求三角形面积"，就是"½·弦长·第三个顶点到这条弦的距离"——弦长用本章韦达整体写，高用第 15 章的点到直线距离公式，两章一碰就出答案。本章 C2 已把这个结合点挑明（面积 = ½·弦长·d）。（综合原理说明，非新数值题）</li>
 <li><strong>本章"焦点三角形面积" + 第 08 章解三角形"余弦定理/面积公式"</strong>：椭圆上一点 P 与两焦点 F<sub>1</sub>、F<sub>2</sub> 围成的三角形，|PF<sub>1</sub>|+|PF<sub>2</sub>|=2a 来自椭圆定义，再配上余弦定理和面积公式，才推得 S=b<sup>2</sup>tan(θ/2)。既有真题落点：本章 C3（2025 新高考Ⅰ卷第 18 题第 (1) 问）先用 e=c/a 与 |AB|=√(a<sup>2</sup>+b<sup>2</sup>) 求椭圆方程，是"定义+解三角形边角关系"的典型结合。</li>
 </ul>
-<h2>本章与前后章</h2>
+</div><div class="sec sec-meta"><h2>本章与前后章</h2>
 <p>本章是解析几何的<strong>压轴章</strong>：前接<strong>第 08 章解三角形</strong>（余弦定理、焦点三角形面积 S=b<sup>2</sup>tan(θ/2) 的推导底子）和<strong>第 15 章直线与圆</strong>（点到直线距离、联立消元、弦长公式全是本章复用的工具）；向后直接通向<strong>高考解答题压轴</strong>（新高考Ⅰ卷圆锥曲线解答题，如本章 C3 的 2025 新高考Ⅰ卷第 18 题第 (1) 问）。学完这章，椭圆/双曲线/抛物线的定义、离心率、焦点三角形、联立韦达流程你就都有了，手里这套"设而不求"骨架，是全卷倒数第二道大题的主力打法。</p>
-<h2>高考怎么考</h2>
-<p>本章是新高考Ⅰ卷<strong>解答题压轴的常客</strong>：小题考离心率与基本性质（如 C1 的 2025 新高考Ⅰ卷第 3 题双曲线离心率 e=2√2、C2 的 2024 新高考Ⅰ卷第 12 题），解答题第 1 问求方程/离心率/焦点三角形（如 C3 的 2025 新高考Ⅰ卷第 18 题第 (1) 问），第 2 问是定点、定值、范围类设而不求大题（如 C4 点差法求 D 的横坐标 64/25）。难度全卷最高一档，但流程固定——设线、联立、Δ、韦达、代目标，想通原理就是"套路分"；丢分大多丢在漏写 Δ&gt;0、忘讨论斜率不存在、以及不会把几何条件翻译成韦达整体。</p></section><section class="chapter" id="ch-17"><div class="ch-head" data-no="17"><div class="ch-no">第17章</div><h1 class="ch-title">计数原理（排列、组合、二项式定理）</h1><div class="ch-sub">板块：概率统计 ｜ 前置：第 02 章 ｜ 老教材：选修2-3 第1章 ｜ 新教材：选择性必修三 第6章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后学习）">老教材·选修2-3</a><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后对标）">新教材·选择性必修第三册</a><a href="../公式/高中数学公式速查手册.html#ch-17" title="本章公式速查（按章手册，直达本章）">公式速查手册</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
+</div><div class="sec sec-meta"><h2>高考怎么考</h2>
+<p>本章是新高考Ⅰ卷<strong>解答题压轴的常客</strong>：小题考离心率与基本性质（如 C1 的 2025 新高考Ⅰ卷第 3 题双曲线离心率 e=2√2、C2 的 2024 新高考Ⅰ卷第 12 题），解答题第 1 问求方程/离心率/焦点三角形（如 C3 的 2025 新高考Ⅰ卷第 18 题第 (1) 问），第 2 问是定点、定值、范围类设而不求大题（如 C4 点差法求 D 的横坐标 64/25）。难度全卷最高一档，但流程固定——设线、联立、Δ、韦达、代目标，想通原理就是"套路分"；丢分大多丢在漏写 Δ&gt;0、忘讨论斜率不存在、以及不会把几何条件翻译成韦达整体。</p></div></section><section class="chapter" id="ch-17"><div class="ch-head" data-no="17"><div class="ch-no">第17章</div><h1 class="ch-title">计数原理（排列、组合、二项式定理）</h1><div class="ch-sub">板块：概率统计 ｜ 前置：第 02 章 ｜ 老教材：选修2-3 第1章 ｜ 新教材：选择性必修三 第6章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后学习）">老教材·选修2-3</a><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后对标）">新教材·选择性必修第三册</a><a href="../公式/高中数学公式速查手册.html#ch-17" title="本章公式速查（按章手册，直达本章）">公式速查手册</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
 <p><strong>本章本质核心</strong>：计数原理的本质是"分类相加、分步相乘"——一件事分几类办法，任选一类就完事，各类相加（加）；一件事要分几步，每步都做完才算完，步步相乘（乘）。本章排列 A(n,m)、组合 C(n,m)、二项式定理全是在回答"有多少种"这一个问题，所有公式都是这两条计数规则的展开：排列是"分步排队"、组合是"分步选人再去掉顺序"、二项式是"n 个 (a+b) 连乘后按次数归类"。</p>
 <p class = "baihua why"><span class = "tag">为什么有用</span>学了它，排队、分组、抽样、二项式展开求系数这类"数有多少种"的题就能自己推出来——不靠死背公式，想通"分类相加、分步相乘"两条规则，A(n,m)、C(n,m)、通项公式都是从这两条自然长出来的。</p>
 </blockquote>
 <hr />
-<h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
+<div class="sec sec-meta"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
 <ol>
 <li>从 3 个人中选 1 人当组长，有几种选法？</li>
 <li>从 3 个人中选 2 人排成一排，有几种排法？</li>
@@ -8434,14 +8443,14 @@ A. √2　　B. 2　　C. √7　　D. 2√2</p>
 <li>计算 5  ×  4  ×  3。</li>
 </ol>
 <p><strong>判定</strong>：5 题答对 4 题以上 → 进章。</p>
-<h2 class = "goal">② 学习目标</h2>
+</div><div class="sec sec-meta"><h2 class = "goal">② 学习目标</h2>
 <ul>
 <li>理解并区分分类加法计数原理与分步乘法计数原理</li>
 <li>掌握排列、组合的概念与公式</li>
 <li>会解决典型计数问题（相邻/不相邻/有限制位置）</li>
 <li>掌握二项式定理与通项公式（求指定项/系数）</li>
 </ul>
-<h2 class = "body">③ 正文讲解</h2>
+</div><div class="sec sec-meta"><h2 class = "body">③ 正文讲解</h2>
 <p><strong>本章结构导图</strong>：</p>
 <pre><code>计数原理
 ├─ 3.1 两大原理 ── 分类用加、分步用乘（一切的地基）
@@ -8562,7 +8571,7 @@ A. √2　　B. 2　　C. √7　　D. 2√2</p>
 <p><strong>适用</strong>：把 n 个<strong>相同</strong>的球分给 k 个盒子，每盒至少 1 个，分法  =  <strong>C(n−1, k−1)</strong>。
 道理：n 个球排成一排，中间 n−1 个缝插 k−1 块隔板。
 例：10 个相同球放 3 盒每盒至少 1，C(9,2)  =  36。</p>
-<h2 class = "ex2">④ 例题详解（先做再看）</h2>
+</div><div class="sec sec-meta"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
 <p class = "ex"><span class = "tag">例题</span><strong>例 1（分步乘法）</strong>：从 4 名男生、3 名女生中各选 1 人参加活动，有几种选法？</p>
 <blockquote>
 <p>自己做：分两步，乘起来。</p>
@@ -8589,7 +8598,7 @@ A. √2　　B. 2　　C. √7　　D. 2√2</p>
 <p>解：T₍<sub>k+1</sub>₎  =  C(5,k)·x<sup>5−k</sup>·2<sup>k</sup>。令 5 − k  =  3 ⇒ k  =  2。
 系数  =  C(5,2)·2<sup>2</sup>  =  10·4  =  40。
 要点：<strong>通项公式：C(n,k)·a<sup>n−k</sup>·b<sup>k</sup>，先定 k 再算系数</strong>。</p>
-<h2 class = "out">⑤ 出口检测</h2>
+</div><div class="sec sec-meta"><h2 class = "out">⑤ 出口检测</h2>
 <p><strong>自测（15 分钟，每题 2 分）</strong>：</p>
 <ol>
 <li>计算 C(6, 2)。</li>
@@ -8600,7 +8609,7 @@ A. √2　　B. 2　　C. √7　　D. 2√2</p>
 </ol>
 <p><strong>真题验收</strong>：2020–2024 新高考Ⅰ卷计数原理小题 1~2 道（排列组合/二项式，多在选择题 8–14 题区间）：每题 3 分钟、全对过关。</p>
 <p><strong>过关标准</strong>：自测 ≥ 10 分 且 真题全对 → 打卡，进入 18 章。</p>
-<h2>课后习题（分层练习）</h2>
+</div><div class="sec sec-hw"><h2>课后习题（分层练习）</h2>
 <h3>A 基础巩固</h3>
 <p><strong>A1.</strong>【分类/分步原理】书架上层 6 本数学书、下层 5 本语文书。(1) 任取 1 本有几种？(2) 各取 1 本有几种？</p>
 <p><strong>A2.</strong>【排列】从 8 人中选 3 人分别担任班长、学习委员、文娱委员，有多少种？</p>
@@ -8617,7 +8626,7 @@ A. √2　　B. 2　　C. √7　　D. 2√2</p>
 <p><strong>C1.</strong>【枚举计数·2024 新高考Ⅰ卷第 14 题】甲、乙两人各有四张卡片：甲卡 {1,3,5,7}，乙卡 {2,4,6,8}。两人进行四轮比赛，每轮各自从手中随机选一张比较大小，大者得 1 分，用后弃置。求四轮比赛后甲的总得分不小于 2 的概率。</p>
 <p><strong>C2.</strong>【计数+期望·2025 新高考Ⅰ卷第 14 题】一个箱子里有 5 个相同的球，分别标 1~5 号。每次取一颗、有放回地取三次，记"至少被取到一次的不同球的个数"为 X，求 E(X)。（提示：用本章的计数思想，配合下一章期望的线性性。）</p>
 <p><strong>C3.</strong>【二项式高考高频题型】求 (x<sup>2</sup> + 1/x)<sup>6</sup> 展开式中的常数项。</p>
-<h2 class = "pit">⑥ 常见坑清单</h2>
+</div><div class="sec sec-meta"><h2 class = "pit">⑥ 常见坑清单</h2>
 <ul>
 <li><strong>先判断"排列 or 组合"</strong>：出现"排队/顺序/编号/角色"→ 排列；"选人/分组/抽样"→ 组合。</li>
 <li>平均分组要除以重复：3 组每组 2 人（6 人），C(6,2)C(4,2)C(2,2)/3!。</li>
@@ -8627,7 +8636,7 @@ A. √2　　B. 2　　C. √7　　D. 2√2</p>
 <li>通项是"第 k+1 项"：求第 3 项时 k  =  2，不是 3。</li>
 </ul>
 <hr />
-<h2>本章公式速查表</h2>
+</div><div class="sec sec-meta"><h2>本章公式速查表</h2>
 <blockquote>
 <p>排列组合部分：修订版手册未单列"排列组合"专章（其第十一部分为概率），本表按人教A版2019选必三第6章主线整理；排列数/组合数/二项式定理属常识性公式，口径与教材一致。</p>
 </blockquote>
@@ -8763,7 +8772,7 @@ A. √2　　B. 2　　C. √7　　D. 2√2</p>
 <li>实算复核（n = 3）：1·3+2·3+3·1  =  12；n·2<sup>n−1</sup>  =  3·4  =  12 ✓。</li>
 <li>记忆要点：带系数 k·C(n,k) 求和 → 求导；不带系数 → 直接令 x = 1。</li>
 </ul>
-<h2>高级方法·进阶</h2>
+</div><div class="sec sec-meta"><h2>高级方法·进阶</h2>
 <p>本章的核心技巧（捆绑法、插空法、优先位置、隔板法）<strong>已全部包含在教材主线（3.4、3.6）中</strong>，<strong>不超纲高级方法手册中无"计数原理"的专属进阶节</strong>。下面把主线里几个最容易错的操作规范点透，均在课标范围内。</p>
 <p><strong>操作规范 1：捆绑/插空的"内部别漏"（适用信号→步骤）</strong></p>
 <ul>
@@ -8785,7 +8794,7 @@ A. √2　　B. 2　　C. √7　　D. 2√2</p>
 </ul>
 <hr />
 <div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. C(6,2) = 15；2. 5! = 120；3. C(6,2) = 15；4. k = 2：C(4,2) = 6；5. 白球捆绑成 1 个整体，与 3 红球共 4 个位置放 1 个整体 + 3 个红球：C(4,1) = 4（或 4!/3! = 4）。</p></div></div>
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A1.</strong> (1) 分类加法：6+5=<strong>11 种</strong>。(2) 分步乘法：6×5=<strong>30 种</strong>。
+</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A1.</strong> (1) 分类加法：6+5=<strong>11 种</strong>。(2) 分步乘法：6×5=<strong>30 种</strong>。
 <strong>A2.</strong> 三人分三个不同职务（有序）：A(8,3)=8×7×6=<strong>336 种</strong>。
 <strong>A3.</strong> 两点一线无顺序：C(10,2)=10×9/2=<strong>45 条</strong>。
 <strong>A4.</strong> C(7,3)=35，C(7,4)=C(7,3)=35（对称性），差 = <strong>0</strong>。选 3 个 = 留下 4 个，所以相等。
@@ -8798,23 +8807,23 @@ A. √2　　B. 2　　C. √7　　D. 2√2</p>
 </div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · C 组</button><div class="ans-body"><p><strong>C1.</strong> 把乙的 4 张卡随机配给甲的 4 张（共 4!=24 种配对）。枚举得分：甲 1 谁都比不过（恒 0 贡献），甲 3 只赢乙 2，甲 5 赢乙 2、4，甲 7 赢乙 2、4、6。枚举 24 种配对得分分布：得 0 分 1 种、得 1 分 11 种、得 2 分 11 种、得 3 分 1 种。得分 ≥2 = 11+1 = 12 种。概率 = 12/24 = <strong>1/2</strong>。
 <strong>C2.</strong> 用期望线性性（下一章详述）：设指示变量 I<sub>i</sub> = 1 表示第 i 号球至少被取到一次。X = I<sub>1</sub>+…+I<sub>5</sub>。每个号被取到至少一次的概率 = 1 − (4/5)<sup>3</sup> = 61/125。E(X) = 5×61/125 = <strong>61/25 = 2.44</strong>。
 <strong>C3.</strong> 通项 T₍<sub>k+1</sub>₎=C(6,k)(x<sup>2</sup>)<sup>6−k</sup>(1/x)<sup>k</sup>=C(6,k)x<sup>12−2k</sup>·x<sup>−k</sup>=C(6,k)x<sup>12−3k</sup>。令 12−3k=0 ⇒ k=4。常数项=C(6,4)=C(6,2)=<strong>15</strong>。</p>
-</div></div><h2>一通百通</h2>
+</div></div></div><div class="sec sec-meta"><h2>一通百通</h2>
 <p>这一章的"通用骨架"只有三步：<strong>① 先判断这件事是"分类"还是"分步"（"或"用加、"再"用乘）→ ② 再判断选出来要不要顺序（要顺序用 A、不要顺序用 C）→ ③ 最后按约束处理（相邻捆、不相邻插、特殊先排、均分除阶乘）</strong>。二项式求系数也走同一条路：写通项、定 k、代回算系数。会解一道计数题，就会解所有计数题——因为不管题目穿什么马甲（排队、分组、抽样、展开式），它骨子里都是在"数有多少种"。这套"先判分类分步、再判有序无序"的骨架，下一章概率算"有利情况数/总情况数"时还会直接复用。</p>
-<h2>跨章结合</h2>
+</div><div class="sec sec-meta"><h2>跨章结合</h2>
 <ul>
 <li><strong>本章计数原理 + 第 18 章概率 → 古典概型与期望综合题</strong>：古典概型 P(A)=有利事件数/总事件数，分子分母全靠本章排列组合去数；再叠上一章期望的线性性，就成了"先计数、再求 E(X)"的综合题。本章 C1（2024 新高考Ⅰ卷第 14 题）正是先枚举 24 种配对计数、再数得分≥2 的 12 种求概率；C2（2025 新高考Ⅰ卷第 14 题）则是把计数思想与下一章期望线性性结合求 E(X)=61/25。会单独计数不够，得会把数出来的"种数"翻译成概率和期望，两章才算真正接上。</li>
 <li><strong>本章 + 第 20 章附录（错位排列、隔板法）→ 计数速算模型</strong>：错位排列 D<sub>2</sub>=1、D<sub>3</sub>=2、D<sub>4</sub>=9、D<sub>5</sub>=44，隔板法 C(n−1,k−1)，都是本章"分类/分步"原理在特殊模型下的速算结论（附录已收录）。想通它们仍是分步乘法的展开，只是把固定 n 的结果背下来省时间，就不会在该用分步时误套捷径。</li>
 </ul>
-<h2>本章与前后章</h2>
+</div><div class="sec sec-meta"><h2>本章与前后章</h2>
 <p>计数原理（17）前面接第 02 章函数（门槛只需会乘除与阶乘概念），是概率统计板块的第一站；它后面直接接<strong>第 18 章概率</strong>——古典概型里"有利基本事件数/总基本事件数"，分子分母全靠本章排列组合去数。学完这一章，你手里有了概率统计的"计数器"：不会计数，概率题就是空中楼阁；同时本章也是第 19 章统计里"抽样数、列联表频数"等计数操作的底层工具。</p>
-<h2>高考怎么考</h2>
-<p>新高考Ⅰ卷里计数原理多以<strong>小题</strong>出现（排列组合、二项式定理，选择题 8–14 题区间，每年 1~2 道），偶尔与概率、期望综合成解答题一问。典型考法：排队相邻/不相邻（捆绑插空）、平均分组、二项式展开求指定项系数或常数项；2024、2025 新高考Ⅰ卷第 14 题就是计数与概率/期望综合的代表（本章 C1、C2 已收录）。难度中档、套路固定，核心就是"先判分类分步、再判有序无序"两步走，是概率统计板块里必须拿稳的送分题。</p></section><section class="chapter" id="ch-18"><div class="ch-head" data-no="18"><div class="ch-no">第18章</div><h1 class="ch-title">概率</h1><div class="ch-sub">板块：概率统计 ｜ 前置：第 17 章 ｜ 老教材：选修2-3 第2章 ｜ 新教材：选择性必修三 第7章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后学习）">老教材·选修2-3</a><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后对标）">新教材·选择性必修第三册</a><a href="../公式/高中数学公式速查手册.html#ch-18" title="本章公式速查（按章手册，直达本章）">公式速查手册</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
+</div><div class="sec sec-meta"><h2>高考怎么考</h2>
+<p>新高考Ⅰ卷里计数原理多以<strong>小题</strong>出现（排列组合、二项式定理，选择题 8–14 题区间，每年 1~2 道），偶尔与概率、期望综合成解答题一问。典型考法：排队相邻/不相邻（捆绑插空）、平均分组、二项式展开求指定项系数或常数项；2024、2025 新高考Ⅰ卷第 14 题就是计数与概率/期望综合的代表（本章 C1、C2 已收录）。难度中档、套路固定，核心就是"先判分类分步、再判有序无序"两步走，是概率统计板块里必须拿稳的送分题。</p></div></section><section class="chapter" id="ch-18"><div class="ch-head" data-no="18"><div class="ch-no">第18章</div><h1 class="ch-title">概率</h1><div class="ch-sub">板块：概率统计 ｜ 前置：第 17 章 ｜ 老教材：选修2-3 第2章 ｜ 新教材：选择性必修三 第7章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后学习）">老教材·选修2-3</a><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后对标）">新教材·选择性必修第三册</a><a href="../公式/高中数学公式速查手册.html#ch-18" title="本章公式速查（按章手册，直达本章）">公式速查手册</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
 <p>公式速查：修订版 第11部分（概率）</p>
 <p><strong>本章本质核心</strong>：概率的本质是"随机事件的面积/份额"——一件事发生的可能性大小，就是它在全部可能结果里占的那一份。古典概型是"公平地数个数"（有利份数/总份数），几何概型是"比面积（长度、体积）"，条件概率是"把已知条件当作新的全部、在缩小的范围里重新数份额"；期望 E(X) = Σx<sub>i</sub>p<sub>i</sub> 则是"按每份的概率加权求平均"。本章互斥、独立、二项/超几何/正态分布、全概率，全是这一个"算份额"原理的变体。</p>
 <p class = "baihua why"><span class = "tag">为什么有用</span>学了它，"某件事发生的可能性多大""这个方案平均收益多少、稳不稳"这类题就能落地——古典概型数份数、独立重复套二项、不放回用超几何，想通"概率 = 份额"，分布列和期望就是份额的加总，而不是背出来的表格。</p>
 </blockquote>
 <hr />
-<h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
+<div class="sec sec-meta"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
 <ol>
 <li>掷一枚硬币，正面朝上的概率是多少？</li>
 <li>掷一枚骰子，点数为 3 的概率？</li>
@@ -8823,7 +8832,7 @@ A. √2　　B. 2　　C. √7　　D. 2√2</p>
 <li>从 1~10 中随机取一个数，取到偶数的概率？</li>
 </ol>
 <p><strong>判定</strong>：5 题答对 4 题以上 → 进章。</p>
-<h2 class = "goal">② 学习目标</h2>
+</div><div class="sec sec-meta"><h2 class = "goal">② 学习目标</h2>
 <ul>
 <li>掌握古典概型（等可能事件）概率计算</li>
 <li>掌握互斥事件、对立事件、条件概率、独立事件</li>
@@ -8831,7 +8840,7 @@ A. √2　　B. 2　　C. √7　　D. 2√2</p>
 <li>掌握二项分布、超几何分布、正态分布（高频考点）</li>
 <li>能完成高考概率解答题（含新情境，2023 起位置常在 18–19 题）</li>
 </ul>
-<h2 class = "body">③ 正文讲解</h2>
+</div><div class="sec sec-meta"><h2 class = "body">③ 正文讲解</h2>
 <p><strong>本章结构导图</strong>：</p>
 <pre><code>概率
 ├─ 3.1 古典概型 ── 数&quot;有利情况/总情况&quot;
@@ -8943,7 +8952,7 @@ E(X<sup>2</sup>)  =  0·0.3+1·0.5+4·0.2  =  1.3。D  =  1.3 − 0.
 要点：分情况（选哪袋），各算各的再加起来。</p>
 </blockquote>
 <p><strong>小结</strong>：全概率就是"分情况算概率再加权"。<strong>进阶/选学</strong>：反过来"已知结果求原因"的概率叫贝叶斯公式 P(B<sub>k</sub>|A) = P(B<sub>k</sub>)P(A|B<sub>k</sub>)/ΣP(B<sub>i</sub>)P(A|B<sub>i</sub>)，它在医学检测、垃圾邮件过滤里天天用，新教材把它并入条件概率处理，会套全概率公式即可。</p>
-<h2 class = "ex2">④ 例题详解（先做再看）</h2>
+</div><div class="sec sec-meta"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
 <p class = "ex"><span class = "tag">例题</span><strong>例 1（古典概型）</strong>：同时掷两枚骰子，求点数之和为 7 的概率。</p>
 <blockquote>
 <p>自己做：总数 36，数一数和为 7 的。</p>
@@ -9006,7 +9015,7 @@ P(k_B = 0) = (1/2)<sup>2</sup> = 1/4，P(k_B = 1) = C(2,1)(1
 </ul>
 <p>E(X)  =  np  =  3 × (4/9)  =  <strong>4/3</strong>。</p>
 <p>要点：<strong>"每组独立、成功概率恒定"→ 二项分布</strong>；先把底层小概率（4/9）算准，再套二项分布列。（对应《高级方法手册》6.4 分布模型。）</p>
-<h2 class = "out">⑤ 出口检测</h2>
+</div><div class="sec sec-meta"><h2 class = "out">⑤ 出口检测</h2>
 <p><strong>自测（20 分钟，每题 2 分）</strong>：</p>
 <ol>
 <li>掷一枚骰子两次，两次点数相同的概率。</li>
@@ -9017,7 +9026,7 @@ P(k_B = 0) = (1/2)<sup>2</sup> = 1/4，P(k_B = 1) = C(2,1)(1
 </ol>
 <p><strong>真题验收</strong>：完成 2020–2024 新高考Ⅰ卷<strong>概率解答题</strong> 1 道（分布列+期望，2024 含正态情境）：独立完成、25 分钟内、得分 ≥ 80% → 过关。</p>
 <p><strong>过关标准</strong>：自测 ≥ 10 分 且 真题达标 → 打卡。</p>
-<h2>课后习题（分层练习）</h2>
+</div><div class="sec sec-hw"><h2>课后习题（分层练习）</h2>
 <h3>A 基础巩固</h3>
 <p><strong>A1.</strong>【古典概型】掷一枚均匀骰子，出现偶数点的概率。</p>
 <p><strong>A2.</strong>【互斥对立】P(A)  =  0.7，求 P(A 的对立事件)。</p>
@@ -9035,7 +9044,7 @@ P(k_B = 0) = (1/2)<sup>2</sup> = 1/4，P(k_B = 1) = C(2,1)(1
 A. P(X&gt;2) &gt; 0.2　　B. P(X&gt;2) &lt; 0.5　　C. P(Y&gt;2) &gt; 0.5　　D. P(Y&gt;2) &lt; 0.8</p>
 <p><strong>C2.</strong>【计数+期望·2025 新高考Ⅰ卷第 14 题】箱子里 5 个球分别标 1~5，有放回取 3 次，记至少被取到一次的不同球个数为 X，求 E(X)。</p>
 <p><strong>C3.</strong>【概率枚举·2024 新高考Ⅰ卷第 14 题】甲卡 {1,3,5,7}、乙卡 {2,4,6,8}，四轮各出一卡比大小，大者得 1 分、用后弃置。求四轮后甲总得分不小于 2 的概率。</p>
-<h2 class = "pit">⑥ 常见坑清单</h2>
+</div><div class="sec sec-meta"><h2 class = "pit">⑥ 常见坑清单</h2>
 <ul>
 <li><strong>互斥 ≠ 独立</strong>：互斥事件 P(AB)  =  0，独立事件 P(AB)  =  P(A)P(B)——两个概念方向相反。</li>
 <li>条件概率 P(A|B) 分母是 P(B)，<strong>不是无条件概率</strong>。</li>
@@ -9045,7 +9054,7 @@ A. P(X&gt;2) &gt; 0.2　　B. P(X&gt;2) &lt; 0.5　　C. P(Y&gt;2) &gt; 0.5　�
 <li>决策题：期望相等时比方差（风险），别只停在期望。</li>
 </ul>
 <hr />
-<h2>本章公式速查表</h2>
+</div><div class="sec sec-meta"><h2>本章公式速查表</h2>
 <blockquote>
 <p>与《高中数学常用公式·修订版》第十一部分"概率"核对一致；数字特征（期望/方差）口径与教材一致。</p>
 </blockquote>
@@ -9166,7 +9175,7 @@ A. P(X&gt;2) &gt; 0.2　　B. P(X&gt;2) &lt; 0.5　　C. P(Y&gt;2) &gt; 0.5　�
 <li class = "baihua"><span class = "tag">大白话</span>把 A 按它发生的几种前提拆开，各算各的再加权求和。</li>
 <li>用的时候：多阶段、"先选哪袋再抽一件"这种题用它；反过来"已知结果求原因"用贝叶斯，会套全概率即可。</li>
 </ul>
-<h2>高级方法·进阶</h2>
+</div><div class="sec sec-meta"><h2>高级方法·进阶</h2>
 <blockquote>
 <p>对应《不超纲高级方法手册》六.6.1～6.4。</p>
 </blockquote>
@@ -9238,7 +9247,7 @@ A. P(X&gt;2) &gt; 0.2　　B. P(X&gt;2) &lt; 0.5　　C. P(Y&gt;2) &gt; 0.5　�
 <p>（高级方法手册·6.4）</p>
 <hr />
 <div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. 6/36 = 1/6；2. P(A∪B) = 0.4 + 0.5 − 0.4·0.5 = 0.7；3. 4/10 = 0.4；C(4,2)/C(10,2) = 6/45 = 2/15；4. E = 2.5，D = 5·0.5·0.5 = 1.25；5. E(X) = 0·0.3 + 1·0.5 + 2·0.2 = 0.9。</p></div></div>
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A1.</strong> 偶数点 {2,4,6} 共 3 种，P = 3/6 = <strong>1/2</strong>。
+</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A1.</strong> 偶数点 {2,4,6} 共 3 种，P = 3/6 = <strong>1/2</strong>。
 <strong>A2.</strong> P(<span class="ol">A</span>) = 1 − 0.7 = <strong>0.3</strong>。
 <strong>A3.</strong> 第一红后剩 4 红 3 白，P = 4/7。
 <strong>A4.</strong> E = 1·0.2+2·0.5+3·0.3 = 0.2+1+0.9 = <strong>2.1</strong>。
@@ -9251,23 +9260,23 @@ A. P(X&gt;2) &gt; 0.2　　B. P(X&gt;2) &lt; 0.5　　C. P(Y&gt;2) &gt; 0.5　�
 </div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · C 组</button><div class="ans-body"><p><strong>C1.</strong> <strong>BC</strong>。X~N(1.8,0.1<sup>2</sup>)，2=1.8+2×0.1=μ+2σ，P(X&gt;2)=0.5−0.954/2=0.023&lt;0.5，故 A 错 B 对。Y~N(2.1,0.1<sup>2</sup>)，2=2.1−0.1=μ−σ，P(Y&gt;2)=0.5+0.3413=0.8413&gt;0.5，故 C 对 D 错。
 <strong>C2.</strong> E(X)=5·[1−(4/5)<sup>3</sup>]=5·61/125=<strong>61/25=2.44</strong>（期望线性性）。
 <strong>C3.</strong> 24 种配对枚举，得分 ≥2 共 12 种，P=12/24=<strong>1/2</strong>。</p>
-</div></div><h2>一通百通</h2>
+</div></div></div><div class="sec sec-meta"><h2>一通百通</h2>
 <p>这一章的"通用骨架"是四步：<strong>① 定随机变量 X 及其全部取值 → ② 判断用哪个模型（古典数份数、独立重复用二项、不放回用超几何、连续钟形用正态）→ ③ 算每个取值的概率并列表（回头验算 Σp<sub>i</sub>=1）→ ④ 求 E(X)/D(X) 做决策（先比期望，期望相同再比方差）</strong>。条件概率和全概率只是在第②步里"换个样本空间重新数份额"。会解一道概率解答题，就会解所有概率题——灯泡、小白鼠、投篮、质检，骨子里都是"列分布列→求期望→比方案"。这套骨架下一章统计里"用样本频率估计概率"还会接上。</p>
-<h2>跨章结合</h2>
+</div><div class="sec sec-meta"><h2>跨章结合</h2>
 <ul>
 <li><strong>第 17 章计数 + 本章概率 → 古典概型/超几何的"数份求概率"</strong>：袋中取球、卡片比大小这类题，第一步永远是用排列组合数清"总情况数"和"有利情况数"，再相除得概率。本章例 5（灯泡，苏州教研·专题57，原书p.193）先数清 50 个灯泡里甲厂一等品 27 个，再用超几何 C(27,k)C(23,2−k)/C(50,2) 列分布列；例 6（小白鼠）先把底层"A 有效只数&gt;B 有效只数"的概率 4/9 算准，再套二项分布。计数不准，后面概率全盘皆错。</li>
 <li><strong>本章概率 + 第 19 章统计 → 用样本估计总体概率与正态定参</strong>：本章 C1（2024 新高考Ⅰ卷第 9 题多选）就是把第 19 章的样本均值 <span class="ol">x</span>=2.1、样本标准差 s 当作正态分布的 μ、σ，把出口后亩收入 Y 定成 N(<span class="ol">x</span>,s<sup>2</sup>) 再套 3σ 比例判断——这正是"统计给参数、概率算区间"的握手处。</li>
 </ul>
-<h2>本章与前后章</h2>
+</div><div class="sec sec-meta"><h2>本章与前后章</h2>
 <p>概率（18）前面接<strong>第 17 章计数原理</strong>——古典概型的分子分母全靠排列组合去数，不会计数就列不出分布列；它后面接<strong>第 19 章统计</strong>——统计里"用样本频率估计总体概率""正态分布用样本均值 <span class="ol">x</span>、样本标准差 s 来定 μ、σ"，正是概率思想往"由样本推断总体"的延伸。本章例题 5（灯泡，E(X)=27/25=1.08）、例题 6（小白鼠，E(X)=4/3）就是全概率、二项分布的综合演练，把"算份额"这条主线走通，概率统计板块就立住了。</p>
-<h2>高考怎么考</h2>
-<p>新高考Ⅰ卷里概率是<strong>解答题主力</strong>（2023 起位置常在第 18–19 题区间），题型固定：新情境（比赛/质检/射击/药物对比）下列分布列、求期望方差、做方案决策；小题则考正态分布（如 2024 新高考Ⅰ卷第 9 题多选，本章 C1 已收录）、条件概率、古典概型计数（2024、2025 第 14 题，本章 C2、C3 已收录）。难度中档偏上，得分关键是"先判准模型（有放回二项、不放回超几何）、再列全分布列并验算 Σp=1"。它与 17 章计数、19 章统计共同构成概率统计解答题的完整链条。</p></section><section class="chapter" id="ch-19"><div class="ch-head" data-no="19"><div class="ch-no">第19章</div><h1 class="ch-title">统计</h1><div class="ch-sub">板块：概率统计 ｜ 前置：第 02 章 ｜ 老教材：必修3 第2章 ｜ 新教材：必修二 第9章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后学习）">老教材·必修3</a><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后对标）">新教材·必修第二册</a><a href="../公式/高中数学公式速查手册.html#ch-19" title="本章公式速查（按章手册，直达本章）">公式速查手册</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
+</div><div class="sec sec-meta"><h2>高考怎么考</h2>
+<p>新高考Ⅰ卷里概率是<strong>解答题主力</strong>（2023 起位置常在第 18–19 题区间），题型固定：新情境（比赛/质检/射击/药物对比）下列分布列、求期望方差、做方案决策；小题则考正态分布（如 2024 新高考Ⅰ卷第 9 题多选，本章 C1 已收录）、条件概率、古典概型计数（2024、2025 第 14 题，本章 C2、C3 已收录）。难度中档偏上，得分关键是"先判准模型（有放回二项、不放回超几何）、再列全分布列并验算 Σp=1"。它与 17 章计数、19 章统计共同构成概率统计解答题的完整链条。</p></div></section><section class="chapter" id="ch-19"><div class="ch-head" data-no="19"><div class="ch-no">第19章</div><h1 class="ch-title">统计</h1><div class="ch-sub">板块：概率统计 ｜ 前置：第 02 章 ｜ 老教材：必修3 第2章 ｜ 新教材：必修二 第9章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后学习）">老教材·必修3</a><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后对标）">新教材·必修第二册</a><a href="../公式/高中数学公式速查手册.html#ch-19" title="本章公式速查（按章手册，直达本章）">公式速查手册</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
 <p>公式速查：修订版 第12部分（统计）</p>
 <p><strong>本章本质核心</strong>：统计的本质是"用一部分推断整体"——总体太大测不完，就抽一个有代表性的样本，用样本的数字去估计总体的数字，同时守住"样本≠整体"的边界。三种抽样（让样本有代表性）、频率直方图（用图看样本长什么样）、平均数方差（样本的中心与波动）、回归直线（用样本散点配一条估测线）、卡方检验（用样本频数判断两变量有没有关系），全是在"用样本说话"；每一步估计都要记得它来自样本、会有偏差。</p>
 <p class = "baihua why"><span class = "tag">为什么有用</span>学了它，"从一部分数据推断整体""两个现象到底有没有关系"这类现实问题就有了章法——抽样定代表性、直方图看分布、回归估趋势、卡方判相关，想通"用样本说话、守住样本≠整体"，就不会把估计当因果。</p>
 </blockquote>
 <hr />
-<h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
+<div class="sec sec-meta"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
 <ol>
 <li>求 2、4、6 的平均数。</li>
 <li>方差是描述什么的？（离散程度 or 集中程度）</li>
@@ -9276,7 +9285,7 @@ A. P(X&gt;2) &gt; 0.2　　B. P(X&gt;2) &lt; 0.5　　C. P(Y&gt;2) &gt; 0.5　�
 <li>判断：平均数越大，数据一定越集中吗？</li>
 </ol>
 <p><strong>判定</strong>：5 题答对 4 题以上 → 进章。</p>
-<h2 class = "goal">② 学习目标</h2>
+</div><div class="sec sec-meta"><h2 class = "goal">② 学习目标</h2>
 <ul>
 <li>掌握三种抽样方法：简单随机抽样、分层抽样、系统抽样</li>
 <li>会读频率分布直方图、频率分布表</li>
@@ -9284,7 +9293,7 @@ A. P(X&gt;2) &gt; 0.2　　B. P(X&gt;2) &lt; 0.5　　C. P(Y&gt;2) &gt; 0.5　�
 <li>掌握回归直线（最小二乘）与相关系数</li>
 <li>掌握独立性检验（卡方检验）的步骤（2020 新高考Ⅰ卷考过）</li>
 </ul>
-<h2 class = "body">③ 正文讲解</h2>
+</div><div class="sec sec-meta"><h2 class = "body">③ 正文讲解</h2>
 <p><strong>本章结构导图</strong>：</p>
 <pre><code>统计
 ├─ 3.1 抽样方法 ── 简单随机/系统/分层
@@ -9412,7 +9421,7 @@ A. P(X&gt;2) &gt; 0.2　　B. P(X&gt;2) &lt; 0.5　　C. P(Y&gt;2) &gt; 0.5　�
 解：ad−bc  =  400−140400  =  −140000。χ<sup>2</sup>  =  1000 × 140000<sup>2</sup>/(200 × 800 × 800 × 200)  =  765.6。远大于 10.828 ⇒ 有 99.9% 把握认为有关。
 要点：χ<sup>2</sup> 算出来和临界值比，越大越"铁"。</p>
 </blockquote>
-<h2 class = "ex2">④ 例题详解（先做再看）</h2>
+</div><div class="sec sec-meta"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
 <p class = "ex"><span class = "tag">例题</span><strong>例 1（分层抽样）</strong>：某校高一 500 人、高二 400 人、高三 300 人，按分层抽样抽 60 人，各年级抽多少人？</p>
 <blockquote>
 <p>自己做：按比例。</p>
@@ -9444,7 +9453,7 @@ b  =  5/5  =  1；a  =  <span class = "ol">y</span> − b·<span
 b  =  12.3/10  =  1.23；a  =  <span class = "ol">y</span> − b·<span class = "ol">x</span>  =  5 − 1.23 × 4  =  5 − 4.92  =  0.08。
 回归直线 <strong><span class = "hat">y</span>  =  1.23x + 0.08</strong>（验证：过样本中心 (4,5)，代入 1.23 × 4+0.08  =  5 ✓）。
 要点：<strong>分步算 <span class = "ol">x</span>、<span class = "ol">y</span>、两个求和再代公式</strong>，这正是高考"分步给分"的写法；用回归方程作预测时回答要带"大约/估计"。</p>
-<h2 class = "out">⑤ 出口检测</h2>
+</div><div class="sec sec-meta"><h2 class = "out">⑤ 出口检测</h2>
 <p><strong>自测（15 分钟，每题 2 分）</strong>：</p>
 <ol>
 <li>800 人中抽 40 人做调查，抽样比例是多少？</li>
@@ -9455,7 +9464,7 @@ b  =  12.3/10  =  1.23；a  =  <span class = "ol">y</span> − b
 </ol>
 <p><strong>真题验收</strong>：完成 2020 新高考Ⅰ卷<strong>统计解答题</strong>（独立性检验/回归）或 2021–2024 卷统计小题 1~2 道：独立完成、每题限时、全对 → 过关。</p>
 <p><strong>过关标准</strong>：自测 ≥ 10 分 且 真题达标 → 打卡。<strong>19 章全部完成后进入阶段 8：整卷真题模拟。</strong></p>
-<h2>课后习题（分层练习）</h2>
+</div><div class="sec sec-hw"><h2>课后习题（分层练习）</h2>
 <h3>A 基础巩固</h3>
 <p><strong>A1.</strong>【分层抽样】某厂三个车间分别有 300、200、500 人，按分层抽样抽 50 人，各车间抽多少？</p>
 <p><strong>A2.</strong>【平均数方差】数据 3、6、9，求平均数和方差。</p>
@@ -9472,7 +9481,7 @@ b  =  12.3/10  =  1.23；a  =  <span class = "ol">y</span> − b
 <p><strong>C1.</strong>【频率估计概率·2025 新高考Ⅰ卷第 15 题第 (1) 问】调查 1000 人列联表：患病人群中超声波正常 20、不正常 180；未患病人群中正常 780、不正常 20。记"超声波检查结果不正常者患该疾病的概率"为 P，求 P 的估计值。</p>
 <p><strong>C2.</strong>【独立性检验·2025 新高考Ⅰ卷第 15 题第 (2) 问】用上面列联表，根据小概率值 α = 0.001 的独立性检验，分析超声波检查结果是否与患该疾病有关。（临界值：α = 0.001 对应 10.828。）</p>
 <p><strong>C3.</strong>【分层抽样高考高频题型】某校高一、高二、高三人数比为 4:3:3，用分层抽样抽一个容量为 50 的样本，高一年级抽多少人？</p>
-<h2 class = "pit">⑥ 常见坑清单</h2>
+</div><div class="sec sec-meta"><h2 class = "pit">⑥ 常见坑清单</h2>
 <ul>
 <li>直方图纵轴是"频率/组距"，<strong>面积才是频率</strong>——直接用纵轴数字当频率会错。</li>
 <li>方差公式分母是 n（总体）或 n−1（样本，高中一般用 n），跟教材口径一致即可。</li>
@@ -9482,7 +9491,7 @@ b  =  12.3/10  =  1.23；a  =  <span class = "ol">y</span> − b
 <li>平均数受极端值影响大，中位数不受——统计评价题里常考这个区别。</li>
 </ul>
 <hr />
-<h2>本章公式速查表</h2>
+</div><div class="sec sec-meta"><h2>本章公式速查表</h2>
 <blockquote>
 <p>与《高中数学常用公式·修订版》第十二部分"统计与统计案例"逐条核对一致。</p>
 </blockquote>
@@ -9599,7 +9608,7 @@ b  =  12.3/10  =  1.23；a  =  <span class = "ol">y</span> − b
 <li class="baihua"><span class="tag">大白话</span>独立性检验只说明两个分类变量在统计上有联系，不证明因果；算出"无关"也只是没有足够证据，不能断言它俩真没关系。</li>
 <li>用的时候：答题结尾那句"统计相关≠因果"不能省；别把检验结论说成"抽烟导致肺癌"。</li>
 </ul>
-<h2>高级方法·进阶</h2>
+</div><div class="sec sec-meta"><h2>高级方法·进阶</h2>
 <p>本章方法（抽样、读图、数字特征、回归、卡方）<strong>已全部包含在新教材主线</strong>中，<strong>不超纲高级方法手册中无"统计"的专属进阶节</strong>。下面把高考里最容易丢分的两个"判读规范"点透，均在课标范围内。</p>
 <p><strong>操作规范 1：统计量"平移缩放"口诀（适用信号→步骤）</strong></p>
 <ul>
@@ -9615,7 +9624,7 @@ b  =  12.3/10  =  1.23；a  =  <span class = "ol">y</span> − b
 </ul>
 <hr />
 <div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. 40/800 = 1/20 = 5%；2. <span class="ol">x</span> = 6，s<sup>2</sup> = (4+0+4)/3 = 8/3；3. 1；4. 样本中心 (<span class="ol">x</span>, <span class="ol">y</span>)；5. 强正线性相关（|r| 接近 1 且为正）。</p></div></div>
-<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A1.</strong> 总 1000，比例 50/1000=1/20。一车间 300/20=<strong>15</strong>，二车间 200/20=<strong>10</strong>，三车间 500/20=<strong>25</strong>。
+</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A1.</strong> 总 1000，比例 50/1000=1/20。一车间 300/20=<strong>15</strong>，二车间 200/20=<strong>10</strong>，三车间 500/20=<strong>25</strong>。
 <strong>A2.</strong> <span class="ol">x</span>=(3+6+9)/3=<strong>6</strong>。s<sup>2</sup>=[(3−6)<sup>2</sup>+0+(9−6)<sup>2</sup>]/3=(9+0+9)/3=<strong>6</strong>。
 <strong>A3.</strong> 频率=0.04×组距10=0.4。频数=500×0.4=<strong>200 人</strong>。
 <strong>A4.</strong> k=N/n=1000/50=<strong>20</strong>（每隔 20 抽 1 个）。
@@ -9628,17 +9637,17 @@ b  =  12.3/10  =  1.23；a  =  <span class = "ol">y</span> − b
 </div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · C 组</button><div class="ans-body"><p><strong>C1.</strong> "不正常者患疾病"= 不正常且患病的 180 ÷ 不正常合计 200 = <strong>9/10 = 0.9</strong>。
 <strong>C2.</strong> χ<sup>2</sup>=1000×(20×20−180×780)<sup>2</sup>/(200×800×800×200)=<strong>765.6</strong>。765.6 &gt; 10.828，故在 α=0.001 下，<strong>有 99.9% 的把握认为超声波检查结果与患该疾病有关</strong>。
 <strong>C3.</strong> 比例 4:3:3 共 10 份，高一占 4/10。高一抽 50×4/10=<strong>20 人</strong>。</p>
-</div></div><h2>一通百通</h2>
+</div></div></div><div class="sec sec-meta"><h2>一通百通</h2>
 <p>这一章的"通用骨架"是四步：<strong>① 抽样本（三种抽样按总体特征选，保证有代表性）→ ② 看数据（直方图看形状、茎叶图看原始）→ ③ 算样本数字（平均数定中心、方差看波动）→ ④ 用样本估整体（回归直线估趋势、卡方检验判两变量是否有关）</strong>。每一步都要记得：手里的是样本不是整体，结论带"估计/大约"，卡方结论还要补一句"统计相关≠因果"。会解一道统计解答题，就会解所有统计题——不管考分层抽样、回归还是独立性检验，骨子里都是"抽得正、算得准、估得留余地"。</p>
-<h2>跨章结合</h2>
+</div><div class="sec sec-meta"><h2>跨章结合</h2>
 <ul>
 <li><strong>第 18 章概率 + 本章统计 → "用样本频率估计概率"与独立性检验</strong>：本章 C1（2025 新高考Ⅰ卷第 15 题第 (1) 问）用列联表里"不正常且患病 180 ÷ 不正常合计 200"估计概率 P=0.9，C2（同卷第 (2) 问）再算 χ<sup>2</sup> 做独立性检验——这正是把统计的样本频数喂给概率、再用概率的小概率思想（临界值 10.828）下结论。统计出数据、概率出判断，两章在这道题里合流。</li>
 <li><strong>第 02 章函数 + 本章回归 → 一次函数作估测线</strong>：回归直线 <span class="hat">y</span>=bx+a 本质就是第 02 章的一次函数，斜率 b、截距 a 由样本最小二乘定出（本章例 4，b=1.23、a=0.08），相关系数 r 则用本章样本数据算。会一次函数的性质（必过某点、斜率正负），回归自检就快一倍。</li>
 </ul>
-<h2>本章与前后章</h2>
+</div><div class="sec sec-meta"><h2>本章与前后章</h2>
 <p>统计（19）前面接第 02 章函数（会平均数、方程即可）与<strong>第 18 章概率</strong>——统计里"用样本频率估计概率""正态分布用 <span class="ol">x</span> 当 μ、s 当 σ"，正是概率思想往"由样本推总体"的延伸；独立性检验的临界值分档也和概率的小概率事件一脉相承。它后面通向<strong>解答题第 18/19 题</strong>——新高考Ⅰ卷统计解答题固定在这一档，与概率题轮流登场。学完这一章，概率统计板块（17–19）全部走完，即可进入阶段 8 的整卷真题模拟。</p>
-<h2>高考怎么考</h2>
-<p>新高考Ⅰ卷里统计是<strong>统计解答题（第 18/19 题）常客</strong>：分层抽样计算、频率分布直方图读"三数"（众数/中位数/平均数）、最小二乘求回归直线（如本章例 4，b=1.23、a=0.08 的分步给分写法）、2×2 列联表独立性检验（本章 B10 的 χ<sup>2</sup>=50/3≈16.67、C2 的卡方结论）；小题则考抽样方法辨析、平均数方差的平移缩放性质。2025 新高考Ⅰ卷第 15 题就是"频率估计概率+独立性检验"的综合（本章 C1、C2 已收录）。得分关键：直方图纵轴别当频率用、回归必过样本中心自检、卡方下结论必带"统计相关≠因果"。</p></section><section class="chapter" id="ch-20"><div class="ch-head" data-no="20"><div class="ch-no">第20章</div><h1 class="ch-title">附录：不超纲公式与结论</h1><div class="ch-sub">这里是全部"不超纲纯公式 / 二级结论"的卡格式汇总，按板块分组。每条：公式独立成行 + 大白话 + 用的时候 + 记忆要点 + 出处。超纲项已全部下移到 ④ 选学·不考专区，本表不收录。</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../公式/高中数学公式速查手册.html#ch-20" title="本章公式速查（按章手册，直达本章）">公式速查手册</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><h2 class="gate">① 附录说明</h2>
+</div><div class="sec sec-meta"><h2>高考怎么考</h2>
+<p>新高考Ⅰ卷里统计是<strong>统计解答题（第 18/19 题）常客</strong>：分层抽样计算、频率分布直方图读"三数"（众数/中位数/平均数）、最小二乘求回归直线（如本章例 4，b=1.23、a=0.08 的分步给分写法）、2×2 列联表独立性检验（本章 B10 的 χ<sup>2</sup>=50/3≈16.67、C2 的卡方结论）；小题则考抽样方法辨析、平均数方差的平移缩放性质。2025 新高考Ⅰ卷第 15 题就是"频率估计概率+独立性检验"的综合（本章 C1、C2 已收录）。得分关键：直方图纵轴别当频率用、回归必过样本中心自检、卡方下结论必带"统计相关≠因果"。</p></div></section><section class="chapter" id="ch-20"><div class="ch-head" data-no="20"><div class="ch-no">第20章</div><h1 class="ch-title">附录：不超纲公式与结论</h1><div class="ch-sub">这里是全部"不超纲纯公式 / 二级结论"的卡格式汇总，按板块分组。每条：公式独立成行 + 大白话 + 用的时候 + 记忆要点 + 出处。超纲项已全部下移到 ④ 选学·不考专区，本表不收录。</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../公式/高中数学公式速查手册.html#ch-20" title="本章公式速查（按章手册，直达本章）">公式速查手册</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><div class="sec sec-gate"><h2 class="gate">① 附录说明</h2>
 <p>本附录收录苏州教研书中"不超纲公式与二级结论"里<strong>没进各章正文、也没进各章速查表</strong>的纯公式条目。各章能装下的结论都已经放在对应章节，本附录只收"放不下"的那一批。</p>
 <ul>
 <li>所有条目逐字来自原书（或八个整合代理的附录暂存文件），并标注（苏州教研·专题N，原书p.XX），可逐条回溯。</li>
@@ -9646,7 +9655,7 @@ b  =  12.3/10  =  1.23；a  =  <span class = "ol">y</span> − b
 <li>使用方式：考前扫一遍 ② 的速查表（必考，按板块定位自己不熟的那条）；③ 解题表是通用思维；④ 的选学·不考专区只作背景了解，<strong>不纳入学习计划</strong>。</li>
 </ul>
 <p><strong>编者注·本质回扣</strong>：为什么这些公式"各章装不下"、要单独开一章？说白了，每一章的速查表只收"跟着本章主线走、当场就要用"的公式，而这里的 54 张卡大多是"某些题的捷径"——比如错位排列、隔板法、焦点弦倒数关系，它们不改变任何一章的原理，只是在原理之上帮你省时间。所以附录不是知识的新大陆，而是主线的弹药库：<strong>主线是枪，这里是子弹</strong>。复习时先保主线，再顺路扫附录，别本末倒置。</p>
-<h2 class = "goal">② 本章公式速查表（必考·不超纲）</h2>
+</div><div class="sec sec-meta"><h2 class = "goal">② 本章公式速查表（必考·不超纲）</h2>
 <h3>集合逻辑</h3>
 <p>（本板块无未收录的纯公式——集合与逻辑的全部公式已在第 01 章速查表收齐，本附录不重复。）</p>
 <h3>函数</h3>
@@ -10097,7 +10106,7 @@ b  =  12.3/10  =  1.23；a  =  <span class = "ol">y</span> − b
 <blockquote>
 <p>八大数学思想（数形结合、分类整合、函数方程、转化化归、特殊一般、有限无限、或然必然、正难则反）与选择题八法、填空题四法为方法论清单，已并入方法手册与第 00 章，此处不重复收录。</p>
 </blockquote>
-<h2 class="body">③ 数学解题表（专题D·解题思维总表）</h2>
+</div><div class="sec sec-body"><h2 class="body">③ 数学解题表（专题D·解题思维总表）</h2>
 <blockquote>
 <p>这是全书的解题思维总表，源自波利亚"怎样解题"表。核心思想：不断变换问题、连续简化问题，把解数学题看成"化归"过程，最终归结为熟悉的基本问题。（苏州教研·专题D，原书p.207）</p>
 </blockquote>
@@ -10130,22 +10139,22 @@ b  =  12.3/10  =  1.23；a  =  <span class = "ol">y</span> − b
 <blockquote>
 <p class="baihua why"><span class="tag">为什么有用</span>高考的坑常常不是"不会"，而是"会但太慢"——错位排列、焦点弦倒数、三角不等式这类二级结论，现场推要两三分钟，记住了直接用只要十几秒；附录就是把"现场推导"变成"考前扫一遍就有印象"，把省下的时间留给压轴题。它不是多考几分的问题，而是"少丢不该丢的分、快做会做的题"。</p>
 </blockquote>
-<h2>一通百通</h2>
+</div><div class="sec sec-meta"><h2>一通百通</h2>
 <p>附录的"通用骨架"就三步：<strong>① 定位板块（这结论属于函数/数列/解析几何哪条线）→ ② 对号入座（它是我主线的延伸还是捷径？超纲与否？）→ ③ 带回主线（去对应章节找它的推导，能推出来才敢用）</strong>。一条二级结论，你能在自己会的主线里把它推出来，才算真的会；推不出来就只背不用的，考场上容易用错。会查一个板块的附录，就会查所有板块——因为附录永远是主线的影子，不是新的山。</p>
-<h2>跨章结合</h2>
+</div><div class="sec sec-meta"><h2>跨章结合</h2>
 <p>附录里的卡，本身就是跨章结合的产物，最典型的几处：
 - <strong>错位排列（专题54）⇔ 17 章计数原理</strong>：它是在排列公式之上"排除回位情况"的二级结论，直接用于排列组合小题的快速计算；
 - <strong>焦点弦倒数 1/|AF|+1/|BF|=2/p（专题45）⇔ 16 章圆锥曲线</strong>：它把抛物线焦点弦的长度问题压成一行公式，是"联立→韦达"的通法在抛物线上的速算版；
 - <strong>三角不等式 sinx&lt;x&lt;tanx（专题27）⇔ 06 章三角函数</strong>：它和 05 章导数放缩 e<sup>x</sup>≥x+1、lnx≤x−1 同属"用切线夹逼函数"一族，常在选填压轴里帮你快速判断大小。
 这三条的共同本质：<strong>附录的结论大多是把两章的原理拧在一起的捷径</strong>，所以用之前回主章找推导，用的时候才知道它凭什么成立。</p>
-<h2>本章与前后章</h2>
+</div><div class="sec sec-meta"><h2>本章与前后章</h2>
 <p>第 20 章不与任何一章构成前后依赖，它平行服务于 01–19 章：各章的速查表是"本章当场要用"的公式，附录收的是"各章装不下"的延伸结论，两者互补不重叠。使用时配合 00 章的总地图定位板块、配合方法手册理解结论的适用信号。考前一周的用法是"主线过一遍 + 附录扫一遍"：主线管会不会，附录管快不快。</p>
-<h2>高考怎么考</h2>
+</div><div class="sec sec-meta"><h2>高考怎么考</h2>
 <p>附录本身不直接对应卷面上的某一道题，它影响的是解题的<strong>速度与稳定性</strong>：错位排列（17 章）、焦点弦倒数关系（16 章）、三角不等式（06 章）这类结论，能直接用就能省出压轴题的思考时间；④ 选学·不考专区里的内容（定积分、参数方程、柯西不等式）新高考Ⅰ卷不考，知道了也不会出现在卷面上。所以附录的价值不是"多考几分"，而是"少丢不该丢的分、快做会做的题"——这正是二轮复习扫附录的意义。</p>
 <blockquote>
 <p><strong>🚫 以下内容新高考Ⅰ卷一律不考，已统一移到最后单独成区，不纳入学习计划</strong>。每条都写清了“是什么、当年考什么、现在为什么不考、保留什么价值”；想多理解可以看，为得分不必看。全书的边界始终是：不超纲的进正文/②速查表，超纲的停在④红线外。</p>
 </blockquote>
-<h2 class="ex2">④ 选学·不考专区（新高考Ⅰ卷不考·统一放最后）</h2>
+</div><div class="sec sec-ex2"><h2 class="ex2">④ 选学·不考专区（新高考Ⅰ卷不考·统一放最后）</h2>
 <blockquote>
 <p>下列各专题在老教材里是"必修3 / 选修2-2 / 选修4-1 / 选修4-4 / 选修4-5"，新课标与新高考Ⅰ卷已删去或改为不考。逐项说清"是什么、当年考什么、现在为什么不考、保留什么价值"。<strong>全部不纳入学习计划</strong>，知道即可。</p>
 </blockquote>
@@ -10199,7 +10208,7 @@ b  =  12.3/10  =  1.23；a  =  <span class = "ol">y</span> − b
 <li><strong>线性规划</strong>（专题41，p.144）：可行域顶点取最值，目标分选距型 z=ax+by、斜率型 z=(y−b)/(x−a)、距离型、面积型。新教材已删除，不纳入学习计划。</li>
 <li><strong>特征根 / 不动点递推</strong>（专题34）：分式递推"减根相除化等比、减根取倒化等差"，二阶递推特征方程 x<sup>2</sup>=px+q。属竞赛/超纲体系，数列章已标红线。</li>
 <li><strong>三视图 / 投影</strong>（专题18，p.66）：中心投影、平行投影（正投影/斜投影）。三视图已从新高考删除，仅作常识了解。</li>
-</ul></section>
+</ul></div></section>
 </main>
 <button id="topbtn" title="回到顶部">↑</button>
 <script>
@@ -10264,11 +10273,18 @@ b  =  12.3/10  =  1.23；a  =  <span class = "ol">y</span> − b
       btn.textContent=box.classList.contains('open')?'隐藏答案':'显示答案';
     });
   });
-  /* ===== 打印：只打印当前所在章节；题目版（隐藏答案）/ 答案版（含答案） ===== */
-  function printScope(withAns){
-    doc.body.classList.remove('print-ans');doc.body.classList.remove('print-one');
+  /* ===== 打印：只打印当前所在章节，三模式 =====
+     note=讲义（去题目去答案） q=题目卷（出口检测+课后习题） a=答案卷（自测答案+课后答案） */
+  function printScope(mode){
+    doc.body.classList.remove('print-note','print-q','print-a','print-ans','print-one');
     doc.querySelectorAll('section.chapter.ch-print').forEach(function(s){s.classList.remove('ch-print')});
-    if(withAns)doc.body.classList.add('print-ans');
+    doc.querySelectorAll('.sec.sec-has-ans').forEach(function(s){s.classList.remove('sec-has-ans')});
+    if(mode==='note')doc.body.classList.add('print-note');
+    if(mode==='q')doc.body.classList.add('print-q');
+    if(mode==='a'){
+      doc.body.classList.add('print-a','print-ans');
+      doc.querySelectorAll('.ans-box').forEach(function(b){var p=b.closest('.sec');if(p)p.classList.add('sec-has-ans')});
+    }
     var cur=null;
     links.forEach(function(l){if(l.classList.contains('on'))cur=l.getAttribute('href')});
     var id=(cur||'#ch-00').slice(1);
@@ -10276,9 +10292,10 @@ b  =  12.3/10  =  1.23；a  =  <span class = "ol">y</span> − b
     if(sec){sec.classList.add('ch-print');doc.body.classList.add('print-one');}
     window.print();
   }
-  var pq=doc.getElementById('printq'),pa=doc.getElementById('printa');
-  if(pq)pq.addEventListener('click',function(){printScope(false)});
-  if(pa)pa.addEventListener('click',function(){printScope(true)});
+  var pn=doc.getElementById('printnote'),pq=doc.getElementById('printq'),pa=doc.getElementById('printa');
+  if(pn)pn.addEventListener('click',function(){printScope('note')});
+  if(pq)pq.addEventListener('click',function(){printScope('q')});
+  if(pa)pa.addEventListener('click',function(){printScope('a')});
   /* ===== 站内搜索（跨章，防抖 200ms） ===== */
   var idx=secs.map(function(s){
     var h1=s.querySelector('h1');

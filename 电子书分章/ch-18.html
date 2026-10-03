@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>第18章 概率 · 高中数学自学系统</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232563EB'/%3E%3Ctext x='32' y='46' font-size='40' text-anchor='middle' font-family='sans-serif' fill='white'%3E数%3C/text%3E%3C/svg%3E">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:88px}
+:root{
+  --fs:16.5px;
+  --bg:#f6f2e9; --card:#fffdf8; --ink:#2b2721; --muted:#8b8477;
+  --line:#e4dccb; --blue:#1f3a5f; --blue2:#3a5a85; --blue-l:#e8f0f9;
+  --gold:#c9a227; --gold-l:#faf3dc; --red:#c03a2b; --red-l:#fdf1ec;
+  --green:#3f8f4f; --green-l:#edf6ef; --purple:#7b5ea7; --purple-l:#f2eefa;
+  --shadow:0 1px 4px rgba(60,50,30,.07);
+}
+html,body{overflow-x:hidden}
+body{background:var(--bg);color:var(--ink);font-family:"Microsoft YaHei","PingFang SC","Noto Sans SC","Segoe UI",sans-serif;font-size:var(--fs);line-height:1.95}
+body.serif{font-family:Georgia,"Noto Serif SC","Source Han Serif SC","Songti SC",SimSun,serif}
+/* 深色模式 */
+body.dark{--bg:#191713;--card:#23201a;--ink:#d6d0c2;--muted:#8d8677;--line:#3a352b;--blue:#93b3dc;--blue2:#6d90bd;--blue-l:#1d2837;--gold:#d9b64e;--gold-l:#2b2513;--red:#e07a5f;--red-l:#2e1c16;--green:#7cbf8a;--green-l:#15251a;--purple:#b39ad8;--purple-l:#251f31;--shadow:0 1px 4px rgba(0,0,0,.35)}
+/* 阅读进度条 */
+#pbar{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,#e8c766,#c9a227);z-index:120;transition:width .1s linear}
+/* 顶部工具栏 */
+#tb{position:fixed;top:0;left:0;right:0;z-index:110;background:#23201b;color:#e8c766;box-shadow:0 1px 6px rgba(0,0,0,.25)}
+#tb-in{display:flex;align-items:center;gap:12px;max-width:min(1920px,calc(100vw - 300px));margin:0 auto;padding:8px 20px}
+.tb-logo{font-weight:800;font-size:13.5px;letter-spacing:.06em;white-space:nowrap;color:#e8c766}
+.tb-search{flex:1;min-width:160px;position:relative}
+#q{width:100%;padding:7px 12px;border-radius:8px;border:1px solid #4a4437;background:#14120e;color:#eee;font-size:13.5px;font-family:inherit;outline:none}
+#q::placeholder{color:#6f6859}
+#q:focus{border-color:#e8c766}
+#sres{position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--card);border:1px solid var(--line);border-radius:10px;box-shadow:0 10px 28px rgba(0,0,0,.18);max-height:340px;overflow-y:auto;display:none;z-index:130}
+#sres.open{display:block}
+#sres a{display:block;padding:9px 14px;border-bottom:1px solid var(--line);color:var(--ink);text-decoration:none;font-size:13.5px;line-height:1.6}
+#sres a .ch{font-size:11.5px;color:var(--gold);display:block;margin-bottom:2px;font-weight:700}
+#sres a b{color:var(--blue)}
+#sres a:hover{background:var(--blue-l)}
+#sres .nores{padding:10px 14px;color:var(--muted);font-size:13px}
+.tb-tools{display:flex;align-items:center;gap:6px;white-space:nowrap}
+.tb-btn{background:#332e25;border:1px solid #4a4437;color:#e8e2d4;border-radius:8px;padding:6px 11px;font-size:12.5px;cursor:pointer;font-family:inherit;transition:.15s}
+.tb-btn:hover{background:#4a4437;color:#fff}
+#fsize{font-size:12px;min-width:32px;text-align:center;color:#c9c0ab}
+/* 侧边目录 */
+#toc{position:fixed;top:0;left:0;bottom:0;width:240px;background:#23201b;color:#d8d2c6;overflow-y:auto;z-index:100;padding:64px 0 40px}
+#toc .toc-title{font-weight:700;font-size:13.5px;letter-spacing:.15em;color:#e8c766;padding:0 22px 12px;border-bottom:1px solid #38332b;margin-bottom:8px}
+#toc a{display:flex;align-items:baseline;gap:9px;color:#c6bfae;text-decoration:none;padding:7px 22px;font-size:13.5px;line-height:1.5;border-left:3px solid transparent}
+#toc a .no{font-weight:700;color:#8a8272;font-size:12px;min-width:20px}
+#toc a:hover{background:#322d25;color:#fff}
+#toc a.on{background:#1a1712;color:#fff;border-left-color:#e8c766}
+#toc a.on .no{color:#e8c766}
+#toc .toc-foot{padding:16px 22px;font-size:11.5px;color:#6f6859;border-top:1px solid #38332b;margin-top:12px;line-height:1.7}
+/* 主内容 */
+#main{margin-left:240px;margin-right:auto;max-width:min(1920px,calc(100vw - 300px));min-width:0;padding:76px 48px 120px}
+section.chapter{padding:54px 0 22px;border-bottom:1px solid var(--line)}
+section.chapter:first-of-type{padding-top:18px}
+/* 章头横幅 */
+.ch-head{background:linear-gradient(135deg,#1f3a5f 0%,#3a5a85 72%,#54739f 100%);border-radius:14px;padding:26px 28px 22px;margin:0 0 20px;color:#fff;position:relative;overflow:hidden;box-shadow:0 3px 10px rgba(31,58,95,.20)}
+.ch-head::after{content:attr(data-no);position:absolute;right:16px;top:-20px;font-size:104px;font-weight:800;color:rgba(255,255,255,.07);line-height:1;pointer-events:none}
+.ch-no{font-size:12.5px;letter-spacing:.3em;color:#e8c766;font-weight:700}
+h1.ch-title{font-size:29px;font-weight:800;color:#fff;margin:8px 0 6px;letter-spacing:.02em;line-height:1.3}
+.ch-sub{color:#ccd8ea;font-size:13px}
+/* 配套资料直达 */
+.mats{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px 16px;margin:0 0 18px;box-shadow:var(--shadow)}
+.mats-t{font-size:12.5px;font-weight:700;color:var(--gold);margin-bottom:9px;letter-spacing:.04em}
+.mats-l{display:flex;flex-wrap:wrap;gap:8px}
+.mats-l a{background:var(--blue-l);color:var(--blue);text-decoration:none;font-size:13px;padding:5px 13px;border-radius:20px;border:1px solid #c9d8ec;transition:.15s}
+.mats-l a:hover{background:var(--blue);color:#fff;transform:translateY(-1px)}
+/* 看不懂怎么办 */
+.help{background:var(--gold-l);border:1px dashed var(--gold);border-radius:12px;padding:13px 16px;margin:0 0 20px;font-size:13.5px;color:#6b5c26;line-height:1.85;box-shadow:var(--shadow)}
+body.dark .help{color:#d8c078}
+.help b{color:var(--gold)}
+/* 小节标题 */
+h2{font-family:inherit;font-size:calc(var(--fs) + 2.5px);font-weight:700;color:var(--blue);margin:40px 0 14px;padding:9px 14px 9px 16px;background:var(--blue-l);border-left:5px solid #c9d8ec;border-radius:0 9px 9px 0;line-height:1.45}
+h2.gate{border-left-color:#3b7dd8}.h2tag{font-size:11px;background:var(--blue-l);color:var(--blue);border-radius:4px;padding:1px 8px;margin-right:8px;vertical-align:2px}
+h2.goal{border-left-color:#3b7dd8}
+h2.body{border-left-color:#c9d8ec}
+h2.ex2{border-left-color:#3f7fd4}
+h2.out{border-left-color:#3b7dd8}
+h2.pit{border-left-color:var(--red)}
+h2.hw{border-left-color:var(--green)}
+h2.formula{border-left-color:var(--gold)}
+h2.adv{border-left-color:var(--purple)}
+h3{font-size:calc(var(--fs) + 0.5px);font-weight:700;color:#3a352c;margin:22px 0 8px}
+p{margin:0 0 12px}
+strong{color:var(--blue)}
+/* 公式独立行：数学衬线字体统一字形（χ Σ √ 上下标同族），避免文本符号混排歪扭 */
+p:has(> strong:only-child){text-align:center;font-size:calc(var(--fs) + 1.5px);margin:16px 0;background:var(--blue-l);border:1px solid #cfe0f2;border-radius:10px;padding:10px 14px;color:var(--blue);font-family:"Cambria Math","STIX Two Math","Times New Roman","Songti SC",serif;letter-spacing:.012em}
+/* 内容块分类 */
+p.def{background:var(--blue-l);border-left:4px solid var(--blue);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0;box-shadow:var(--shadow)}
+p.ex{background:var(--blue-l);border:1px solid #d5e3f7;border-radius:10px;padding:12px 15px;margin:14px 0;box-shadow:var(--shadow)}
+p.warn{background:var(--red-l);border-left:4px solid var(--red);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0;box-shadow:var(--shadow)}
+p.sum{background:var(--gold-l);border-left:4px solid var(--gold);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0;box-shadow:var(--shadow)}
+p.note{background:var(--gold-l);border:1px dashed var(--gold);border-left:4px solid var(--gold);padding:11px 16px;border-radius:0 10px 10px 0;margin:12px 0;font-size:calc(var(--fs) - 1px)}
+/* 大白话旁注：缩进小字块，像教材旁批，一眼区别于正文 */
+p.baihua{background:var(--gold-l);border-left:4px solid var(--gold);border-bottom:1px dashed var(--gold);padding:10px 16px;border-radius:0 10px 10px 0;margin:10px 0 12px 20px;font-size:calc(var(--fs) - 1.5px);line-height:1.75;color:#6a5f45}
+li.baihua{list-style:none;background:var(--gold-l);border-left:4px solid var(--gold);border-bottom:1px dashed var(--gold);padding:9px 14px;border-radius:0 10px 10px 0;margin:8px 0 8px -26px;font-size:calc(var(--fs) - 1.5px);line-height:1.75;color:#6a5f45}
+p.baihua span.tag,li.baihua span.tag{background:var(--gold);color:#5c4a12}
+p.baihua.why span.tag{background:var(--blue);color:#fff}
+p.taskA,p.taskB,p.taskC{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:11px 15px;margin:12px 0;box-shadow:var(--shadow)}
+p.taskA{border-left:4px solid var(--green);background:var(--green-l)}
+p.taskB{border-left:4px solid #3b7dd8;background:var(--blue-l)}
+p.taskC{border-left:4px solid var(--gold);background:var(--gold-l)}
+p.ans{background:var(--blue-l);border:1px dashed #c3cede;border-radius:10px;padding:11px 15px;margin:14px 0}
+.ans-box{margin:16px 0;border:1px solid var(--line);border-radius:10px;background:var(--card);overflow:hidden}
+.ans-box>.ans-toggle{display:block;width:100%;border:none;background:var(--blue-l);color:var(--blue);font-size:13.5px;font-weight:600;padding:10px 14px;cursor:pointer;font-family:inherit;text-align:left;transition:.15s}
+.ans-box>.ans-toggle:hover{background:#d7e3f5}
+.ans-box>.ans-toggle::before{content:"▸ ";transition:transform .15s}
+.ans-box.open>.ans-toggle::before{content:"▾ "}
+.ans-box>.ans-body{display:none;padding:10px 15px 13px;border-top:1px dashed #c3cede}
+.ans-box.open>.ans-body{display:block}
+.ans-body p.ans{background:transparent;border:none;padding:0;margin:0 0 8px;font-weight:600}
+span.tag{display:inline-block;background:var(--blue);color:#fff;font-size:11px;border-radius:4px;padding:0 7px;margin-right:8px;vertical-align:2px}
+p.warn span.tag{background:var(--red)}
+p.sum span.tag{background:var(--gold)}
+p.note span.tag{background:var(--gold);color:#5c4a12}
+p.ans span.tag{background:#5a6b80}
+/* blockquote 提示 */
+blockquote{background:var(--gold-l);border-left:4px solid var(--gold);padding:10px 16px;border-radius:0 10px 10px 0;margin:14px 0;color:#5c543f;font-size:calc(var(--fs) - 2px)}
+body.dark blockquote{color:#c9bc9a}
+body.dark p.baihua,body.dark li.baihua{color:#c9bc9a}
+ul,ol{margin:4px 0 12px 26px}
+li{margin:4px 0}
+li::marker{color:var(--blue)}
+/* 表格 */
+table{border-collapse:collapse;width:100%;margin:14px 0 20px;font-size:calc(var(--fs) - 2px);box-shadow:var(--shadow);border-radius:10px;overflow:hidden}
+td,th{padding:9px 12px;vertical-align:top;word-break:break-word;overflow-wrap:anywhere;text-align:left}
+code{font-family:ui-monospace,Consolas,'Courier New',monospace;font-size:.92em;word-break:break-all;overflow-wrap:anywhere}
+th{background:var(--blue);color:#fff;font-weight:600;text-align:left;padding:9px 12px;border:1px solid var(--blue)}
+td{padding:8px 12px;border:1px solid var(--line);vertical-align:top;background:var(--card)}
+tr:nth-child(even) td{background:rgba(0,0,0,.022)}
+tr:hover td{background:var(--blue-l)}
+img{max-width:92%;height:auto;display:block;margin:16px auto;border-radius:10px;box-shadow:var(--shadow);background:#fff}
+body.dark img{border:1px solid var(--line)}
+hr{border:none;border-top:2px dashed #d8d1c2;margin:22px 0}
+code{background:#efece4;padding:1px 6px;border-radius:4px;font-family:Consolas,monospace;font-size:calc(var(--fs) - 3px);color:#7a4a12;word-break:break-all;overflow-wrap:anywhere}
+body.dark code{background:#332e25;color:#e0b87a}
+pre{background:#26221c;color:#e8e2d4;padding:14px 16px;border-radius:8px;overflow-x:auto;margin:12px 0;font-size:13.5px}
+/* 表格容器：窄屏横向滚动，不压扁列 */
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 0 6px;max-width:100%}
+/* 数学符号统一化：组合音标与上下标（与正文同字体、基线规范） */
+span.ol{text-decoration:overline;text-decoration-thickness:1.1px;text-decoration-skip-ink:none}
+span.hat{position:relative;display:inline-block;padding:0 .04em}
+span.hat::after{content:"^";position:absolute;top:-0.42em;left:0;right:0;text-align:center;font-size:.66em;line-height:1;color:inherit}
+sup,sub{font-size:.7em;line-height:0;font-family:inherit}
+sup{vertical-align:super}sub{vertical-align:sub}
+/* 浮动按钮 */
+#topbtn{position:fixed;right:22px;bottom:26px;background:var(--blue);color:#fff;border:none;border-radius:50%;width:46px;height:46px;font-size:17px;cursor:pointer;box-shadow:0 3px 10px rgba(0,0,0,.25);z-index:100;display:none;font-family:inherit}
+#topbtn:hover{background:var(--blue2)}
+#mnav{display:none}
+/* 搜索命中闪烁 */
+section.flash{animation:flash 1.6s ease}
+@keyframes flash{0%{box-shadow:inset 0 0 0 3px var(--gold)}100%{box-shadow:inset 0 0 0 3px transparent}}
+@media (max-width:900px){
+  html{scroll-padding-top:150px}
+  body{overflow-x:hidden}
+  #main{overflow-x:hidden}
+  .tbl-wrap{overflow-x:auto}
+  .tbl-wrap table{min-width:560px}
+  #toc{transform:translateX(-100%);transition:transform .25s;width:280px;padding-top:56px}
+  #toc.open{transform:translateX(0)}
+  #main{margin-left:0;padding:150px 16px 100px}
+  #tb-in{flex-wrap:wrap;gap:6px 10px;padding:6px 10px}
+  .tb-logo{display:none}
+  .tb-search{flex:1 1 100%;min-width:0}
+  .tb-tools{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+  #mnav{display:flex;position:fixed;top:92px;left:0;right:0;z-index:105;background:#2b2620;color:#e8c766;padding:9px 14px;align-items:center;gap:10px;font-size:13.5px;font-weight:700;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+  #mnav button{background:none;border:1px solid #e8c766;color:#e8c766;border-radius:4px;padding:2px 10px;font-size:15px;cursor:pointer}
+  h1.ch-title{font-size:22px}
+  .ch-head{padding:20px 18px 18px}
+  .ch-head::after{font-size:76px;top:-10px;right:10px}
+  p:has(> strong:only-child){font-size:calc(var(--fs) - 0.5px)}
+  #topbtn{bottom:84px}
+}
+@media print{
+  #toc,#topbtn,#mnav,#tb,#pbar,.ans-toggle{display:none!important}
+  #main{margin:0;max-width:none;padding:0}
+  body{background:#fff;font-size:11.5pt}
+  body.dark{background:#fff;color:#000}
+  section.chapter{page-break-after:always;border:none}
+  body.print-one section.chapter{display:none!important}
+  body.print-one section.chapter.ch-print{display:block!important}
+  /* 讲义：隐藏出口检测+课后习题+全部答案 */
+  body.print-note .sec-out,body.print-note .sec-hw,body.print-note .ans-box{display:none!important}
+  /* 题目卷：只显示出口检测+课后习题 */
+  body.print-q .sec{display:none!important}
+  body.print-q .sec-out,body.print-q .sec-hw{display:block!important}
+  /* 答案卷：只显示含答案的区块（含自测答案与课后答案，JS 已打 sec-has-ans 标） */
+  body.print-a .sec{display:none!important}
+  body.print-a .sec-has-ans{display:block!important}
+  .ans-box{border:none;background:transparent;margin:6px 0}
+  .ans-box>.ans-body{display:none!important;padding:0;border:none}
+  body.print-ans .ans-box>.ans-body{display:block!important}
+  .ans-body p.ans{font-weight:700;margin:4px 0}
+}
+
+
+/* ===== 分章版专用 ===== */
+.ch-nav{display:flex;justify-content:space-between;align-items:center;gap:10px;max-width:min(1920px,calc(100vw - 300px));margin:12px auto 0;padding:9px 16px;background:var(--card);border:1px solid var(--line);border-radius:10px;font-size:13.5px;box-shadow:var(--shadow)}
+.ch-nav .cn-title{font-weight:700;color:var(--ink)}
+.ch-nav a{color:var(--blue);text-decoration:none;padding:2px 8px;border-radius:6px}
+.ch-nav a:hover{background:var(--blue-l);text-decoration:underline}
+#main{margin-top:4px}
+.sr-item{padding:7px 10px;border-bottom:1px solid var(--line);cursor:pointer;font-size:12.5px;line-height:1.5}
+.sr-item:hover{background:var(--blue-l)}
+.sr-none{padding:8px 10px;color:#888;font-size:12.5px}
+@media print{.ch-nav{display:none!important}}
+</style>
+</head>
+<body>
+<div id="pbar"></div>
+<header id="tb"><div id="tb-in">
+  <span class="tb-logo"><a href="index.html" style="color:inherit;text-decoration:none">高中数学自学系统</a></span>
+  <div class="tb-search"><input id="q" type="search" placeholder="搜索本章…" autocomplete="off"><div id="sres"></div></div>
+  <div class="tb-tools">
+    <button class="tb-btn" id="minus" title="减小字号">A−</button><span id="fsize"></span><button class="tb-btn" id="plus" title="增大字号">A+</button>
+    <button class="tb-btn" id="serifbtn" title="切换正文字体"></button>
+    <button class="tb-btn" id="darkbtn" title="深色/日间模式"></button>
+    <button class="tb-btn" id="printnote" title="打印本章讲义（不含题目与答案）">打印讲义</button>
+    <button class="tb-btn" id="printq" title="打印本章所有题目（练习卷）">打印题目</button>
+    <button class="tb-btn" id="printa" title="打印本章所有答案（答案卷）">打印答案</button>
+  </div>
+</div></header>
+<div class="ch-nav"><a href="ch-17.html">← 17</a><span class="cn-title">第18章 · 概率</span><a href="ch-19.html">19 →</a></div>
+<main id="main">
+<section class="chapter" id="ch-18">
+<div class="ch-head" data-no="18"><div class="ch-no">第18章</div><h1 class="ch-title">概率</h1><div class="ch-sub">板块：概率统计 ｜ 前置：第 17 章 ｜ 老教材：选修2-3 第2章 ｜ 新教材：选择性必修三 第7章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后学习）">老教材·选修2-3</a><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后对标）">新教材·选择性必修第三册</a><a href="../公式/高中数学公式速查手册.html#ch-18" title="本章公式速查（按章手册，直达本章）">公式速查手册</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
+<p>公式速查：修订版 第11部分（概率）</p>
+<p><strong>本章本质核心</strong>：概率的本质是"随机事件的面积/份额"——一件事发生的可能性大小，就是它在全部可能结果里占的那一份。古典概型是"公平地数个数"（有利份数/总份数），几何概型是"比面积（长度、体积）"，条件概率是"把已知条件当作新的全部、在缩小的范围里重新数份额"；期望 E(X) = Σx<sub>i</sub>p<sub>i</sub> 则是"按每份的概率加权求平均"。本章互斥、独立、二项/超几何/正态分布、全概率，全是这一个"算份额"原理的变体。</p>
+<p class = "baihua why"><span class = "tag">为什么有用</span>学了它，"某件事发生的可能性多大""这个方案平均收益多少、稳不稳"这类题就能落地——古典概型数份数、独立重复套二项、不放回用超几何，想通"概率 = 份额"，分布列和期望就是份额的加总，而不是背出来的表格。</p>
+</blockquote>
+<hr />
+<div class="sec sec-meta"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
+<ol>
+<li>掷一枚硬币，正面朝上的概率是多少？</li>
+<li>掷一枚骰子，点数为 3 的概率？</li>
+<li>"互斥事件"和"独立事件"的区别？（生活直觉）</li>
+<li>0.5  ×  0.5  =  ？</li>
+<li>从 1~10 中随机取一个数，取到偶数的概率？</li>
+</ol>
+<p><strong>判定</strong>：5 题答对 4 题以上 → 进章。</p>
+</div><div class="sec sec-meta"><h2 class = "goal">② 学习目标</h2>
+<ul>
+<li>掌握古典概型（等可能事件）概率计算</li>
+<li>掌握互斥事件、对立事件、条件概率、独立事件</li>
+<li>掌握离散型随机变量的分布列、期望、方差</li>
+<li>掌握二项分布、超几何分布、正态分布（高频考点）</li>
+<li>能完成高考概率解答题（含新情境，2023 起位置常在 18–19 题）</li>
+</ul>
+</div><div class="sec sec-meta"><h2 class = "body">③ 正文讲解</h2>
+<p><strong>本章结构导图</strong>：</p>
+<pre><code>概率
+├─ 3.1 古典概型 ── 数&quot;有利情况/总情况&quot;
+├─ 3.2 条件概率·独立 ── 已知B发生后重新数
+├─ 3.3 随机变量 ── 分布列、期望、方差
+├─ 3.4 重要分布 ── 二项/超几何/正态
+└─ 3.5 高考大题 ── 列分布列→求期望→做决策
+</code></pre>
+<h3>3.1 古典概型</h3>
+<p><strong>引入</strong>：掷一枚均匀骰子，掷出 3 点的概率是多少？6 个面朝上的可能性一样大，3 只是其中 1 种，所以 1/6。这就是最朴素的概率——"公平"地数份数。</p>
+<p><strong>正式定义</strong>：<strong>古典概型</strong>要求所有基本事件<strong>等可能</strong>且<strong>有限</strong>。此时</p>
+<p><strong>P(A)  =  A 包含的基本事件数 / 基本事件总数</strong></p>
+<p>计数工具：枚举、树状图、排列组合（回 17 章）。</p>
+<p><strong>事件关系</strong>：</p>
+<ul>
+<li><strong>互斥</strong>：A、B 不能同时发生。<strong>P(A∪B)  =  P(A) + P(B)</strong>。</li>
+<li><strong>对立</strong>：A 不发生就是 B（A∪B  =  全部，A∩B  =  空）。<strong>P(<span class = "ol">A</span>)  =  1 − P(A)</strong>。</li>
+</ul>
+<p><img alt = "几何概型" src = "assets/18-geo-prob.png" /></p>
+<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题</strong>：</p>
+<blockquote>
+<p>例 3.1-a：同时掷两枚骰子，点数和为 7 的概率。
+解：总数 6 × 6 = 36。和为 7：(1,6)(2,5)(3,4)(4,3)(5,2)(6,1) 共 6 种。P  =  6/36  =  1/6。
+要点：两枚骰子不同，(3,4) 和 (4,3) 要分开数。</p>
+</blockquote>
+<p><strong>小结</strong>：古典概型就是"公平份数除法"。</p>
+<p><strong>编者注·本质回扣</strong>：古典概型为什么非要"等可能"三个字？说白了，只有当每种结果机会均等时，"份数比"才等于"概率"。掷硬币正反各占一半、骰子六面一样重，这时数个数才作数；要是骰子被做了手脚，六个面不等重，数 1/6 就骗人了。所以分母（总基本事件数）要靠 17 章排列组合老老实实数清，分子（有利事件数）同样不能漏——两枚骰子 (3,4) 和 (4,3) 算两种，就是因为它们是两个等可能的基本结果。概率本质上就是"公平份额"这把尺子。</p>
+<h3>3.2 条件概率与独立事件</h3>
+<p><strong>引入</strong>：袋里 3 红 2 白。"随手摸一个是红球"概率 3/5。但如果<strong>已知</strong>第一个摸出的是红球，再摸第二个，这时袋里变成 2 红 2 白，"第二个是红球"概率就变成 2/4  =  1/2。"已知条件变了，样本空间就变了"——这就是条件概率。</p>
+<p><strong>条件概率</strong>：在 B 已发生条件下 A 发生的概率：</p>
+<p><strong>P(A | B)  =  P(AB) / P(B)</strong>（P(B) &gt; 0）</p>
+<p>含义：把 B 当作新的"全部"，在 B 里面数 AB。</p>
+<p><strong>独立事件</strong>：A 的发生不影响 B。</p>
+<p><strong>P(AB)  =  P(A)·P(B)</strong>（独立 ⇔ 此式成立）</p>
+<p><strong>独立 vs 互斥</strong>：互斥说"不能同时发生"（P(AB) = 0）；独立说"互不影响"（P(AB) = P(A)P(B)）。方向相反——<strong>互斥的事件一般不独立</strong>。举个数：P(A) = 0.5、P(B) = 0.5 若互斥，则 P(AB) = 0，而 P(A)P(B) = 0.25≠0，所以它俩不独立；若独立，P(AB) = 0.25&gt;0，说明能同时发生，就不互斥。</p>
+<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题</strong>：</p>
+<blockquote>
+<p>例 3.2-a：袋 3 红 2 白不放回连取 2 个。已知第一个是红球，求第二个也是红球。
+解：第一红后剩 2 红 2 白，P(第二红|第一红)  =  2/4  =  1/2。
+要点：条件概率  =  换个样本空间重新数。</p>
+</blockquote>
+<p><strong>小结</strong>：条件概率是"在已经缩小的范围里数"，独立是"两个事件井水不犯河水"。</p>
+<h3>3.3 离散型随机变量（分布列、期望、方差）</h3>
+<p><strong>引入</strong>：投篮命中次数是个"随机数"——可能 0 次、1 次、2 次……把每个可能值和它的概率列成一张表，就是分布列；再算个"平均命中次数"，就是期望。</p>
+<p><strong>分布列</strong>：X 取 x<sub>1</sub>,…,x<sub>n</sub> 的概率 p<sub>1</sub>,…,p<sub>n</sub>。要求 <strong>p<sub>i</sub> ≥ 0 且 Σp<sub>i</sub>  =  1</strong>。</p>
+<p><img alt = "分布列柱状图" src = "assets/18-dist-hist.png" /></p>
+<p><strong>期望（均值）</strong>：<strong>E(X)  =  Σ x<sub>i</sub>·p<sub>i</sub></strong>（概率加权平均）。
+<strong>方差</strong>：<strong>D(X)  =  Σ(x<sub>i</sub>−E(X))<sup>2</sup>p<sub>i</sub>  =  E(X<sup>2</sup>) − [E(X)]<sup>2</sup></strong>（描述波动大小）。</p>
+<p><strong>记住它之前先看懂它</strong>：E(X) 就是"按概率加权的平均分"——概率大的取值在平均里分量重；D(X) 是"围绕这个平均分晃悠多大"，先算每个值离均值的平方、再按概率加权，所以是平方量纲。别把这两行当新符号死背，它们就是"加权平均"和"波动大小"两件事的算式。</p>
+<p><strong>性质（为什么 b 不影响方差）</strong>：E(aX+b)  =  aE(X)+b 很直观——每个数据平移 b，均值也平移 b。但 D(aX+b) = a<sup>2</sup>D(X)：整体加 b 只是把整条分布平移，数据之间的"离散程度"没变，所以方差里<strong>没有 b</strong>；整体乘 a 把波动放大 a<sup>2</sup> 倍，所以乘 a<sup>2</sup>。</p>
+<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题</strong>：</p>
+<blockquote>
+<p>例 3.3-a：X 分布列 P(X = 0) = 0.3, P(X = 1) = 0.5, P(X = 2) = 0.2，求 E(X)、D(X)。
+解：E  =  0·0.3+1·0.5+2·0.2  =  0.9。
+E(X<sup>2</sup>)  =  0·0.3+1·0.5+4·0.2  =  1.3。D  =  1.3 − 0.9<sup>2</sup>  =  1.3 − 0.81  =  0.49。
+要点：D  =  E(X<sup>2</sup>)−[E(X)]<sup>2</sup> 比直接算离差平方快。</p>
+</blockquote>
+<p><strong>小结</strong>：期望是"加权平均"，方差是"波动大小"。</p>
+<p><strong>编者注·本质回扣</strong>：期望 E(X) = Σx<sub>i</sub>p<sub>i</sub> 看着是新公式，本质就是"按份额加权的平均数"。普通平均数是每个数权重相同（各占 1/n），期望是每个取值按它出现的概率 p<sub>i</sub> 加权——出现概率大的值，在"长期平均"里分量就重。这正是"概率 = 份额"的延续：p<sub>i</sub> 就是这个取值在全部可能里占的份额，把每个取值乘它的份额再相加，就得到随机变量的长期平均值。方差则是再算一次"围绕这个平均波动多大"，所以决策题先比期望（看平均收益）、期望相同再比方差（看稳不稳）。</p>
+<h3>3.4 三个重要分布</h3>
+<p><strong>① 二项分布 X ~ B(n, p)</strong>：n 次独立重复试验，每次成功概率 p。</p>
+<ul>
+<li>P(X = k)  =  C(n,k)·p<sup>k</sup>·(1−p)<sup>n−k</sup></li>
+<li><strong>E(X)  =  np，D(X)  =  np(1−p)</strong></li>
+</ul>
+<p><strong>② 超几何分布</strong>：N 个中有 M 个次品，抽 n 个（不放回），次品数 X：</p>
+<ul>
+<li>P(X = k)  =  C(M,k)C(N−M,n−k)/C(N,n)</li>
+<li>E(X)  =  n·M/N</li>
+</ul>
+<p><strong>③ 正态分布 X ~ N(μ, σ<sup>2</sup>)</strong>：连续型，中间高两边低的钟形曲线。</p>
+<ul>
+<li>关于 x  =  μ 对称；</li>
+<li><strong>P(μ−σ&lt;X&lt;μ+σ) ≈ 0.683，μ±2σ ≈ 0.954，μ±3σ ≈ 0.997</strong>。</li>
+<li>用法：求 P(X&gt;a) 时，先看 a 离 μ 几个 σ，再用"对称+查表"。比如 a = μ+σ，则 P(X&gt;μ+σ) = 1−0.8413 = 0.1587（因为 P(X&lt;μ+σ) = 0.8413）。</li>
+</ul>
+<p><strong>记住它之前先看懂它</strong>：这三个分布别当三张孤立的表背——先看"取法"：独立重复、每次概率不变就是二项（投 n 次平均中 np 次）；一把抓出来不放回就是超几何（抽 n 个平均摊到 n·M/N 个次品）；无数个小误差加起来、连续取值的钟形就是正态。认出取法，公式自己就对上号。</p>
+<p><img alt = "正态曲线" src = "assets/18-normal.png" /></p>
+<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题</strong>：</p>
+<blockquote>
+<p>例 3.4-a：投篮命中率 0.6，独立投 3 次，求恰好命中 2 次的概率与期望。
+解：X~B(3,0.6)。P(X = 2) = C(3,2)·0.6<sup>2</sup>·0.4  =  3·0.36·0.4  =  0.432。E(X) = np = 1.8。
+要点：独立重复+概率不变 → 二项分布，期望直接 np。</p>
+</blockquote>
+<p><strong>小结</strong>：二项（有放回/独立重复）、超几何（不放回）、正态（连续钟形），三套模型认清楚。</p>
+<p><strong>辨析·有放回 vs 不放回（高考常考，一步一验）</strong>：袋中 3 红 2 白（共 5 个），从中取 3 个，记其中红球数为 X。</p>
+<ul>
+<li>若<strong>有放回</strong>：每次取到红球概率恒为 3/5，独立重复 3 次，X ~ B(3, 3/5)。E(X) = 3 × 0.6 = 1.8，D(X) = 3 × 0.6 × 0.4 = <strong>0.72</strong>。</li>
+<li>若<strong>不放回</strong>：这是超几何分布（N = 5, M = 3, n = 3）。E(X) = n·M/N = 3 × 3/5 = <strong>1.8</strong>，D(X) = n·(M/N)·(1−M/N)·(N−n)/(N−1) = 3 × 0.6 × 0.4 × 2/4 = <strong>0.36</strong>。</li>
+<li><strong>关键结论</strong>：两种取法<strong>期望相同（都是 1.8），但方差不同</strong>——有放回的方差 0.72 是不放回 0.36 的两倍。道理：不放回时每次取完不放，后面结果和前面有"反向锁定"关系，波动被压缩了。所以题目里"有放回/不放回"四个字，决定了用二项还是超几何，也决定了方差的答案。</li>
+</ul>
+<h3>3.5 高考大题结构（新情境）</h3>
+<p>给实际情境（比赛/质检/射击），三步走：</p>
+<ol>
+<li><strong>明确定义 X</strong> → 列全部取值；</li>
+<li><strong>算每个概率</strong>（古典/二项/超几何）→ 列表；</li>
+<li><strong>求 E(X)/D(X)</strong> → 比较方案做决策。</li>
+</ol>
+<p><strong>决策题逻辑</strong>：先比期望（谁大谁好）；期望相等再比方差（方差小的稳）。列完分布列一定回头验算 Σp = 1，这是送分的检查动作。</p>
+<h3>3.6 全概率公式（多阶段随机过程）</h3>
+<p><strong>引入</strong>：生病可能由 A、B、C 三种原因引起，已知各原因概率和各原因下得病概率，求总得病概率——这就是全概率。</p>
+<p><strong>全概率公式</strong>：若 B<sub>1</sub>、B<sub>2</sub>、…、B<sub>n</sub> 互斥且覆盖全部，则</p>
+<p><strong>P(A)  =  Σ P(B<sub>i</sub>)·P(A|B<sub>i</sub>)</strong></p>
+<p>道理：把 A 拆成"在每种情况下发生"的概率之和。</p>
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题</strong>：</p>
+<blockquote>
+<p>例 3.6-a：甲袋合格率 0.9、乙袋合格率 0.6，随机选一袋（各 1/2）抽一件，求抽到合格品概率。
+解：P = ½·0.9 + ½·0.6 = 0.75。
+要点：分情况（选哪袋），各算各的再加起来。</p>
+</blockquote>
+<p><strong>小结</strong>：全概率就是"分情况算概率再加权"。<strong>进阶/选学</strong>：反过来"已知结果求原因"的概率叫贝叶斯公式 P(B<sub>k</sub>|A) = P(B<sub>k</sub>)P(A|B<sub>k</sub>)/ΣP(B<sub>i</sub>)P(A|B<sub>i</sub>)，它在医学检测、垃圾邮件过滤里天天用，新教材把它并入条件概率处理，会套全概率公式即可。</p>
+</div><div class="sec sec-meta"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
+<p class = "ex"><span class = "tag">例题</span><strong>例 1（古典概型）</strong>：同时掷两枚骰子，求点数之和为 7 的概率。</p>
+<blockquote>
+<p>自己做：总数 36，数一数和为 7 的。</p>
+</blockquote>
+<p>解：基本事件总数 6 × 6  =  36。和为 7：(1,6)(2,5)(3,4)(4,3)(5,2)(6,1) 共 6 种。
+P  =  6/36  =  1/6。
+要点：<strong>总数先算清楚</strong>；两枚骰子不同，别漏 (3,4) 和 (4,3)。</p>
+<p class = "ex"><span class = "tag">例题</span><strong>例 2（条件概率）</strong>：袋中 3 红 2 白，不放回连取 2 个。已知第一个是红球，求第二个也是红球的概率。</p>
+<blockquote>
+<p>自己做：条件概率，在"第一红"条件下算。</p>
+</blockquote>
+<p>解：第一红后袋中剩 2 红 2 白。P(第二红 | 第一红)  =  2/4  =  1/2。
+要点：<strong>条件概率  =  换样本空间</strong>（发生条件后重新数）；不放回是"抽签原理"来源。</p>
+<p class = "ex"><span class = "tag">例题</span><strong>例 3（二项分布）</strong>：投篮命中率 0.6，独立投 3 次，求恰好命中 2 次的概率与期望。</p>
+<blockquote>
+<p>自己做：二项分布直接套。</p>
+</blockquote>
+<p>解：X ~ B(3, 0.6)。P(X  =  2)  =  C(3,2)·0.6<sup>2</sup>·0.4  =  3·0.36·0.4  =  0.432。
+E(X)  =  np  =  3·0.6  =  1.8。
+要点：<strong>独立重复 + 固定概率 → 二项分布</strong>；期望直接 np 不用列分布列。</p>
+<p class = "ex"><span class = "tag">例题</span><strong>例 4（期望决策）</strong>：两种方案收益分别为：A 稳得 100；B 有 0.5 概率得 200、0.5 概率得 0。选哪个？</p>
+<blockquote>
+<p>自己做：比期望。</p>
+</blockquote>
+<p>解：E(A)  =  100；E(B)  =  0.5·200 + 0.5·0  =  100。期望相同。
+风险不同：A 无风险。若考虑方差：D(B)  =  0.5·100<sup>2</sup> + 0.5·100<sup>2</sup>  =  10000 远大于 0。
+要点：<strong>期望相同看方差/风险</strong>，这是高考"决策"题的完整逻辑。</p>
+<p class = "ex"><span class = "tag">例题</span><strong>例 5（全概率 + 超几何，别误当二项）（苏州教研·专题57，原书p.193）</strong>：某商店储存的 50 个灯泡中，甲厂占 60%、乙厂占 40%，甲厂一等品率 90%，乙厂一等品率 80%。(1) 随机抽 1 个，它是甲厂一等品的概率；(2) 随机抽 2 个，记其中"甲厂一等品"个数为 X，求分布列与 E(X)。</p>
+<blockquote>
+<p>自己做：先算清楚两类灯泡各有几个。</p>
+</blockquote>
+<p>解：甲厂灯泡 50 × 60%  =  30 个，其中一等品 30 × 90%  =  27 个；乙厂 20 个，其中一等品 16 个。</p>
+<p>(1) 抽到甲厂一等品  =  27/50  =  <strong>0.54</strong>。</p>
+<p>(2) 从 50 个里不放回抽 2 个，"甲厂一等品"共 27 个、非甲厂一等品共 23 个。这是<strong>超几何分布</strong>（不放回，每次抽中概率在变），<strong>不能套二项分布</strong>：</p>
+<ul>
+<li>P(X = 0)  =  C(23,2)/C(50,2)  =  253/1225</li>
+<li>P(X = 1)  =  C(27,1)·C(23,1)/C(50,2)  =  621/1225</li>
+<li>P(X = 2)  =  C(27,2)/C(50,2)  =  351/1225</li>
+</ul>
+<p>E(X)  =  (0·253 + 1·621 + 2·351)/1225  =  1323/1225  =  <strong>27/25  =  1.08</strong>（也可用超几何期望 n·M/N  =  2 × 27/50  =  27/25 验证）。</p>
+<p>要点：<strong>不放回抽 → 超几何，不是二项</strong>；"每次抽中概率相等"才是二项，这里抽走一个总数就少一个。（对应《高级方法手册》6.1 全概率、6.4 分布模型。）</p>
+<p class = "ex"><span class = "tag">例题</span><strong>例 6（二项分布建模）（苏州教研·专题57，原书p.193）</strong>：A、B 两种药做对比，每个试验组 4 只小白鼠，2 只服 A、2 只服 B，服 A 有效概率 2/3、服 B 有效概率 1/2。一组中"A 有效只数 &gt; B 有效只数"称甲类组。(1) 求一个试验组为甲类组的概率；(2) 观察 3 个试验组，记甲类组个数为 X，求分布列与 E(X)。</p>
+<blockquote>
+<p>自己做：先把"A 有效只数""B 有效只数"各自的概率列出来。</p>
+</blockquote>
+<p>解：设 k_A、k_B 分别为服 A、服 B 有效的只数。
+P(k_A = 0) = (1/3)<sup>2</sup> = 1/9，P(k_A = 1) = C(2,1)(2/3)(1/3) = 4/9，P(k_A = 2) = (2/3)<sup>2</sup> = 4/9。
+P(k_B = 0) = (1/2)<sup>2</sup> = 1/4，P(k_B = 1) = C(2,1)(1/2)(1/2) = 1/2，P(k_B = 2) = (1/2)<sup>2</sup> = 1/4。</p>
+<p>(1) 甲类组  =  k_A &gt; k_B：
+ =  k_A = 1,k_B = 0：(4/9)(1/4)  =  1/9
++ k_A = 2,k_B = 0：(4/9)(1/4)  =  1/9
++ k_A = 2,k_B = 1：(4/9)(1/2)  =  2/9
+合计  =  <strong>4/9</strong>。</p>
+<p>(2) 每个试验组"是否甲类组"独立重复、成功概率恒为 4/9，故 X ~ B(3, 4/9)：</p>
+<ul>
+<li>P(X = 0)  =  C(3,0)(4/9)<sup>0</sup>(5/9)<sup>3</sup>  =  125/729</li>
+<li>P(X = 1)  =  C(3,1)(4/9)(5/9)<sup>2</sup>  =  300/729</li>
+<li>P(X = 2)  =  C(3,2)(4/9)<sup>2</sup>(5/9)  =  240/729</li>
+<li>P(X = 3)  =  C(3,3)(4/9)<sup>3</sup>  =  64/729</li>
+</ul>
+<p>E(X)  =  np  =  3 × (4/9)  =  <strong>4/3</strong>。</p>
+<p>要点：<strong>"每组独立、成功概率恒定"→ 二项分布</strong>；先把底层小概率（4/9）算准，再套二项分布列。（对应《高级方法手册》6.4 分布模型。）</p>
+</div><div class="sec sec-meta"><h2 class = "out">⑤ 出口检测</h2>
+<p><strong>自测（20 分钟，每题 2 分）</strong>：</p>
+<ol>
+<li>掷一枚骰子两次，两次点数相同的概率。</li>
+<li>P(A)  =  0.4，P(B)  =  0.5，A、B 独立，求 P(A ∪ B)。</li>
+<li>盒中 4 红 6 白，取 1 个是红球的概率；取 2 个（不放回）都是红球的概率。</li>
+<li>X ~ B(5, 0.5)，求 E(X)、D(X)。</li>
+<li>随机变量 X 分布列：P(X = 0) = 0.3，P(X = 1) = 0.5，P(X = 2) = 0.2，求 E(X)。</li>
+</ol>
+<p><strong>真题验收</strong>：完成 2020–2024 新高考Ⅰ卷<strong>概率解答题</strong> 1 道（分布列+期望，2024 含正态情境）：独立完成、25 分钟内、得分 ≥ 80% → 过关。</p>
+<p><strong>过关标准</strong>：自测 ≥ 10 分 且 真题达标 → 打卡。</p>
+</div><div class="sec sec-hw"><h2>课后习题（分层练习）</h2>
+<h3>A 基础巩固</h3>
+<p><strong>A1.</strong>【古典概型】掷一枚均匀骰子，出现偶数点的概率。</p>
+<p><strong>A2.</strong>【互斥对立】P(A)  =  0.7，求 P(A 的对立事件)。</p>
+<p><strong>A3.</strong>【条件概率】袋 5 红 3 白，不放回取 2 个。已知第一个是红球，求第二个也是红球的概率。</p>
+<p><strong>A4.</strong>【分布列期望】X 分布列 P(X = 1) = 0.2, P(X = 2) = 0.5, P(X = 3) = 0.3，求 E(X)。</p>
+<p><strong>A5.</strong>【二项分布】某射手命中率 0.8，独立射 4 次，求恰好命中 3 次的概率。</p>
+<p><strong>A6.</strong>【超几何分布】10 件产品中有 3 件次品，抽 2 件，求恰好抽到 1 件次品的概率。</p>
+<h3>B 能力提升</h3>
+<p><strong>B7.</strong>【期望方差】X 分布列同上 A4，求 D(X)。</p>
+<p><strong>B8.</strong>【正态分布】X ~ N(2, σ<sup>2</sup>)，已知 P(X&lt;0)  =  0.2，求 P(2&lt;X&lt;4)。（利用对称性）</p>
+<p><strong>B9.</strong>【全概率】两箱产品：甲箱 10 件含 2 次品，乙箱 20 件含 3 次品。任取一箱抽 1 件，求抽到次品的概率。</p>
+<p><strong>B10.</strong>【期望决策】方案 A：稳赚 500 元；方案 B：0.6 概率赚 1000、0.4 概率亏 200。用期望判断选哪个。</p>
+<h3>C 真题挑战（真实新高考题）</h3>
+<p><strong>C1.</strong>【正态分布·2024 新高考Ⅰ卷第 9 题（多选）】已知种植区以往亩收入 X ~ N(1.8, 0.1<sup>2</sup>)，推动出口后抽得样本均值 <span class = "ol">x</span> = 2.1、样本方差 s<sup>2</sup> = 0.01，设出口后亩收入 Y ~ N(<span class = "ol">x</span>, s<sup>2</sup>)。（若 Z~N(μ,σ<sup>2</sup>)，P(Z&lt;μ+σ) ≈ 0.8413。）下列正确的是（　）。
+A. P(X&gt;2) &gt; 0.2　　B. P(X&gt;2) &lt; 0.5　　C. P(Y&gt;2) &gt; 0.5　　D. P(Y&gt;2) &lt; 0.8</p>
+<p><strong>C2.</strong>【计数+期望·2025 新高考Ⅰ卷第 14 题】箱子里 5 个球分别标 1~5，有放回取 3 次，记至少被取到一次的不同球个数为 X，求 E(X)。</p>
+<p><strong>C3.</strong>【概率枚举·2024 新高考Ⅰ卷第 14 题】甲卡 {1,3,5,7}、乙卡 {2,4,6,8}，四轮各出一卡比大小，大者得 1 分、用后弃置。求四轮后甲总得分不小于 2 的概率。</p>
+</div><div class="sec sec-meta"><h2 class = "pit">⑥ 常见坑清单</h2>
+<ul>
+<li><strong>互斥 ≠ 独立</strong>：互斥事件 P(AB)  =  0，独立事件 P(AB)  =  P(A)P(B)——两个概念方向相反。</li>
+<li>条件概率 P(A|B) 分母是 P(B)，<strong>不是无条件概率</strong>。</li>
+<li>二项分布条件：<strong>独立 + 重复 + 概率不变</strong>；"不放回抽样"不是二项分布（是超几何）。</li>
+<li>分布列概率和必须为 1：算完检查，验算一步防错。</li>
+<li>期望的线性性质 E(aX+b)  =  aE(X) + b，方差 D(aX+b)  =  a<sup>2</sup>D(X)（<strong>b 不加</strong>）。</li>
+<li>决策题：期望相等时比方差（风险），别只停在期望。</li>
+</ul>
+<hr />
+</div><div class="sec sec-meta"><h2>本章公式速查表</h2>
+<blockquote>
+<p>与《高中数学常用公式·修订版》第十一部分"概率"核对一致；数字特征（期望/方差）口径与教材一致。</p>
+</blockquote>
+<h3>古典概型与事件关系</h3>
+<p><strong>P(A)  =  A 包含的基本事件数 / 基本事件总数</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>所有结果等可能时，概率就是"有利份数"除以"总份数"。</li>
+<li>用的时候：先数清总数；两枚骰子要区分顺序，(3,4) 和 (4,3) 是两个。</li>
+</ul>
+<p><strong>互斥加法 P(A∪B)  =  P(A) + P(B)</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>两个事不能同时发生时，发生其一的概率就是相加。</li>
+<li>用的时候：互斥才加；不是互斥要减 P(AB)。</li>
+</ul>
+<p><strong>一般加法公式 P(A∪B)  =  P(A) + P(B) − P(A∩B)</strong>（苏州教研·专题25）</p>
+<ul>
+<li class = "baihua"><span class = "tag">大白话</span>两个事都可能发生时，"至少一个发生" =  各自概率相加再减掉"同时发生"被重复算的那一块。</li>
+<li>用的时候：题目没说互斥就套它；互斥时 P(A∩B) = 0，它就退化成 P(A)+P(B)。A∪B  =  至少一个发生，A∩B  =  同时发生。</li>
+</ul>
+<p><strong>概率为 0 不一定是不可能事件，概率为 1 也不一定是必然事件</strong>（苏州教研·专题25）</p>
+<ul>
+<li class = "baihua"><span class = "tag">大白话</span>几何概型里"恰好落在某一点"概率是 0，但这件事确实能发生；反过来"去掉一个点的区域"概率是 1，却不是全部。</li>
+<li>用的时候：别把"概率 0"直接等同于"不可能"；只有古典概型里两者才等价。</li>
+</ul>
+<p><strong>对立 P(<span class = "ol">A</span>)  =  1 − P(A)</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>"不发生"的概率就是 1 减去发生的概率。</li>
+<li>用的时候：求"至少一个"正面难算时，转成求它的对立。</li>
+</ul>
+<h3>条件概率与独立</h3>
+<p><strong>条件概率 P(A|B)  =  P(AB) / P(B)</strong>（P(B)&gt;0）</p>
+<ul>
+<li class = "baihua"><span class = "tag">大白话</span>已知 B 发生后，样本空间缩小成 B，在 B 里数 AB 占多少。</li>
+<li>用的时候：分母是 P(B)，不是 P(A)；不放回抽样就是换样本空间重新数。</li>
+</ul>
+<p><strong>独立 P(AB)  =  P(A)·P(B)</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>两件事互不影响，同时发生的概率就是各自概率相乘。</li>
+<li>用的时候：独立 ⇔ 此式成立；独立和互斥方向相反，互斥的事件一般不独立。</li>
+</ul>
+<p><strong>独立的传递性：若 A 与 B 独立，则 A 与 <span class = "ol">B</span>、<span class = "ol">A</span> 与 B、<span class = "ol">A</span> 与 <span class = "ol">B</span> 也都独立</strong>（苏州教研·专题56）</p>
+<ul>
+<li class = "baihua"><span class = "tag">大白话</span>A 发不发生跟 B 没关系，那 A 跟"B 不发生"同样没关系，反过来也一样。</li>
+<li>用的时候：题目给"A、B 独立"，求 P(A·<span class = "ol">B</span>) 时直接写 P(A)·P(<span class = "ol">B</span>) = P(A)(1−P(B))，不用重新证。</li>
+</ul>
+<p><strong>互斥条件概率：若 B、C 互斥，则 P(B∪C | A)  =  P(B|A) + P(C|A)</strong>（苏州教研·专题56）</p>
+<ul>
+<li class = "baihua"><span class = "tag">大白话</span>在 A 这个大前提下，B、C 不能同时发生，那"B 或 C 发生"的条件概率就是两个条件概率相加。</li>
+<li>用的时候：条件概率里遇到互斥事件求并，照样可以加。</li>
+</ul>
+<p><strong>概率运算四种类型口诀：加（互斥事件）、减（对立事件）、乘（独立事件）、除（古典/几何/条件概率）</strong>（苏州教研·专题56）</p>
+<ul>
+<li class = "baihua"><span class = "tag">大白话</span>见互斥用加法、见对立用 1−、见独立用乘法、见"数份数/已知条件"用除法。</li>
+<li>用的时候：列式前先给题目归个类，知道该用哪把刀。</li>
+</ul>
+<h3>期望与方差</h3>
+<p><strong>E(X)  =  Σ x<sub>i</sub>·p<sub>i</sub></strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>每个取值乘它的概率再加权，就是随机变量的"平均取值"。</li>
+<li>用的时候：列完分布列一定回头验算 Σp<sub>i</sub>=1。</li>
+</ul>
+<p><strong>D(X)  =  E(X<sup>2</sup>) − [E(X)]<sup>2</sup></strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>描述随机变量围绕均值波动多大，平方消掉正负抵消。</li>
+<li>用的时候：用 E(X<sup>2</sup>)−[E(X)]<sup>2</sup> 比硬算离差平方快；先算 E(X<sup>2</sup>)=Σx<sub>i</sub><sup>2</sup>p<sub>i</sub>。</li>
+</ul>
+<p><strong>E(aX+b)  =  aE(X)+b；D(aX+b)  =  a<sup>2</sup>D(X)</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>期望跟着平移缩放一起变；方差只跟缩放、不跟平移（加 b 不变、乘 a 变 a<sup>2</sup> 倍）。</li>
+<li>用的时候：整体加一个常数，方差照写别加 b。</li>
+</ul>
+<h3>三个重要分布</h3>
+<p><strong>二项分布 X~B(n,p)：E(X) = np，D(X) = np(1−p)</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>n 次独立重复、每次成功率 p，命中次数就是二项分布。</li>
+<li>用的时候：独立+重复+概率不变才用它；有放回抽样。</li>
+</ul>
+<p><strong>两点分布（0-1 分布）：E(X) = p，D(X) = p(1−p)</strong>（苏州教研·专题56）</p>
+<ul>
+<li class = "baihua"><span class = "tag">大白话</span>只做一次试验、结果只有"成功 1 / 失败 0"两种，就是两点分布；它是 n = 1 的二项分布。</li>
+<li>用的时候：单次成败题直接套；D(X) = p(1−p) 和二项分布 n = 1 时一致。</li>
+</ul>
+<p><strong>超几何分布（不放回）：E(X)  =  n·M/N</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>N 个里 M 个次品，抽 n 个，期望次品数就是 n·M/N。</li>
+<li>用的时候：不放回抽样是超几何不是二项；期望和二项同口径，但方差更小。</li>
+</ul>
+<p><strong>超几何/混合球速算期望（仅客观题）：m 白 n 红 p 黑共 m+n+p 个球，任取 k 个，其中白球数期望 E(X)  =  k·m/(m+n+p)</strong>（苏州教研·专题56）</p>
+<ul>
+<li class = "baihua"><span class = "tag">大白话</span>把球"打碎搅匀"，每个被取到的球里白球占比恒为 m/(m+n+p)，取 k 个就乘 k。</li>
+<li>用的时候：选择题快速出期望；<strong>解答题求分布列、方差时不能用它</strong>，要老实套超几何公式。</li>
+</ul>
+<p><strong>正态分布 X~N(μ,σ<sup>2</sup>)：μ±σ ≈ 0.683，μ±2σ ≈ 0.954，μ±3σ ≈ 0.997；P(Z&lt;μ+σ) ≈ 0.8413</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>钟形曲线关于 μ 对称，离 μ 几个 σ 就套对应比例。</li>
+<li>用的时候：求 P(X&gt;a) 先看 a 离 μ 几个 σ，再用对称；a=μ+σ 时 P(X&lt;μ+σ)=0.8413、P(X&gt;μ+σ)=0.1587。</li>
+</ul>
+<p><strong>正态密度函数 φ(x)  =  1/(√(2π)·σ) · e^(−(x−μ)<sup>2</sup>/(2σ<sup>2</sup>))</strong>（苏州教研·专题56）</p>
+<ul>
+<li class = "baihua"><span class = "tag">大白话</span>这是那条钟形曲线的解析式；曲线与 x 轴围成的总面积  =  1，区间上的概率就是对应面积。</li>
+<li>用的时候：知道 μ = 均值、σ = 标准差即可，不必背解析式；样本里用 <span class = "ol">x</span> 当 μ、用 √s（即 s）当 σ 把正态分布定下来。</li>
+</ul>
+<p><strong>3σ 原则（假设检验）：一次试验结果 a 落在 (μ−3σ, μ+3σ) 内就接受假设，落在外面就拒绝</strong>（苏州教研·专题56）</p>
+<ul>
+<li class = "baihua"><span class = "tag">大白话</span>正态变量几乎 99.7% 挤在 μ±3σ 里，跑出去属于小概率事件，一次就发生说明原假设可疑。</li>
+<li>用的时候：产品尺寸正常波动范围就是 (μ−3σ, μ+3σ)；出界即判异常。</li>
+</ul>
+<h3>几何概型</h3>
+<p><strong>几何概型 P(A)  =  构成事件 A 的区域长度（面积/体积）÷ 试验全部结果的区域长度（面积/体积）</strong>（苏州教研·专题25）</p>
+<ul>
+<li class = "baihua"><span class = "tag">大白话</span>结果无限多又等可能时，概率不再是数份数，而是"长度比/面积比/体积比"。</li>
+<li>用的时候：一个变量在区间上取值 → 长度比；两个变量 (x,y) 在平面区域取值 → 面积比（先设全集 Ω、事件 A 再画图）；立体中取点 → 体积比。</li>
+<li>记忆要点：线段/圆周上动点用长度比；平面内动点用面积比；空间内动点用体积比。</li>
+</ul>
+<h3>全概率</h3>
+<p><strong>全概率 P(A)  =  Σ P(B<sub>i</sub>)·P(A|B<sub>i</sub>)</strong>（B<sub>i</sub> 互斥且覆盖全部）</p>
+<ul>
+<li class = "baihua"><span class = "tag">大白话</span>把 A 按它发生的几种前提拆开，各算各的再加权求和。</li>
+<li>用的时候：多阶段、"先选哪袋再抽一件"这种题用它；反过来"已知结果求原因"用贝叶斯，会套全概率即可。</li>
+</ul>
+</div><div class="sec sec-meta"><h2>高级方法·进阶</h2>
+<blockquote>
+<p>对应《不超纲高级方法手册》六.6.1～6.4。</p>
+</blockquote>
+<p><strong>进阶 1：条件概率与全概率（手册 六.6.1）</strong></p>
+<ul>
+<li>适用信号：多阶段随机过程、"已知…求…"。</li>
+<li>操作步骤：P(A|B)=P(AB)/P(B)；全概率 P(A)=ΣP(B<sub>i</sub>)P(A|B<sub>i</sub>)。</li>
+<li>例：3.6-a。<strong>✓ 不超纲（新教材已入选必三第7章，务必熟练）</strong>。</li>
+</ul>
+<p><strong>进阶 2：期望的线性性（手册 六.6.2）</strong></p>
+<ul>
+<li>适用信号：求一堆随机变量之和的期望，不想列全分布列。</li>
+<li>操作步骤：<strong>E(X+Y)=E(X)+E(Y)</strong>（不要求 X、Y 独立！）；E(aX+bY+c)=aE(X)+bE(Y)+c。</li>
+<li>例：2025 第 14 题（C2）：设 I<sub>i</sub>=第 i 号球至少被取到一次，X=ΣI<sub>i</sub>，E(X)=ΣE(I<sub>i</sub>)=5·[1−(4/5)<sup>3</sup>]=61/25，不用枚举所有情况。</li>
+<li><strong>✓ 不超纲</strong>。</li>
+</ul>
+<p><strong>进阶 3：递推思想·马尔可夫链（手册 六.6.3）</strong></p>
+<ul>
+<li>适用信号：有状态转移的过程（传球、抽球），问"第 n 步在某状态的概率"。</li>
+<li>操作步骤：①设 P<sub>n</sub>=第 n 步在目标状态概率；②找 P<sub>n</sub>=f(P<sub>n−1</sub>) 递推；③构造等比解通项。</li>
+<li><strong>✓ 不超纲（数列与概率交叉热点）</strong>。</li>
+</ul>
+<p><strong>进阶 4：分布模型速记（手册 六.6.4）</strong></p>
+<ul>
+<li>二项 B(n,p)：E=np、D=np(1−p)；超几何 E=nM/N；正态看对称性、3σ。</li>
+<li><strong>✓ 不超纲</strong>。</li>
+</ul>
+<p><strong>进阶 5：统计应用题先判模型（苏州教研·专题56）</strong></p>
+<ul>
+<li>适用信号：题里给了样本数据、让你"估计概率/求分布列"。</li>
+<li>操作步骤：①若题中<strong>强调</strong>"用样本估计总体""把频率当概率"（个体很多时）→ 后续大概率是独立重复试验，用<strong>二项分布</strong>；②若没强调，只是从固定总体里抽取 → 用<strong>古典概型/超几何</strong>；③若涉及正态分布，就用样本均值 <span class="ol">x</span> 当 μ、样本标准差 s 当 σ，把 N(μ,σ<sup>2</sup>) 定下来。</li>
+<li class="baihua"><span class="tag">大白话</span>看到"估计""当作概率"几个字，就往二项分布想；没这几个字，老老实实数份数。</li>
+<li><strong>✓ 不超纲</strong>。</li>
+</ul>
+<h3>手册原文全录（六.6.1～6.4）</h3>
+<blockquote>
+<p>以下完整收录《不超纲高级方法手册》第六章"概率统计"四条方法原文，与上面进阶 1～4 的浓缩版互为补充、不删改；例题联动本章例 5（灯泡，E(X)=27/25=1.08）、例 6（小白鼠，E(X)=4/3）、C2（2025 新高考Ⅰ卷第 14 题，E(X)=61/25）。</p>
+</blockquote>
+<h4>6.1 条件概率与全概率</h4>
+<p><strong>大白话·本质一句话</strong>：条件概率就是"知道了一部分消息后重新数份额"——分母从整个样本空间缩小到已知条件那一块；全概率则是把一件事按它发生的几种前提拆开，各算各的份额再加权。</p>
+<p><strong>手册原文</strong>：P(A|B)=P(AB)/P(B)；全概率 P(A)=ΣP(B<sub>i</sub>)P(A|B<sub>i</sub>)。用于"多阶段随机过程"题。（新教材已入教材，务必熟练。）</p>
+<p><strong>课标依据</strong>：条件概率与全概率公式（选必三第 7 章）。✓ 不超纲。</p>
+<p><strong>联动本章</strong>：3.2 节例 3.2-a（袋中不放回取球）是条件概率最朴素的版本——"第一红"这个消息把分母从 5 个球缩到 4 个球；3.6 节例 3.6-a（选袋抽合格品）是全概率；例 5（灯泡）先分"甲厂/乙厂"两块算一等品份额，E(X)=27/25=1.08。</p>
+<p>（高级方法手册·6.1）</p>
+<h4>6.2 期望的线性性</h4>
+<p><strong>大白话·本质一句话</strong>：期望就是"加权平均数"，而平均数可以拆开算再相加——不管两个随机变量独立不独立，E(X+Y) 永远等于 E(X)+E(Y)，省得去列那长长的分布列。</p>
+<p><strong>手册原文</strong>：E(aX+bY+c)=aE(X)+bE(Y)+c；E(X+Y)=E(X)+E(Y)（不要求独立）。用于"求期望不用列全分布列"的题（如多个随机变量的和）。</p>
+<p><strong>课标依据</strong>：期望的线性性质（选必三）。✓ 不超纲。</p>
+<p><strong>联动本章</strong>：C2（2025 新高考Ⅰ卷第 14 题）设 I<sub>i</sub>=第 i 号球至少被取到一次，X=ΣI<sub>i</sub>，E(X)=ΣE(I<sub>i</sub>)=5·[1−(4/5)<sup>3</sup>]=61/25，正是靠这条"拆成指示变量相加"省去枚举所有情况。</p>
+<p>（高级方法手册·6.2）</p>
+<h4>6.3 递推思想（马尔可夫链模型）—— 近两年高考压轴热点</h4>
+<p><strong>大白话·本质一句话</strong>：马尔可夫递推就是"只盯着下一步从哪来"——第 n 步在某状态的概率只由第 n−1 步的状态决定，写成 P<sub>n</sub>=f(P<sub>n−1</sub>) 的递推式，再当数列题解出通项。</p>
+<p><strong>手册原文</strong>：</p>
+<ul>
+<li><strong>适用信号</strong>：有状态转移的过程（传球、抽球、传染、走格），问"第 n 步处于某状态的概率"。</li>
+<li><strong>操作步骤</strong>：
+  1. 设 P<sub>n</sub> = 第 n 步处于目标状态的概率；
+  2. 找转移关系：P<sub>n</sub> = f(P<sub>n−1</sub>)（由第 n−1 步的状态转移而来）；
+  3. 得到一阶递推，用"构造等比"解出 P<sub>n</sub> 通项（联动数列递推求通项方法）；
+  4. 再求期望等。</li>
+<li><strong>例题</strong>：2023 年新高考及各省联考的传球模型、抽球模型。</li>
+<li><strong>课标依据</strong>：条件概率 + 递推数列（选必二、选必三）。✓ 不超纲——这正是"数列与概率交叉"的高考热点。</li>
+</ul>
+<p>（高级方法手册·6.3）</p>
+<h4>6.4 分布模型公式速记</h4>
+<p><strong>大白话·本质一句话</strong>：先认出这是哪一号分布——独立重复、有放回是二项；一把抓出来不放回是超几何；无数小因素加起来的连续钟形是正态——再各背一口期望方差口诀，不用每次现推。</p>
+<p><strong>手册原文</strong>：二项分布 B(n,p)：E=np、D=np(1−p)；超几何（不放回抽取）：E=nM/N；正态：对称性、3σ 原则。均值方差公式熟背，压轴问"方差大小比较"常用"方差刻画波动"直觉 + 公式。</p>
+<p><strong>联动本章</strong>：例 6（小白鼠）底层小概率 4/9 算准后，"每组独立、成功概率恒定"直接套二项 B(3,4/9)，E(X)=np=4/3；例 5（灯泡）不放回抽 2 个，用超几何期望 n·M/N=2×27/50=27/25=1.08，与分布列算值互验；3.4 节"有放回 vs 不放回"辨析（期望都是 1.8、方差 0.72 对 0.36）就是这条公式的直接应用。</p>
+<p>（高级方法手册·6.4）</p>
+<hr />
+<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. 6/36 = 1/6；2. P(A∪B) = 0.4 + 0.5 − 0.4·0.5 = 0.7；3. 4/10 = 0.4；C(4,2)/C(10,2) = 6/45 = 2/15；4. E = 2.5，D = 5·0.5·0.5 = 1.25；5. E(X) = 0·0.3 + 1·0.5 + 2·0.2 = 0.9。</p></div></div>
+</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A1.</strong> 偶数点 {2,4,6} 共 3 种，P = 3/6 = <strong>1/2</strong>。
+<strong>A2.</strong> P(<span class="ol">A</span>) = 1 − 0.7 = <strong>0.3</strong>。
+<strong>A3.</strong> 第一红后剩 4 红 3 白，P = 4/7。
+<strong>A4.</strong> E = 1·0.2+2·0.5+3·0.3 = 0.2+1+0.9 = <strong>2.1</strong>。
+<strong>A5.</strong> X~B(4,0.8)，P(X=3)=C(4,3)·0.8<sup>3</sup>·0.2 = 4·0.512·0.2 = <strong>0.4096</strong>。
+<strong>A6.</strong> P = C(3,1)C(7,1)/C(10,2) = 21/45 = <strong>7/15</strong>。</p>
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · B 组</button><div class="ans-body"><p><strong>B7.</strong> E(X<sup>2</sup>)=1·0.2+4·0.5+9·0.3=0.2+2+2.7=4.9。D=4.9−2.1<sup>2</sup>=4.9−4.41=<strong>0.49</strong>。
+<strong>B8.</strong> 对称轴 μ=2。P(X&lt;0)=P(X&gt;4)=0.2（对称）。P(2&lt;X&lt;4)=0.5−P(X&gt;4)=0.5−0.2=<strong>0.3</strong>。
+<strong>B9.</strong> P = ½·(2/10) + ½·(3/20) = 0.1 + 0.075 = <strong>0.175</strong>。
+<strong>B10.</strong> E(A)=500。E(B)=0.6·1000+0.4·(−200)=600−80=520。E(B)&gt;E(A)，<strong>选 B</strong>（但要提示 B 有亏损风险，需结合方差）。</p>
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · C 组</button><div class="ans-body"><p><strong>C1.</strong> <strong>BC</strong>。X~N(1.8,0.1<sup>2</sup>)，2=1.8+2×0.1=μ+2σ，P(X&gt;2)=0.5−0.954/2=0.023&lt;0.5，故 A 错 B 对。Y~N(2.1,0.1<sup>2</sup>)，2=2.1−0.1=μ−σ，P(Y&gt;2)=0.5+0.3413=0.8413&gt;0.5，故 C 对 D 错。
+<strong>C2.</strong> E(X)=5·[1−(4/5)<sup>3</sup>]=5·61/125=<strong>61/25=2.44</strong>（期望线性性）。
+<strong>C3.</strong> 24 种配对枚举，得分 ≥2 共 12 种，P=12/24=<strong>1/2</strong>。</p>
+</div></div></div><div class="sec sec-meta"><h2>一通百通</h2>
+<p>这一章的"通用骨架"是四步：<strong>① 定随机变量 X 及其全部取值 → ② 判断用哪个模型（古典数份数、独立重复用二项、不放回用超几何、连续钟形用正态）→ ③ 算每个取值的概率并列表（回头验算 Σp<sub>i</sub>=1）→ ④ 求 E(X)/D(X) 做决策（先比期望，期望相同再比方差）</strong>。条件概率和全概率只是在第②步里"换个样本空间重新数份额"。会解一道概率解答题，就会解所有概率题——灯泡、小白鼠、投篮、质检，骨子里都是"列分布列→求期望→比方案"。这套骨架下一章统计里"用样本频率估计概率"还会接上。</p>
+</div><div class="sec sec-meta"><h2>跨章结合</h2>
+<ul>
+<li><strong>第 17 章计数 + 本章概率 → 古典概型/超几何的"数份求概率"</strong>：袋中取球、卡片比大小这类题，第一步永远是用排列组合数清"总情况数"和"有利情况数"，再相除得概率。本章例 5（灯泡，苏州教研·专题57，原书p.193）先数清 50 个灯泡里甲厂一等品 27 个，再用超几何 C(27,k)C(23,2−k)/C(50,2) 列分布列；例 6（小白鼠）先把底层"A 有效只数&gt;B 有效只数"的概率 4/9 算准，再套二项分布。计数不准，后面概率全盘皆错。</li>
+<li><strong>本章概率 + 第 19 章统计 → 用样本估计总体概率与正态定参</strong>：本章 C1（2024 新高考Ⅰ卷第 9 题多选）就是把第 19 章的样本均值 <span class="ol">x</span>=2.1、样本标准差 s 当作正态分布的 μ、σ，把出口后亩收入 Y 定成 N(<span class="ol">x</span>,s<sup>2</sup>) 再套 3σ 比例判断——这正是"统计给参数、概率算区间"的握手处。</li>
+</ul>
+</div><div class="sec sec-meta"><h2>本章与前后章</h2>
+<p>概率（18）前面接<strong>第 17 章计数原理</strong>——古典概型的分子分母全靠排列组合去数，不会计数就列不出分布列；它后面接<strong>第 19 章统计</strong>——统计里"用样本频率估计总体概率""正态分布用样本均值 <span class="ol">x</span>、样本标准差 s 来定 μ、σ"，正是概率思想往"由样本推断总体"的延伸。本章例题 5（灯泡，E(X)=27/25=1.08）、例题 6（小白鼠，E(X)=4/3）就是全概率、二项分布的综合演练，把"算份额"这条主线走通，概率统计板块就立住了。</p>
+</div><div class="sec sec-meta"><h2>高考怎么考</h2>
+<p>新高考Ⅰ卷里概率是<strong>解答题主力</strong>（2023 起位置常在第 18–19 题区间），题型固定：新情境（比赛/质检/射击/药物对比）下列分布列、求期望方差、做方案决策；小题则考正态分布（如 2024 新高考Ⅰ卷第 9 题多选，本章 C1 已收录）、条件概率、古典概型计数（2024、2025 第 14 题，本章 C2、C3 已收录）。难度中档偏上，得分关键是"先判准模型（有放回二项、不放回超几何）、再列全分布列并验算 Σp=1"。它与 17 章计数、19 章统计共同构成概率统计解答题的完整链条。</p></div>
+</section>
+</main>
+<button id="topbtn" title="回到顶部">↑</button>
+<script>
+(function(){
+  var doc=document, root=doc.documentElement;
+  /* 字号调节（14.5-19.5，步进 1） */
+  var fs=parseFloat(localStorage.getItem('ebook-fs'))||16.5;
+  fs=Math.max(14.5,Math.min(19.5,fs));
+  root.style.setProperty('--fs',fs+'px');
+  var fsel=doc.getElementById('fsize');
+  function fsLabel(){if(fsel)fsel.textContent=fs.toFixed(1);}
+  var mn=doc.getElementById('minus'),pl=doc.getElementById('plus');
+  if(mn)mn.addEventListener('click',function(){fs=Math.max(14.5,fs-1);root.style.setProperty('--fs',fs+'px');localStorage.setItem('ebook-fs',fs);fsLabel();});
+  if(pl)pl.addEventListener('click',function(){fs=Math.min(19.5,fs+1);root.style.setProperty('--fs',fs+'px');localStorage.setItem('ebook-fs',fs);fsLabel();});
+  fsLabel();
+  /* 正文字体切换 */
+  if(localStorage.getItem('ebook-serif')==='1')doc.body.classList.add('serif');
+  var sbtn=doc.getElementById('serifbtn');
+  function serifLabel(){sbtn.textContent=doc.body.classList.contains('serif')?'黑体':'衬线';}
+  if(sbtn){sbtn.addEventListener('click',function(){var on=doc.body.classList.toggle('serif');localStorage.setItem('ebook-serif',on?'1':'0');serifLabel();});serifLabel();}
+  /* 深色模式 */
+  if(localStorage.getItem('ebook-dark')==='1')doc.body.classList.add('dark');
+  var dbtn=doc.getElementById('darkbtn');
+  function darkLabel(){if(dbtn)dbtn.textContent=doc.body.classList.contains('dark')?'日间':'夜读';}
+  if(dbtn){dbtn.addEventListener('click',function(){var on=doc.body.classList.toggle('dark');localStorage.setItem('ebook-dark',on?'1':'0');darkLabel();});darkLabel();}
+  /* 答案折叠 */
+  doc.querySelectorAll('.ans-toggle').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var box=btn.parentNode;
+      box.classList.toggle('open');
+      btn.textContent=box.classList.contains('open')?'隐藏答案':'显示答案';
+    });
+  });
+  /* 打印三模式（本页章节） */
+  function curSec(){return doc.querySelector('#main section.chapter')}
+  function printScope(mode){
+    doc.body.classList.remove('print-note','print-q','print-a','print-ans','print-one');
+    var s=curSec();if(s)s.classList.remove('ch-print');
+    doc.querySelectorAll('.sec.sec-has-ans').forEach(function(x){x.classList.remove('sec-has-ans')});
+    if(mode==='note')doc.body.classList.add('print-note');
+    if(mode==='q')doc.body.classList.add('print-q');
+    if(mode==='a'){doc.body.classList.add('print-a','print-ans');doc.querySelectorAll('.ans-box').forEach(function(b){var p=b.closest('.sec');if(p)p.classList.add('sec-has-ans')});}
+    if(s){s.classList.add('ch-print');doc.body.classList.add('print-one');}
+    window.print();
+  }
+  var pn=doc.getElementById('printnote'),pq=doc.getElementById('printq'),pa=doc.getElementById('printa');
+  if(pn)pn.addEventListener('click',function(){printScope('note')});
+  if(pq)pq.addEventListener('click',function(){printScope('q')});
+  if(pa)pa.addEventListener('click',function(){printScope('a')});
+  /* 回到顶部 */
+  var topbtn=doc.getElementById('topbtn');
+  function onScroll(){var y=window.scrollY;if(topbtn)topbtn.style.display=y>600?'block':'none';}
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  if(topbtn)topbtn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})});
+  /* 搜索本章（点击结果滚动定位） */
+  var q=doc.getElementById('q'),sres=doc.getElementById('sres');
+  if(q)q.addEventListener('input',function(){
+    var k=q.value.trim();sres.innerHTML='';
+    if(!k)return;
+    var els=Array.prototype.slice.call(doc.querySelectorAll('#main p,#main li,#main h3,#main h4'));
+    var hits=els.filter(function(e){return e.textContent.indexOf(k)>-1});
+    hits.slice(0,20).forEach(function(e,i){
+      var d=doc.createElement('div');d.className='sr-item';
+      d.textContent=(i+1)+'. '+e.textContent.replace(/\s+/g,' ').slice(0,46);
+      d.addEventListener('click',function(){e.scrollIntoView({behavior:'smooth',block:'center'});sres.innerHTML='';q.value='';});
+      sres.appendChild(d);
+    });
+    if(!hits.length)sres.innerHTML='<div class="sr-none">本页无匹配</div>';
+  });
+})();
+</script>
+</body>
+</html>

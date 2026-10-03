@@ -14,10 +14,15 @@
 
 ## Quick Start
 
-1. Open `电子书\高中数学自学系统电子版.html` — a single-file e-book with 20 chapters (guide + 19 chapters + appendix), readable directly in a browser, with **full-text search, font-size control, serif/sans toggle, night mode, chapter progress bar, collapsible answers** (click "show answers"; each chapter's answers are hidden by default), and **print as a worksheet (answers hidden) or print with answers** via the top bar.
-2. Follow the "six-step loop" in Chapter 00 for each chapter: **prerequisite self-test → learning goals → main text (with "plain-language" annotations) → A/B/C tiered exercises → formula quick-lookup → advanced methods → answers**.
-3. Each chapter has "chapter materials" links at the top plus a "what if I don't understand" guide; if stuck over 30 minutes, mark and skip, then return later.
-4. Want an AI assistant to answer questions / generate problems / verify progress with the same method? Install the skill package `技能包\gaokao-math-selfstudy\` (see `系统文档\技能包安装说明.md`).
+1. **For daily study, open `电子书分章\index.html`** — a **chapter-per-file edition** (guide + 19 chapters + appendix, each chapter a separate HTML page). Every page holds only one chapter, so it opens and expands answers **instantly, even on weak machines**. Click any chapter card to enter; navigate chapters with the `← 上一章 | 目录 | 下一章 →` bar at the top.
+2. **Also available**: `电子书\高中数学自学系统电子版.html` — the single-file edition with the whole book in one page, including **cross-chapter full-text search**; use it when you want to search the entire book at once.
+3. Every chapter page / the single file offers: **font-size control, serif/sans toggle, night mode, in-page search, collapsible answers** (answers hidden by default, labeled by **prerequisite self-test / A / B / C groups**), and **three separate print modes from the top bar** (current chapter only, never the whole book):
+   - **打印讲义** (Print Lecture) — the chapter's teaching text, **with all problems and answers removed**;
+   - **打印题目** (Print Problems) — a **clean worksheet**: prerequisite self-test + exit check + A/B/C exercises, **no answers**;
+   - **打印答案** (Print Answers) — the **answer sheet**: self-test answers + A/B/C group answers only.
+4. Follow the "six-step loop" in Chapter 00 for each chapter: **prerequisite self-test → learning goals → main text (with "plain-language" annotations) → A/B/C tiered exercises → formula quick-lookup → advanced methods → answers**.
+5. Each chapter has "chapter materials" links at the top plus a "what if I don't understand" guide; if stuck over 30 minutes, mark and skip, then return later.
+6. Want an AI assistant to answer questions / generate problems / verify progress with the same method? Install the skill package `技能包\gaokao-math-selfstudy\` (see `系统文档\技能包安装说明.md`).
 
 ## Sources of Content
 
@@ -37,8 +42,11 @@
 
 ```
 ├── 电子书/
-│   ├── 高中数学自学系统电子版.html    # Main e-book (guide+19 chapters+appendix, single file)
+│   ├── 高中数学自学系统电子版.html    # Main e-book (guide+19 chapters+appendix, single file, cross-chapter search)
 │   └── assets/                       # Figures (52 images, referenced by the e-book)
+├── 电子书分章/                        # Chapter-per-file edition (recommended for daily study, instant & light)
+│   ├── index.html                    # Home: 20 chapter cards + how-to-use
+│   └── ch-00.html … ch-20.html       # One chapter per page (guide 00 … appendix 20)
 ├── 公式/
 │   ├── 高中数学常用公式·修订版.html/.md  # Full formulas by 15 sections (with memory tips)
 │   ├── 高中数学公式速查手册.html       # Quick lookup in chapter order 01–19

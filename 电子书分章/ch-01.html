@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>第01章 集合与常用逻辑 · 高中数学自学系统</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232563EB'/%3E%3Ctext x='32' y='46' font-size='40' text-anchor='middle' font-family='sans-serif' fill='white'%3E数%3C/text%3E%3C/svg%3E">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:88px}
+:root{
+  --fs:16.5px;
+  --bg:#f6f2e9; --card:#fffdf8; --ink:#2b2721; --muted:#8b8477;
+  --line:#e4dccb; --blue:#1f3a5f; --blue2:#3a5a85; --blue-l:#e8f0f9;
+  --gold:#c9a227; --gold-l:#faf3dc; --red:#c03a2b; --red-l:#fdf1ec;
+  --green:#3f8f4f; --green-l:#edf6ef; --purple:#7b5ea7; --purple-l:#f2eefa;
+  --shadow:0 1px 4px rgba(60,50,30,.07);
+}
+html,body{overflow-x:hidden}
+body{background:var(--bg);color:var(--ink);font-family:"Microsoft YaHei","PingFang SC","Noto Sans SC","Segoe UI",sans-serif;font-size:var(--fs);line-height:1.95}
+body.serif{font-family:Georgia,"Noto Serif SC","Source Han Serif SC","Songti SC",SimSun,serif}
+/* 深色模式 */
+body.dark{--bg:#191713;--card:#23201a;--ink:#d6d0c2;--muted:#8d8677;--line:#3a352b;--blue:#93b3dc;--blue2:#6d90bd;--blue-l:#1d2837;--gold:#d9b64e;--gold-l:#2b2513;--red:#e07a5f;--red-l:#2e1c16;--green:#7cbf8a;--green-l:#15251a;--purple:#b39ad8;--purple-l:#251f31;--shadow:0 1px 4px rgba(0,0,0,.35)}
+/* 阅读进度条 */
+#pbar{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,#e8c766,#c9a227);z-index:120;transition:width .1s linear}
+/* 顶部工具栏 */
+#tb{position:fixed;top:0;left:0;right:0;z-index:110;background:#23201b;color:#e8c766;box-shadow:0 1px 6px rgba(0,0,0,.25)}
+#tb-in{display:flex;align-items:center;gap:12px;max-width:min(1920px,calc(100vw - 300px));margin:0 auto;padding:8px 20px}
+.tb-logo{font-weight:800;font-size:13.5px;letter-spacing:.06em;white-space:nowrap;color:#e8c766}
+.tb-search{flex:1;min-width:160px;position:relative}
+#q{width:100%;padding:7px 12px;border-radius:8px;border:1px solid #4a4437;background:#14120e;color:#eee;font-size:13.5px;font-family:inherit;outline:none}
+#q::placeholder{color:#6f6859}
+#q:focus{border-color:#e8c766}
+#sres{position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--card);border:1px solid var(--line);border-radius:10px;box-shadow:0 10px 28px rgba(0,0,0,.18);max-height:340px;overflow-y:auto;display:none;z-index:130}
+#sres.open{display:block}
+#sres a{display:block;padding:9px 14px;border-bottom:1px solid var(--line);color:var(--ink);text-decoration:none;font-size:13.5px;line-height:1.6}
+#sres a .ch{font-size:11.5px;color:var(--gold);display:block;margin-bottom:2px;font-weight:700}
+#sres a b{color:var(--blue)}
+#sres a:hover{background:var(--blue-l)}
+#sres .nores{padding:10px 14px;color:var(--muted);font-size:13px}
+.tb-tools{display:flex;align-items:center;gap:6px;white-space:nowrap}
+.tb-btn{background:#332e25;border:1px solid #4a4437;color:#e8e2d4;border-radius:8px;padding:6px 11px;font-size:12.5px;cursor:pointer;font-family:inherit;transition:.15s}
+.tb-btn:hover{background:#4a4437;color:#fff}
+#fsize{font-size:12px;min-width:32px;text-align:center;color:#c9c0ab}
+/* 侧边目录 */
+#toc{position:fixed;top:0;left:0;bottom:0;width:240px;background:#23201b;color:#d8d2c6;overflow-y:auto;z-index:100;padding:64px 0 40px}
+#toc .toc-title{font-weight:700;font-size:13.5px;letter-spacing:.15em;color:#e8c766;padding:0 22px 12px;border-bottom:1px solid #38332b;margin-bottom:8px}
+#toc a{display:flex;align-items:baseline;gap:9px;color:#c6bfae;text-decoration:none;padding:7px 22px;font-size:13.5px;line-height:1.5;border-left:3px solid transparent}
+#toc a .no{font-weight:700;color:#8a8272;font-size:12px;min-width:20px}
+#toc a:hover{background:#322d25;color:#fff}
+#toc a.on{background:#1a1712;color:#fff;border-left-color:#e8c766}
+#toc a.on .no{color:#e8c766}
+#toc .toc-foot{padding:16px 22px;font-size:11.5px;color:#6f6859;border-top:1px solid #38332b;margin-top:12px;line-height:1.7}
+/* 主内容 */
+#main{margin-left:240px;margin-right:auto;max-width:min(1920px,calc(100vw - 300px));min-width:0;padding:76px 48px 120px}
+section.chapter{padding:54px 0 22px;border-bottom:1px solid var(--line)}
+section.chapter:first-of-type{padding-top:18px}
+/* 章头横幅 */
+.ch-head{background:linear-gradient(135deg,#1f3a5f 0%,#3a5a85 72%,#54739f 100%);border-radius:14px;padding:26px 28px 22px;margin:0 0 20px;color:#fff;position:relative;overflow:hidden;box-shadow:0 3px 10px rgba(31,58,95,.20)}
+.ch-head::after{content:attr(data-no);position:absolute;right:16px;top:-20px;font-size:104px;font-weight:800;color:rgba(255,255,255,.07);line-height:1;pointer-events:none}
+.ch-no{font-size:12.5px;letter-spacing:.3em;color:#e8c766;font-weight:700}
+h1.ch-title{font-size:29px;font-weight:800;color:#fff;margin:8px 0 6px;letter-spacing:.02em;line-height:1.3}
+.ch-sub{color:#ccd8ea;font-size:13px}
+/* 配套资料直达 */
+.mats{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px 16px;margin:0 0 18px;box-shadow:var(--shadow)}
+.mats-t{font-size:12.5px;font-weight:700;color:var(--gold);margin-bottom:9px;letter-spacing:.04em}
+.mats-l{display:flex;flex-wrap:wrap;gap:8px}
+.mats-l a{background:var(--blue-l);color:var(--blue);text-decoration:none;font-size:13px;padding:5px 13px;border-radius:20px;border:1px solid #c9d8ec;transition:.15s}
+.mats-l a:hover{background:var(--blue);color:#fff;transform:translateY(-1px)}
+/* 看不懂怎么办 */
+.help{background:var(--gold-l);border:1px dashed var(--gold);border-radius:12px;padding:13px 16px;margin:0 0 20px;font-size:13.5px;color:#6b5c26;line-height:1.85;box-shadow:var(--shadow)}
+body.dark .help{color:#d8c078}
+.help b{color:var(--gold)}
+/* 小节标题 */
+h2{font-family:inherit;font-size:calc(var(--fs) + 2.5px);font-weight:700;color:var(--blue);margin:40px 0 14px;padding:9px 14px 9px 16px;background:var(--blue-l);border-left:5px solid #c9d8ec;border-radius:0 9px 9px 0;line-height:1.45}
+h2.gate{border-left-color:#3b7dd8}.h2tag{font-size:11px;background:var(--blue-l);color:var(--blue);border-radius:4px;padding:1px 8px;margin-right:8px;vertical-align:2px}
+h2.goal{border-left-color:#3b7dd8}
+h2.body{border-left-color:#c9d8ec}
+h2.ex2{border-left-color:#3f7fd4}
+h2.out{border-left-color:#3b7dd8}
+h2.pit{border-left-color:var(--red)}
+h2.hw{border-left-color:var(--green)}
+h2.formula{border-left-color:var(--gold)}
+h2.adv{border-left-color:var(--purple)}
+h3{font-size:calc(var(--fs) + 0.5px);font-weight:700;color:#3a352c;margin:22px 0 8px}
+p{margin:0 0 12px}
+strong{color:var(--blue)}
+/* 公式独立行：数学衬线字体统一字形（χ Σ √ 上下标同族），避免文本符号混排歪扭 */
+p:has(> strong:only-child){text-align:center;font-size:calc(var(--fs) + 1.5px);margin:16px 0;background:var(--blue-l);border:1px solid #cfe0f2;border-radius:10px;padding:10px 14px;color:var(--blue);font-family:"Cambria Math","STIX Two Math","Times New Roman","Songti SC",serif;letter-spacing:.012em}
+/* 内容块分类 */
+p.def{background:var(--blue-l);border-left:4px solid var(--blue);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0;box-shadow:var(--shadow)}
+p.ex{background:var(--blue-l);border:1px solid #d5e3f7;border-radius:10px;padding:12px 15px;margin:14px 0;box-shadow:var(--shadow)}
+p.warn{background:var(--red-l);border-left:4px solid var(--red);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0;box-shadow:var(--shadow)}
+p.sum{background:var(--gold-l);border-left:4px solid var(--gold);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0;box-shadow:var(--shadow)}
+p.note{background:var(--gold-l);border:1px dashed var(--gold);border-left:4px solid var(--gold);padding:11px 16px;border-radius:0 10px 10px 0;margin:12px 0;font-size:calc(var(--fs) - 1px)}
+/* 大白话旁注：缩进小字块，像教材旁批，一眼区别于正文 */
+p.baihua{background:var(--gold-l);border-left:4px solid var(--gold);border-bottom:1px dashed var(--gold);padding:10px 16px;border-radius:0 10px 10px 0;margin:10px 0 12px 20px;font-size:calc(var(--fs) - 1.5px);line-height:1.75;color:#6a5f45}
+li.baihua{list-style:none;background:var(--gold-l);border-left:4px solid var(--gold);border-bottom:1px dashed var(--gold);padding:9px 14px;border-radius:0 10px 10px 0;margin:8px 0 8px -26px;font-size:calc(var(--fs) - 1.5px);line-height:1.75;color:#6a5f45}
+p.baihua span.tag,li.baihua span.tag{background:var(--gold);color:#5c4a12}
+p.baihua.why span.tag{background:var(--blue);color:#fff}
+p.taskA,p.taskB,p.taskC{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:11px 15px;margin:12px 0;box-shadow:var(--shadow)}
+p.taskA{border-left:4px solid var(--green);background:var(--green-l)}
+p.taskB{border-left:4px solid #3b7dd8;background:var(--blue-l)}
+p.taskC{border-left:4px solid var(--gold);background:var(--gold-l)}
+p.ans{background:var(--blue-l);border:1px dashed #c3cede;border-radius:10px;padding:11px 15px;margin:14px 0}
+.ans-box{margin:16px 0;border:1px solid var(--line);border-radius:10px;background:var(--card);overflow:hidden}
+.ans-box>.ans-toggle{display:block;width:100%;border:none;background:var(--blue-l);color:var(--blue);font-size:13.5px;font-weight:600;padding:10px 14px;cursor:pointer;font-family:inherit;text-align:left;transition:.15s}
+.ans-box>.ans-toggle:hover{background:#d7e3f5}
+.ans-box>.ans-toggle::before{content:"▸ ";transition:transform .15s}
+.ans-box.open>.ans-toggle::before{content:"▾ "}
+.ans-box>.ans-body{display:none;padding:10px 15px 13px;border-top:1px dashed #c3cede}
+.ans-box.open>.ans-body{display:block}
+.ans-body p.ans{background:transparent;border:none;padding:0;margin:0 0 8px;font-weight:600}
+span.tag{display:inline-block;background:var(--blue);color:#fff;font-size:11px;border-radius:4px;padding:0 7px;margin-right:8px;vertical-align:2px}
+p.warn span.tag{background:var(--red)}
+p.sum span.tag{background:var(--gold)}
+p.note span.tag{background:var(--gold);color:#5c4a12}
+p.ans span.tag{background:#5a6b80}
+/* blockquote 提示 */
+blockquote{background:var(--gold-l);border-left:4px solid var(--gold);padding:10px 16px;border-radius:0 10px 10px 0;margin:14px 0;color:#5c543f;font-size:calc(var(--fs) - 2px)}
+body.dark blockquote{color:#c9bc9a}
+body.dark p.baihua,body.dark li.baihua{color:#c9bc9a}
+ul,ol{margin:4px 0 12px 26px}
+li{margin:4px 0}
+li::marker{color:var(--blue)}
+/* 表格 */
+table{border-collapse:collapse;width:100%;margin:14px 0 20px;font-size:calc(var(--fs) - 2px);box-shadow:var(--shadow);border-radius:10px;overflow:hidden}
+td,th{padding:9px 12px;vertical-align:top;word-break:break-word;overflow-wrap:anywhere;text-align:left}
+code{font-family:ui-monospace,Consolas,'Courier New',monospace;font-size:.92em;word-break:break-all;overflow-wrap:anywhere}
+th{background:var(--blue);color:#fff;font-weight:600;text-align:left;padding:9px 12px;border:1px solid var(--blue)}
+td{padding:8px 12px;border:1px solid var(--line);vertical-align:top;background:var(--card)}
+tr:nth-child(even) td{background:rgba(0,0,0,.022)}
+tr:hover td{background:var(--blue-l)}
+img{max-width:92%;height:auto;display:block;margin:16px auto;border-radius:10px;box-shadow:var(--shadow);background:#fff}
+body.dark img{border:1px solid var(--line)}
+hr{border:none;border-top:2px dashed #d8d1c2;margin:22px 0}
+code{background:#efece4;padding:1px 6px;border-radius:4px;font-family:Consolas,monospace;font-size:calc(var(--fs) - 3px);color:#7a4a12;word-break:break-all;overflow-wrap:anywhere}
+body.dark code{background:#332e25;color:#e0b87a}
+pre{background:#26221c;color:#e8e2d4;padding:14px 16px;border-radius:8px;overflow-x:auto;margin:12px 0;font-size:13.5px}
+/* 表格容器：窄屏横向滚动，不压扁列 */
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 0 6px;max-width:100%}
+/* 数学符号统一化：组合音标与上下标（与正文同字体、基线规范） */
+span.ol{text-decoration:overline;text-decoration-thickness:1.1px;text-decoration-skip-ink:none}
+span.hat{position:relative;display:inline-block;padding:0 .04em}
+span.hat::after{content:"^";position:absolute;top:-0.42em;left:0;right:0;text-align:center;font-size:.66em;line-height:1;color:inherit}
+sup,sub{font-size:.7em;line-height:0;font-family:inherit}
+sup{vertical-align:super}sub{vertical-align:sub}
+/* 浮动按钮 */
+#topbtn{position:fixed;right:22px;bottom:26px;background:var(--blue);color:#fff;border:none;border-radius:50%;width:46px;height:46px;font-size:17px;cursor:pointer;box-shadow:0 3px 10px rgba(0,0,0,.25);z-index:100;display:none;font-family:inherit}
+#topbtn:hover{background:var(--blue2)}
+#mnav{display:none}
+/* 搜索命中闪烁 */
+section.flash{animation:flash 1.6s ease}
+@keyframes flash{0%{box-shadow:inset 0 0 0 3px var(--gold)}100%{box-shadow:inset 0 0 0 3px transparent}}
+@media (max-width:900px){
+  html{scroll-padding-top:150px}
+  body{overflow-x:hidden}
+  #main{overflow-x:hidden}
+  .tbl-wrap{overflow-x:auto}
+  .tbl-wrap table{min-width:560px}
+  #toc{transform:translateX(-100%);transition:transform .25s;width:280px;padding-top:56px}
+  #toc.open{transform:translateX(0)}
+  #main{margin-left:0;padding:150px 16px 100px}
+  #tb-in{flex-wrap:wrap;gap:6px 10px;padding:6px 10px}
+  .tb-logo{display:none}
+  .tb-search{flex:1 1 100%;min-width:0}
+  .tb-tools{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+  #mnav{display:flex;position:fixed;top:92px;left:0;right:0;z-index:105;background:#2b2620;color:#e8c766;padding:9px 14px;align-items:center;gap:10px;font-size:13.5px;font-weight:700;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+  #mnav button{background:none;border:1px solid #e8c766;color:#e8c766;border-radius:4px;padding:2px 10px;font-size:15px;cursor:pointer}
+  h1.ch-title{font-size:22px}
+  .ch-head{padding:20px 18px 18px}
+  .ch-head::after{font-size:76px;top:-10px;right:10px}
+  p:has(> strong:only-child){font-size:calc(var(--fs) - 0.5px)}
+  #topbtn{bottom:84px}
+}
+@media print{
+  #toc,#topbtn,#mnav,#tb,#pbar,.ans-toggle{display:none!important}
+  #main{margin:0;max-width:none;padding:0}
+  body{background:#fff;font-size:11.5pt}
+  body.dark{background:#fff;color:#000}
+  section.chapter{page-break-after:always;border:none}
+  body.print-one section.chapter{display:none!important}
+  body.print-one section.chapter.ch-print{display:block!important}
+  /* 讲义：隐藏出口检测+课后习题+全部答案 */
+  body.print-note .sec-out,body.print-note .sec-hw,body.print-note .ans-box{display:none!important}
+  /* 题目卷：只显示出口检测+课后习题 */
+  body.print-q .sec{display:none!important}
+  body.print-q .sec-out,body.print-q .sec-hw{display:block!important}
+  /* 答案卷：只显示含答案的区块（含自测答案与课后答案，JS 已打 sec-has-ans 标） */
+  body.print-a .sec{display:none!important}
+  body.print-a .sec-has-ans{display:block!important}
+  .ans-box{border:none;background:transparent;margin:6px 0}
+  .ans-box>.ans-body{display:none!important;padding:0;border:none}
+  body.print-ans .ans-box>.ans-body{display:block!important}
+  .ans-body p.ans{font-weight:700;margin:4px 0}
+}
+
+
+/* ===== 分章版专用 ===== */
+.ch-nav{display:flex;justify-content:space-between;align-items:center;gap:10px;max-width:min(1920px,calc(100vw - 300px));margin:12px auto 0;padding:9px 16px;background:var(--card);border:1px solid var(--line);border-radius:10px;font-size:13.5px;box-shadow:var(--shadow)}
+.ch-nav .cn-title{font-weight:700;color:var(--ink)}
+.ch-nav a{color:var(--blue);text-decoration:none;padding:2px 8px;border-radius:6px}
+.ch-nav a:hover{background:var(--blue-l);text-decoration:underline}
+#main{margin-top:4px}
+.sr-item{padding:7px 10px;border-bottom:1px solid var(--line);cursor:pointer;font-size:12.5px;line-height:1.5}
+.sr-item:hover{background:var(--blue-l)}
+.sr-none{padding:8px 10px;color:#888;font-size:12.5px}
+@media print{.ch-nav{display:none!important}}
+</style>
+</head>
+<body>
+<div id="pbar"></div>
+<header id="tb"><div id="tb-in">
+  <span class="tb-logo"><a href="index.html" style="color:inherit;text-decoration:none">高中数学自学系统</a></span>
+  <div class="tb-search"><input id="q" type="search" placeholder="搜索本章…" autocomplete="off"><div id="sres"></div></div>
+  <div class="tb-tools">
+    <button class="tb-btn" id="minus" title="减小字号">A−</button><span id="fsize"></span><button class="tb-btn" id="plus" title="增大字号">A+</button>
+    <button class="tb-btn" id="serifbtn" title="切换正文字体"></button>
+    <button class="tb-btn" id="darkbtn" title="深色/日间模式"></button>
+    <button class="tb-btn" id="printnote" title="打印本章讲义（不含题目与答案）">打印讲义</button>
+    <button class="tb-btn" id="printq" title="打印本章所有题目（练习卷）">打印题目</button>
+    <button class="tb-btn" id="printa" title="打印本章所有答案（答案卷）">打印答案</button>
+  </div>
+</div></header>
+<div class="ch-nav"><a href="ch-00.html">← 00</a><span class="cn-title">第01章 · 集合与常用逻辑</span><a href="ch-02.html">02 →</a></div>
+<main id="main">
+<section class="chapter" id="ch-01">
+<div class="ch-head" data-no="01"><div class="ch-no">第01章</div><h1 class="ch-title">集合与常用逻辑</h1><div class="ch-sub">板块：集合与逻辑 ｜ 前置：初中数系、一元一次/二次方程与不等式 ｜ 老教材：必修1 第1章 ｜ 新教材：必修一 第1章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后学习）">老教材·必修1</a><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后对标）">新教材·必修第一册</a><a href="../公式/高中数学公式速查手册.html#ch-01" title="本章公式速查（按章手册，直达本章）">公式速查手册</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
+<p>对应方法手册：无（基础章） ｜ 公式速查：修订版 第1部分+第14部分（集合与逻辑）</p>
+<p><strong>本章本质核心</strong>：集合是把对象按确定标准"装进一个筐"的容器语言，逻辑是判断一句话成不成立的校验规则——它们自己几乎不单独考，却是全书所有"解集、定义域、值域、取值范围"的书写语言。本章全部内容（三性、运算、包含、充分必要、量词否定）都是这一个原理的变体：<strong>先把话翻译成"谁在哪个筐里"，再用筐的关系（包含、交并、补）回答一切问题</strong>。</p>
+<p class = "baihua why"><span class = "tag">为什么有用</span>集合是全书所有"答案"的标准写法——从第 2 章起，函数定义域、值域、不等式解集、参数的取值范围，高考卷面上全要用集合或区间表达；逻辑（充分必要、量词否定）是"恒成立""存在""至少有一个"这类高级题目的翻译工具。学通本章，你不是多会了两个小知识点，而是拿到了读题和写答案的底层语法。</p>
+</blockquote>
+<hr />
+<div class="sec sec-meta"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
+<ol>
+<li>写出方程 x<sup>2</sup> − 3x + 2  =  0 的所有实数解。</li>
+<li>不等式 x − 1 ≥ 0 的解集是什么？</li>
+<li>判断：1 是自然数吗？π 是有理数吗？</li>
+<li>方程 x<sup>2</sup> + 1  =  0 有实数解吗？有几个？</li>
+<li>用一句话说明"偶数"是什么意思。</li>
+</ol>
+<p><strong>判定</strong>：5 题答对 4 题以上 → 进章；否则先复习初中"数系、方程、不等式"（老教材必修1 第 1 章前 3 页有数集复习）。</p>
+</div><div class="sec sec-meta"><h2 class = "goal">② 学习目标</h2>
+<p>学完本章，你必须能：</p>
+<ul>
+<li>用列举法、描述法表示集合；判断元素与集合的关系（∈ / ∉）</li>
+<li>判断集合间的包含/相等关系；写出含 n 个元素的集合的全部子集个数（2<sup>n</sup>）</li>
+<li>求两个集合的交、并、补（含数轴法与 Venn 图法）</li>
+<li>判断命题间的充分、必要、充要关系</li>
+<li>写出含量词命题的否定</li>
+</ul>
+</div><div class="sec sec-meta"><h2 class = "body">③ 正文讲解</h2>
+<p>先给你一张"本章地图"，学的时候知道自己走到哪了：</p>
+<div class = "tbl-wrap"><table style = "table-layout:fixed;max-width:100%"><colgroup><col style = "width:37%"><col style = "width:42%"><col style = "width:21%"></colgroup>
+<thead>
+<tr>
+<th>小节</th>
+<th>你将学会</th>
+<th>高考地位</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3.1 集合的含义与表示</td>
+<td>什么是集合、怎么写一个集合</td>
+<td>基础，几乎不单独考</td>
+</tr>
+<tr>
+<td>3.2 集合间的基本关系</td>
+<td>谁包含谁、子集有几个</td>
+<td>小题常考</td>
+</tr>
+<tr>
+<td>3.3 集合的基本运算</td>
+<td>交、并、补，画数轴/Venn</td>
+<td><strong>每年第1题就考它</strong></td>
+</tr>
+<tr>
+<td>3.4 常用逻辑用语</td>
+<td>充分/必要/充要、含量词命题的否定</td>
+<td>小题高频</td>
+</tr>
+<tr>
+<td>3.5 数形结合综合</td>
+<td>把集合画在数轴上</td>
+<td>解题主力</td>
+</tr>
+</tbody>
+</table></div>
+<h3>3.1 集合的含义与表示</h3>
+<p><strong>先讲个生活例子。</strong> 你书包里有什么？"语文书、数学书、水杯、钥匙"——把这几样确定的东西放在一起，就是一个整体。数学上把这样的整体叫<strong>集合</strong>，里面每一样东西叫这个集合的一个<strong>元素</strong>。再比如"咱们班所有女生"也是一个集合，"身高超过 180cm 的同学"也是。</p>
+<p>那"班里个子高的同学"呢？这就含糊了——175cm 算不算高？没有硬标准，谁也说不清一个同学到底在不在里面。这种<strong>标准不明确</strong>的一堆东西，不能叫集合。这就是下面第一条性质的来历。</p>
+<p><strong>一般地，我们把一些能够确定的、不同的对象看成一个整体，就说这个整体是由这些对象的全体构成的集合（简称集），集合中的每个对象叫做这个集合的元素。</strong>（人教A版口径）</p>
+<p><strong>元素的三个性质</strong>——判断"一堆东西算不算一个集合"，就拿这三把尺子量：</p>
+<ol>
+<li><strong>确定性</strong>：任何一个对象，要么在这个集合里，要么不在，不含糊。"好看的人"不是集合，"身高 ≥ 180cm 的人"才是集合。</li>
+<li><strong>互异性</strong>：集合里的元素互不相同。写 {1, 1, 2} 是不规范的，两个 1 是同一个元素，应写成 {1, 2}。</li>
+<li><strong>无序性</strong>：{1, 2} 和 {2, 1} 是同一个集合，顺序无所谓。</li>
+</ol>
+<p><strong>元素与集合的关系</strong>：一个对象 a 在集合 A 里，说"a 属于 A"，记作 <strong>a ∈ A</strong>；不在就说"a 不属于 A"，记作 <strong>a ∉ A</strong>。∈ 和 ∉ 是一对反义词，二选一。</p>
+<p><strong>常用数集（必须背熟，后面每章都用）</strong>：</p>
+<div class = "tbl-wrap"><table style = "table-layout:fixed;max-width:100%"><colgroup><col style = "width:14%"><col style = "width:28%"><col style = "width:58%"></colgroup>
+<thead>
+<tr>
+<th>记号</th>
+<th>含义</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>N</strong></td>
+<td>自然数集（含 0）</td>
+<td>0, 1, 2, 3, …</td>
+</tr>
+<tr>
+<td><strong>N*</strong> 或 <strong>N<sub>+</sub></strong></td>
+<td>正整数集（不含 0）</td>
+<td>1, 2, 3, …</td>
+</tr>
+<tr>
+<td><strong>Z</strong></td>
+<td>整数集</td>
+<td>…, −2, −1, 0, 1, 2, …</td>
+</tr>
+<tr>
+<td><strong>Q</strong></td>
+<td>有理数集</td>
+<td>能写成分数 p/q 的数</td>
+</tr>
+<tr>
+<td><strong>R</strong></td>
+<td>实数集</td>
+<td>数轴上所有的数</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p>注意：新教材（人教A版2019）里 <strong>0 是自然数</strong>，所以 N 从 0 开始；N* 才从 1 开始。这是和老教材一个容易混的点。</p>
+</blockquote>
+<p><strong>集合的三种表示方法</strong>：</p>
+<ul>
+<li><strong>列举法</strong>：把元素一一列出来，写在大括号里，如 {1, 2, 3}。元素少的时候好用。</li>
+<li><strong>描述法</strong>：写清楚"这个集合里的元素满足什么条件"，格式是 {代表元素 | 条件}。例如 {x | x<sup>2</sup> − 1  =  0} 读成"满足 x<sup>2</sup> − 1  =  0 的所有 x 构成的集合"，它就是方程 x<sup>2</sup>−1 = 0 的解集。竖线左边写"是谁"，右边写"要满足什么"。</li>
+<li><strong>图示法</strong>：用一条封闭曲线（圆圈）圈住元素，叫 Venn 图，后面讲运算时大量用。</li>
+</ul>
+<p><strong>【跟讲例题 3.1-1】</strong> 用适当的方法表示："大于 −3 且小于 5 的所有整数"。
+解：先把这些整数逐个列出来：−2, −1, 0, 1, 2, 3, 4。元素不多，用列举法写成 {−2, −1, 0, 1, 2, 3, 4}。
+也可以用描述法写成 {x ∈ Z | −3 &lt; x &lt; 5}。两种写法都对，结果是同一个集合。</p>
+<p><strong>【跟讲例题 3.1-2】</strong> 判断：集合 {x | x 是好人} 是不是一个集合？
+解：不是。"好人"没有客观标准，张三觉得好、李四觉得不好，确定性这一条就过不了关。换成"考试及格（≥60 分）的同学"，有硬标准，才是集合。</p>
+<p><strong>本节易错点</strong>：描述法竖线两边别写反——{x | x &gt; 2} 里 x 是被描述的对象，不是把"x&gt;2"整个塞进去。</p>
+<p><strong>小结</strong>：集合就是"标准明确的一堆东西"；元素要么在里面要么不在；常用数集 N、Z、Q、R 要张口就来。</p>
+<p><strong>编者注·本质回扣</strong>：集合的本质是"容器"而不是"内容"——学 3.1 时你可能觉得这些定义没什么用，但集合的价值在于它是全书的书写语言：从下一章开始，函数的定义域、值域、方程解集、不等式解集，全都要用集合来"装"。现在把确定性、互异性、无序性三把尺子练熟，后面写解集才不写错；这也是本章本质核心说的"谁在哪个筐里"——先把筐的规矩定好，全书才装得下。</p>
+<h3>3.2 集合间的基本关系</h3>
+<p><strong>生活类比</strong>：你的文具盒 A 里有"铅笔、橡皮"，你的笔袋 B 里有"铅笔、橡皮、尺子"。你会发现：A 里的每一样东西，B 里都有。这种"A 整个装进 B 里"的关系，就是数学上说的<strong>包含</strong>。</p>
+<p><strong>定义（以新教材口径）</strong>：</p>
+<ul>
+<li><strong>子集</strong>：如果集合 A 的<strong>任意一个元素</strong>都是集合 B 的元素，就说 A 是 B 的子集，记作 <strong>A ⊆ B</strong>（或 B ⊇ A），读作"A 包含于 B"。</li>
+<li><strong>真子集</strong>：如果 A ⊆ B，并且 B 中<strong>至少有一个元素</strong>不在 A 中，就说 A 是 B 的真子集，记作 A ⫋ B。</li>
+<li><strong>集合相等</strong>：如果 A ⊆ B 且 B ⊆ A，那 A 和 B 的元素一模一样，记作 <strong>A  =  B</strong>。</li>
+<li><strong>空集</strong>：不含任何元素的集合叫空集，记作 <strong>∅</strong>。规定：<strong>空集是任何集合的子集</strong>，即 ∅ ⊆ A 对任意 A 都成立。</li>
+</ul>
+<p><strong>几条核心结论（会推导，别死背）</strong>：</p>
+<ol>
+<li>任何集合是它自己的子集：A ⊆ A。——因为 A 的元素当然都在 A 里。</li>
+<li>传递性：A ⊆ B 且 B ⊆ C ⇒ A ⊆ C。——就像"你包含在年级里，年级包含在学校里，你当然在学校里"。</li>
+<li>
+<p><strong>含 n 个元素的集合，子集共有 2<sup>n</sup> 个，真子集 2<sup>n</sup>−1 个，非空真子集 2<sup>n</sup>−2 个。</strong>
+   这个 2<sup>n</sup> 是怎么来的？拿集合 {a, b, c} 来说，写它的一个子集时，对每个元素都有"带它玩"或"不带它玩"两种选择：a 有 2 种、b 有 2 种、c 有 2 种，搭配起来就是 2 × 2 × 2  =  2<sup>3</sup>  =  8 种。其中"全都不带"就是 ∅，"全都带"就是它自己。去掉空集得真子集 2<sup>n</sup>−1 个；再去掉它自己，得非空真子集 2<sup>n</sup>−2 个。</p>
+</li>
+<li>
+<p><strong>空集陷阱</strong>：∅ 是任何集合的子集。问"某集合的所有子集"时，<strong>第一个就要写 ∅，最后别忘了它自己</strong>。</p>
+</li>
+</ol>
+<p><img alt = "Venn 图：A⊆B（A 整个画在 B 的圆圈里面）" src = "assets/01-venn-subset.png" /></p>
+<p><strong>【跟讲例题 3.2-1】</strong> 写出 {1, 2} 的所有子集，并指出真子集。
+解：按"从少到多"列：∅、{1}、{2}、{1,2}，共 2<sup>2</sup>  =  4 个。真子集是前 3 个（去掉 {1,2} 本身）：∅、{1}、{2}，共 2<sup>2</sup>−1  =  3 个。
+要点：先写空集，再写单元素集，再写双元素集，按这个顺序想就不会漏。</p>
+<p><strong>【跟讲例题 3.2-2】</strong> {0} 和 ∅ 是不是一回事？
+解：不是。∅ 里一个元素都没有；{0} 里有一个元素 0。打个比方：∅ 是空口袋，{0} 是口袋里装着一个 0。写子集时把这两个搞混，是经典失分点。</p>
+<p><strong>小结</strong>：A⊆B 就是"A 全装在 B 里"；n 个元素有 2<sup>n</sup> 个子集；空集是常客，别漏。</p>
+<h3>3.3 集合的基本运算</h3>
+<p><strong>生活例子</strong>：高一（1）班参加数学兴趣小组的同学构成集合 A，参加物理兴趣小组的构成集合 B。那么"既参加数学又参加物理"的同学是谁？是 A 和 B <strong>重叠</strong>的那部分——这就是<strong>交集</strong>。"参加数学或物理（至少一个）"的同学呢？是两个小组<strong>合起来</strong>的全部——这就是<strong>并集</strong>。</p>
+<p><strong>正式定义</strong>：</p>
+<ul>
+<li><strong>交集</strong> A ∩ B  =  {x | x ∈ A <strong>且</strong> x ∈ B}。两个集合公共的那部分。</li>
+<li><strong>并集</strong> A ∪ B  =  {x | x ∈ A <strong>或</strong> x ∈ B}。两个集合合起来的全部（重叠处只算一次）。</li>
+<li><strong>补集</strong>：先约定一个"大背景"叫<strong>全集 U</strong>（我们讨论的所有对象都在 U 里）。U 中<strong>不属于 A</strong> 的元素构成的集合叫 A 在 U 中的补集，记作 ∁<sub>u</sub> A  =  {x | x ∈ U 且 x ∉ A}。</li>
+</ul>
+<p><strong>三种运算的直观图</strong>（重叠 = 交，合起来 = 并，背景里扣掉 = 补）：</p>
+<p><img alt = "集合的交、并、补 Venn 图" src = "assets/01-venn-ops.png" /></p>
+<p><strong>数集运算画数轴</strong>：当集合是区间（不等式解集）时，把它们画在数轴上最快——交集取"两段重叠的公共部分"，并集取"两段盖住的全部"，补集取"剩下的部分"。实心点表示端点取得到，空心圈表示取不到。</p>
+<p><img alt = "数轴上区间的交、并、补" src = "assets/01-interval-ops.png" /></p>
+<p><strong>运算律（用熟）</strong>：</p>
+<ul>
+<li>交换律：A ∩ B  =  B ∩ A，A ∪ B  =  B ∪ A。</li>
+<li>分配律：A ∩ (B ∪ C)  =  (A ∩ B) ∪ (A ∩ C)；A ∪ (B ∩ C)  =  (A ∪ B) ∩ (A ∪ C)。</li>
+<li><strong>德摩根律</strong>：∁<sub>u</sub>(A ∩ B)  =  (∁<sub>u</sub>A) ∪ (∁<sub>u</sub>B)，∁<sub>u</sub>(A ∪ B)  =  (∁<sub>u</sub>A) ∩ (∁<sub>u</sub>B)。记口诀："交的补  =  补的并，并的补  =  补的交"，括号一拆，∩ 和 ∪ 对调。</li>
+</ul>
+<p><strong>计数公式（容斥原理）</strong>：|A ∪ B|  =  |A| + |B| − |A ∩ B|。意思是：两个集合的总个数，先各算各的，重叠部分被算了两次，要减掉一次。</p>
+<p><strong>运算结果与包含关系的互推（苏州教研·专题1）</strong>——看到运算结果"等于谁"，立刻反推"谁装谁"：</p>
+<p><strong>A ∪ B  =  B ⇔ A ⊆ B；A ∩ B  =  A ⇔ A ⊆ B</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>并完之后还是 B，说明 A 整个被 B 包住了（A⊆B）；交完之后剩下 A，也是 A⊆B。</li>
+<li>用的时候：题目给 "A∪B=B" 或 "A∩B=A"，先翻译成 "A⊆B" 再动手，别上来就硬算。</li>
+</ul>
+<p><strong>补集思想（正难则反，苏州教研·专题1 补充）</strong>：正面分类太繁时，先求反面（补集）的结果，再从全集里扣掉。解决"否定型"或"正面较繁"的问题特别管用。</p>
+<p><strong>看清集合的代表元素（苏州教研·专题1 补充）</strong>：描述法里竖线左边写什么，决定这个集合到底是什么——</p>
+<ul>
+<li>{x | f(x) = 0} 是方程的解集；{x | f(x)&gt;0} 是不等式的解集；</li>
+<li>{x | y = f(x)} 是函数的<strong>定义域</strong>；{y | y = f(x)} 是函数的<strong>值域</strong>。</li>
+</ul>
+<p>同样是 x、y，左边是 x 还是 y，意义完全不同；先看代表元素，再进一步化简。</p>
+<p><strong>做题流程（数集运算）</strong>：</p>
+<ol>
+<li>把每个集合先化简成区间（解不等式）。</li>
+<li>画数轴，标出端点、注意开闭。</li>
+<li>交 = 公共段、并 = 合并段、补 = 剩余段，照着图写出结果。</li>
+</ol>
+<p><strong>【跟讲例题 3.3-1】</strong> 设 A  =  {x | −1 &lt; x ≤ 3}，B  =  {x | 1 ≤ x &lt; 5}，求 A ∩ B、A ∪ B。
+解：画数轴。A 是 (−1, 3]，B 是 [1, 5)。</p>
+<ul>
+<li>A∩B：两段重叠的部分是 [1, 3]（左端点 1 在 B 里取得到，右端点 3 在 A 里取得到）。</li>
+<li>A∪B：合起来从 −1 到 5，即 (−1, 5)（−1 取不到、5 取不到）。</li>
+</ul>
+<p><strong>【跟讲例题 3.3-2】</strong> 设 U  =  {1,2,3,4,5}，A  =  {1,3,5}，求 ∁<sub>u</sub>A。
+解：全集里去掉 A 的元素，剩下 {2, 4}。所以 ∁<sub>u</sub>A  =  {2, 4}。</p>
+<p><strong>小结</strong>：交是"且"、并是"或"、补是"去掉"；数集运算务必画数轴，盯紧端点开还是闭。</p>
+<h3>3.4 常用逻辑用语</h3>
+<p><strong>先搞清楚什么叫命题。</strong> "今天下雨了""2+3 = 5""x<sup>2</sup>&lt;0"——能判断对错的陈述句叫<strong>命题</strong>。判断为真的是真命题，判断为假的是假命题。"你好吗？"不是命题（没法判断对错）。</p>
+<p><strong>本章最重要的考点：充分条件与必要条件。</strong> 设 p、q 是两个命题。</p>
+<ul>
+<li>若 <strong>p ⇒ q</strong>（p 成立一定能推出 q 成立），就说 p 是 q 的<strong>充分条件</strong>，q 是 p 的<strong>必要条件</strong>。</li>
+<li>四种情况（设 p、q 各对应一个实数集合 A、B）：</li>
+</ul>
+<div class = "tbl-wrap"><table style = "table-layout:fixed;max-width:100%"><colgroup><col style = "width:36%"><col style = "width:28%"><col style = "width:36%"></colgroup>
+<thead>
+<tr>
+<th>关系</th>
+<th>集合关系</th>
+<th>说法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>p ⇒ q，但 q ⇏ p</td>
+<td>A ⫋ B（A 是 B 的真子集）</td>
+<td>p 是 q 的<strong>充分不必要</strong>条件</td>
+</tr>
+<tr>
+<td>q ⇒ p，但 p ⇏ q</td>
+<td>B ⫋ A</td>
+<td>p 是 q 的<strong>必要不充分</strong>条件</td>
+</tr>
+<tr>
+<td>p ⇒ q 且 q ⇒ p</td>
+<td>A  =  B</td>
+<td>p 是 q 的<strong>充要</strong>条件</td>
+</tr>
+<tr>
+<td>互相都推不出</td>
+<td>A、B 互不包含</td>
+<td><strong>既不充分也不必要</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>秒杀技巧——集合包含法</strong>：把 p、q 各翻译成一个数集 A、B。若 A ⊆ B，那"落在 A 里"一定"落在 B 里"，即 p ⇒ q（p 充分、q 必要）。<strong>小集合推大集合</strong>。</p>
+<p><strong>全称量词与存在量词</strong>：</p>
+<ul>
+<li>全称命题：对<strong>所有</strong> x ∈ M 都成立，记作 "∀x ∈ M, p(x)"。∀ 读"任意"。</li>
+<li>存在命题：<strong>存在</strong> x ∈ M 使 p(x) 成立，记作 "∃x ∈ M, p(x)"。∃ 读"存在"。</li>
+<li><strong>否定规则（必背）</strong>：否定一个含量词的命题，<strong>量词互换（∀ ↔ ∃），再把结论否定</strong>，条件 M 不动。</li>
+<li>¬(∀x ∈ M, p(x))  =  ∃x ∈ M, ¬p(x)</li>
+<li>¬(∃x ∈ M, p(x))  =  ∀x ∈ M, ¬p(x)</li>
+</ul>
+<p><strong>常见词语的否定（苏州教研·专题42，必背）</strong>——否定一句话时，下面这些"对义词"要成对换：</p>
+<div class = "tbl-wrap"><table style = "table-layout:fixed;max-width:100%"><colgroup><col style = "width:22%"><col style = "width:28%"><col style = "width:21%"><col style = "width:29%"></colgroup>
+<thead>
+<tr>
+<th>原词</th>
+<th>它的否定</th>
+<th>原词</th>
+<th>它的否定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>是</td>
+<td>不是</td>
+<td>都是</td>
+<td>不都是</td>
+</tr>
+<tr>
+<td>大于</td>
+<td>不大于</td>
+<td>小于</td>
+<td>不小于</td>
+</tr>
+<tr>
+<td>p 或 q</td>
+<td>¬p 且 ¬q</td>
+<td>p 且 q</td>
+<td>¬p 或 ¬q</td>
+</tr>
+<tr>
+<td>至少有一个</td>
+<td>一个也没有</td>
+<td>至多有一个</td>
+<td>至少有两个</td>
+</tr>
+<tr>
+<td>至少有 n 个</td>
+<td>至多有 n−1 个</td>
+<td>至多有 n 个</td>
+<td>至少有 n+1 个</td>
+</tr>
+</tbody>
+</table></div>
+<p class = "baihua"><span class = "tag">大白话</span>"都"的否定是"不都"（存在一个不是），<strong>不是</strong>"都不"；"或"变"且"、"且"变"或"。这跟量词否定是一个路数：把"全部成立"翻成"存在一个例外"。另外分清两件事：<strong>命题的否定</strong>只否结论；<strong>否命题</strong>要把条件和结论一起否掉，全称/特称命题没有否命题。</p>
+<p><strong>【跟讲例题 3.4-1】</strong> "x &gt; 2" 是 "x &gt; 1" 的什么条件？
+解：设 A  =  {x | x&gt;2}，B  =  {x | x&gt;1}。A ⫋ B（小集合在大集合里）。</p>
+<ul>
+<li>x&gt;2 一定有 x&gt;1（小推大，充分）✓</li>
+<li>但 x&gt;1 不一定 x&gt;2（比如 x = 1.5），反过来推不出。
+所以 "x&gt;2" 是 "x&gt;1" 的<strong>充分不必要条件</strong>。</li>
+</ul>
+<p><strong>【跟讲例题 3.4-2】</strong> 写出命题 "∀x ∈ R, x<sup>2</sup> + 1 &gt; 0" 的否定。
+解：量词 ∀ 换成 ∃，结论 "x<sup>2</sup>+1&gt;0" 否定成 "x<sup>2</sup>+1≤0"，条件 R 不动。
+否定为：<strong>∃x ∈ R, x<sup>2</sup> + 1 ≤ 0</strong>。（原命题真，它的否定假，符合预期。）</p>
+<p><strong>易错点</strong>：充要条件的方向别读反——"p 是 q 的充分条件"  =  "p ⇒ q"，箭头从 p 指向 q。"p 的充分条件是 q" 才是 q ⇒ p，两句话主宾颠倒，方向相反。</p>
+<p><strong>小结</strong>：充分/必要就看"谁推得出谁"；用集合包含（小推大）最快；量词否定只换量词+否结论。</p>
+<p><strong>编者注·本质回扣</strong>：逻辑这一节看着像新东西，本质还是"筐"：充分必要条件就是两个集合谁包含谁（小筐在大筐里，落进小筐必落进大筐），量词否定就是把"全部/存在"翻成"有没有例外"。所以 3.1 到 3.4 是一条线——<strong>一切问题都翻译成集合，再用包含、交并、补来回答</strong>。记住这条线，第 2 章"函数定义域"、第 12 章"不等式解集"里你再见到集合，就知道它只是同一原理换了身衣服。</p>
+<h3>3.5 数形结合：集合题的解题总纲</h3>
+<p>前面讲的都是"算"，这一小节把"画图"这件事钉死。高考集合题年年出在第 1 题，1 分钟内必须拿下，靠的就是数形结合。</p>
+<p><strong>两类图，对号入座</strong>：</p>
+<ul>
+<li><strong>数集（不等式解集、区间）</strong> → 画<strong>数轴</strong>。端点该实就实、该空就空，重叠 = 交、合并 = 并。</li>
+<li><strong>抽象集合（不知道具体元素，只知道 A、B、C 之间的包含关系）</strong> → 画 <strong>Venn 图</strong>，把文字关系转成圆圈的大小和重叠。</li>
+</ul>
+<p><strong>操作步骤</strong>：① 先把每个集合化到最简（解不等式、列举元素）；② 选图（数轴 or Venn）；③ 在图上把答案区域涂出来；④ 翻译成区间或列举写回去，最后核对端点开闭。</p>
+<p><strong>【跟讲例题 3.5-1】</strong> 设全集 U  =  R，A  =  {x | x &lt; 1}，B  =  {x | x ≥ −2}，求 (∁<sub>u</sub>A) ∩ B。
+解：先求补：∁<sub>u</sub>A  =  {x | x ≥ 1}。再和 B  =  {x | x ≥ −2} 取交：两段 [1, +∞) 与 [−2, +∞) 的公共部分是 [1, +∞)。
+数轴上一画就明白：补集是 1 右边（含 1），B 是 −2 右边，公共的当然是更靠右的 [1, +∞)。</p>
+<p><strong>【跟讲例题 3.5-2】（苏州教研·专题1，原书p.10）</strong> 设全集 U  =  {x | 0 &lt; x &lt; 10，x ∈ N*}，若 A ∩ B  =  {2, 3}，A ∩ (∁<sub>u</sub>B)  =  {1, 5, 7}，(∁<sub>u</sub>A) ∩ (∁<sub>u</sub>B)  =  {6, 9}，求集合 B。</p>
+<p>解：U  =  {1, 2, 3, 4, 5, 6, 7, 8, 9}。画 Venn 图，把已知一块块填进去：
+- A ∩ B  =  {2, 3} → 2、3 在 A、B 的公共圈里；
+- A ∩ (∁<sub>u</sub>B)  =  {1, 5, 7} → 1、5、7 在 A 里、不在 B；
+- (∁<sub>u</sub>A) ∩ (∁<sub>u</sub>B)  =  {6, 9} → 6、9 在圈外（A、B 都不在）。
+剩下 4、8 没地方去：它们不在 A（否则会落到上面两格），又不在圈外，只能"在 B、不在 A"。
+所以 <strong>B  =  {2, 3, 4, 8}</strong>。
+要点：抽象集合关系别空想，画个 Venn 图把已知分区填好，剩下的元素自然归位——这就是数形结合的威力。</p>
+<p><strong>小结</strong>：集合题"能画就不算"，数轴和 Venn 图就是你的两把尺子。</p>
+</div><div class="sec sec-meta"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
+<p class = "ex"><span class = "tag">例题</span><strong>例 1（教材必修1 第1章例题）</strong>：写出集合 {a, b} 的所有子集，并指出哪些是真子集。</p>
+<blockquote>
+<p>自己做：别漏 ∅。</p>
+</blockquote>
+<p>解：所有子集为 ∅、{a}、{b}、{a, b}，共 4  =  2<sup>2</sup> 个。
+真子集为 ∅、{a}、{b}，共 3  =  2<sup>2</sup> − 1 个。
+要点：<strong>先写 ∅，再写单元素集，再写双元素集</strong>，顺序想清楚就不会漏。</p>
+<p class = "ex"><span class = "tag">例题</span><strong>例 2（2021 新高考Ⅰ卷 T1，真题）</strong>：设集合 A  =  {x | −2 &lt; x &lt; 4}，B  =  {2, 3, 4, 5}，则 A ∩ B  =  （　）</p>
+<p>A. {2}　B. {2, 3}　C. {3, 4}　D. {2, 3, 4}</p>
+<blockquote>
+<p>自己做：B 是具体集合，逐个看哪些元素落在 A 的开区间里。</p>
+</blockquote>
+<p>解：A  =  (−2, 4)，B 中的元素逐个检查：2 ∈ (−2, 4) ✓；3 ∈ (−2, 4) ✓；4 ∉ (−2, 4)（开区间不含 4）；5 ∉。故 A ∩ B  =  {2, 3}，选 <strong>B</strong>。
+要点：<strong>开区间端点取不到</strong>，这是集合题第一陷阱。</p>
+<p class = "ex"><span class = "tag">例题</span><strong>例 3（充要条件判断）</strong>：设 x ∈ R，判断"x &gt; 2"是"x &gt; 1"的什么条件。</p>
+<blockquote>
+<p>自己做：画数轴看两个集合的包含关系。</p>
+</blockquote>
+<p>解：设 A  =  {x | x &gt; 2}，B  =  {x | x &gt; 1}，A ⊂ B。</p>
+<ul>
+<li>x &gt; 2 ⇒ x &gt; 1 成立（充分）；</li>
+<li>x &gt; 1 ⇏ x &gt; 2（如 x  =  1.5）。
+故"x &gt; 2"是"x &gt; 1"的<strong>充分不必要条件</strong>。
+要点：充分性看"小集合 ⇒ 大集合"，必要性反过来看。</li>
+</ul>
+<p class = "ex"><span class = "tag">例题</span><strong>例 4（苏州教研·专题1，原书p.9）</strong>：设 A  =  {x | x<sup>2</sup> − 2x − 3  =  0}，B  =  {x | ax  =  1}，若 B ⊆ A，求实数 a。</p>
+<blockquote>
+<p>自己做：先把 A 解出来；别忘了 B 可能是空集。</p>
+</blockquote>
+<p>解：A  =  {x | (x−3)(x+1) = 0}  =  {−1, 3}。分两种情况：</p>
+<ul>
+<li>当 a  =  0 时，方程 ax  =  1 即 0  =  1，无解，B  =  ∅。空集是任何集合的子集，满足 B ⊆ A。</li>
+<li>当 a ≠ 0 时，B  =  {1/a}。要 B ⊆ A，需 1/a  =  3 或 1/a  =  −1，得 a  =  1/3 或 a  =  −1。</li>
+</ul>
+<p>综上，<strong>a  =  0，或 a  =  1/3，或 a  =  −1</strong>。
+要点：含参集合 B ⊆ A 时，第一件事就是讨论"B 会不会是空集"（这里 a = 0 时 B 自动为空）——漏掉这一支几乎必扣分。</p>
+</div><div class="sec sec-meta"><h2 class = "out">⑤ 出口检测</h2>
+<p><strong>自测（15 分钟，每题 2 分，10 分过关）</strong>：</p>
+<ol>
+<li>用描述法表示"大于 0 且小于 5 的整数"。</li>
+<li>集合 {1, 2, 3} 有多少个子集？多少个真子集？</li>
+<li>设 U  =  {1, 2, 3, 4, 5}，A  =  {1, 2}，B  =  {2, 3}，求 A ∩ B、A ∪ B、∁<sub>u</sub>A。</li>
+<li>判断："a  =  0"是"ab  =  0"的什么条件？</li>
+<li>写出命题"∀x ∈ R，x<sup>2</sup> ≥ 0"的否定。</li>
+</ol>
+<p>（答案在本章末尾，做完再对。）</p>
+<p><strong>真题验收</strong>：翻开 <code>数学自学系统素材\02_历年真题(新高考Ⅰ卷)\</code>：</p>
+<ul>
+<li>2020（山东卷）、2021、2022、2024 年新高考Ⅰ卷 <strong>选择题第 1 题</strong>（集合运算）</li>
+<li>2023 年新高考Ⅰ卷集合考在<strong>选择题第 2 题</strong>（该年第 1 题是复数）</li>
+<li>2025 年新高考Ⅰ卷 <strong>选择题第 2 题</strong>（集合，2025 起第 1 题改为复数）</li>
+<li>标准：每题 <strong>1 分钟内</strong>完成且全对 → 本章过关；超时或做错 → 回到 3.3 节重做数轴法练习。</li>
+</ul>
+<p><strong>过关标准</strong>：自测 ≥ 10 分 且 真题验收全对 → 在 00 篇打卡表打勾，进入第 02 章。</p>
+</div><div class="sec sec-hw"><h2>课后习题（分层练习）</h2>
+<blockquote>
+<p>A 组基础巩固（教材练习级）；B 组能力提升（高考中档）；C 组真题挑战（新高考真题，标年份题号）。答案见章末。</p>
+</blockquote>
+<h3>A 组 基础巩固</h3>
+<ol>
+<li>
+<p>【考点：集合的含义与三性质】下列各组对象，能构成集合的是（　）
+   A. 本班跑得快的同学　B. 接近于 0 的数　C. 方程 x<sup>2</sup>  =  4 的所有实数解　D. 著名的科学家</p>
+</li>
+<li>
+<p>【考点：常用数集与属于关系】用 ∈ 或 ∉ 填空：0 __ N；−3 __ N；√2 __ Q；π __ R。</p>
+</li>
+<li>
+<p>【考点：列举法与描述法】用列举法表示集合 {x ∈ Z | −2 ≤ x &lt; 3}。</p>
+</li>
+<li>
+<p>【考点：子集个数】集合 {a, b, c} 有多少个子集？多少个真子集？多少个非空真子集？</p>
+</li>
+<li>
+<p>【考点：交集运算】设 A  =  {1, 2, 3, 4}，B  =  {2, 4, 6}，求 A ∩ B 和 A ∪ B。</p>
+</li>
+<li>
+<p>【考点：补集运算】设全集 U  =  {1,2,3,4,5,6}，A  =  {2,4,6}，求 ∁<sub>u</sub>A。</p>
+</li>
+</ol>
+<h3>B 组 能力提升</h3>
+<ol start = "7">
+<li>
+<p>【考点：区间交并补（数轴法）】设 A  =  {x | −1 ≤ x &lt; 3}，B  =  {x | x &gt; 1}，求 A ∩ B、A ∪ B、(∁ᴿA) ∩ B。</p>
+</li>
+<li>
+<p>【考点：空集与含参子集】已知集合 A  =  {x | −1 ≤ x ≤ 3}，B  =  {x | m+1 ≤ x ≤ 2m−1}，若 B ⊆ A，求实数 m 的取值范围。（提示：别忘了 B 可能是空集）</p>
+</li>
+<li>
+<p>【考点：充要条件判断】设 x ∈ R，判断 "x  =  1" 是 "x<sup>2</sup> − 1  =  0" 的什么条件（充分不必要 / 必要不充分 / 充要 / 既不充分也不必要）。</p>
+</li>
+<li>
+<p>【考点：含量词命题的否定】写出命题 "∃x ∈ R, x<sup>2</sup> + 2x + 3 ≤ 0" 的否定，并判断原命题的真假。</p>
+</li>
+</ol>
+<h3>C 组 真题挑战</h3>
+<ol start = "11">
+<li>
+<p>【考点：交集运算】（2024 新高考Ⅰ卷 第1题）已知集合 A  =  {x | −5 &lt; x<sup>3</sup> &lt; 5}，B  =  {−3, −1, 0, 2, 3}，则 A ∩ B  =  （　）
+    A. {−1, 0}　B. {2, 3}　C. {−3, −1, 0}　D. {−1, 0, 2}</p>
+</li>
+<li>
+<p>【考点：补集运算】（2025 新高考Ⅰ卷 第2题）设全集 U  =  {x | x 是小于 9 的正整数}，集合 A  =  {1, 3, 5}，则 ∁<sub>u</sub>A 中元素的个数为（　）
+    A. 0　B. 3　C. 5　D. 8</p>
+</li>
+<li>
+<p>【考点：子集关系（含参）】（2023 新高考Ⅰ卷 第2题）设集合 A  =  {0, −a}，B  =  {1, a−2, 2a−2}，若 A ⊆ B，则 a  =  （　）
+    A. 2　B. 1　C. 2/3　D. −1</p>
+</li>
+</ol>
+</div><div class="sec sec-meta"><h2 class = "pit">⑥ 常见坑清单（错一次记一次）</h2>
+<ul>
+<li>空集 ∅ 不是 {0}：∅ 不含任何元素，{0} 含一个元素 0。</li>
+<li>∅ ⊆ A 恒成立，写子集时漏 ∅ 是高频失分点。</li>
+<li>开闭区间端点：x &lt; 4 不含 4；x ≤ 4 含 4。</li>
+<li>充要条件方向反：p 是 q 的充分条件 ⇔ p ⇒ q（p 在前）。"谁是谁的"顺序别搞反。</li>
+<li>量词否定只换量词+否结论，<strong>不要</strong>否定原命题的条件。</li>
+</ul>
+</div><div class="sec sec-meta"><h2>本章公式速查表</h2>
+<blockquote>
+<p>与《高中数学常用公式·修订版》第一部分（集合）、第十四部分（常用逻辑用语）核对一致。</p>
+</blockquote>
+<h3>元素与集合的关系</h3>
+<p><strong>a ∈ A</strong>（a 属于 A）</p>
+<ul>
+<li class = "baihua"><span class = "tag">大白话</span>a 这个东西，A 这个口袋里有它。</li>
+<li>用的时候：判断某个对象在不在集合里；在就写 ∈，不在就写 ∉，二选一，别空着。</li>
+</ul>
+<p><strong>a ∉ A</strong>（a 不属于 A）</p>
+<ul>
+<li class = "baihua"><span class = "tag">大白话</span>A 这个口袋里没有 a。</li>
+<li>用的时候：和 ∈ 配套，注意常用数集 N 含 0、N* 不含 0。</li>
+</ul>
+<h3>集合间的关系</h3>
+<p><strong>A ⊆ B</strong>（A 包含于 B）</p>
+<ul>
+<li class = "baihua"><span class = "tag">大白话</span>A 里的每样东西 B 里都有，A 整个装进 B 里。</li>
+<li>用的时候：判断包含关系；别忘 ∅ ⊆ A 恒成立，写子集先写空集。</li>
+<li>记忆要点：⊆ 开口朝向"装得多"的那个大集合。</li>
+</ul>
+<p><strong>A  =  B</strong>（A 等于 B）</p>
+<ul>
+<li class = "baihua"><span class = "tag">大白话</span>A 和 B 元素一模一样。</li>
+<li>用的时候：要证 A = B，得两边互相 ⊆，即 A⊆B 且 B⊆A。</li>
+</ul>
+<p><strong>∅ ⊆ A</strong>（空集是任何集合的子集）</p>
+<ul>
+<li class = "baihua"><span class = "tag">大白话</span>空口袋能装进任何口袋。</li>
+<li>用的时候：问"某集合的所有子集"，第一个就写 ∅，最后别忘了它自己；{0} ≠ ∅。</li>
+</ul>
+<p><strong>含 n 个元素 ⇒ 子集 2<sup>n</sup>、真子集 2<sup>n</sup>−1、非空真子集 2<sup>n</sup>−2</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>每个元素"带不带"两种选择，n 个元素就是 2 的 n 次方。</li>
+<li>用的时候：{1,2,3} 有 8 个子集、7 个真子集；先写 ∅ 再逐个加。</li>
+<li>记忆要点：去掉空集减 1，再去掉它自己再减 1。</li>
+</ul>
+<p><strong>若 A ⊆ B ⊆ C，A 有 m 个元素、C 有 n 个元素（n&gt;m），则这样的 B 有 2<sup>n−m</sup> 个</strong>（苏州教研·专题1 补充）</p>
+<ul>
+<li class = "baihua"><span class = "tag">大白话</span>A 的元素必须全进 B，C 比 A 多出的 (n−m) 个元素每个"带不带进 B"都行，共 2<sup>n−m</sup> 种。</li>
+<li>用的时候：如 {1,2}⊆B⊆{1,2,3,4,5}，多出 3 个元素，B 有 2<sup>3</sup>  =  8 个。</li>
+<li>记忆要点：夹在中间的 B，自由度全在"A 没有、C 有"的那批元素上。</li>
+</ul>
+<h3>集合的基本运算</h3>
+<p><strong>A ∩ B  =  {x | x ∈ A 且 x ∈ B}</strong>（交集）</p>
+<ul>
+<li class = "baihua"><span class = "tag">大白话</span>两个集合重叠的那部分，"既在 A 又在 B"。</li>
+<li>用的时候：数集运算画数轴取公共段；盯紧端点该闭还是该开。</li>
+</ul>
+<p><strong>A ∪ B  =  {x | x ∈ A 或 x ∈ B}</strong>（并集）</p>
+<ul>
+<li class = "baihua"><span class = "tag">大白话</span>两个集合合起来的全部，重叠处只算一次。</li>
+<li>用的时候：画数轴取两段盖住的全部；"或"是至少满足一个。</li>
+</ul>
+<p><strong>∁<sub>u</sub>A  =  {x | x ∈ U 且 x ∉ A}</strong>（A 在全集 U 中的补集）</p>
+<ul>
+<li class = "baihua"><span class = "tag">大白话</span>从大背景 U 里把 A 扣掉，剩下的就是补集。</li>
+<li>用的时候：先写清楚全集 U 是什么；补集  =  数轴上"剩下的部分"。</li>
+</ul>
+<h3>运算律与计数</h3>
+<p><strong>德摩根律：∁<sub>u</sub>(A∩B)  =  (∁<sub>u</sub>A)∪(∁<sub>u</sub>B)，∁<sub>u</sub>(A∪B)  =  (∁<sub>u</sub>A)∩(∁<sub>u</sub>B)</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>交的补 = 补的并，并的补 = 补的交，括号一拆 ∩ 和 ∪ 对调。</li>
+<li>用的时候：见到"补的交并"想拆开，或反过来合并。</li>
+<li>记忆要点："交补变并、并补变交"。</li>
+</ul>
+<p><strong>|A∪B|  =  |A| + |B| − |A∩B|</strong>（容斥计数）</p>
+<ul>
+<li class = "baihua"><span class = "tag">大白话</span>两个集合总个数，重叠部分被算了两次，要减掉一次。</li>
+<li>用的时候：数元素个数、做概率题常用。</li>
+</ul>
+<p><strong>A ∪ B  =  B ⇔ A ⊆ B；A ∩ B  =  A ⇔ A ⊆ B</strong>（运算结果反推包含，苏州教研·专题1）</p>
+<ul>
+<li class = "baihua"><span class = "tag">大白话</span>并完还是 B、交完剩 A，都说明 A 整个被 B 装着。</li>
+<li>用的时候：题目给运算等式，先翻译成包含关系再动手，别硬算。</li>
+<li>记忆要点："谁被吸收了，谁就是小的那个。"</li>
+</ul>
+<h3>充分与必要条件</h3>
+<p><strong>A ⊆ B ⇒ "A 的条件"是"B 的条件"的充分条件（小推大）</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>落在小集合里，一定落在大集合里。</li>
+<li>用的时候：把两个命题翻成数集，小集合推大集合就是充分；A=B 才充要。</li>
+<li>记忆要点："谁是谁的充分条件"，箭头从 p 指向 q，别读反主宾。</li>
+</ul>
+<h3>量词与命题否定</h3>
+<p><strong>¬(∀x∈M, p(x))  =  ∃x∈M, ¬p(x)</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>"所有 x 都成立"的否定是"存在某个 x 不成立"。</li>
+<li>用的时候：量词 ∀ 换成 ∃，结论否定，条件 M 不动。</li>
+</ul>
+<p><strong>¬(∃x∈M, p(x))  =  ∀x∈M, ¬p(x)</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>"存在某个 x 成立"的否定是"所有 x 都不成立"。</li>
+<li>用的时候：∃ 换成 ∀，再否定结论；别去动条件 M。</li>
+<li>记忆要点："换量词 + 否结论"，两步就够。</li>
+</ul>
+<p><strong>常见词语否定：都→不都；或⇔且互换；至少一个→一个也没有</strong>（苏州教研·专题42）</p>
+<ul>
+<li class = "baihua"><span class = "tag">大白话</span>"都是"的否定是"不都是"（存在一个不是），不是"都不是"；"p或q"的否定是"¬p且¬q"。</li>
+<li>用的时候：否定命题先换量词、再对词；"至少有一个"否定成"一个也没有"，"至多有一个"否定成"至少有两个"。</li>
+<li>记忆要点：全称特称互换 + 连接词或且互换。</li>
+</ul>
+</div><div class="sec sec-meta"><h2>高级方法·进阶</h2>
+<p><strong>本章对应方法手册：无直接对应章节</strong>（集合与逻辑是全书最基础的工具章，《不超纲高级方法手册》没有专门收录压轴方法）。这里只补两个把本章用"快"的小技巧，都是课标内、高考可放心用的：</p>
+<p><strong>进阶 1：充要条件的"集合包含法"（不超纲，高考可放心用）</strong></p>
+<ul>
+<li>适用信号：题目给两个命题 p、q，问谁是谁的什么条件。</li>
+<li>操作步骤：① 把 p、q 各自翻译成实数集合 A、B；② 画数轴比 A、B 的包含关系；③ A ⊆ B ⇒ p 充分、q 必要；A = B ⇒ 充要。</li>
+<li>例："x&gt;2"是"x&gt;1"的什么条件？A=(2,+∞)⊆B=(1,+∞)，故 p 充分不必要。</li>
+<li>依据：充分条件的集合刻画（课标内）。✓ 不超纲。</li>
+</ul>
+<p><strong>进阶 2：含参子集问题的"空集先行"讨论（不超纲，高考可放心用）</strong></p>
+<ul>
+<li>适用信号：B ⊆ A，且 B 是含参数 m 的区间。</li>
+<li>操作步骤：① 先单独讨论 B = ∅ 的情形（即"左端点 &gt; 右端点"），这是最容易漏的；② 再讨论 B ≠ ∅，把两个端点的不等式列出来；③ 合并两种情况。</li>
+<li>依据：空集是任何集合的子集（课标内）。✓ 不超纲。</li>
+<li>注意：考试若漏掉 B=∅ 这一支，本题几乎必扣分，务必写出来。</li>
+</ul>
+<hr />
+<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. {x | x ∈ N*，且 x &lt; 5}（或 {1, 2, 3, 4}）；2. 子集 8 个（2<sup>3</sup>）、真子集 7 个；3. A ∩ B  =  {2}、A ∪ B  =  {1, 2, 3}、∁<sub>u</sub>A  =  {3, 4, 5}；4. 充分不必要条件（a  =  0 ⇒ ab  =  0，反例 b  =  0、a  =  1）；5. ∃x ∈ R，x<sup>2</sup> &lt; 0。</p></div></div>
+</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
+<ol>
+<li>C。只有 C 有确定标准（x<sup>2</sup>=4 的解是 ±2，确定）；A、B、D 标准不明确，不满足确定性。</li>
+<li>0 ∈ N；−3 ∉ N（N 不含负整数）；√2 ∉ Q（无理数）；π ∈ R。</li>
+<li>{x ∈ Z | −2 ≤ x &lt; 3} = {−2, −1, 0, 1, 2}。</li>
+<li>n=3：子集 2<sup>3</sup>=8 个；真子集 2<sup>3</sup>−1=7 个；非空真子集 2<sup>3</sup>−2=6 个。</li>
+<li>A∩B = {2, 4}；A∪B = {1, 2, 3, 4, 6}。</li>
+<li>U={1,2,3,4,5,6} 去掉 A={2,4,6}，∁<sub>u</sub>A = {1, 3, 5}。</li>
+</ol>
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · B 组</button><div class="ans-body"><p><strong>B 组</strong></p>
+<ol start="7">
+<li>
+<p>A=[−1,3)，B=(1,+∞)。
+   - A∩B = (1, 3)（重叠段）。
+   - A∪B = [−1, +∞)（合起来，−1 含、3 不含、向右无限）。
+   - ∁ᴿA = (−∞, −1) ∪ [3, +∞)；与 B=(1,+∞) 取交 = [3, +∞)。</p>
+</li>
+<li>
+<p>B⊆A。分两种情况：
+   - B = ∅：m+1 &gt; 2m−1 ⇒ m &lt; 2。此时 B⊆A 恒成立。
+   - B ≠ ∅：需 m+1 ≤ 2m−1（即 m≥2），且 m+1 ≥ −1、2m−1 ≤ 3。解得 m≥2 且 m≥−2 且 m≤2，即 m=2。
+   合并：m &lt; 2 或 m = 2，即 <strong>m ≤ 2</strong>。</p>
+</li>
+<li>
+<p>x=1 ⇒ x<sup>2</sup>−1=0（充分）；但 x<sup>2</sup>−1=0 ⇒ x=±1，不一定 x=1（必要不成立）。故 "x=1" 是 "x<sup>2</sup>−1=0" 的<strong>充分不必要条件</strong>。</p>
+</li>
+<li>否定：∀x ∈ R, x<sup>2</sup> + 2x + 3 &gt; 0。原命题：x<sup>2</sup>+2x+3 = (x+1)<sup>2</sup>+2 ≥ 2 &gt; 0 恒成立，所以原命题 "∃…≤0" 是<strong>假</strong>命题（恒大于 0，不存在 ≤0 的）。</li>
+</ol>
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · C 组</button><div class="ans-body"><p><strong>C 组</strong></p>
+<ol start="11">
+<li>A = {x | −5 &lt; x<sup>3</sup> &lt; 5}，即 −∛5 &lt; x &lt; ∛5，∛5 ≈ 1.71，故 A ≈ (−1.71, 1.71)。B={−3,−1,0,2,3} 中落在 (−1.71,1.71) 的只有 −1、0。A∩B = {−1, 0}，选 <strong>A</strong>。</li>
+<li>U = {1,2,3,4,5,6,7,8}（小于 9 的正整数，共 8 个）。A={1,3,5}。∁<sub>u</sub>A = {2,4,6,7,8}，共 <strong>5</strong> 个元素，选 <strong>C</strong>。</li>
+<li>A⊆B 意味着 0 和 −a 都必须在 B={1, a−2, 2a−2} 中。逐一代入选项：<ul>
+<li>a=1：A={0,−1}，B={1,−1,0}，0∈B、−1∈B，成立。</li>
+<li>a=2：B={1,0,2}，−2∉B，不成立；a=2/3 时 0∉B；a=−1 时 0∉B。
+故 a=1，选 <strong>B</strong>。</li>
+</ul>
+</li>
+</ol>
+</div></div></div><div class="sec sec-meta"><h2>一通百通</h2>
+<p>这一章的"通用骨架"只有四步：<strong>① 问对象是谁（元素还是集合？）→ ② 问关系是什么（属于/包含/相等/运算？）→ ③ 翻译（画数轴或 Venn，把文字变成图形）→ ④ 按图回答</strong>。高考集合题年年出现在第 1 题，本质全是这一套：看清对象 → 定关系 → 画图 → 读数。会解一道集合题，就会解所有集合题；这套"先翻译再画图"的骨架，后面解不等式、解函数定义域、解圆锥曲线取值范围，还会一再出现。</p>
+</div><div class="sec sec-meta"><h2>跨章结合</h2>
+<p>本章的原理和后面这些章碰在一起，就会长出高考里反复出现的典型问题：
+- <strong>集合运算 ⇔ 02 章函数的定义域/值域</strong>：求两个函数定义域的交并补，几乎年年以"集合小题"形式出现（2023/2025 卷 T2 就是集合运算与不等式解集的结合，见本章 C 组真题）；
+- <strong>充分必要条件 ⇔ 12 章不等式恒成立 / 16 章参数范围</strong>：把"p 是 q 的什么条件"翻译成"两个集合谁包含谁"，本质和"参数取什么值时不等式恒成立"是同一个"小推大"思维（综合原理说明，非真题）。
+记住这两条结合点，你在 02、12、16 章再见到集合，就知道它只是换了身衣服的同一个工具。</p>
+</div><div class="sec sec-meta"><h2>本章与前后章</h2>
+<p>集合与逻辑是全书的第一站：它前面接初中的数系、方程与不等式（门槛自测已帮你确认），后面接<strong>第 2 章函数</strong>——函数的定义域、值域、单调区间全部用集合与区间书写；<strong>第 12 章不等式</strong>的解集、<strong>第 16 章圆锥曲线</strong>的参数的取值范围，也都是集合运算的化装舞会。充分必要条件这套"小推大"逻辑，更是后面"恒成立"类问题的底层思维。学完这一章，你手里有了全书第一件工具：一套把"自然语言"翻译成"集合语言"的能力。</p>
+</div><div class="sec sec-meta"><h2>高考怎么考</h2>
+<p>新高考Ⅰ卷里集合几乎锁定第 1 题（2020–2024 卷 T1、2023/2025 卷 T2），考法高度套路化：交并补运算（常与一元二次不等式、指对数函数值域结合）、子集个数、充分必要条件判断（翻译成集合包含最快）；常用逻辑偶尔混进多选题的选项判断。难度低、位置固定、必须 1 分钟内拿下——它考的不是集合本身，而是你"翻译+画图"的熟练度，为全卷节省时间。</p></div>
+</section>
+</main>
+<button id="topbtn" title="回到顶部">↑</button>
+<script>
+(function(){
+  var doc=document, root=doc.documentElement;
+  /* 字号调节（14.5-19.5，步进 1） */
+  var fs=parseFloat(localStorage.getItem('ebook-fs'))||16.5;
+  fs=Math.max(14.5,Math.min(19.5,fs));
+  root.style.setProperty('--fs',fs+'px');
+  var fsel=doc.getElementById('fsize');
+  function fsLabel(){if(fsel)fsel.textContent=fs.toFixed(1);}
+  var mn=doc.getElementById('minus'),pl=doc.getElementById('plus');
+  if(mn)mn.addEventListener('click',function(){fs=Math.max(14.5,fs-1);root.style.setProperty('--fs',fs+'px');localStorage.setItem('ebook-fs',fs);fsLabel();});
+  if(pl)pl.addEventListener('click',function(){fs=Math.min(19.5,fs+1);root.style.setProperty('--fs',fs+'px');localStorage.setItem('ebook-fs',fs);fsLabel();});
+  fsLabel();
+  /* 正文字体切换 */
+  if(localStorage.getItem('ebook-serif')==='1')doc.body.classList.add('serif');
+  var sbtn=doc.getElementById('serifbtn');
+  function serifLabel(){sbtn.textContent=doc.body.classList.contains('serif')?'黑体':'衬线';}
+  if(sbtn){sbtn.addEventListener('click',function(){var on=doc.body.classList.toggle('serif');localStorage.setItem('ebook-serif',on?'1':'0');serifLabel();});serifLabel();}
+  /* 深色模式 */
+  if(localStorage.getItem('ebook-dark')==='1')doc.body.classList.add('dark');
+  var dbtn=doc.getElementById('darkbtn');
+  function darkLabel(){if(dbtn)dbtn.textContent=doc.body.classList.contains('dark')?'日间':'夜读';}
+  if(dbtn){dbtn.addEventListener('click',function(){var on=doc.body.classList.toggle('dark');localStorage.setItem('ebook-dark',on?'1':'0');darkLabel();});darkLabel();}
+  /* 答案折叠 */
+  doc.querySelectorAll('.ans-toggle').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var box=btn.parentNode;
+      box.classList.toggle('open');
+      btn.textContent=box.classList.contains('open')?'隐藏答案':'显示答案';
+    });
+  });
+  /* 打印三模式（本页章节） */
+  function curSec(){return doc.querySelector('#main section.chapter')}
+  function printScope(mode){
+    doc.body.classList.remove('print-note','print-q','print-a','print-ans','print-one');
+    var s=curSec();if(s)s.classList.remove('ch-print');
+    doc.querySelectorAll('.sec.sec-has-ans').forEach(function(x){x.classList.remove('sec-has-ans')});
+    if(mode==='note')doc.body.classList.add('print-note');
+    if(mode==='q')doc.body.classList.add('print-q');
+    if(mode==='a'){doc.body.classList.add('print-a','print-ans');doc.querySelectorAll('.ans-box').forEach(function(b){var p=b.closest('.sec');if(p)p.classList.add('sec-has-ans')});}
+    if(s){s.classList.add('ch-print');doc.body.classList.add('print-one');}
+    window.print();
+  }
+  var pn=doc.getElementById('printnote'),pq=doc.getElementById('printq'),pa=doc.getElementById('printa');
+  if(pn)pn.addEventListener('click',function(){printScope('note')});
+  if(pq)pq.addEventListener('click',function(){printScope('q')});
+  if(pa)pa.addEventListener('click',function(){printScope('a')});
+  /* 回到顶部 */
+  var topbtn=doc.getElementById('topbtn');
+  function onScroll(){var y=window.scrollY;if(topbtn)topbtn.style.display=y>600?'block':'none';}
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  if(topbtn)topbtn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})});
+  /* 搜索本章（点击结果滚动定位） */
+  var q=doc.getElementById('q'),sres=doc.getElementById('sres');
+  if(q)q.addEventListener('input',function(){
+    var k=q.value.trim();sres.innerHTML='';
+    if(!k)return;
+    var els=Array.prototype.slice.call(doc.querySelectorAll('#main p,#main li,#main h3,#main h4'));
+    var hits=els.filter(function(e){return e.textContent.indexOf(k)>-1});
+    hits.slice(0,20).forEach(function(e,i){
+      var d=doc.createElement('div');d.className='sr-item';
+      d.textContent=(i+1)+'. '+e.textContent.replace(/\s+/g,' ').slice(0,46);
+      d.addEventListener('click',function(){e.scrollIntoView({behavior:'smooth',block:'center'});sres.innerHTML='';q.value='';});
+      sres.appendChild(d);
+    });
+    if(!hits.length)sres.innerHTML='<div class="sr-none">本页无匹配</div>';
+  });
+})();
+</script>
+</body>
+</html>

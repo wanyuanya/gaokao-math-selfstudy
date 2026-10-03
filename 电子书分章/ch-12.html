@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>第12章 不等式与基本不等式 · 高中数学自学系统</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232563EB'/%3E%3Ctext x='32' y='46' font-size='40' text-anchor='middle' font-family='sans-serif' fill='white'%3E数%3C/text%3E%3C/svg%3E">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:88px}
+:root{
+  --fs:16.5px;
+  --bg:#f6f2e9; --card:#fffdf8; --ink:#2b2721; --muted:#8b8477;
+  --line:#e4dccb; --blue:#1f3a5f; --blue2:#3a5a85; --blue-l:#e8f0f9;
+  --gold:#c9a227; --gold-l:#faf3dc; --red:#c03a2b; --red-l:#fdf1ec;
+  --green:#3f8f4f; --green-l:#edf6ef; --purple:#7b5ea7; --purple-l:#f2eefa;
+  --shadow:0 1px 4px rgba(60,50,30,.07);
+}
+html,body{overflow-x:hidden}
+body{background:var(--bg);color:var(--ink);font-family:"Microsoft YaHei","PingFang SC","Noto Sans SC","Segoe UI",sans-serif;font-size:var(--fs);line-height:1.95}
+body.serif{font-family:Georgia,"Noto Serif SC","Source Han Serif SC","Songti SC",SimSun,serif}
+/* 深色模式 */
+body.dark{--bg:#191713;--card:#23201a;--ink:#d6d0c2;--muted:#8d8677;--line:#3a352b;--blue:#93b3dc;--blue2:#6d90bd;--blue-l:#1d2837;--gold:#d9b64e;--gold-l:#2b2513;--red:#e07a5f;--red-l:#2e1c16;--green:#7cbf8a;--green-l:#15251a;--purple:#b39ad8;--purple-l:#251f31;--shadow:0 1px 4px rgba(0,0,0,.35)}
+/* 阅读进度条 */
+#pbar{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,#e8c766,#c9a227);z-index:120;transition:width .1s linear}
+/* 顶部工具栏 */
+#tb{position:fixed;top:0;left:0;right:0;z-index:110;background:#23201b;color:#e8c766;box-shadow:0 1px 6px rgba(0,0,0,.25)}
+#tb-in{display:flex;align-items:center;gap:12px;max-width:min(1920px,calc(100vw - 300px));margin:0 auto;padding:8px 20px}
+.tb-logo{font-weight:800;font-size:13.5px;letter-spacing:.06em;white-space:nowrap;color:#e8c766}
+.tb-search{flex:1;min-width:160px;position:relative}
+#q{width:100%;padding:7px 12px;border-radius:8px;border:1px solid #4a4437;background:#14120e;color:#eee;font-size:13.5px;font-family:inherit;outline:none}
+#q::placeholder{color:#6f6859}
+#q:focus{border-color:#e8c766}
+#sres{position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--card);border:1px solid var(--line);border-radius:10px;box-shadow:0 10px 28px rgba(0,0,0,.18);max-height:340px;overflow-y:auto;display:none;z-index:130}
+#sres.open{display:block}
+#sres a{display:block;padding:9px 14px;border-bottom:1px solid var(--line);color:var(--ink);text-decoration:none;font-size:13.5px;line-height:1.6}
+#sres a .ch{font-size:11.5px;color:var(--gold);display:block;margin-bottom:2px;font-weight:700}
+#sres a b{color:var(--blue)}
+#sres a:hover{background:var(--blue-l)}
+#sres .nores{padding:10px 14px;color:var(--muted);font-size:13px}
+.tb-tools{display:flex;align-items:center;gap:6px;white-space:nowrap}
+.tb-btn{background:#332e25;border:1px solid #4a4437;color:#e8e2d4;border-radius:8px;padding:6px 11px;font-size:12.5px;cursor:pointer;font-family:inherit;transition:.15s}
+.tb-btn:hover{background:#4a4437;color:#fff}
+#fsize{font-size:12px;min-width:32px;text-align:center;color:#c9c0ab}
+/* 侧边目录 */
+#toc{position:fixed;top:0;left:0;bottom:0;width:240px;background:#23201b;color:#d8d2c6;overflow-y:auto;z-index:100;padding:64px 0 40px}
+#toc .toc-title{font-weight:700;font-size:13.5px;letter-spacing:.15em;color:#e8c766;padding:0 22px 12px;border-bottom:1px solid #38332b;margin-bottom:8px}
+#toc a{display:flex;align-items:baseline;gap:9px;color:#c6bfae;text-decoration:none;padding:7px 22px;font-size:13.5px;line-height:1.5;border-left:3px solid transparent}
+#toc a .no{font-weight:700;color:#8a8272;font-size:12px;min-width:20px}
+#toc a:hover{background:#322d25;color:#fff}
+#toc a.on{background:#1a1712;color:#fff;border-left-color:#e8c766}
+#toc a.on .no{color:#e8c766}
+#toc .toc-foot{padding:16px 22px;font-size:11.5px;color:#6f6859;border-top:1px solid #38332b;margin-top:12px;line-height:1.7}
+/* 主内容 */
+#main{margin-left:240px;margin-right:auto;max-width:min(1920px,calc(100vw - 300px));min-width:0;padding:76px 48px 120px}
+section.chapter{padding:54px 0 22px;border-bottom:1px solid var(--line)}
+section.chapter:first-of-type{padding-top:18px}
+/* 章头横幅 */
+.ch-head{background:linear-gradient(135deg,#1f3a5f 0%,#3a5a85 72%,#54739f 100%);border-radius:14px;padding:26px 28px 22px;margin:0 0 20px;color:#fff;position:relative;overflow:hidden;box-shadow:0 3px 10px rgba(31,58,95,.20)}
+.ch-head::after{content:attr(data-no);position:absolute;right:16px;top:-20px;font-size:104px;font-weight:800;color:rgba(255,255,255,.07);line-height:1;pointer-events:none}
+.ch-no{font-size:12.5px;letter-spacing:.3em;color:#e8c766;font-weight:700}
+h1.ch-title{font-size:29px;font-weight:800;color:#fff;margin:8px 0 6px;letter-spacing:.02em;line-height:1.3}
+.ch-sub{color:#ccd8ea;font-size:13px}
+/* 配套资料直达 */
+.mats{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px 16px;margin:0 0 18px;box-shadow:var(--shadow)}
+.mats-t{font-size:12.5px;font-weight:700;color:var(--gold);margin-bottom:9px;letter-spacing:.04em}
+.mats-l{display:flex;flex-wrap:wrap;gap:8px}
+.mats-l a{background:var(--blue-l);color:var(--blue);text-decoration:none;font-size:13px;padding:5px 13px;border-radius:20px;border:1px solid #c9d8ec;transition:.15s}
+.mats-l a:hover{background:var(--blue);color:#fff;transform:translateY(-1px)}
+/* 看不懂怎么办 */
+.help{background:var(--gold-l);border:1px dashed var(--gold);border-radius:12px;padding:13px 16px;margin:0 0 20px;font-size:13.5px;color:#6b5c26;line-height:1.85;box-shadow:var(--shadow)}
+body.dark .help{color:#d8c078}
+.help b{color:var(--gold)}
+/* 小节标题 */
+h2{font-family:inherit;font-size:calc(var(--fs) + 2.5px);font-weight:700;color:var(--blue);margin:40px 0 14px;padding:9px 14px 9px 16px;background:var(--blue-l);border-left:5px solid #c9d8ec;border-radius:0 9px 9px 0;line-height:1.45}
+h2.gate{border-left-color:#3b7dd8}.h2tag{font-size:11px;background:var(--blue-l);color:var(--blue);border-radius:4px;padding:1px 8px;margin-right:8px;vertical-align:2px}
+h2.goal{border-left-color:#3b7dd8}
+h2.body{border-left-color:#c9d8ec}
+h2.ex2{border-left-color:#3f7fd4}
+h2.out{border-left-color:#3b7dd8}
+h2.pit{border-left-color:var(--red)}
+h2.hw{border-left-color:var(--green)}
+h2.formula{border-left-color:var(--gold)}
+h2.adv{border-left-color:var(--purple)}
+h3{font-size:calc(var(--fs) + 0.5px);font-weight:700;color:#3a352c;margin:22px 0 8px}
+p{margin:0 0 12px}
+strong{color:var(--blue)}
+/* 公式独立行：数学衬线字体统一字形（χ Σ √ 上下标同族），避免文本符号混排歪扭 */
+p:has(> strong:only-child){text-align:center;font-size:calc(var(--fs) + 1.5px);margin:16px 0;background:var(--blue-l);border:1px solid #cfe0f2;border-radius:10px;padding:10px 14px;color:var(--blue);font-family:"Cambria Math","STIX Two Math","Times New Roman","Songti SC",serif;letter-spacing:.012em}
+/* 内容块分类 */
+p.def{background:var(--blue-l);border-left:4px solid var(--blue);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0;box-shadow:var(--shadow)}
+p.ex{background:var(--blue-l);border:1px solid #d5e3f7;border-radius:10px;padding:12px 15px;margin:14px 0;box-shadow:var(--shadow)}
+p.warn{background:var(--red-l);border-left:4px solid var(--red);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0;box-shadow:var(--shadow)}
+p.sum{background:var(--gold-l);border-left:4px solid var(--gold);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0;box-shadow:var(--shadow)}
+p.note{background:var(--gold-l);border:1px dashed var(--gold);border-left:4px solid var(--gold);padding:11px 16px;border-radius:0 10px 10px 0;margin:12px 0;font-size:calc(var(--fs) - 1px)}
+/* 大白话旁注：缩进小字块，像教材旁批，一眼区别于正文 */
+p.baihua{background:var(--gold-l);border-left:4px solid var(--gold);border-bottom:1px dashed var(--gold);padding:10px 16px;border-radius:0 10px 10px 0;margin:10px 0 12px 20px;font-size:calc(var(--fs) - 1.5px);line-height:1.75;color:#6a5f45}
+li.baihua{list-style:none;background:var(--gold-l);border-left:4px solid var(--gold);border-bottom:1px dashed var(--gold);padding:9px 14px;border-radius:0 10px 10px 0;margin:8px 0 8px -26px;font-size:calc(var(--fs) - 1.5px);line-height:1.75;color:#6a5f45}
+p.baihua span.tag,li.baihua span.tag{background:var(--gold);color:#5c4a12}
+p.baihua.why span.tag{background:var(--blue);color:#fff}
+p.taskA,p.taskB,p.taskC{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:11px 15px;margin:12px 0;box-shadow:var(--shadow)}
+p.taskA{border-left:4px solid var(--green);background:var(--green-l)}
+p.taskB{border-left:4px solid #3b7dd8;background:var(--blue-l)}
+p.taskC{border-left:4px solid var(--gold);background:var(--gold-l)}
+p.ans{background:var(--blue-l);border:1px dashed #c3cede;border-radius:10px;padding:11px 15px;margin:14px 0}
+.ans-box{margin:16px 0;border:1px solid var(--line);border-radius:10px;background:var(--card);overflow:hidden}
+.ans-box>.ans-toggle{display:block;width:100%;border:none;background:var(--blue-l);color:var(--blue);font-size:13.5px;font-weight:600;padding:10px 14px;cursor:pointer;font-family:inherit;text-align:left;transition:.15s}
+.ans-box>.ans-toggle:hover{background:#d7e3f5}
+.ans-box>.ans-toggle::before{content:"▸ ";transition:transform .15s}
+.ans-box.open>.ans-toggle::before{content:"▾ "}
+.ans-box>.ans-body{display:none;padding:10px 15px 13px;border-top:1px dashed #c3cede}
+.ans-box.open>.ans-body{display:block}
+.ans-body p.ans{background:transparent;border:none;padding:0;margin:0 0 8px;font-weight:600}
+span.tag{display:inline-block;background:var(--blue);color:#fff;font-size:11px;border-radius:4px;padding:0 7px;margin-right:8px;vertical-align:2px}
+p.warn span.tag{background:var(--red)}
+p.sum span.tag{background:var(--gold)}
+p.note span.tag{background:var(--gold);color:#5c4a12}
+p.ans span.tag{background:#5a6b80}
+/* blockquote 提示 */
+blockquote{background:var(--gold-l);border-left:4px solid var(--gold);padding:10px 16px;border-radius:0 10px 10px 0;margin:14px 0;color:#5c543f;font-size:calc(var(--fs) - 2px)}
+body.dark blockquote{color:#c9bc9a}
+body.dark p.baihua,body.dark li.baihua{color:#c9bc9a}
+ul,ol{margin:4px 0 12px 26px}
+li{margin:4px 0}
+li::marker{color:var(--blue)}
+/* 表格 */
+table{border-collapse:collapse;width:100%;margin:14px 0 20px;font-size:calc(var(--fs) - 2px);box-shadow:var(--shadow);border-radius:10px;overflow:hidden}
+td,th{padding:9px 12px;vertical-align:top;word-break:break-word;overflow-wrap:anywhere;text-align:left}
+code{font-family:ui-monospace,Consolas,'Courier New',monospace;font-size:.92em;word-break:break-all;overflow-wrap:anywhere}
+th{background:var(--blue);color:#fff;font-weight:600;text-align:left;padding:9px 12px;border:1px solid var(--blue)}
+td{padding:8px 12px;border:1px solid var(--line);vertical-align:top;background:var(--card)}
+tr:nth-child(even) td{background:rgba(0,0,0,.022)}
+tr:hover td{background:var(--blue-l)}
+img{max-width:92%;height:auto;display:block;margin:16px auto;border-radius:10px;box-shadow:var(--shadow);background:#fff}
+body.dark img{border:1px solid var(--line)}
+hr{border:none;border-top:2px dashed #d8d1c2;margin:22px 0}
+code{background:#efece4;padding:1px 6px;border-radius:4px;font-family:Consolas,monospace;font-size:calc(var(--fs) - 3px);color:#7a4a12;word-break:break-all;overflow-wrap:anywhere}
+body.dark code{background:#332e25;color:#e0b87a}
+pre{background:#26221c;color:#e8e2d4;padding:14px 16px;border-radius:8px;overflow-x:auto;margin:12px 0;font-size:13.5px}
+/* 表格容器：窄屏横向滚动，不压扁列 */
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 0 6px;max-width:100%}
+/* 数学符号统一化：组合音标与上下标（与正文同字体、基线规范） */
+span.ol{text-decoration:overline;text-decoration-thickness:1.1px;text-decoration-skip-ink:none}
+span.hat{position:relative;display:inline-block;padding:0 .04em}
+span.hat::after{content:"^";position:absolute;top:-0.42em;left:0;right:0;text-align:center;font-size:.66em;line-height:1;color:inherit}
+sup,sub{font-size:.7em;line-height:0;font-family:inherit}
+sup{vertical-align:super}sub{vertical-align:sub}
+/* 浮动按钮 */
+#topbtn{position:fixed;right:22px;bottom:26px;background:var(--blue);color:#fff;border:none;border-radius:50%;width:46px;height:46px;font-size:17px;cursor:pointer;box-shadow:0 3px 10px rgba(0,0,0,.25);z-index:100;display:none;font-family:inherit}
+#topbtn:hover{background:var(--blue2)}
+#mnav{display:none}
+/* 搜索命中闪烁 */
+section.flash{animation:flash 1.6s ease}
+@keyframes flash{0%{box-shadow:inset 0 0 0 3px var(--gold)}100%{box-shadow:inset 0 0 0 3px transparent}}
+@media (max-width:900px){
+  html{scroll-padding-top:150px}
+  body{overflow-x:hidden}
+  #main{overflow-x:hidden}
+  .tbl-wrap{overflow-x:auto}
+  .tbl-wrap table{min-width:560px}
+  #toc{transform:translateX(-100%);transition:transform .25s;width:280px;padding-top:56px}
+  #toc.open{transform:translateX(0)}
+  #main{margin-left:0;padding:150px 16px 100px}
+  #tb-in{flex-wrap:wrap;gap:6px 10px;padding:6px 10px}
+  .tb-logo{display:none}
+  .tb-search{flex:1 1 100%;min-width:0}
+  .tb-tools{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+  #mnav{display:flex;position:fixed;top:92px;left:0;right:0;z-index:105;background:#2b2620;color:#e8c766;padding:9px 14px;align-items:center;gap:10px;font-size:13.5px;font-weight:700;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+  #mnav button{background:none;border:1px solid #e8c766;color:#e8c766;border-radius:4px;padding:2px 10px;font-size:15px;cursor:pointer}
+  h1.ch-title{font-size:22px}
+  .ch-head{padding:20px 18px 18px}
+  .ch-head::after{font-size:76px;top:-10px;right:10px}
+  p:has(> strong:only-child){font-size:calc(var(--fs) - 0.5px)}
+  #topbtn{bottom:84px}
+}
+@media print{
+  #toc,#topbtn,#mnav,#tb,#pbar,.ans-toggle{display:none!important}
+  #main{margin:0;max-width:none;padding:0}
+  body{background:#fff;font-size:11.5pt}
+  body.dark{background:#fff;color:#000}
+  section.chapter{page-break-after:always;border:none}
+  body.print-one section.chapter{display:none!important}
+  body.print-one section.chapter.ch-print{display:block!important}
+  /* 讲义：隐藏出口检测+课后习题+全部答案 */
+  body.print-note .sec-out,body.print-note .sec-hw,body.print-note .ans-box{display:none!important}
+  /* 题目卷：只显示出口检测+课后习题 */
+  body.print-q .sec{display:none!important}
+  body.print-q .sec-out,body.print-q .sec-hw{display:block!important}
+  /* 答案卷：只显示含答案的区块（含自测答案与课后答案，JS 已打 sec-has-ans 标） */
+  body.print-a .sec{display:none!important}
+  body.print-a .sec-has-ans{display:block!important}
+  .ans-box{border:none;background:transparent;margin:6px 0}
+  .ans-box>.ans-body{display:none!important;padding:0;border:none}
+  body.print-ans .ans-box>.ans-body{display:block!important}
+  .ans-body p.ans{font-weight:700;margin:4px 0}
+}
+
+
+/* ===== 分章版专用 ===== */
+.ch-nav{display:flex;justify-content:space-between;align-items:center;gap:10px;max-width:min(1920px,calc(100vw - 300px));margin:12px auto 0;padding:9px 16px;background:var(--card);border:1px solid var(--line);border-radius:10px;font-size:13.5px;box-shadow:var(--shadow)}
+.ch-nav .cn-title{font-weight:700;color:var(--ink)}
+.ch-nav a{color:var(--blue);text-decoration:none;padding:2px 8px;border-radius:6px}
+.ch-nav a:hover{background:var(--blue-l);text-decoration:underline}
+#main{margin-top:4px}
+.sr-item{padding:7px 10px;border-bottom:1px solid var(--line);cursor:pointer;font-size:12.5px;line-height:1.5}
+.sr-item:hover{background:var(--blue-l)}
+.sr-none{padding:8px 10px;color:#888;font-size:12.5px}
+@media print{.ch-nav{display:none!important}}
+</style>
+</head>
+<body>
+<div id="pbar"></div>
+<header id="tb"><div id="tb-in">
+  <span class="tb-logo"><a href="index.html" style="color:inherit;text-decoration:none">高中数学自学系统</a></span>
+  <div class="tb-search"><input id="q" type="search" placeholder="搜索本章…" autocomplete="off"><div id="sres"></div></div>
+  <div class="tb-tools">
+    <button class="tb-btn" id="minus" title="减小字号">A−</button><span id="fsize"></span><button class="tb-btn" id="plus" title="增大字号">A+</button>
+    <button class="tb-btn" id="serifbtn" title="切换正文字体"></button>
+    <button class="tb-btn" id="darkbtn" title="深色/日间模式"></button>
+    <button class="tb-btn" id="printnote" title="打印本章讲义（不含题目与答案）">打印讲义</button>
+    <button class="tb-btn" id="printq" title="打印本章所有题目（练习卷）">打印题目</button>
+    <button class="tb-btn" id="printa" title="打印本章所有答案（答案卷）">打印答案</button>
+  </div>
+</div></header>
+<div class="ch-nav"><a href="ch-11.html">← 11</a><span class="cn-title">第12章 · 不等式与基本不等式</span><a href="ch-13.html">13 →</a></div>
+<main id="main">
+<section class="chapter" id="ch-12">
+<div class="ch-head" data-no="12"><div class="ch-no">第12章</div><h1 class="ch-title">不等式与基本不等式</h1><div class="ch-sub">板块：不等式 ｜ 前置：第 02 章 ｜ 老教材：必修5 第3章 ｜ 新教材：必修一 第2章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后学习）">老教材·必修5</a><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后对标）">新教材·必修第一册</a><a href="../公式/高中数学公式速查手册.html#ch-12" title="本章公式速查（按章手册，直达本章）">公式速查手册</a><a href="../系统文档/不超纲高级方法手册.md" title="不超纲高级方法（嵌本章）">高级方法手册</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
+<p>方法手册：切线放缩（嵌本章末） ｜ 公式速查：修订版 第9部分（不等式）</p>
+<p><strong>本章本质核心</strong>：不等式的本质就是"比较大小"——本章从头到尾都在回答同一个问题："谁大谁小、大多少"。解一元二次不等式（ax<sup>2</sup>+bx+c&gt;0），是在问"x 取哪些值时左边比 0 大"；基本不等式 √(ab)≤(a+b)/2，是在规定"和与积谁不超过谁"；求最值、恒成立、证明不等式，本质都是把"谁大谁小"用代数式说清楚。本章所有题型（解不等式、套基本不等式、求最值、证不等式）都是这一个原理的变体。</p>
+<p class = "baihua why"><span class = "tag">为什么有用</span>想通了"比较大小"这件事，你就能独立解决两类高考高频题——求最值（用料最省、围面最大这类优化问题的数学内核就是"和定积最大、积定和最小"）和恒成立求参数。不用背套路，遇到任何"给条件求最大/最小"的题，认准谁是固定的"和"、谁是固定的"积"，自己就能把最值推出来。</p>
+</blockquote>
+<hr />
+<div class="sec sec-meta"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
+<ol>
+<li>解不等式 x − 3 &gt; 0。</li>
+<li>解方程 x<sup>2</sup> − 5x + 6  =  0（因式分解）。</li>
+<li>判断：a &gt; b 时，a<sup>2</sup> 一定大于 b<sup>2</sup> 吗？</li>
+<li>(a − b)<sup>2</sup> ≥ 0 恒成立，对吗？</li>
+<li>比较 1/2 与 2/3 的大小。</li>
+</ol>
+<p><strong>判定</strong>：5 题答对 4 题以上 → 进章。</p>
+</div><div class="sec sec-meta"><h2 class = "goal">② 学习目标</h2>
+<ul>
+<li>掌握一元二次不等式的解法（口诀：先因式分解，再看开口，大于取两边、小于取中间）</li>
+<li>熟练运用<strong>基本不等式</strong>求最值（一正二定三相等）</li>
+<li>掌握 a<sup>2</sup> + b<sup>2</sup> ≥ 2ab 及变形</li>
+<li>会解恒成立问题（分离参数 / 判别式法）</li>
+<li>（进阶）切线放缩证明不等式（进方法手册）</li>
+</ul>
+</div><div class="sec sec-meta"><h2 class = "body">③ 正文讲解</h2>
+<p>本章地图：</p>
+<ul>
+<li>3.1 一元二次不等式：把二次函数图像"翻下来"读解集，口诀"大于取两边、小于取中间"。</li>
+<li>3.2 基本不等式：两个正数的几何平均 ≤ 算术平均，求最值的核心工具。</li>
+<li>3.3 恒成立问题：把"恒成立"翻译成"最值"问题。</li>
+<li>3.4 不等式的性质与比较大小：不等式两边能不能随便乘除、能不能平方。</li>
+</ul>
+<h3>3.1 一元二次不等式（ax<sup>2</sup> + bx + c &gt; 0，先让 a &gt; 0）</h3>
+<p><strong>引入</strong>：投篮时球的轨迹是一条抛物线，问"球什么时候在篮筐高度以上"，就是在解一个二次不等式。二次函数、二次方程、二次不等式其实是同一条抛物线的三件事：方程看"和 x 轴交点在哪"，不等式看"抛物线在 x 轴上方还是下方"。</p>
+<p><strong>定义</strong>：<strong>只含一个未知数，并且未知数最高次数是 2 的整式不等式，叫一元二次不等式</strong>，标准形 ax<sup>2</sup>+bx+c&gt;0（或 &lt;0），a≠0。</p>
+<p><strong>求解步骤</strong>（编号，照做不会错）：</p>
+<ol>
+<li><strong>化正</strong>：a&lt;0 时两边同乘 −1，不等号反向，先把开口变成向上；</li>
+<li><strong>求根</strong>：因式分解或求根公式，得两根 x<sub>1</sub> ≤ x<sub>2</sub>（Δ&lt;0 就没有实根）；</li>
+<li><strong>看图写解</strong>：开口向上时，"<strong>大于取两边，小于取中间</strong>"：
+   - ax<sup>2</sup>+bx+c &gt; 0 ⇒ x&lt;x<sub>1</sub> 或 x&gt;x<sub>2</sub>；
+   - ax<sup>2</sup>+bx+c &lt; 0 ⇒ x<sub>1</sub>&lt;x&lt;x<sub>2</sub>。</li>
+</ol>
+<p><strong>几何意义</strong>：开口向上的抛物线，在两根之间图像落在 x 轴下方（y&lt;0），两根之外落在上方（y&gt;0）。Δ&lt;0 时抛物线整段都在 x 轴上方，所以 ax<sup>2</sup>+bx+c&gt;0 的解集是全体实数 R。</p>
+<p><img alt = "二次函数图像与不等式解集" src = "assets/12-quadratic-ineq.png" /></p>
+<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题</strong>：解 x<sup>2</sup> − 5x + 6 &lt; 0。
+解：分解 (x−2)(x−3)&lt;0，开口向上，"小于取中间"，解集 <strong>2&lt;x&lt;3</strong>，写成区间 (2,3)。</p>
+<p><strong>再跟一道（Δ = 0 的情形）</strong>：解 x<sup>2</sup> − 4x + 4 &gt; 0。
+解：分解 (x−2)<sup>2</sup>&gt;0。开口向上且正好与 x 轴相切于 x = 2，除了切点本身，其余地方都在 x 轴上方。所以解集是 <strong>x≠2 的全体实数</strong>（写成 (−∞,2)∪(2,+∞)）。如果题目改成 (x−2)<sup>2</sup>≥0，那解集就是全体实数 R；改成 (x−2)<sup>2</sup>≤0，则只有 x = 2 一个点。</p>
+<p><strong>常见陷阱</strong>：a&lt;0 忘了先变号；Δ&lt;0 时把解集写成空集（开口向上时应是 R）。</p>
+<p><strong>高次/分式不等式——数轴穿根法（苏州教研·专题38）</strong></p>
+<p>遇到 (x−x<sub>1</sub>)(x−x<sub>2</sub>)…(x−x<sub>n</sub>)&gt;0 这种一次因式乘积，或 f(x)/g(x)&gt;0 这种分式，不用每个区间讨论，画一条波浪线就行：</p>
+<ol>
+<li>把所有根 x<sub>1</sub>≤x<sub>2</sub>≤…≤x<sub>n</sub> 标在数轴上（<strong>每个因式 x 的系数必须先化成正</strong>）；</li>
+<li>从最右端根的<strong>上方</strong>开始，从右往左画波浪线：<strong>奇数次根穿过数轴，偶数次根碰一下就弹回（不穿过）</strong>；</li>
+<li>线在数轴上方的区间就是 &gt;0 的解集，下方就是 &lt;0 的解集。</li>
+</ol>
+<p>苏州书顺口溜："原式化为标准形，数轴上面标出根，奇穿偶切画曲线，上正下负解集明。"分式不等式 f(x)/g(x)&gt;h(x) 先移项通分，化成一个分式再穿根。</p>
+<p><strong>绝对值不等式互化（苏州教研·专题38）</strong>：</p>
+<p><strong>|f(x)| &lt; g(x) ⇔ −g(x) &lt; f(x) &lt; g(x)</strong>（g(x) 必须 &gt;0）</p>
+<p><strong>|f(x)| &gt; g(x) ⇔ f(x) &gt; g(x) 或 f(x) &lt; −g(x)</strong></p>
+<p><strong>|f(x)| &gt; |g(x)| ⇔ f<sup>2</sup>(x) &gt; g<sup>2</sup>(x)</strong>（两边都是绝对值，直接平方）</p>
+<p><strong>|x−a|+|x−b|（a&lt;b）的几何意义</strong>：数轴上点 x 到 a、b 两点的距离之和。最小值就是 |a−b|（x 在 a、b 之间时取得）；x 在 a 左边或 b 右边每往外移 Δx，距离和就增加 2Δx。解这类题三种办法：零点分段去绝对值、画函数图像、用几何意义。</p>
+<h3>3.2 基本不等式（核心，高考必考）</h3>
+<p><strong>引入</strong>：用一根长固定的绳子围矩形菜园，围成正方形时面积最大——这是古人就知道的事实。为什么？因为"和一定时，两数越接近乘积越大"，这背后就是基本不等式。</p>
+<p><strong>定义</strong>：<strong>对任意两个正数 a、b，有 √(ab) ≤ (a+b)/2，等号当且仅当 a = b 时成立</strong>。
+其中 (a+b)/2 叫 a、b 的<strong>算术平均数</strong>，√(ab) 叫<strong>几何平均数</strong>。一句话：两个正数的几何平均不超过它们的算术平均。</p>
+<p><strong>怎么证</strong>：因为 a、b&gt;0，对 √a−√b 平方得 (√a−√b)<sup>2</sup>≥0，展开 a+b−2√(ab)≥0，移项即 √(ab)≤(a+b)/2；a = b 时等号成立。</p>
+<p><strong>几何解释</strong>（半圆模型）：把线段 AB 长 a+b 放在直径上，C 点把直径分成 a 和 b 两段，过 C 作直径的垂线交半圆于 D，则 CD = √(ab)（由射影定理），而半圆半径是 (a+b)/2。垂线永远不超过半径，所以 √(ab)≤(a+b)/2。</p>
+<p><img alt = "基本不等式的半圆几何解释" src = "assets/12-mean-geometry.png" /></p>
+<p><strong>三个常用变形</strong>（务必滚瓜烂熟）：</p>
+<p><strong>记住它之前先看懂它</strong>：这三条其实是同一个不等式 √ab ≤ (a+b)/2 换个写法——第一条是"两边乘 2"，第二条是"两边平方"，第三条是把 a、b 换成 √a、√b 得到的、连正数条件都放宽了。理解了它们是一回事，就不用背三张表。</p>
+<ol>
+<li><strong>a+b ≥ 2√(ab)</strong>（和 ≥ 两倍根号积）</li>
+<li><strong>ab ≤ [(a+b)/2]<sup>2</sup></strong>（积 ≤ 半和的平方）</li>
+<li><strong>a<sup>2</sup>+b<sup>2</sup> ≥ 2ab</strong>（这条对任意实数都成立，不限正数）</li>
+</ol>
+<p><strong>求最值三条件（口诀：一正、二定、三相等）</strong>：</p>
+<ul>
+<li><strong>一正</strong>：各项必须是正数，否则不等式不成立；</li>
+<li><strong>二定</strong>：求和的最小值，就要"积为定值"；求积的最大值，就要"和为定值"；</li>
+<li><strong>三相等</strong>：一定要能取到 a = b，否则这个最值是假的。</li>
+</ul>
+<p><strong>两个方向</strong>：</p>
+<ul>
+<li>积 xy = p（定值）⇒ x+y ≥ 2√p，x = y 时和最小为 2√p；</li>
+<li>和 x+y = s（定值）⇒ xy ≤ s<sup>2</sup>/4，x = y 时积最大为 s<sup>2</sup>/4。</li>
+</ul>
+<p><strong>对勾函数</strong>：x&gt;0 时 x+1/x ≥ 2√(x·1/x) = 2，x = 1 取等；x&lt;0 时提负号，x+1/x ≤ −2。</p>
+<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题</strong>：x&gt;0，求 x+4/x 的最小值。
+解：x·(4/x) = 4 为定值，x+4/x ≥ 2√4 = <strong>4</strong>，当 x = 4/x 即 x = 2 时取等。三条件：x&gt;0（正）✓、积定 4 ✓、x = 2 可取 ✓。</p>
+<p><strong>再跟一道（高考最热的"1 的代换"）</strong>：已知 x&gt;0，y&gt;0，x+y = 1，求 1/x+1/y 的最小值。
+解：把"1"换成 x+y 乘进去：1/x+1/y = (x+y)(1/x+1/y) = 1+x/y+y/x+1 = 2+(x/y+y/x) ≥ 2+2 = <strong>4</strong>，当 x/y = y/x 即 x = y = 1/2 时取等。这招叫"1 的代换"，见到"和为 1、求倒数和"就用它。</p>
+<p><strong>小结</strong>：基本不等式就是"和与积互相挤"；用前先查一正二定三相等。</p>
+<p><strong>编者注·本质回扣</strong>：基本不等式为什么长这样？它其实就是本质核心"比较大小"里最常用的一把尺：两个正数的和与积，谁也不能同时无限占优——和一定时积有顶（围菜园正方形最大），积一定时和有底。所谓"一正二定三相等"，说白了就是先确认这把尺能用（各项为正）、再看准固定的是和还是积、最后保证等号真能取到。你看到的"1 的代换"、对勾函数 x+1/x≥2，都不是新公式，只是把这把尺换个场景再量一遍而已。</p>
+<p><strong>三元均值与平方平均（苏州教研·专题37）</strong>：</p>
+<p><strong>(a+b+c)/3 ≥ ∛(abc)（a,b,c&gt;0），等号当 a = b = c 时成立</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>三个正数的算术平均不小于几何平均，是二元基本不等式的推广。</li>
+<li>用的时候：见到三个正数的和求积的最大值，或积求和的最小值，直接套。</li>
+</ul>
+<p><strong>(a<sup>2</sup>+b<sup>2</sup>)/2 ≥ ((a+b)/2)<sup>2</sup>（任意实数 a,b）</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>平方的平均不小于平均的平方。</li>
+<li>用的时候：已知 a+b 求 a<sup>2</sup>+b<sup>2</sup> 的下界，或反过来；这是柯西不等式的二维特例。</li>
+</ul>
+<p><strong>糖水不等式推广（苏州教研·专题37）</strong>：若 a&gt;b&gt;0，m&gt;0，n&gt;0，则</p>
+<p><strong>b/a &lt; (b+m)/(a+m) &lt; 1 &lt; (a+n)/(b+n) &lt; a/b</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>真分数越加越大，假分数越加越小。一杯淡糖水（b/a）再加点糖（m）反而更甜；一杯浓糖水（a/b）再加点水（n）反而更淡。</li>
+<li>用的时候：比较两个形如 (a+m)/(b+m) 的分数大小，直接用这个结论秒选。</li>
+</ul>
+<p><strong>混合浓度不等式</strong>：A 杯浓度 a%、B 杯浓度 b%（a&gt;b），各取 x、y 克混合，则混合浓度介于两者之间：<strong>b &lt; (ax+by)/(x+y) &lt; a</strong>。</p>
+<h3>3.3 恒成立问题</h3>
+<p><strong>引入</strong>："不管 x 取什么值，这个式子都 ≥0"——比如"对所有实数 x，x<sup>2</sup>+ax+4≥0 恒成立，求 a"。这类题的套路是：<strong>把恒成立翻译成最值</strong>。</p>
+<p><strong>两条主路</strong>：</p>
+<ol>
+<li><strong>分离参数</strong>：a ≤ f(x) 对一切 x 恒成立 ⇔ a ≤ f(x) 的<strong>最小值</strong>；a ≥ f(x) 恒成立 ⇔ a ≥ f(x) 的<strong>最大值</strong>。</li>
+<li><strong>判别式法</strong>（二次型）：开口向上的二次函数 ax<sup>2</sup>+bx+c≥0 恒成立 ⇔ <strong>判别式 Δ≤0</strong>（图像整段在 x 轴上方或相切）。</li>
+</ol>
+<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题</strong>：对 ∀x∈R，x<sup>2</sup>+ax+4≥0 恒成立，求 a。
+解：开口向上，只需 Δ = a<sup>2</sup>−16≤0 ⇒ <strong>−4≤a≤4</strong>。</p>
+<p><strong>再跟一道（分离参数）</strong>：若 x&gt;0 时，a ≤ x + 1/x 恒成立，求 a 的最大值。
+解：要 a 不超过右边的一切取值，只要 a 不超过右边的最小值。x+1/x≥2，最小值为 2，所以 <strong>a≤2，a 的最大值是 2</strong>。这就是"恒成立 → 求最值"的标准动作。</p>
+<p><strong>常见陷阱</strong>：x<sup>2</sup> 系数含字母 k 时，必须先讨论 k = 0（变成一次式），不能直接套判别式。</p>
+<h3>3.4 不等式的性质与比较大小</h3>
+<p><strong>引入</strong>：等式两边随便加减乘除同一个数（除数非零）都不变号，但不等式"娇气"——两边乘负数要变号。这一节把这些脾气说清楚。</p>
+<p><strong>基本性质</strong>（由浅入深）：</p>
+<p><strong>记住它之前先看懂它</strong>：这一串性质不是死规矩，而是"大小关系在加减乘除下怎么跟着变"——加同一个数两边同步平移，方向不变；乘正数是均匀拉伸，方向不变；乘负数是把数轴整个翻过来，方向必然颠倒。盯住"这一步操作有没有把数轴翻面"，就不用逐条背。</p>
+<ul>
+<li>传递性：a&gt;b，b&gt;c ⇒ a&gt;c；</li>
+<li>可加性：a&gt;b ⇒ a+c&gt;b+c；同向可加：a&gt;b，c&gt;d ⇒ a+c&gt;b+d；</li>
+<li>乘正数不变号：a&gt;b，c&gt;0 ⇒ ac&gt;bc；乘负数变号：a&gt;b，c&lt;0 ⇒ ac&lt;bc；</li>
+<li>同正可乘：a&gt;b&gt;0，c&gt;d&gt;0 ⇒ ac&gt;bd；</li>
+<li>同方可开方：a&gt;b&gt;0 ⇒ a<sup>n</sup>&gt;b<sup>n</sup>，<sup>n</sup>√a&gt;<sup>n</sup>√b。</li>
+</ul>
+<p><strong>比较大小两招</strong>：作差法（a−b 的正负定大小）、作商法（同正时 a/b 与 1 比）。</p>
+<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题</strong>：比较 (a+1)(a−5) 与 (a+2)(a−4) 的大小。
+解：作差 (a+1)(a−5)−(a+2)(a−4) = (a<sup>2</sup>−4a−5)−(a<sup>2</sup>−2a−8) = −2a+3。a&lt;3/2 时差为正，前者大；a = 3/2 相等；a&gt;3/2 后者大。</p>
+<p><strong>再跟一道（糖水不等式直觉）</strong>：比较 a/b 与 (a+m)/(b+m)（0&lt;a&lt;b，m&gt;0）。
+解：作差 a/b−(a+m)/(b+m) = [a(b+m)−b(a+m)]/[b(b+m)] = (am−bm)/[b(b+m)] = m(a−b)/[b(b+m)]&lt;0。所以 a/b&lt;(a+m)/(b+m)。生活直觉：一杯淡糖水再加点糖反而更甜，就是这个道理。</p>
+<p><strong>小结</strong>：不等式两边乘除要盯符号；比大小先作差，定号看因式。</p>
+<p><strong>编者注·本质回扣</strong>：作差法 a−b 其实就是把"谁大谁小"这句话翻成一个数：差为正前者大、差为负后者小、差为零相等。你也许会问，为什么不等式两边乘负数要变号？本质还是"比较"——乘一个负数相当于把数轴方向整个反过来，原来靠左的变得更小、靠右的变得更大，大小关系自然跟着颠倒。所以这一节列的那些性质，不是要你死背的死规矩，而是"大小关系在加减乘除、平方开方这些操作下怎么跟着变"的一本账；做题时盯住符号，就是盯住这本账有没有记反。</p>
+<h3>3.5 证明不等式的常用方法（苏州教研·专题40）</h3>
+<p>证明题拿到手，先挑方法。苏州书总结了七把"刀"：</p>
+<p><strong>1. 比较法</strong>（最常用）：作差 a−b，变形（因式分解/配方/通分），定号；两个正数也可作商 a/b 与 1 比。苏州书提醒：两个正数作差有困难时，可改比平方差；无理数比大小，分子/分母有理化是常用手段。</p>
+<p><strong>2. 综合法</strong>：由因导果——从已知条件出发，用定理、公式一步步推出结论。书写顺、看着像"标准答案"。</p>
+<p><strong>3. 分析法</strong>：执果索因——从要证的结论倒推，找它成立的充分条件，直到归结为已知或显然成立。苏州书要求：<strong>书写尽量用"⇔"符号</strong>，每一步都是等价变形。思路卡壳时用分析法找路，找到后再用综合法写出来。</p>
+<p><strong>4. 反证法</strong>：正难则反——假设结论不成立，推出矛盾（与已知/假设/定理矛盾），从而断定原结论成立。三步：反设、归谬、结论。</p>
+<p><strong>5. 放缩法</strong>：把不等式一侧适当放大或缩小。常用技巧（苏州书原话）：
+- 添加或舍去一些项，如 √(n<sup>2</sup>+1) &gt; √n<sup>2</sup>  =  |n|；√(n(n+1)) &lt; √(n<sup>2</sup>+n+¼)  =  n+½；
+- 分子或分母单独放大/缩小；
+- 用均值不等式放缩，如 √(lg3·lg5) &lt; (lg3+lg5)/2  =  lg√15 &lt; lg4；
+- 对应项一一放大，如 A<sub>n</sub><sup>k</sup> ≤ n<sup>k</sup>。</p>
+<p>放缩的分寸：<strong>不能过度、不能过早</strong>——放太大直接超过目标，证不出来；首项不吻合就从第二项起放。</p>
+<p><strong>6. 换元法</strong>：减少变量，化难为易。苏州书给的常用模板：
+- 已知 x<sup>2</sup>+y<sup>2</sup> = a<sup>2</sup>，设 x = a·cosθ，y = a·sinθ（三角换元）；
+- 已知 a<sup>2</sup>≤x<sup>2</sup>+y<sup>2</sup>≤b<sup>2</sup>，设 x = r·cosθ，y = r·sinθ（a≤r≤b）；
+- 椭圆 x<sup>2</sup>/a<sup>2</sup>+y<sup>2</sup>/b<sup>2</sup> = 1 同理设 x = a·cosθ，y = b·sinθ。</p>
+<p><strong>7. 构造法</strong>：构造方程（判别式法）、构造数列、构造向量、构造辅助函数。<strong>函数型不等式通常构造差函数 F(x) = f(x)−g(x)，再用单调性证明</strong>（这要学了导数才用得上）。</p>
+<p><strong>8. 数学归纳法</strong>：与正整数 n 有关的不等式，两步走（奠基+递推），第二步常用分析法找思路。</p>
+<blockquote>
+<p><strong>【跟讲例题（苏州教研·专题40，原书p.143）】</strong>：设数列 {a<sub>n</sub>} 满足 a<sub>n+1</sub>  =  a<sub>n</sub><sup>2</sup> − n·a<sub>n</sub> + 1，n∈N*。当 a<sub>1</sub>≥3 时，证明：① a<sub>n</sub>≥n+2；② 1/(1+a<sub>1</sub>)+1/(1+a<sub>2</sub>)+…+1/(1+a<sub>n</sub>) &lt; 1/2。
+证明①（数学归纳法）：
+n = 1 时，a<sub>1</sub>≥3 = 1+2，成立。
+假设 n = k 时 a<sub>k</sub>≥k+2，则
+a<sub>k+1</sub>  =  a<sub>k</sub>(a<sub>k</sub>−k)+1 ≥ (k+2)·[(k+2)−k]+1  =  (k+2)·2+1  =  2k+5  =  (k+1)+2+(k+2) ≥ (k+1)+2。
+故 n = k+1 时也成立。由归纳法，a<sub>n</sub>≥n+2 对所有 n 成立。
+证明②（放缩法）：由 a<sub>n</sub>≥n+2 得 a<sub>n</sub>−n≥2，于是
+a<sub>n+1</sub>+1  =  a<sub>n</sub>(a<sub>n</sub>−n)+2 ≥ 2a<sub>n</sub>+2  =  <strong>2(a<sub>n</sub>+1)</strong>。
+累乘：a<sub>n</sub>+1 ≥ (a<sub>1</sub>+1)·2<sup>n−1</sup> ≥ 4·2<sup>n−1</sup>  =  2<sup>n+1</sup>，故 1/(1+a<sub>n</sub>) ≤ 1/2<sup>n+1</sup>。
+求和：Σ_{k = 1}^{n} 1/(1+a<sub>k</sub>) ≤ 1/4+1/8+…+1/2<sup>n+1</sup>  =  (1/4)·[1−(1/2)<sup>n</sup>]/(1−1/2)  =  <strong>(1/2)·[1−(1/2)<sup>n</sup>] &lt; 1/2</strong>。证毕。
+要点：归纳法证"下界"→ 用下界做放缩的跳板 → 转等比求和。这是苏州书说的"数列不等式证明"标准流水线。</p>
+</blockquote>
+<h3>3.6 含参数不等式的讨论标准（苏州教研·专题39）</h3>
+<p>解含字母参数的不等式 ax<sup>2</sup>+bx+c&gt;0，什么时候需要分类讨论？苏州书给了三条"讨论标准"：</p>
+<ol>
+<li><strong>二次项系数含字母</strong>：先令它 = 0（退化为一次式），这是第一个分界；</li>
+<li><strong>能因式分解的题型</strong>：令各因式的根相等 x<sub>1</sub> = x<sub>2</sub>，解出参数值；</li>
+<li><strong>不能因式分解的题型</strong>：令判别式 Δ = 0，解出参数值。</li>
+</ol>
+<p>讨论完一定要写"综上所述，原不等式的解集是……"（分类整合思想）。</p>
+<p><strong>反用</strong>：如果不等式的解集已经给你了，那解集的端点值一定是对应方程 ax<sup>2</sup>+bx+c = 0 的根——可以直接代进去求参数。</p>
+</div><div class="sec sec-meta"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
+<p class = "ex"><span class = "tag">例题</span><strong>例 1（二次不等式）</strong>：解不等式 x<sup>2</sup> − 5x + 6 &lt; 0。</p>
+<blockquote>
+<p>自己做：因式分解 → 小于取中间。</p>
+</blockquote>
+<p>解：x<sup>2</sup> − 5x + 6  =  (x − 2)(x − 3) &lt; 0，开口向上，"小于取中间"：<strong>2 &lt; x &lt; 3</strong>。
+要点：<strong>先看开口，再写区间</strong>；解集写成区间形式 (2, 3)。</p>
+<p class = "ex"><span class = "tag">例题</span><strong>例 2（基本不等式求最值，高考经典）</strong>：已知 x &gt; 0，y &gt; 0，且 x + y  =  1，求 1/x + 1/y 的最小值。</p>
+<blockquote>
+<p>自己做：把 1 换成 x + y（"1 的代换"）。</p>
+</blockquote>
+<p>解：1/x + 1/y  =  (x + y)/(xy)  =  1/(xy)。由 xy ≤ [(x+y)/2]<sup>2</sup>  =  1/4 ⇒ 1/(xy) ≥ 4。
+或用"1 的代换"：1/x + 1/y  =  (x+y)(1/x + 1/y)  =  2 + x/y + y/x ≥ 2 + 2  =  4。
+取等 x  =  y  =  1/2。最小值 <strong>4</strong>。
+要点：<strong>"积定求和最小"方向：xy 有上界 ⇒ 1/x + 1/y 有下界</strong>；"1 的代换"是最高频技巧。</p>
+<p class = "ex"><span class = "tag">例题</span><strong>例 3（恒成立）</strong>：若对 ∀x ∈ R，x<sup>2</sup> + ax + 4 ≥ 0 恒成立，求 a 的范围。</p>
+<blockquote>
+<p>自己做：开口向上，判别式 ≤ 0。</p>
+</blockquote>
+<p>解：Δ  =  a<sup>2</sup> − 16 ≤ 0 ⇒ −4 ≤ a ≤ 4。
+要点：<strong>二次函数恒非负（a &gt; 0）⇔ Δ ≤ 0</strong>；这是小题秒杀结论。</p>
+</div><div class="sec sec-meta"><h2 class = "out">⑤ 出口检测</h2>
+<p><strong>自测（15 分钟，每题 2 分）</strong>：</p>
+<ol>
+<li>解不等式 x<sup>2</sup> − 4 &gt; 0。</li>
+<li>已知 x &gt; 0，求 x + 4/x 的最小值。</li>
+<li>已知 a &gt; 0，b &gt; 0，ab  =  9，求 a + b 的最小值。</li>
+<li>解不等式 x<sup>2</sup> − 2x + 3 &gt; 0（注意 Δ）。</li>
+<li>对 ∀x ∈ R，kx<sup>2</sup> + kx + 1 &gt; 0 恒成立，求 k 的范围（k  =  0 单独考虑）。</li>
+</ol>
+<p><strong>真题验收</strong>：2020–2024 新高考Ⅰ卷基本不等式/恒成立小题 1~2 道（多在选择题 7–12 题区间）：每题 3 分钟、全对过关。</p>
+<p><strong>过关标准</strong>：自测 ≥ 10 分 且 真题全对 → 打卡。</p>
+</div><div class="sec sec-hw"><h2>课后习题（分层练习）</h2>
+<blockquote>
+<p>A 组教材练习级，B 组高考中档，C 组真题。答案见章末。</p>
+</blockquote>
+<h3>A 组 · 基础巩固</h3>
+<p>1.【考点：解二次不等式】解不等式 x<sup>2</sup> − 5x + 6 &gt; 0。
+2.【考点：基本不等式求最值】已知 x &gt; 0，求 x + 9/x 的最小值。
+3.【考点：积定求和最小】已知 a&gt;0，b&gt;0，ab  =  16，求 a + b 的最小值。
+4.【考点：Δ&lt;0 情形】解不等式 x<sup>2</sup> − 2x + 3 &gt; 0。
+5.【考点：小于取中间】解不等式 (x − 1)(x + 2) ≤ 0。
+6.【考点：1 的代换】已知 x&gt;0，y&gt;0，x + 2y  =  1，求 1/x + 1/y 的最小值。</p>
+<h3>B 组 · 能力提升</h3>
+<p>7.【考点：恒成立判别式】若对 ∀x∈R，x<sup>2</sup> + ax + 9 ≥ 0 恒成立，求 a 的取值范围。
+8.【考点：含参二次不等式】解关于 x 的不等式 x<sup>2</sup> − (a+1)x + a &lt; 0（a 为常数）。
+9.【考点：对勾函数】求 f(x)  =  2x + 8/x（x&gt;0）的最小值，并指出取等条件。
+10.【考点：恒成立分类讨论】若 kx<sup>2</sup> + kx + 1 &gt; 0 对一切实数 x 恒成立，求 k 的取值范围。</p>
+<h3>C 组 · 真题挑战</h3>
+<p>11.【考点：比较大小】（2025 年新高考Ⅰ卷·选择题第 8 题）若实数 x、y、z 满足 2 + log<sub>2</sub>x  =  3 + log<sub>3</sub>y  =  5 + log<sub>5</sub>z，则 x、y、z 的大小关系不可能是（ ）。
+   A. x&gt;y&gt;z　B. x&gt;z&gt;y　C. y&gt;x&gt;z　D. y&gt;z&gt;x
+   （说明：本题融合对数运算与不等式比较大小，是"不等式性质 + 对数"的综合小题；可借助中间值与作差比较分析。）</p>
+</div><div class="sec sec-meta"><h2 class = "pit">⑥ 常见坑清单</h2>
+<ul>
+<li><strong>一正</strong>：基本不等式只对正数成立，x &lt; 0 时要先提负号或加绝对值。</li>
+<li><strong>三相等</strong>：等号取不到时最值不成立——a  =  b 是否可取得先检验。</li>
+<li>解不等式"大于取两边"前提是<strong>开口向上且因式分解正确</strong>；a &lt; 0 先变号。</li>
+<li>Δ &lt; 0 时 ax<sup>2</sup> + bx + c &gt; 0 的解集是 R（a &gt; 0）或 ∅（a &lt; 0），别写反。</li>
+<li>恒成立"分离参数"：<strong>分离后别忘了定义域对参数的约束</strong>。</li>
+<li>1/x + 1/y 类题优先想"1 的代换"或直接 xy 上下界。</li>
+</ul>
+</div><div class="sec sec-meta"><h2>本章公式速查表</h2>
+<blockquote>
+<p>口径与《高中数学常用公式·修订版》第九部分（不等式）一致。</p>
+</blockquote>
+<h3>均值不等式（基本不等式）</h3>
+<p><strong>√(ab) ≤ (a+b)/2 ≤ √[(a<sup>2</sup>+b<sup>2</sup>)/2]（a,b ≥ 0）</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>两个正数的几何平均 ≤ 算术平均 ≤ 平方平均，一串从小到大。</li>
+<li>用的时候：高考最常用中间一段 √ab ≤ (a+b)/2；必须满足"一正二定三相等"。</li>
+<li>记忆要点：几何平均不超过算术平均。</li>
+</ul>
+<p><strong>三个变形：a+b ≥ 2√(ab)；ab ≤ [(a+b)/2]<sup>2</sup>；a<sup>2</sup>+b<sup>2</sup> ≥ 2ab</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>和与积互相挤——知道和求积用第二式，知道积求和用第一式。</li>
+<li>用的时候：第三条 a<sup>2</sup>+b<sup>2</sup>≥2ab 对任意实数都成立，不限正数；前两条要 a,b&gt;0。</li>
+</ul>
+<h3>极值定理（求最值）</h3>
+<p><strong>积定：xy  =  p（定值）⇒ x+y ≥ 2√p，x = y 时和最小为 2√p</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>两个正数乘积固定，它们相等时加起来最小。</li>
+<li>用的时候："积定"求"和"的最小值；对勾函数 x+1/x≥2 就是它。</li>
+</ul>
+<p><strong>和定：x+y  =  s（定值）⇒ xy ≤ s<sup>2</sup>/4，x = y 时积最大为 s<sup>2</sup>/4</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>两个正数加起来固定，它们相等时乘积最大。</li>
+<li>用的时候："和定"求"积"的最大值；用前先检查 a=b 能不能取到。</li>
+</ul>
+<p><strong>"1 的代换"：x+y = 1 时 1/x+1/y  =  (x+y)(1/x+1/y) ≥ 4</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>见到"和为 1、求倒数和"，把 1 换成 x+y 乘进去展开。</li>
+<li>用的时候：展开后用 x/y+y/x ≥ 2；取等 x=y=1/2。</li>
+</ul>
+<h3>一元二次不等式</h3>
+<p><strong>a&gt;0 时：(x−x<sub>1</sub>)(x−x<sub>2</sub>)&gt;0 ⇒ x&lt;x<sub>1</sub> 或 x&gt;x<sub>2</sub>；&lt;0 ⇒ x<sub>1</sub>&lt;x&lt;x<sub>2</sub></strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>开口向上，"大于取两边，小于取中间"。</li>
+<li>用的时候：先把 a 化成正数再因式分解；Δ&lt;0 时 &gt;0 解集是 R、&lt;0 解集是空。</li>
+</ul>
+<h3>恒成立问题</h3>
+<p><strong>ax<sup>2</sup>+bx+c ≥ 0 对一切 x 恒成立 ⇔ a&gt;0 且 Δ  =  b<sup>2</sup>−4ac ≤ 0</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>开口向上的抛物线全程贴在 x 轴上方或相切。</li>
+<li>用的时候：二次项含字母 k 时先讨论 k=0（变一次式），别直接套判别式。</li>
+</ul>
+<p><strong>分离参数：a ≤ f(x) 恒成立 ⇔ a ≤ f(x)_min；a ≥ f(x) 恒成立 ⇔ a ≥ f(x)_max</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>要恒成立，参数就得不超过右边的最小值（或不小于最大值）。</li>
+<li>用的时候：分离后别忘了定义域对参数的限制。</li>
+</ul>
+<h3>比较大小与常用结论</h3>
+<p><strong>作差法：a−b 的正负定大小；作商法：同正时 a/b 与 1 比</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>比大小先作差，把结果因式分解再看每段正负。</li>
+</ul>
+<p><strong>对勾函数：x&gt;0 时 x + 1/x ≥ 2（x = 1 取等）；x&lt;0 时提负号得 ≤ −2</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>正数和它倒数的和，最小值是 2。</li>
+</ul>
+<p><strong>绝对值：|x|&lt;a（a&gt;0）⇔ −a&lt;x&lt;a；|x|&gt;a ⇔ x&gt;a 或 x&lt;−a</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>小于夹中间，大于取两边。</li>
+</ul>
+<h3>三元均值与平方平均（苏州教研·专题37）</h3>
+<p><strong>(a+b+c)/3 ≥ ∛(abc)（a,b,c&gt;0）；(a<sup>2</sup>+b<sup>2</sup>)/2 ≥ ((a+b)/2)<sup>2</sup></strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>三个正数的算术平均 ≥ 几何平均；平方的平均 ≥ 平均的平方。</li>
+<li>用的时候：三个正数和定求积最大、积定求和最小套第一式；已知 a+b 求 a<sup>2</sup>+b<sup>2</sup> 下界套第二式。</li>
+</ul>
+<p><strong>糖水不等式：a&gt;b&gt;0，m&gt;0 ⇒ b/a &lt; (b+m)/(a+m) &lt; 1</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>真分数越加越大，假分数越加越小；淡糖水加糖更甜。</li>
+<li>用的时候：比较 (a+m)/(b+m) 这类分数大小直接秒选。</li>
+</ul>
+<h3>绝对值与高次不等式工具（苏州教研·专题38）</h3>
+<p><strong>|f(x)| &lt; g(x) ⇔ −g(x)&lt;f(x)&lt;g(x)；|f(x)|&gt;|g(x)| ⇔ f<sup>2</sup>(x)&gt;g<sup>2</sup>(x)</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>带 g(x) 的绝对值不等式，拆开或平方。</li>
+<li>用的时候：两边都是绝对值直接平方；一边是 g(x) 就拆成双向不等式。</li>
+</ul>
+<p><strong>数轴穿根法：一次因式乘积 &gt;0，从右往左、奇穿偶切，上正下负</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>根标在数轴上，波浪线穿过去，线上方的区间就是解。</li>
+<li>用的时候：每个因式 x 的系数先化成正；分式先移项通分再穿。</li>
+</ul>
+<p><strong>|x−a|+|x−b|（a&lt;b）最小值  =  |a−b|</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>数轴上一点到两定点距离之和，点在两定点之间时最小。</li>
+</ul>
+<h3>证明不等式的方法选择（苏州教研·专题40）</h3>
+<p><strong>比较法（作差/作商）→ 综合法（由因导果）→ 分析法（执果索因，用⇔）→ 反证法 → 放缩法 → 换元法 → 构造法 → 数学归纳法</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>证不等式八把刀，按题目形状挑。</li>
+<li>用的时候：思路卡壳用分析法倒推；证 n 有关命题用归纳法；函数型不等式构造差函数（学导数后用）；放缩不能过度、首项不吻合就延迟放。</li>
+</ul>
+<p><strong>含参讨论三条线：二次项系数 = 0、两根相等、Δ = 0</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>参数临界值就是让"退化"发生的那些点。</li>
+<li>用的时候：讨论完写"综上所述"；已知解集反求参数时，端点代入方程。</li>
+</ul>
+</div><div class="sec sec-meta"><h2>高级方法·进阶</h2>
+<blockquote>
+<p>对应《不超纲高级方法手册》第四部分"不等式"。
+本区分两层：下面 #### 4.1 / 4.2 / 4.3 是《手册》原文<strong>全量收录</strong>（含操作细节），紧随其后的 ### 进阶 1~3 是本章已有的<strong>浓缩速记版</strong>，两者同根——考前速扫看浓缩版，查操作细节看 #### 版。4.4（柯西 / 琴生 / 排序不等式）为超纲验证条目，按分工由第 20 章超纲专区收录，本章不展开。</p>
+</blockquote>
+<h3>手册原文全录</h3>
+<h4>4.1 基本不等式"三件套"技巧</h4>
+<p><strong>大白话·本质一句话</strong>：三件套的本质，是把"已知和求积最值、已知积求和最值"这类题，翻译成一次乘法（1 的代换）、一次配方搭桥（和积转化 S<sup>2</sup>≥4P）、一次换元消分母（a/b 型令 t = a/b）——核心就一句话：<strong>和定积最大、积定和最小</strong>，三件套只是把这句话搬进不同长相的题里。</p>
+<ul>
+<li><strong>1的代换</strong>：已知 x+y = 1，求 1/x+1/y 最小 → 乘 (x+y)；</li>
+<li><strong>和积转化</strong>：已知 x+y = S、xy = P 的关系，用 S<sup>2</sup>≥4P 搭桥；</li>
+<li><strong>换元化齐次</strong>：a/b 型的式子令 t = a/b 消元。</li>
+</ul>
+<p><strong>课标依据</strong>：基本不等式（必修一第二章）。✓</p>
+<p>（高级方法手册·4.1）</p>
+<blockquote>
+<p>联动：本条的浓缩速记版即下方"### 进阶 1：基本不等式三件套"；正文 3.2 与本章例 2 已给"1 的代换"完整演算（x+2y = 1 求 1/x+1/y = 3+2√2），可对照。</p>
+</blockquote>
+<h4>4.2 绝对值三角不等式</h4>
+<p><strong>大白话·本质一句话</strong>：||a|−|b|| ≤ |a±b| ≤ |a|+|b| 本质是说——两个数合起来的绝对值，不会超过各自绝对值之和（像两人同向走直线，合起来最远），也不会小于各自绝对值之差（像两人背靠背，最少也差这么多）；遇到 |x−a|+|x−b| 求最值，直接套这条比分段讨论快得多。</p>
+<p>||a|−|b|| ≤ |a±b| ≤ |a|+|b|。用于含绝对值函数的最值、恒成立问题（比分类讨论快）。</p>
+<p><strong>课标依据</strong>：选修（新教材选必一"不等式选讲"已删，但绝对值性质属必修基础；小题可用，大题若用需一句话说明）。</p>
+<p>（高级方法手册·4.2）</p>
+<blockquote>
+<p>联动：本条浓缩版即下方"### 进阶 2：绝对值三角不等式"；正文 3.1 的"绝对值不等式互化"与"|x−a|+|x−b| 的几何意义（最小值  =  |a−b|）"是它的兄弟工具，配合使用。</p>
+</blockquote>
+<h4>4.3 切线不等式族（与 1.4 联动）</h4>
+<p><strong>大白话·本质一句话</strong>：lnx≤x−1、e<sup>x</sup>≥x+1、sinx≤x（x≥0）本质是"曲线永远贴在它切线的某一侧"——切线是曲线最好的一次近似，证明时构造差函数求导即可，全部课标内。它与第 05 章 1.4（切线放缩·超越不等式族）是同一件事的两处落点；本章尚未学导数，这里只做印象记录，正式使用待学完导数再回来。</p>
+<p>lnx≤x-1、e<sup>x</sup>≥x+1、sinx≤x（x≥0）等——证明题里"构造差函数求导"即可证，全部课标内。</p>
+<p>（高级方法手册·4.3）</p>
+<blockquote>
+<p>联动：与第 05 章"1.4 切线放缩（超越不等式族）"完全联动；下方"### 进阶 3：切线不等式族（选学）"已标注"本章范围内考试禁用、待学完导数再用"，与此口径一致。</p>
+</blockquote>
+<h3>进阶 1：基本不等式"三件套"</h3>
+<p><strong>适用信号</strong>：给了一个和（或积）的定值，求另一个式子的最值。
+<strong>操作步骤</strong>：</p>
+<ol>
+<li><strong>1 的代换</strong>：已知 x+y = 1，求 1/x+1/y——乘 (x+y)，展开后用 x/y+y/x≥2；</li>
+<li><strong>和积转化</strong>：已知 x+y 与 xy 关系，用 (x+y)<sup>2</sup>≥4xy 搭桥；</li>
+<li><strong>换元化齐次</strong>：出现 a/b，令 t = a/b 消元。
+<strong>例题</strong>：x+2y = 1 求 1/x+1/y = (x+2y)(1/x+1/y) = 3+x/y+2y/x ≥ 3+2√2。
+<strong>课标依据/红线</strong>：基本不等式直接运用，✓ <strong>不超纲（高考可放心用）</strong>。</li>
+</ol>
+<h3>进阶 2：绝对值三角不等式</h3>
+<p><strong>公式</strong>：||a|−|b|| ≤ |a±b| ≤ |a|+|b|。
+<strong>适用信号</strong>：含 |x−a|+|x−b| 的最值问题，比分类讨论快。
+<strong>课标依据/红线</strong>：性质本身属必修基础，✓ 小题可直接用；大题用时建议写一句说明。</p>
+<h3>进阶 3：切线不等式族（选学）</h3>
+<p><strong>公式</strong>：lnx ≤ x−1（x = 1 取等）、e<sup>x</sup> ≥ x+1（x = 0 取等）。
+<strong>适用信号</strong>：含 e<sup>x</sup>、lnx 的不等式证明与比较大小。
+<strong>课标依据/红线</strong>：<strong>超纲红线（本章范围内考试禁用）</strong>——它要用导数（第 05 章）构造差函数证明，本章尚未学导数。这里只列出来让你有个印象，等学完导数再回来用。</p>
+<h3>进阶 4：柯西 / 琴生 / 排序不等式（选学·验证用）</h3>
+<p><strong>课标依据/红线</strong>：<strong>超纲红线（考试禁用，只用于理解/自检）</strong>——不在教材内，答题卡上不要直接引用。</p>
+<hr />
+<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. x &lt; −2 或 x &gt; 2；2. x + 4/x ≥ 2√(x·4/x)  =  4，取等 x  =  2，最小值 4；3. a + b ≥ 2√9  =  6，取等 a  =  b  =  3，最小值 6；4. Δ  =  4 − 12 &lt; 0 且开口向上 ⇒ 解集为 R；5. k  =  0 时 1 &gt; 0 成立；k ≠ 0 需 k &gt; 0 且 Δ  =  k<sup>2</sup> − 4k &lt; 0 ⇒ 0 &lt; k &lt; 4；综上 0 ≤ k &lt; 4。</p></div></div>
+</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
+<ol>
+<li>(x−2)(x−3)&gt;0，开口向上，"大于取两边"：<strong>x&lt;2 或 x&gt;3</strong>。</li>
+<li>x·(9/x)=9 定，x+9/x ≥ 2√9=<strong>6</strong>，x=3 取等。</li>
+<li>a+b ≥ 2√16=<strong>8</strong>，a=b=4 取等。</li>
+<li>Δ=(−2)<sup>2</sup>−12=−8&lt;0，开口向上恒在 x 轴上方，解集为 <strong>R</strong>。</li>
+<li>开口向上、"小于取中间"：<strong>−2≤x≤1</strong>。</li>
+<li>1/x+1/y=(x+2y)(1/x+1/y)=1+x/y+2y/x+2=3+x/y+2y/x ≥ 3+2√2（x/y=2y/x 即 x=√2 y 取等）。最小值 <strong>3+2√2</strong>。</li>
+</ol>
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · B 组</button><div class="ans-body"><p><strong>B 组</strong></p>
+<ol start="7">
+<li>开口向上，Δ=a<sup>2</sup>−36≤0 ⇒ <strong>−6≤a≤6</strong>。</li>
+<li>分解 (x−1)(x−a)&lt;0。若 a&gt;1：1&lt;x&lt;a；若 a&lt;1：a&lt;x&lt;1；若 a=1：(x−1)<sup>2</sup>&lt;0 无解。</li>
+<li>2x·(8/x)=16 定，2x+8/x ≥ 2√16=<strong>8</strong>，2x=8/x 即 x=2 取等。</li>
+<li>k=0 时 1&gt;0 成立；k≠0 需 k&gt;0 且 Δ=k<sup>2</sup>−4k&lt;0 ⇒ 0&lt;k&lt;4。综上 <strong>0≤k&lt;4</strong>。</li>
+</ol>
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · C 组</button><div class="ans-body"><p><strong>C 组</strong></p>
+<ol start="11">
+<li>设公共值为 k，则 x=2^{k−2}，y=3^{k−3}，z=5^{k−5}。取对数比较：x=y 在 k≈4.71、x=z 在 k≈7.27、y=z 在 k≈9.30 处互换。随 k 从小到大，可能出现的顺序为 x&gt;y&gt;z（A）、y&gt;x&gt;z（C）、y&gt;z&gt;x（D）、z&gt;y&gt;x；唯独 <strong>x&gt;z&gt;y（选项 B）不可能</strong>，故选 <strong>B</strong>。</li>
+</ol>
+</div></div></div><div class="sec sec-meta"><h2>一通百通</h2>
+<p>遇到本章任何题，本质都是"先把谁和谁比说清楚，再算这个差（或比值）的符号"：解二次不等式先求根、看开口，套"大于取两边、小于取中间"；求最值先认准"一正二定三相等"——和定就挤积的最大值、积定就挤和的最小值；恒成立先翻译成"参数 ≤ 右边的最小值"或"参数 ≥ 右边的最大值"。会这一套，解二次不等式、用基本不等式求最值、证不等式就是同一把"比较大小"尺子的不同量法。这套"先翻译大小关系、再定符号"的骨架，后面函数值域（02）、导数求单调与最值（05）里还会一再用到。</p>
+</div><div class="sec sec-meta"><h2>跨章结合</h2>
+<ul>
+<li><strong>本章二次不等式 × 第 02 章二次函数</strong>：解一元二次不等式根本不是另一套技术，就是把二次函数图像"翻下来"读——抛物线在 x 轴上方对应的 x 区间就是 &gt;0 的解。想通这一点，你不用记"大于取两边、小于取中间"的口诀也能自己画出解集；Δ 的三种情况、开口方向全由图像决定。（综合原理说明，非真题）</li>
+<li><strong>本章比较与放缩 × 第 11 章数列</strong>：数列里的不等式证明，是"数列递推"和"不等式放缩"两件事碰在一起——先用数学归纳法把通项压出一个下界（如 a<sub>n</sub>≥n+2），再用不等式把每一项放大成等比数列，最后求和。本章 3.5 那道苏州教研题（a<sub>n+1</sub>=a<sub>n</sub><sup>2</sup>−na<sub>n</sub>+1，原书 p.143）正是这个结合的样板。（苏州教研·专题40）</li>
+</ul>
+</div><div class="sec sec-meta"><h2>本章与前后章</h2>
+<p>按全书蓝图，12 章的前置是第 02 章函数——解二次不等式靠二次函数图像"翻下来读解集"，因式分解、一元二次方程更是初中老本；它和第 11 章数列同属"数列+不等式"这一阶段，数列题里的放缩、求和不等式（如本章 3.5 那道 a<sub>n+1</sub>=a<sub>n</sub><sup>2</sup>−na<sub>n</sub>+1 的经典证明）用的正是本章的比较与最值工具。往后，第 05 章导数求单调区间、极值，本质就是解 f′(x)&gt;0；第 16 章圆锥曲线的"取值范围""恒成立"，也都是不等式的活。学完这章，你手里多了一把"比较大小"的通用尺。</p>
+</div><div class="sec sec-meta"><h2>高考怎么考</h2>
+<p>新高考Ⅰ卷里不等式很少单独出大题，主要藏在小题里：基本不等式求最值（"1 的代换"是最高频）、恒成立求参数范围、以及和指对数函数结合的比较大小（如本章 C 组 2025 年卷第 8 题）。二次不等式的解法则更多作为函数、数列、解析几何题的中间步骤出现，不单独成题。位置多在选择题中段，难度中档，3 分钟内拿下——它考的不是背公式，而是"把谁和谁比"一眼看对。</p></div>
+</section>
+</main>
+<button id="topbtn" title="回到顶部">↑</button>
+<script>
+(function(){
+  var doc=document, root=doc.documentElement;
+  /* 字号调节（14.5-19.5，步进 1） */
+  var fs=parseFloat(localStorage.getItem('ebook-fs'))||16.5;
+  fs=Math.max(14.5,Math.min(19.5,fs));
+  root.style.setProperty('--fs',fs+'px');
+  var fsel=doc.getElementById('fsize');
+  function fsLabel(){if(fsel)fsel.textContent=fs.toFixed(1);}
+  var mn=doc.getElementById('minus'),pl=doc.getElementById('plus');
+  if(mn)mn.addEventListener('click',function(){fs=Math.max(14.5,fs-1);root.style.setProperty('--fs',fs+'px');localStorage.setItem('ebook-fs',fs);fsLabel();});
+  if(pl)pl.addEventListener('click',function(){fs=Math.min(19.5,fs+1);root.style.setProperty('--fs',fs+'px');localStorage.setItem('ebook-fs',fs);fsLabel();});
+  fsLabel();
+  /* 正文字体切换 */
+  if(localStorage.getItem('ebook-serif')==='1')doc.body.classList.add('serif');
+  var sbtn=doc.getElementById('serifbtn');
+  function serifLabel(){sbtn.textContent=doc.body.classList.contains('serif')?'黑体':'衬线';}
+  if(sbtn){sbtn.addEventListener('click',function(){var on=doc.body.classList.toggle('serif');localStorage.setItem('ebook-serif',on?'1':'0');serifLabel();});serifLabel();}
+  /* 深色模式 */
+  if(localStorage.getItem('ebook-dark')==='1')doc.body.classList.add('dark');
+  var dbtn=doc.getElementById('darkbtn');
+  function darkLabel(){if(dbtn)dbtn.textContent=doc.body.classList.contains('dark')?'日间':'夜读';}
+  if(dbtn){dbtn.addEventListener('click',function(){var on=doc.body.classList.toggle('dark');localStorage.setItem('ebook-dark',on?'1':'0');darkLabel();});darkLabel();}
+  /* 答案折叠 */
+  doc.querySelectorAll('.ans-toggle').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var box=btn.parentNode;
+      box.classList.toggle('open');
+      btn.textContent=box.classList.contains('open')?'隐藏答案':'显示答案';
+    });
+  });
+  /* 打印三模式（本页章节） */
+  function curSec(){return doc.querySelector('#main section.chapter')}
+  function printScope(mode){
+    doc.body.classList.remove('print-note','print-q','print-a','print-ans','print-one');
+    var s=curSec();if(s)s.classList.remove('ch-print');
+    doc.querySelectorAll('.sec.sec-has-ans').forEach(function(x){x.classList.remove('sec-has-ans')});
+    if(mode==='note')doc.body.classList.add('print-note');
+    if(mode==='q')doc.body.classList.add('print-q');
+    if(mode==='a'){doc.body.classList.add('print-a','print-ans');doc.querySelectorAll('.ans-box').forEach(function(b){var p=b.closest('.sec');if(p)p.classList.add('sec-has-ans')});}
+    if(s){s.classList.add('ch-print');doc.body.classList.add('print-one');}
+    window.print();
+  }
+  var pn=doc.getElementById('printnote'),pq=doc.getElementById('printq'),pa=doc.getElementById('printa');
+  if(pn)pn.addEventListener('click',function(){printScope('note')});
+  if(pq)pq.addEventListener('click',function(){printScope('q')});
+  if(pa)pa.addEventListener('click',function(){printScope('a')});
+  /* 回到顶部 */
+  var topbtn=doc.getElementById('topbtn');
+  function onScroll(){var y=window.scrollY;if(topbtn)topbtn.style.display=y>600?'block':'none';}
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  if(topbtn)topbtn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})});
+  /* 搜索本章（点击结果滚动定位） */
+  var q=doc.getElementById('q'),sres=doc.getElementById('sres');
+  if(q)q.addEventListener('input',function(){
+    var k=q.value.trim();sres.innerHTML='';
+    if(!k)return;
+    var els=Array.prototype.slice.call(doc.querySelectorAll('#main p,#main li,#main h3,#main h4'));
+    var hits=els.filter(function(e){return e.textContent.indexOf(k)>-1});
+    hits.slice(0,20).forEach(function(e,i){
+      var d=doc.createElement('div');d.className='sr-item';
+      d.textContent=(i+1)+'. '+e.textContent.replace(/\s+/g,' ').slice(0,46);
+      d.addEventListener('click',function(){e.scrollIntoView({behavior:'smooth',block:'center'});sres.innerHTML='';q.value='';});
+      sres.appendChild(d);
+    });
+    if(!hits.length)sres.innerHTML='<div class="sr-none">本页无匹配</div>';
+  });
+})();
+</script>
+</body>
+</html>

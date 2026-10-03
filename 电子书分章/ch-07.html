@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>第07章 三角恒等变换 · 高中数学自学系统</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232563EB'/%3E%3Ctext x='32' y='46' font-size='40' text-anchor='middle' font-family='sans-serif' fill='white'%3E数%3C/text%3E%3C/svg%3E">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:88px}
+:root{
+  --fs:16.5px;
+  --bg:#f6f2e9; --card:#fffdf8; --ink:#2b2721; --muted:#8b8477;
+  --line:#e4dccb; --blue:#1f3a5f; --blue2:#3a5a85; --blue-l:#e8f0f9;
+  --gold:#c9a227; --gold-l:#faf3dc; --red:#c03a2b; --red-l:#fdf1ec;
+  --green:#3f8f4f; --green-l:#edf6ef; --purple:#7b5ea7; --purple-l:#f2eefa;
+  --shadow:0 1px 4px rgba(60,50,30,.07);
+}
+html,body{overflow-x:hidden}
+body{background:var(--bg);color:var(--ink);font-family:"Microsoft YaHei","PingFang SC","Noto Sans SC","Segoe UI",sans-serif;font-size:var(--fs);line-height:1.95}
+body.serif{font-family:Georgia,"Noto Serif SC","Source Han Serif SC","Songti SC",SimSun,serif}
+/* 深色模式 */
+body.dark{--bg:#191713;--card:#23201a;--ink:#d6d0c2;--muted:#8d8677;--line:#3a352b;--blue:#93b3dc;--blue2:#6d90bd;--blue-l:#1d2837;--gold:#d9b64e;--gold-l:#2b2513;--red:#e07a5f;--red-l:#2e1c16;--green:#7cbf8a;--green-l:#15251a;--purple:#b39ad8;--purple-l:#251f31;--shadow:0 1px 4px rgba(0,0,0,.35)}
+/* 阅读进度条 */
+#pbar{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,#e8c766,#c9a227);z-index:120;transition:width .1s linear}
+/* 顶部工具栏 */
+#tb{position:fixed;top:0;left:0;right:0;z-index:110;background:#23201b;color:#e8c766;box-shadow:0 1px 6px rgba(0,0,0,.25)}
+#tb-in{display:flex;align-items:center;gap:12px;max-width:min(1920px,calc(100vw - 300px));margin:0 auto;padding:8px 20px}
+.tb-logo{font-weight:800;font-size:13.5px;letter-spacing:.06em;white-space:nowrap;color:#e8c766}
+.tb-search{flex:1;min-width:160px;position:relative}
+#q{width:100%;padding:7px 12px;border-radius:8px;border:1px solid #4a4437;background:#14120e;color:#eee;font-size:13.5px;font-family:inherit;outline:none}
+#q::placeholder{color:#6f6859}
+#q:focus{border-color:#e8c766}
+#sres{position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--card);border:1px solid var(--line);border-radius:10px;box-shadow:0 10px 28px rgba(0,0,0,.18);max-height:340px;overflow-y:auto;display:none;z-index:130}
+#sres.open{display:block}
+#sres a{display:block;padding:9px 14px;border-bottom:1px solid var(--line);color:var(--ink);text-decoration:none;font-size:13.5px;line-height:1.6}
+#sres a .ch{font-size:11.5px;color:var(--gold);display:block;margin-bottom:2px;font-weight:700}
+#sres a b{color:var(--blue)}
+#sres a:hover{background:var(--blue-l)}
+#sres .nores{padding:10px 14px;color:var(--muted);font-size:13px}
+.tb-tools{display:flex;align-items:center;gap:6px;white-space:nowrap}
+.tb-btn{background:#332e25;border:1px solid #4a4437;color:#e8e2d4;border-radius:8px;padding:6px 11px;font-size:12.5px;cursor:pointer;font-family:inherit;transition:.15s}
+.tb-btn:hover{background:#4a4437;color:#fff}
+#fsize{font-size:12px;min-width:32px;text-align:center;color:#c9c0ab}
+/* 侧边目录 */
+#toc{position:fixed;top:0;left:0;bottom:0;width:240px;background:#23201b;color:#d8d2c6;overflow-y:auto;z-index:100;padding:64px 0 40px}
+#toc .toc-title{font-weight:700;font-size:13.5px;letter-spacing:.15em;color:#e8c766;padding:0 22px 12px;border-bottom:1px solid #38332b;margin-bottom:8px}
+#toc a{display:flex;align-items:baseline;gap:9px;color:#c6bfae;text-decoration:none;padding:7px 22px;font-size:13.5px;line-height:1.5;border-left:3px solid transparent}
+#toc a .no{font-weight:700;color:#8a8272;font-size:12px;min-width:20px}
+#toc a:hover{background:#322d25;color:#fff}
+#toc a.on{background:#1a1712;color:#fff;border-left-color:#e8c766}
+#toc a.on .no{color:#e8c766}
+#toc .toc-foot{padding:16px 22px;font-size:11.5px;color:#6f6859;border-top:1px solid #38332b;margin-top:12px;line-height:1.7}
+/* 主内容 */
+#main{margin-left:240px;margin-right:auto;max-width:min(1920px,calc(100vw - 300px));min-width:0;padding:76px 48px 120px}
+section.chapter{padding:54px 0 22px;border-bottom:1px solid var(--line)}
+section.chapter:first-of-type{padding-top:18px}
+/* 章头横幅 */
+.ch-head{background:linear-gradient(135deg,#1f3a5f 0%,#3a5a85 72%,#54739f 100%);border-radius:14px;padding:26px 28px 22px;margin:0 0 20px;color:#fff;position:relative;overflow:hidden;box-shadow:0 3px 10px rgba(31,58,95,.20)}
+.ch-head::after{content:attr(data-no);position:absolute;right:16px;top:-20px;font-size:104px;font-weight:800;color:rgba(255,255,255,.07);line-height:1;pointer-events:none}
+.ch-no{font-size:12.5px;letter-spacing:.3em;color:#e8c766;font-weight:700}
+h1.ch-title{font-size:29px;font-weight:800;color:#fff;margin:8px 0 6px;letter-spacing:.02em;line-height:1.3}
+.ch-sub{color:#ccd8ea;font-size:13px}
+/* 配套资料直达 */
+.mats{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px 16px;margin:0 0 18px;box-shadow:var(--shadow)}
+.mats-t{font-size:12.5px;font-weight:700;color:var(--gold);margin-bottom:9px;letter-spacing:.04em}
+.mats-l{display:flex;flex-wrap:wrap;gap:8px}
+.mats-l a{background:var(--blue-l);color:var(--blue);text-decoration:none;font-size:13px;padding:5px 13px;border-radius:20px;border:1px solid #c9d8ec;transition:.15s}
+.mats-l a:hover{background:var(--blue);color:#fff;transform:translateY(-1px)}
+/* 看不懂怎么办 */
+.help{background:var(--gold-l);border:1px dashed var(--gold);border-radius:12px;padding:13px 16px;margin:0 0 20px;font-size:13.5px;color:#6b5c26;line-height:1.85;box-shadow:var(--shadow)}
+body.dark .help{color:#d8c078}
+.help b{color:var(--gold)}
+/* 小节标题 */
+h2{font-family:inherit;font-size:calc(var(--fs) + 2.5px);font-weight:700;color:var(--blue);margin:40px 0 14px;padding:9px 14px 9px 16px;background:var(--blue-l);border-left:5px solid #c9d8ec;border-radius:0 9px 9px 0;line-height:1.45}
+h2.gate{border-left-color:#3b7dd8}.h2tag{font-size:11px;background:var(--blue-l);color:var(--blue);border-radius:4px;padding:1px 8px;margin-right:8px;vertical-align:2px}
+h2.goal{border-left-color:#3b7dd8}
+h2.body{border-left-color:#c9d8ec}
+h2.ex2{border-left-color:#3f7fd4}
+h2.out{border-left-color:#3b7dd8}
+h2.pit{border-left-color:var(--red)}
+h2.hw{border-left-color:var(--green)}
+h2.formula{border-left-color:var(--gold)}
+h2.adv{border-left-color:var(--purple)}
+h3{font-size:calc(var(--fs) + 0.5px);font-weight:700;color:#3a352c;margin:22px 0 8px}
+p{margin:0 0 12px}
+strong{color:var(--blue)}
+/* 公式独立行：数学衬线字体统一字形（χ Σ √ 上下标同族），避免文本符号混排歪扭 */
+p:has(> strong:only-child){text-align:center;font-size:calc(var(--fs) + 1.5px);margin:16px 0;background:var(--blue-l);border:1px solid #cfe0f2;border-radius:10px;padding:10px 14px;color:var(--blue);font-family:"Cambria Math","STIX Two Math","Times New Roman","Songti SC",serif;letter-spacing:.012em}
+/* 内容块分类 */
+p.def{background:var(--blue-l);border-left:4px solid var(--blue);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0;box-shadow:var(--shadow)}
+p.ex{background:var(--blue-l);border:1px solid #d5e3f7;border-radius:10px;padding:12px 15px;margin:14px 0;box-shadow:var(--shadow)}
+p.warn{background:var(--red-l);border-left:4px solid var(--red);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0;box-shadow:var(--shadow)}
+p.sum{background:var(--gold-l);border-left:4px solid var(--gold);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0;box-shadow:var(--shadow)}
+p.note{background:var(--gold-l);border:1px dashed var(--gold);border-left:4px solid var(--gold);padding:11px 16px;border-radius:0 10px 10px 0;margin:12px 0;font-size:calc(var(--fs) - 1px)}
+/* 大白话旁注：缩进小字块，像教材旁批，一眼区别于正文 */
+p.baihua{background:var(--gold-l);border-left:4px solid var(--gold);border-bottom:1px dashed var(--gold);padding:10px 16px;border-radius:0 10px 10px 0;margin:10px 0 12px 20px;font-size:calc(var(--fs) - 1.5px);line-height:1.75;color:#6a5f45}
+li.baihua{list-style:none;background:var(--gold-l);border-left:4px solid var(--gold);border-bottom:1px dashed var(--gold);padding:9px 14px;border-radius:0 10px 10px 0;margin:8px 0 8px -26px;font-size:calc(var(--fs) - 1.5px);line-height:1.75;color:#6a5f45}
+p.baihua span.tag,li.baihua span.tag{background:var(--gold);color:#5c4a12}
+p.baihua.why span.tag{background:var(--blue);color:#fff}
+p.taskA,p.taskB,p.taskC{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:11px 15px;margin:12px 0;box-shadow:var(--shadow)}
+p.taskA{border-left:4px solid var(--green);background:var(--green-l)}
+p.taskB{border-left:4px solid #3b7dd8;background:var(--blue-l)}
+p.taskC{border-left:4px solid var(--gold);background:var(--gold-l)}
+p.ans{background:var(--blue-l);border:1px dashed #c3cede;border-radius:10px;padding:11px 15px;margin:14px 0}
+.ans-box{margin:16px 0;border:1px solid var(--line);border-radius:10px;background:var(--card);overflow:hidden}
+.ans-box>.ans-toggle{display:block;width:100%;border:none;background:var(--blue-l);color:var(--blue);font-size:13.5px;font-weight:600;padding:10px 14px;cursor:pointer;font-family:inherit;text-align:left;transition:.15s}
+.ans-box>.ans-toggle:hover{background:#d7e3f5}
+.ans-box>.ans-toggle::before{content:"▸ ";transition:transform .15s}
+.ans-box.open>.ans-toggle::before{content:"▾ "}
+.ans-box>.ans-body{display:none;padding:10px 15px 13px;border-top:1px dashed #c3cede}
+.ans-box.open>.ans-body{display:block}
+.ans-body p.ans{background:transparent;border:none;padding:0;margin:0 0 8px;font-weight:600}
+span.tag{display:inline-block;background:var(--blue);color:#fff;font-size:11px;border-radius:4px;padding:0 7px;margin-right:8px;vertical-align:2px}
+p.warn span.tag{background:var(--red)}
+p.sum span.tag{background:var(--gold)}
+p.note span.tag{background:var(--gold);color:#5c4a12}
+p.ans span.tag{background:#5a6b80}
+/* blockquote 提示 */
+blockquote{background:var(--gold-l);border-left:4px solid var(--gold);padding:10px 16px;border-radius:0 10px 10px 0;margin:14px 0;color:#5c543f;font-size:calc(var(--fs) - 2px)}
+body.dark blockquote{color:#c9bc9a}
+body.dark p.baihua,body.dark li.baihua{color:#c9bc9a}
+ul,ol{margin:4px 0 12px 26px}
+li{margin:4px 0}
+li::marker{color:var(--blue)}
+/* 表格 */
+table{border-collapse:collapse;width:100%;margin:14px 0 20px;font-size:calc(var(--fs) - 2px);box-shadow:var(--shadow);border-radius:10px;overflow:hidden}
+td,th{padding:9px 12px;vertical-align:top;word-break:break-word;overflow-wrap:anywhere;text-align:left}
+code{font-family:ui-monospace,Consolas,'Courier New',monospace;font-size:.92em;word-break:break-all;overflow-wrap:anywhere}
+th{background:var(--blue);color:#fff;font-weight:600;text-align:left;padding:9px 12px;border:1px solid var(--blue)}
+td{padding:8px 12px;border:1px solid var(--line);vertical-align:top;background:var(--card)}
+tr:nth-child(even) td{background:rgba(0,0,0,.022)}
+tr:hover td{background:var(--blue-l)}
+img{max-width:92%;height:auto;display:block;margin:16px auto;border-radius:10px;box-shadow:var(--shadow);background:#fff}
+body.dark img{border:1px solid var(--line)}
+hr{border:none;border-top:2px dashed #d8d1c2;margin:22px 0}
+code{background:#efece4;padding:1px 6px;border-radius:4px;font-family:Consolas,monospace;font-size:calc(var(--fs) - 3px);color:#7a4a12;word-break:break-all;overflow-wrap:anywhere}
+body.dark code{background:#332e25;color:#e0b87a}
+pre{background:#26221c;color:#e8e2d4;padding:14px 16px;border-radius:8px;overflow-x:auto;margin:12px 0;font-size:13.5px}
+/* 表格容器：窄屏横向滚动，不压扁列 */
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 0 6px;max-width:100%}
+/* 数学符号统一化：组合音标与上下标（与正文同字体、基线规范） */
+span.ol{text-decoration:overline;text-decoration-thickness:1.1px;text-decoration-skip-ink:none}
+span.hat{position:relative;display:inline-block;padding:0 .04em}
+span.hat::after{content:"^";position:absolute;top:-0.42em;left:0;right:0;text-align:center;font-size:.66em;line-height:1;color:inherit}
+sup,sub{font-size:.7em;line-height:0;font-family:inherit}
+sup{vertical-align:super}sub{vertical-align:sub}
+/* 浮动按钮 */
+#topbtn{position:fixed;right:22px;bottom:26px;background:var(--blue);color:#fff;border:none;border-radius:50%;width:46px;height:46px;font-size:17px;cursor:pointer;box-shadow:0 3px 10px rgba(0,0,0,.25);z-index:100;display:none;font-family:inherit}
+#topbtn:hover{background:var(--blue2)}
+#mnav{display:none}
+/* 搜索命中闪烁 */
+section.flash{animation:flash 1.6s ease}
+@keyframes flash{0%{box-shadow:inset 0 0 0 3px var(--gold)}100%{box-shadow:inset 0 0 0 3px transparent}}
+@media (max-width:900px){
+  html{scroll-padding-top:150px}
+  body{overflow-x:hidden}
+  #main{overflow-x:hidden}
+  .tbl-wrap{overflow-x:auto}
+  .tbl-wrap table{min-width:560px}
+  #toc{transform:translateX(-100%);transition:transform .25s;width:280px;padding-top:56px}
+  #toc.open{transform:translateX(0)}
+  #main{margin-left:0;padding:150px 16px 100px}
+  #tb-in{flex-wrap:wrap;gap:6px 10px;padding:6px 10px}
+  .tb-logo{display:none}
+  .tb-search{flex:1 1 100%;min-width:0}
+  .tb-tools{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+  #mnav{display:flex;position:fixed;top:92px;left:0;right:0;z-index:105;background:#2b2620;color:#e8c766;padding:9px 14px;align-items:center;gap:10px;font-size:13.5px;font-weight:700;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+  #mnav button{background:none;border:1px solid #e8c766;color:#e8c766;border-radius:4px;padding:2px 10px;font-size:15px;cursor:pointer}
+  h1.ch-title{font-size:22px}
+  .ch-head{padding:20px 18px 18px}
+  .ch-head::after{font-size:76px;top:-10px;right:10px}
+  p:has(> strong:only-child){font-size:calc(var(--fs) - 0.5px)}
+  #topbtn{bottom:84px}
+}
+@media print{
+  #toc,#topbtn,#mnav,#tb,#pbar,.ans-toggle{display:none!important}
+  #main{margin:0;max-width:none;padding:0}
+  body{background:#fff;font-size:11.5pt}
+  body.dark{background:#fff;color:#000}
+  section.chapter{page-break-after:always;border:none}
+  body.print-one section.chapter{display:none!important}
+  body.print-one section.chapter.ch-print{display:block!important}
+  /* 讲义：隐藏出口检测+课后习题+全部答案 */
+  body.print-note .sec-out,body.print-note .sec-hw,body.print-note .ans-box{display:none!important}
+  /* 题目卷：只显示出口检测+课后习题 */
+  body.print-q .sec{display:none!important}
+  body.print-q .sec-out,body.print-q .sec-hw{display:block!important}
+  /* 答案卷：只显示含答案的区块（含自测答案与课后答案，JS 已打 sec-has-ans 标） */
+  body.print-a .sec{display:none!important}
+  body.print-a .sec-has-ans{display:block!important}
+  .ans-box{border:none;background:transparent;margin:6px 0}
+  .ans-box>.ans-body{display:none!important;padding:0;border:none}
+  body.print-ans .ans-box>.ans-body{display:block!important}
+  .ans-body p.ans{font-weight:700;margin:4px 0}
+}
+
+
+/* ===== 分章版专用 ===== */
+.ch-nav{display:flex;justify-content:space-between;align-items:center;gap:10px;max-width:min(1920px,calc(100vw - 300px));margin:12px auto 0;padding:9px 16px;background:var(--card);border:1px solid var(--line);border-radius:10px;font-size:13.5px;box-shadow:var(--shadow)}
+.ch-nav .cn-title{font-weight:700;color:var(--ink)}
+.ch-nav a{color:var(--blue);text-decoration:none;padding:2px 8px;border-radius:6px}
+.ch-nav a:hover{background:var(--blue-l);text-decoration:underline}
+#main{margin-top:4px}
+.sr-item{padding:7px 10px;border-bottom:1px solid var(--line);cursor:pointer;font-size:12.5px;line-height:1.5}
+.sr-item:hover{background:var(--blue-l)}
+.sr-none{padding:8px 10px;color:#888;font-size:12.5px}
+@media print{.ch-nav{display:none!important}}
+</style>
+</head>
+<body>
+<div id="pbar"></div>
+<header id="tb"><div id="tb-in">
+  <span class="tb-logo"><a href="index.html" style="color:inherit;text-decoration:none">高中数学自学系统</a></span>
+  <div class="tb-search"><input id="q" type="search" placeholder="搜索本章…" autocomplete="off"><div id="sres"></div></div>
+  <div class="tb-tools">
+    <button class="tb-btn" id="minus" title="减小字号">A−</button><span id="fsize"></span><button class="tb-btn" id="plus" title="增大字号">A+</button>
+    <button class="tb-btn" id="serifbtn" title="切换正文字体"></button>
+    <button class="tb-btn" id="darkbtn" title="深色/日间模式"></button>
+    <button class="tb-btn" id="printnote" title="打印本章讲义（不含题目与答案）">打印讲义</button>
+    <button class="tb-btn" id="printq" title="打印本章所有题目（练习卷）">打印题目</button>
+    <button class="tb-btn" id="printa" title="打印本章所有答案（答案卷）">打印答案</button>
+  </div>
+</div></header>
+<div class="ch-nav"><a href="ch-06.html">← 06</a><span class="cn-title">第07章 · 三角恒等变换</span><a href="ch-08.html">08 →</a></div>
+<main id="main">
+<section class="chapter" id="ch-07">
+<div class="ch-head" data-no="07"><div class="ch-no">第07章</div><h1 class="ch-title">三角恒等变换</h1><div class="ch-sub">板块：三角函数 ｜ 前置：第 06 章 ｜ 老教材：必修4 第3章 ｜ 新教材：必修一 第5章 5.5</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后学习）">老教材·必修4</a><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后对标）">新教材·必修第一册</a><a href="../公式/高中数学公式速查手册.html#ch-07" title="本章公式速查（按章手册，直达本章）">公式速查手册</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
+<p>公式速查：修订版 第3部分（和差/倍角/辅助角）</p>
+<p><strong>本章本质核心</strong>：三角恒等变换的本质是"把不同角的三角函数，统一换成同一个角的三角函数"——题目里冒出 α+β、α−β、2α、两个不同角相加，看着乱，其实都是同一个归约动作：想办法把它们压回到同一个角，再算。本章全部公式（两角差的余弦、和差角、二倍角、降幂、辅助角）都是这一个归约原理的变体；根只有一块砖 cos(α−β)，其余全是它推出来的。
+<strong>为什么有用</strong>：想通"把不同角归约到同一个角"这一招，你就能把乱成一团的 sin、cos 混合式化简成一根干净的正弦波，最大值、周期、单调区间直接读出来；物理里交流电叠加、两个简谐运动合成，背后都是这一手合一变形——想通归约原理，比死背和差角表管用得多。</p>
+</blockquote>
+<hr />
+<div class="sec sec-meta"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
+<ol>
+<li>sin 30°、cos 60°、tan 45° 各是多少？</li>
+<li>sin<sup>2</sup>α + cos<sup>2</sup>α  =  ？</li>
+<li>(a + b)<sup>2</sup>  =  a<sup>2</sup> + 2ab + b<sup>2</sup> 成立吗？（同类公式意识）</li>
+<li>sin 90°  =  ？cos 0°  =  ？</li>
+<li>判断 sin(α + β) 是否等于 sin α + sin β。</li>
+</ol>
+<p><strong>判定</strong>：5 题答对 4 题以上 → 进章。</p>
+</div><div class="sec sec-meta"><h2 class = "goal">② 学习目标</h2>
+<ul>
+<li>背熟并会用和差角公式、二倍角公式</li>
+<li>会用降幂公式化简求值</li>
+<li>会用辅助角公式把 asin x + bcos x 合成一个正弦</li>
+<li>能解决"给值求值、给值求角"两类恒等变换题</li>
+</ul>
+</div><div class="sec sec-meta"><h2 class = "body">③ 正文讲解</h2>
+<p>上一章我们有了 sin、cos、tan，这一章要让它们"互相变换"。先看地图：</p>
+<pre><code>两角差的余弦公式 C(α−β)   ← 一切公式的根（用单位圆两点距离推出）
+        ↓ 把 β 换成 −β、把 α−β 推广
+和角、差角公式（sin / cos / tan）
+        ↓ 令 β  =  α
+二倍角公式
+        ↓ 反解
+降幂 / 升幂公式
+        ↓ 逆用和角公式
+辅助角公式（asinx+bcosx 合一）
+        ↓ 应用
+给值求值、给值求角
+</code></pre>
+<p><strong>先说一句最重要的</strong>：sin(α+β) 不等于 sinα+sinβ（门槛自测第 5 题就是坑你）。正弦不"分配"。这些公式是一个严密的网，记住一个根（两角差的余弦），其余都能推出来，别死背。</p>
+<h3>3.1 和差角公式（必背）</h3>
+<p><strong>怎么来的（几何直觉）</strong>：在单位圆上取两个角 α、β，它们终边与单位圆交点分别是 (cosα, sinα) 和 (cosβ, sinβ)。这两点连起来的距离，既可以用距离公式写出来，也等于夹角为 α−β 的两点距离。两边一对照，就得到最基础的一块砖——</p>
+<p><strong>cos(α−β)  =  cosα cosβ + sinα sinβ</strong>。</p>
+<p><img alt = "和差角公式的单位圆示意" src = "assets/07-sum-angle-geo.png" /></p>
+<p>有了这块砖，其余和差角公式都靠"把负号代进去"推出来。比如把 β 换成 −β（cos(−β) = cosβ，sin(−β) = −sinβ），就得到 cos(α+β)。最终全套：</p>
+<p><strong>记住它之前先看懂它</strong>：这三条不是三张孤立的表，而是同一块砖 cos(α−β) 在 sin、cos、tan 上的三种长相——把 β 换成 −β、或把 sin 与 cos 角色对调，就能互相推出来。真正要记死的只有"中间符号"这件事：sin 的符号跟着括号走，cos 的符号要反过来。</p>
+<ul>
+<li><strong>sin(α ± β)  =  sinα cosβ ± cosα sinβ</strong></li>
+<li><strong>cos(α ± β)  =  cosα cosβ ∓ sinα sinβ</strong></li>
+<li><strong>tan(α ± β)  =  (tanα ± tanβ) / (1 ∓ tanα tanβ)</strong></li>
+</ul>
+<p><strong>记法</strong>：</p>
+<ul>
+<li>sin："正余余正"，中间符号<strong>相同</strong>（α+β 就用 +，α−β 就用 −）。</li>
+<li>cos："余余正正"，中间符号<strong>相反</strong>（α+β 反而用 −，α−β 反而用 +）——这是最容易记反的地方。</li>
+</ul>
+<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题 3.1-1</strong>：求 sin 75°。
+解：75°  =  45°+30°，用 sin(α+β)：
+sin 75°  =  sin45°cos30° + cos45°sin30°  =  (√2/2)(√3/2) + (√2/2)(1/2)  =  √6/4 + √2/4  =  <strong>(√6+√2)/4</strong>。
+要点：把 75° 拆成两个特殊角的和，套公式即可。</p>
+<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题 3.1-2</strong>：已知 tanα  =  2，tanβ  =  3，求 tan(α+β)。
+解：tan(α+β)  =  (tanα+tanβ)/(1−tanα tanβ)  =  (2+3)/(1−2 × 3)  =  5/(−5)  =  <strong>−1</strong>。
+要点：分子同号、分母异号，别把分母的符号写反。</p>
+<p><strong>陷阱</strong>：cos(α+β) 中间是减号，别写成 cosαcosβ+sinαsinβ。</p>
+<p><strong>编者注·本质回扣</strong>：这一节公式看着一排，其实是"一块砖推出来的一张网"。先记最根的那一条 cos(α−β)，再把 β 换成 −β 就得到 cos(α+β)，把 sin、cos 角色对调又得到正弦的和差——所谓"中间符号相同 / 相反"，不是两条要分开死背的规则，而是同一个展开式落在 sin、cos 身上的自然差别。说白了，你不用背这一整张表：会推这一条根，考场现场也能现算出来，这正是本章本质核心说的"归约到一个根"。</p>
+<h3>3.2 二倍角公式（由和差角令 β  =  α）</h3>
+<p>和角公式里令 β  =  α，立刻得到二倍角：</p>
+<p><strong>记住它之前先看懂它</strong>：二倍角不是新公式，就是把和角公式里"两个不同的角"换成"同一个角自己加自己"。cos2α 之所以有三张面孔，是因为 sin<sup>2</sup>α+cos<sup>2</sup>α = 1 可以在 cos<sup>2</sup>α 与 sin<sup>2</sup>α 之间自由换——题目给 sin 就用含 sin 的那张脸，给 cos 就用含 cos 的那张脸，本质是同一条。</p>
+<ul>
+<li><strong>sin 2α  =  2 sinα cosα</strong></li>
+<li><strong>cos 2α  =  cos<sup>2</sup>α − sin<sup>2</sup>α</strong>（这是"母版"）</li>
+<li><strong>tan 2α  =  2tanα / (1 − tan<sup>2</sup>α)</strong></li>
+</ul>
+<p>cos 2α 还能借助 sin<sup>2</sup>α+cos<sup>2</sup>α = 1 换成另外两种写法，哪个好用哪个：
+<strong>cos 2α  =  2cos<sup>2</sup>α − 1  =  1 − 2sin<sup>2</sup>α</strong>。</p>
+<p class = "baihua why"><span class = "tag">为什么</span>要有三种写法？ 因为题目给 sinα 就用 1−2sin<sup>2</sup>α，给 cosα 就用 2cos<sup>2</sup>α−1，直接代入，不用再开方。</p>
+<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题 3.2-1</strong>：已知 sinα  =  3/5，α 是第二象限角，求 sin 2α 和 cos 2α。
+解：第二象限 cosα  =  −4/5。
+sin 2α  =  2 sinα cosα  =  2 × (3/5) × (−4/5)  =  <strong>−24/25</strong>。
+cos 2α  =  1 − 2sin<sup>2</sup>α  =  1 − 2 × (9/25)  =  <strong>7/25</strong>（用含 sin 的式子，省事）。
+要点：求 cos 2α 时，哪种给的三角函数值方便就用哪种写法。</p>
+<p><strong>陷阱</strong>：sin 2α ≠ 2 sinα；cos 2α ≠ 2 cosα。倍角是"套公式"，不是"把系数乘 2"。</p>
+<h3>3.3 降幂公式（由二倍角反推，选填必用）</h3>
+<p>把二倍角公式反解出来，就得到降幂公式——看到平方就想降幂：</p>
+<ul>
+<li><strong>cos<sup>2</sup>α  =  (1 + cos 2α) / 2</strong></li>
+<li><strong>sin<sup>2</sup>α  =  (1 − cos 2α) / 2</strong></li>
+</ul>
+<p>反过来是升幂：
+<strong>1 + cos 2α  =  2cos<sup>2</sup>α；1 − cos 2α  =  2sin<sup>2</sup>α</strong>。</p>
+<p><strong>什么时候用？</strong> 题目出现 sin<sup>2</sup>x、cos<sup>2</sup>x，无法直接化简，降幂后角变成 2x，往往就能和别的项合并、再用辅助角合一。还有一个常用小结论：(sinα ± cosα)<sup>2</sup>  =  1 ± sin2α。</p>
+<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题 3.3-1</strong>：化简 sin<sup>2</sup>x + cos<sup>2</sup>x 之外，求 cos<sup>2</sup>15° 的值（不用计算器）。
+解：cos<sup>2</sup>15°  =  (1 + cos30°)/2  =  (1 + √3/2)/2  =  <strong>(2+√3)/4</strong>。
+要点：看到"角度一半的平方"，用降幂公式立刻变成特殊角 30°。</p>
+<p><strong>陷阱</strong>：方向别反——见到 cos<sup>2</sup>α 降幂，见到 cos 2α 升幂。</p>
+<h3>3.4 辅助角公式（合一变形，高考高频）</h3>
+<p>这是本章最有用的一招。任何 a sin x + b cos x 都能合成"一个正弦"：</p>
+<p><strong>a sin x + b cos x  =  √(a<sup>2</sup> + b<sup>2</sup>) · sin(x + φ)</strong>，
+其中 <strong>tan φ  =  b/a</strong>，且 φ 所在象限由 (a, b) 的符号决定。</p>
+<p class = "baihua why"><span class = "tag">为什么</span>能合？ 右边展开 √(a<sup>2</sup>+b<sup>2</sup>)[sin x cosφ + cos x sinφ]，要等于左边 a sin x + b cos x，就得 √(a<sup>2</sup>+b<sup>2</sup>)cosφ  =  a、√(a<sup>2</sup>+b<sup>2</sup>)sinφ  =  b。于是 cosφ  =  a/√(a<sup>2</sup>+b<sup>2</sup>)、sinφ  =  b/√(a<sup>2</sup>+b<sup>2</sup>)，φ 就是点 (a,b) 对应的角。</p>
+<p><strong>经典两例（背下来）</strong>：</p>
+<ul>
+<li>sin x + cos x  =  √2 sin(x + π/4)（a = 1,b = 1,√(a<sup>2</sup>+b<sup>2</sup>) = √2, φ = π/4）</li>
+<li>√3 sin x − cos x  =  2 sin(x − π/6)（a = √3,b = −1,√(a<sup>2</sup>+b<sup>2</sup>) = 2, φ 在第四象限）</li>
+</ul>
+<p><strong>用途</strong>：合一之后，求周期、最值、单调区间全部"读"出来——最大值就是 √(a<sup>2</sup>+b<sup>2</sup>)，最小值是它的相反数。</p>
+<p>（合并后仍是一个 y  =  A sin(x + φ) 形式的正弦，图象仍是正弦曲线：从 y  =  sin x 到 y  =  A sin(ωx+φ) 的平移与伸缩过程，见 06 章 3.6 节的配图。）</p>
+<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题 3.4-1</strong>：求 f(x)  =  sin x + √3 cos x 的最大值与周期。
+解：a = 1, b = √3，√(a<sup>2</sup>+b<sup>2</sup>)  =  2，tanφ  =  √3，且 a,b 都正（φ 在第一象限），φ  =  π/3。
+f(x)  =  2 sin(x + π/3)。最大值 <strong>2</strong>，周期 <strong>2π</strong>。
+要点：合一后最值直接看振幅，不用再想。</p>
+<p><strong>陷阱</strong>：只写 tanφ  =  b/a 会丢符号——φ 的象限要结合 a、b 正负来定。</p>
+<p><strong>编者注·本质回扣</strong>：辅助角公式是本章"归约"思想的极致体现。a sin x + b cos x 里有正弦、有余弦、系数还不一样，乱成一锅；但把它写成 √(a<sup>2</sup>+b<sup>2</sup>)·sin(x+φ) 之后，就变回了第 06 章那个单一的正弦波——周期、最值、单调区间全部直接读出来。你要做的本质上就是"换个看法"：把点 (a,b) 当直角坐标读出它对应的那个角 φ，再把整坨式子折成一根正弦曲线。所谓"φ 的象限由 (a,b) 符号定"，不过是看这个点落在第几象限而已。</p>
+<h3>3.5 两类核心题型</h3>
+<p><strong>第 1 类：给值求值。</strong> 已知某个三角函数值，求另一个。
+流程：① 先用平方关系补齐缺的三角函数值；② <strong>开方时看象限定正负</strong>；③ 套和差角或二倍角公式。</p>
+<p><strong>第 2 类：给值求角。</strong> 已知某个三角函数值，求角 α。
+流程：① 先求该角的一个三角函数值（如 cosα）；② <strong>圈出角的范围</strong>；③ 用单调性在范围内确定唯一角。</p>
+<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题 3.5-1（给值求角）</strong>：已知 cosα  =  −√2/2，且 α ∈ (0, π)，求 α。
+解：cosα  =  −√2/2，α ∈ (0,π)，cos 在 (0,π) 单调递减，cos(3π/4)  =  −√2/2，故 <strong>α  =  3π/4</strong>。
+要点：不写范围，cosα = −√2/2 在 0~2π 内有两个解（3π/4 和 5π/4），范围一卡就唯一。</p>
+<p><strong>小结</strong>：这一章的公式是一张网，根是两角差的余弦；二倍角、降幂、辅助角都是它的推论。做题时先判断"缺哪个值、角在什么范围"，再选公式。</p>
+<h3>3.6 三角式化简的三条路线（提升）</h3>
+<p>拿到一个长得很吓人的三角式，别慌，按这三条路一条条试：</p>
+<ol>
+<li><strong>降幂路线</strong>：见 sin<sup>2</sup>、cos<sup>2</sup> 就用降幂公式，把平方"打下来"，角翻倍。</li>
+<li><strong>合一路线</strong>：见 a sinx + b cosx（或整理成这个样子）就用辅助角公式合成一个正弦。</li>
+<li><strong>配角路线</strong>：题目给 α、β 的某种组合（如给 α+β、α−β），把要求的角用它们表示。比如已知 α+β 和 α−β，求 α，就用 α  =  [(α+β)+(α−β)]/2。</li>
+</ol>
+<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题 3.6-1</strong>：已知 α+β  =  π/3，α−β  =  π/6，求 2α。
+解：2α  =  (α+β) + (α−β)  =  π/3 + π/6  =  <strong>π/2</strong>。
+要点：配角思想——不用单独求 α、β，把目标角配成已知角的和差。</p>
+<p><strong>进阶/选学（超纲红线，只用于理解）</strong>：老教材里还有"积化和差、和差化积"两组公式（如 sinαcosβ  =  ½[sin(α+β)+sin(α−β)]）。<strong>新高考已不要求直接背，考试禁用这两组公式跳步</strong>，需要时用和差角公式现场推。知道有这回事、能推出来即可，别在卷子上直接套。</p>
+<hr />
+</div><div class="sec sec-meta"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
+<p class = "ex"><span class = "tag">例题</span><strong>例 1（给值求值）</strong>：已知 sin α  =  3/5（α 在第二象限），求 sin 2α 和 cos 2α。</p>
+<blockquote>
+<p>自己做：先补 cos α。</p>
+</blockquote>
+<p>解：cos α  =  −4/5（第二象限）。sin 2α  =  2·(3/5)·(−4/5)  =  −24/25。cos 2α  =  1 − 2sin<sup>2</sup>α  =  1 − 2·(9/25)  =  7/25。
+要点：<strong>二倍角用含 sin 的公式最省事</strong>；符号由 sin α 本身决定，不需要额外定。</p>
+<p class = "ex"><span class = "tag">例题</span><strong>例 2（合一变形）</strong>：求函数 f(x)  =  sin x + √3 cos x 的最大值与周期。</p>
+<blockquote>
+<p>自己做：先合一。</p>
+</blockquote>
+<p>解：f(x)  =  2 sin(x + π/3)（a  =  1, b  =  √3，√(a<sup>2</sup>+b<sup>2</sup>)  =  2，tan φ  =  √3 且在第一象限 ⇒ φ  =  π/3）。最大值 2；周期 T  =  2π。
+要点：<strong>合一后一切性质（最值/周期/单调）直接读</strong>。</p>
+<p class = "ex"><span class = "tag">例题</span><strong>例 3（化简求值）</strong>：化简 (cos 15° − sin 15°)/(cos 15° + sin 15°)。</p>
+<blockquote>
+<p>自己做：分子分母同除以 cos 15°。</p>
+</blockquote>
+<p>解：原式  =  (1 − tan 15°)/(1 + tan 15°)  =  tan(45° − 15°)  =  tan 30°  =  √3/3。
+要点：<strong>看到"1 ± tan"想到 tan 的和差角公式</strong>（tan(45°∓α) 结构）。</p>
+<p class = "ex"><span class = "tag">例题</span><strong>例 4（tan 和差角变形公式，苏州教研·专题29，原书p.127 B组）</strong>：求 tan 18° + tan 42° + √3 tan 18° tan 42° 的值。</p>
+<blockquote>
+<p>自己做：18°+42°  =  60°，凑 tan(α+β)。</p>
+</blockquote>
+<p>解：60°  =  18°+42°。由 tan(α+β) 的变形公式 tanα+tanβ  =  tan(α+β)(1−tanα tanβ)：
+tan18°+tan42°  =  tan60°·(1−tan18° tan42°)  =  √3(1−tan18° tan42°)。
+代回原式：√3(1−tan18°tan42°) + √3 tan18°tan42°  =  <strong>√3</strong>。
+要点：<strong>看到"tanα+tanβ"和"tanα tanβ"同时出现，就用 tanα+tanβ  =  tan(α+β)(1−tanα tanβ) 整体代换</strong>，乘积项会抵消。</p>
+<p class = "ex"><span class = "tag">例题</span><strong>例 5（辅助角公式 + 配角，苏州教研·专题30，原书p.127 B组）</strong>：求函数 y  =  3 sin(x+20°) + 5 cos(x−10°) 的最大值。</p>
+<blockquote>
+<p>自己做：两个角差 30°，先把它们配成同一个角。</p>
+</blockquote>
+<p>解：(x−10°) − (x+20°)  =  −30°，即 x−10°  =  (x+20°) − 30°。令 θ  =  x+20°，则
+cos(x−10°)  =  cos(θ−30°)  =  cosθ cos30° + sinθ sin30°  =  (√3/2)cosθ + (1/2)sinθ。
+y  =  3 sinθ + 5[(√3/2)cosθ + (1/2)sinθ]  =  (3+5/2)sinθ + (5√3/2)cosθ  =  (11/2)sinθ + (5√3/2)cosθ。
+合一：振幅 R  =  √((11/2)<sup>2</sup> + (5√3/2)<sup>2</sup>)  =  √((121+75)/4)  =  √(196/4)  =  √49  =  <strong>7</strong>。
+故 y 的最大值就是振幅 <strong>7</strong>。
+要点：<strong>两个不同角的 sin、cos 相加，先用配角把它们并到同一个角 θ，再用辅助角公式合一，最大值直接读振幅 R</strong>。</p>
+</div><div class="sec sec-meta"><h2 class = "out">⑤ 出口检测</h2>
+<p><strong>自测（15 分钟，每题 2 分）</strong>：</p>
+<ol>
+<li>sin 75° 的值（用和角公式）。</li>
+<li>已知 cos α  =  1/3，求 cos 2α。</li>
+<li>求 f(x)  =  √3 sin x + cos x 的最大值。</li>
+<li>化简 2sin<sup>2</sup>α − 1。</li>
+<li>tan(45° + α) 展开式（用和角公式）。</li>
+</ol>
+<p><strong>真题验收</strong>：2020–2024 新高考Ⅰ卷恒等变换/合一变形小题 1~2 道（多在选择题 6–10 题区间）：每题 3 分钟、全对过关。</p>
+<p><strong>过关标准</strong>：自测 ≥ 10 分 且 真题全对 → 打卡，进入 08 章。</p>
+</div><div class="sec sec-hw"><h2>课后习题（分层练习）</h2>
+<p><strong>A 组·基础巩固</strong></p>
+<p>1.【考点：和角公式】求 sin 105°（提示：105° = 60°+45°）。
+2.【考点：差角公式】求 cos 75°（75° = 45°−(−30°)，或 75° = 45°+30°）。
+3.【考点：二倍角】已知 cosα = 1/4，求 cos 2α。
+4.【考点：二倍角】已知 sinα = 5/13，α 是第二象限角，求 sin 2α。
+5.【考点：降幂公式】求 sin<sup>2</sup>15° 的值。
+6.【考点：辅助角】把 sin x − cos x 合一成一个正弦，并写出它的最大值。</p>
+<p><strong>B 组·能力提升</strong></p>
+<p>7.【考点：给值求值】已知 sinα = 3/5（α 第二象限），cosβ = 5/13（β 第一象限），求 sin(α+β)。
+8.【考点：辅助角+性质】求 f(x) = √3 sin x cos x + cos<sup>2</sup>x 的最大值（提示：先倍角、再合一）。
+9.【考点：给值求角】已知 sinα = 1/2，α ∈ (π/2, π)，求 α。
+10.【考点：tan 和差角】求 tan 15° 的值（用 tan(45°−30°)）。</p>
+<p><strong>C 组·真题挑战</strong></p>
+<blockquote>
+<p>说明：本工程所存真题 PDF 中 2020、2022、2023 为扫描件（无文本层），无法逐字核对题干，故 C 组只收录能从文本层逐字读出的 2024、2025 新高考Ⅰ卷真题。</p>
+</blockquote>
+<p>11.【考点：和差角公式综合】（2024 新高考Ⅰ卷·第 4 题）已知 cos(α+β) = m，tanα·tanβ = 2，则 cos(α−β) =（　）
+A. −3m　　B. −m/3　　C. m/3　　D. 3m</p>
+</div><div class="sec sec-pit"><h2 class="pit">⑥ 常见坑清单</h2>
+<ul>
+<li><strong>sin(α ± β) 与 cos(α ± β) 中间符号相反</strong>：cos 是"cos cos ∓ sin sin"，别记成同号。</li>
+<li>二倍角 cos 2α 三种写法要灵活换：求 sin<sup>2</sup>α 用 1 − 2sin<sup>2</sup>α 反解最方便。</li>
+<li>合一变形 φ 的象限：<strong>只写 tan φ = b/a 会丢符号</strong>，要结合 a、b 的正负定 φ。</li>
+<li>给值求角：<strong>范围不写，答案不唯一</strong>——这是给值求角的唯一扣分点。</li>
+<li>降幂公式方向：见到 cos<sup>2</sup>α、sin<sup>2</sup>α 想降幂，见到 cos 2α 想升幂。</li>
+</ul>
+<hr />
+</div><div class="sec sec-meta"><h2>本章公式速查表</h2>
+<blockquote>
+<p>与《高中数学常用公式·修订版》第三部分第 8、9 条核对一致。</p>
+</blockquote>
+<h3>和差角公式（一切的根）</h3>
+<p><strong>根：cos(α−β)  =  cosα cosβ + sinα sinβ</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>两角差的余弦，等于"余弦余弦相加、正弦正弦相加"。整套和差角公式都从它推出来。</li>
+<li>用的时候：记不住全套时，先推出这一条，再用"把 β 换成 −β"变出其余。</li>
+</ul>
+<p><strong>sin(α±β)  =  sinα cosβ ± cosα sinβ</strong>（中间符号相同）</p>
+<ul>
+<li class = "baihua"><span class = "tag">大白话</span>正弦展开是"正余、余正"，括号里是加号结果就加号、减号就减号。</li>
+<li>用的时候：这是最不容易记反的一条，中间符号跟着 α±β 走。</li>
+</ul>
+<p><strong>cos(α±β)  =  cosα cosβ ∓ sinα sinβ</strong>（中间符号相反）</p>
+<ul>
+<li class = "baihua"><span class = "tag">大白话</span>余弦展开是"余余、正正"，但中间符号要反过来——α+β 反而用减号。</li>
+<li>用的时候：这是最容易写反的地方，cos(α+β) 中间是减号。</li>
+</ul>
+<p><strong>tan(α±β)  =  (tanα ± tanβ)/(1 ∓ tanα tanβ)</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>分子同号、分母反号。</li>
+<li>用的时候：分母符号别写反；出现"1±tan"的结构就想到它（如 tan(45°±α)）。</li>
+</ul>
+<h3>和差角的乘积推论</h3>
+<p><strong>sin(α+β)sin(α−β)  =  sin<sup>2</sup>α − sin<sup>2</sup>β</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>两个正弦相乘（角相差 2β），能化成"大角正弦平方减小角正弦平方"。</li>
+<li>用的时候：选填里见到 sin(A+B)sin(A−B) 这种结构可直接套。</li>
+</ul>
+<p><strong>cos(α+β)cos(α−β)  =  cos<sup>2</sup>α − sin<sup>2</sup>β</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>余弦版本的同款化简。</li>
+<li>用的时候：和上一条配对记，现场推不出来再查。</li>
+</ul>
+<h3>二倍角公式</h3>
+<p><strong>sin 2α  =  2 sinα cosα</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>二倍角的正弦 = 正弦余弦乘积的 2 倍。</li>
+<li>用的时候：注意 sin2α ≠ 2sinα，别把系数直接乘进去。</li>
+</ul>
+<p><strong>cos 2α  =  cos<sup>2</sup>α − sin<sup>2</sup>α  =  2cos<sup>2</sup>α − 1  =  1 − 2sin<sup>2</sup>α</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>二倍角余弦有三张"面孔"，给 sin 就用 1−2sin<sup>2</sup>α，给 cos 就用 2cos<sup>2</sup>α−1。</li>
+<li>用的时候：哪种给的三角函数值方便就用哪张脸，省得再开方。</li>
+</ul>
+<p><strong>tan 2α  =  2tanα/(1 − tan<sup>2</sup>α)</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>正切的二倍角，分子 2tan、分母 1−tan<sup>2</sup>。</li>
+<li>用的时候：分母是 1−tan<sup>2</sup>α，别漏平方。</li>
+</ul>
+<h3>升幂与降幂</h3>
+<p><strong>降幂：cos<sup>2</sup>α  =  (1+cos2α)/2，sin<sup>2</sup>α  =  (1−cos2α)/2</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>看到 sin<sup>2</sup>、cos<sup>2</sup> 就用它把平方"打下来"，同时角变成原来的 2 倍。</li>
+<li>用的时候：选填见平方先想降幂，降完往往能再用辅助角合一。</li>
+</ul>
+<p><strong>升幂：1+cos2α  =  2cos<sup>2</sup>α，1−cos2α  =  2sin<sup>2</sup>α</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>降幂反过来就是升幂，把常数变成平方。</li>
+<li>用的时候：方向别反——见 cos<sup>2</sup>α 降幂，见 cos2α 升幂。</li>
+</ul>
+<p><strong>(sinα ± cosα)<sup>2</sup>  =  1 ± sin2α</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>正弦余弦和（差）的平方，展开后就剩 1 和 sin2α。</li>
+<li>用的时候：见到"sin±cos 的平方"直接化简，省得展开。</li>
+</ul>
+<h3>辅助角公式（合一变形）</h3>
+<p><strong>a sinx + b cosx  =  √(a<sup>2</sup>+b<sup>2</sup>)·sin(x+φ)，tanφ  =  b/a，φ 所在象限由点 (a,b) 的符号决定</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>任何"正弦加余弦"都能捏成一个正弦；捏出来的振幅就是 √(a<sup>2</sup>+b<sup>2</sup>)。</li>
+<li>用的时候：合一后周期、最值、单调区间直接读；只写 tanφ=b/a 会丢符号，φ 的象限要结合 a、b 正负定。</li>
+<li>记忆要点：φ 就是坐标平面里点 (a,b) 对应的那个角。</li>
+</ul>
+<p><strong>经典两例：sinx + cosx  =  √2 sin(x+π/4)；√3 sinx − cosx  =  2 sin(x−π/6)</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>两个最常考的合一成品，背下来小题能秒。</li>
+<li>用的时候：第一个 a=b=1；第二个 a=√3、b=−1（φ 在第四象限）。</li>
+</ul>
+<h3>tan 与根式的进阶结论（苏州教研·专题29）</h3>
+<p><strong>tan 变形公式：tanα + tanβ  =  tan(α+β)(1 − tanα tanβ)；tanα − tanβ  =  tan(α−β)(1 + tanα tanβ)</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>正切和角公式倒过来用——见到"tanα±tanβ"和"tanα tanβ"同框，就能把前者用 tan(α±β) 整体换掉。</li>
+<li>用的时候：tan18°+tan42°+√3 tan18°tan42° 这类题，代换后乘积项抵消，一步出结果。</li>
+</ul>
+<p><strong>去根号（半角平方）：1 ± sinα  =  (sin(α/2) ± cos(α/2))<sup>2</sup>；1 + cosα  =  2cos<sup>2</sup>(α/2)；1 − cosα  =  2sin<sup>2</sup>(α/2)</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>根号里的"1±sinα""1±cosα"都能写成完全平方，根号直接脱掉。</li>
+<li>用的时候：化简 √(1+sinα)、√(1−cosα) 时先配方；注意开方后要按角的范围定正负。</li>
+</ul>
+<p><strong>两个小结论（选填可秒）：α+β = π/4 时 (1+tanα)(1+tanβ) = 2；α+β = 3π/4 时 (1−tanα)(1−tanβ) = 2</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>两角和为特殊角 π/4 或 3π/4 时，"1±tan"的乘积是常数 2。</li>
+<li>用的时候：选填见到这两个乘积结构，不用展开直接写 2。</li>
+</ul>
+<p><strong>辅助角的对称轴：f(x) = a sinx + b cosx 关于 x = x0 对称 ⇔ f(x0) = ±√(a<sup>2</sup>+b<sup>2</sup>)（即取到最值）</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>合一后是 y=R sin(x+φ)，对称轴一定过峰或谷，也就是函数取到 ±R 的地方。</li>
+<li>用的时候：题目说"f(x) 关于 x=x0 对称"，立刻知 f(x0) 等于振幅 ±√(a<sup>2</sup>+b<sup>2</sup>)，不用求导。</li>
+</ul>
+</div><div class="sec sec-meta"><h2>高级方法·进阶</h2>
+<blockquote>
+<p>本区分两层：下方 #### 5.1 是《手册》五.5.1 的<strong>全量原文收录</strong>，紧随其后的 ### 进阶·辅助角公式是本章已有的<strong>浓缩速记版</strong>，两者同根。</p>
+</blockquote>
+<h3>手册原文全录</h3>
+<h4>5.1 辅助角公式（合一变形）</h4>
+<p><strong>大白话·本质一句话</strong>：辅助角就是把 a·sin x 与 b·cos x 这两个频率相同、相位不同的波，合体成一个波 a·sin x+b·cosx  =  √(a<sup>2</sup>+b<sup>2</sup>)·sin(x+φ)；合成后振幅 √(a<sup>2</sup>+b<sup>2</sup>) 直接告诉你最值是多少，周期、单调区间也跟着这个新波一起读出来。</p>
+<p>asinx + bcosx  =  √(a<sup>2</sup>+b<sup>2</sup>)·sin(x+φ)，其中 tanφ = b/a。</p>
+<p>用于求最值、周期、单调区间；求最值时直接看振幅。</p>
+<p><strong>课标依据</strong>：两角和差公式逆用（必修一）。✓</p>
+<p>（高级方法手册·5.1）</p>
+<blockquote>
+<p>联动：本条浓缩速记版即下方"### 进阶·辅助角公式（合一变形）"；正文 3.4 与本章例 2、例 5（y = 3sin(x+20°)+5cos(x−10°) 先配角再合一，最大值 = 7）是它的完整演算。</p>
+</blockquote>
+<h3>进阶·辅助角公式（合一变形）—— 不超纲（高考可放心用）</h3>
+<blockquote>
+<p>对应《不超纲高级方法手册》五.5.1。</p>
+</blockquote>
+<ul>
+<li><strong>适用信号</strong>：题目里出现 a sinx + b cosx 这种"正弦加余弦"的混合式，要求它的周期、最值、单调区间，或要把复杂三角式化成单一正弦。</li>
+<li>
+<p><strong>操作步骤</strong>：
+  1. 提取 √(a<sup>2</sup>+b<sup>2</sup>) 作为新振幅；
+  2. 由 cosφ  =  a/√(a<sup>2</sup>+b<sup>2</sup>)、sinφ  =  b/√(a<sup>2</sup>+b<sup>2</sup>) 定 φ（或先算 tanφ = b/a 再按 (a,b) 象限定 φ）；
+  3. 写成 R sin(x+φ) 后，最值  =  ±R、周期  =  2π、单调区间直接读。</p>
+</li>
+<li>
+<p><strong>例题</strong>：求 f(x)  =  sinx + √3 cosx 的最大值。R  =  √(1+3)  =  2，f(x)  =  2 sin(x+π/3)，最大值 2。</p>
+</li>
+<li><strong>课标依据 / 超纲红线</strong>：本质是两角和公式的逆用（必修一 5.5），<strong>不超纲，高考解答题可放心使用</strong>。红线提醒：不要额外引入"万能公式""积化和差"等超纲推导过程，合一这一步本身合规。</li>
+</ul>
+<hr />
+<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. sin 75°  =  sin(45°+30°)  =  (√2/2)(√3/2) + (√2/2)(1/2)  =  (√6+√2)/4；2. cos 2α  =  2·(1/9) − 1  =  −7/9；3. f(x)  =  2 sin(x + π/6)，最大值 2；4. 2sin<sup>2</sup>α − 1  =  −cos 2α；5. (1 + tan α)/(1 − tan α)。</p></div></div>
+</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A 组</strong></p>
+<ol>
+<li>sin105° = sin(60°+45°) = (√3/2)(√2/2)+(1/2)(√2/2) = <strong>(√6+√2)/4</strong>。</li>
+<li>cos75° = cos(45°+30°) = (√2/2)(√3/2)−(√2/2)(1/2) = <strong>(√6−√2)/4</strong>。</li>
+<li>cos2α = 2cos<sup>2</sup>α−1 = 2·(1/16)−1 = <strong>−7/8</strong>。</li>
+<li>第二象限 cosα = −12/13；sin2α = 2·(5/13)·(−12/13) = <strong>−120/169</strong>。</li>
+<li>sin<sup>2</sup>15° = (1−cos30°)/2 = (1−√3/2)/2 = <strong>(2−√3)/4</strong>。</li>
+<li>sinx−cosx = √2 sin(x−π/4)（a=1,b=−1,R=√2,φ 在第四象限 = −π/4）；最大值 <strong>√2</strong>。</li>
+</ol>
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · B 组</button><div class="ans-body"><p><strong>B 组</strong></p>
+<ol start="7">
+<li>α 第二象限 cosα = −4/5；β 第一象限 sinβ = 12/13。sin(α+β) = sinαcosβ+cosαsinβ = (3/5)(5/13)+(−4/5)(12/13) = 15/65 − 48/65 = <strong>−33/65</strong>。</li>
+<li>f(x) = √3 sinxcosx + cos<sup>2</sup>x = (√3/2)sin2x + (1+cos2x)/2 = (√3/2)sin2x + (1/2)cos2x + 1/2 = sin(2x+π/6) + 1/2。最大值 = 1 + 1/2 = <strong>3/2</strong>。</li>
+<li>sinα = 1/2，α∈(π/2,π)，α = <strong>5π/6</strong>。</li>
+<li>tan15° = tan(45°−30°) = (1−1/√3)/(1+1/√3) = (√3−1)/(√3+1) = <strong>2−√3</strong>。</li>
+</ol>
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · C 组</button><div class="ans-body"><p><strong>C 组</strong>
+11.【2024·第4题】cos(α+β) = cosαcosβ − sinαsinβ = m。由 tanαtanβ = 2 得 sinαsinβ = 2cosαcosβ，代入：cosαcosβ − 2cosαcosβ = −cosαcosβ = m，即 cosαcosβ = −m；进而 sinαsinβ = 2(−m) = −2m。于是 cos(α−β) = cosαcosβ + sinαsinβ = −m + (−2m) = <strong>−3m，选 A</strong>。</p>
+</div></div></div><div class="sec sec-meta"><h2>一通百通</h2>
+<p>拿到任何一道三角恒等变换题，通用骨架都是四步：<strong>① 先看角——题目里有哪几个角？它们是不是同一个角，还是 α+β、2α、两个不同角在打架；② 配角——把要求的角用已知角表示出来，目标是"统一到一个角"；③ 选公式——见平方就降幂、见 sinx+b cosx 型就合一、见 tanα±tanβ 就配 tan(α±β)；④ 定符号——开方、定象限之前先圈出角的范围，再写正负</strong>。会解一道给值求值，就会解这一整类；这套"先归约到同一个角、再套公式"的骨架，第 08 章解三角形做大题第二问求最值时还要再用一遍（合一之后读最值）。</p>
+</div><div class="sec sec-meta"><h2>跨章结合</h2>
+<ul>
+<li><strong>07 的"辅助角合一" + 第 06 章的"y=A sin(ωx+φ) 读法"</strong>：把 a sin x+b cos x 合一成 R sin(x+φ) 后，最大值就是振幅 R、周期与单调区间全部直接读——本章例 2（f(x)=sin x+√3 cos x 最大值 2）和苏州教研·专题30 的综合题（y=3sin(x+20°)+5cos(x−10°)，先配角并到同一角 θ 再合一，最大值=7）都是这一结合点。</li>
+<li><strong>07 的"tan 变形公式" + 特殊角凑角</strong>：看到"tanα±tanβ 和 tanα tanβ 同框"，用 tanα+tanβ=tan(α+β)(1−tanα tanβ) 整体代换、乘积项抵消——苏州教研·专题29 的 tan18°+tan42°+√3 tan18°tan42°=√3（本章例 4）就是这一结合点的成品。</li>
+<li><strong>07 的"辅助角求最值" + 第 05 章导数求最值</strong>（综合原理说明，非真题）：求 a sin x+b cos x 的最值，合一后直接读振幅 R 最快；若改用第 05 章对 f(x)=a sin x+b cos x 求导、令 f′(x)=a cos x−b sin x=0 找驻点，两条路殊途同归——合一公式本质上就是"不用求导、一步读出那个极值"。</li>
+<li><strong>07 的"恒等变换" + 第 16 章椭圆参数方程</strong>（综合原理说明，非真题）：椭圆常写成 x=a cosθ、y=b sinθ 的参数形式，椭圆上一点到直线的距离、或三角形面积最值，代入后往往冒出来 a sinθ+b cosθ 型的混合式，最后仍靠本章的辅助角合一收尾。</li>
+</ul>
+</div><div class="sec sec-meta"><h2>本章与前后章</h2>
+<p>本章紧接第 06 章：没有第 06 章的单位圆定义、同角关系 sin<sup>2</sup>+cos<sup>2</sup>=1 和诱导公式，本章的和差角公式连推导的地基都没有。本章又为第 08 章解三角形备好武器——大题第二问求面积、周长的最值范围，最后一步往往就是靠本章的辅助角公式把多个三角函数合一、再读出最大值。同时，本章的合一变形也回头解释了第 06 章 y=A sin(ωx+φ) 里那串参数到底怎么来的。所以这一章是三角函数板块承上启下的枢纽：向上把三角函数之间打通，向下给解三角形递工具。</p>
+</div><div class="sec sec-meta"><h2>高考怎么考</h2>
+<p>新高考Ⅰ卷里恒等变换大多以 1 道小题出现（选择题第 4~10 题一带），偶尔融进解三角形大题。典型考法：给 tanα·tanβ 之类的乘积条件，求 cos(α−β) 与 cos(α+β) 的关系（如 2024 新高考Ⅰ卷第 4 题，cos(α+β)=m、tanα·tanβ=2，答案为 −3m）；求 a sin x+b cos x 型函数的最大值、周期、单调区间（辅助角合一后直接读）；以及 tan18°+tan42° 这类"tan 加减 + tan 乘积"的整体代换。难度中档，关键不是背公式，而是看出"该把哪几个角归约成一个"。</p></div>
+</section>
+</main>
+<button id="topbtn" title="回到顶部">↑</button>
+<script>
+(function(){
+  var doc=document, root=doc.documentElement;
+  /* 字号调节（14.5-19.5，步进 1） */
+  var fs=parseFloat(localStorage.getItem('ebook-fs'))||16.5;
+  fs=Math.max(14.5,Math.min(19.5,fs));
+  root.style.setProperty('--fs',fs+'px');
+  var fsel=doc.getElementById('fsize');
+  function fsLabel(){if(fsel)fsel.textContent=fs.toFixed(1);}
+  var mn=doc.getElementById('minus'),pl=doc.getElementById('plus');
+  if(mn)mn.addEventListener('click',function(){fs=Math.max(14.5,fs-1);root.style.setProperty('--fs',fs+'px');localStorage.setItem('ebook-fs',fs);fsLabel();});
+  if(pl)pl.addEventListener('click',function(){fs=Math.min(19.5,fs+1);root.style.setProperty('--fs',fs+'px');localStorage.setItem('ebook-fs',fs);fsLabel();});
+  fsLabel();
+  /* 正文字体切换 */
+  if(localStorage.getItem('ebook-serif')==='1')doc.body.classList.add('serif');
+  var sbtn=doc.getElementById('serifbtn');
+  function serifLabel(){sbtn.textContent=doc.body.classList.contains('serif')?'黑体':'衬线';}
+  if(sbtn){sbtn.addEventListener('click',function(){var on=doc.body.classList.toggle('serif');localStorage.setItem('ebook-serif',on?'1':'0');serifLabel();});serifLabel();}
+  /* 深色模式 */
+  if(localStorage.getItem('ebook-dark')==='1')doc.body.classList.add('dark');
+  var dbtn=doc.getElementById('darkbtn');
+  function darkLabel(){if(dbtn)dbtn.textContent=doc.body.classList.contains('dark')?'日间':'夜读';}
+  if(dbtn){dbtn.addEventListener('click',function(){var on=doc.body.classList.toggle('dark');localStorage.setItem('ebook-dark',on?'1':'0');darkLabel();});darkLabel();}
+  /* 答案折叠 */
+  doc.querySelectorAll('.ans-toggle').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var box=btn.parentNode;
+      box.classList.toggle('open');
+      btn.textContent=box.classList.contains('open')?'隐藏答案':'显示答案';
+    });
+  });
+  /* 打印三模式（本页章节） */
+  function curSec(){return doc.querySelector('#main section.chapter')}
+  function printScope(mode){
+    doc.body.classList.remove('print-note','print-q','print-a','print-ans','print-one');
+    var s=curSec();if(s)s.classList.remove('ch-print');
+    doc.querySelectorAll('.sec.sec-has-ans').forEach(function(x){x.classList.remove('sec-has-ans')});
+    if(mode==='note')doc.body.classList.add('print-note');
+    if(mode==='q')doc.body.classList.add('print-q');
+    if(mode==='a'){doc.body.classList.add('print-a','print-ans');doc.querySelectorAll('.ans-box').forEach(function(b){var p=b.closest('.sec');if(p)p.classList.add('sec-has-ans')});}
+    if(s){s.classList.add('ch-print');doc.body.classList.add('print-one');}
+    window.print();
+  }
+  var pn=doc.getElementById('printnote'),pq=doc.getElementById('printq'),pa=doc.getElementById('printa');
+  if(pn)pn.addEventListener('click',function(){printScope('note')});
+  if(pq)pq.addEventListener('click',function(){printScope('q')});
+  if(pa)pa.addEventListener('click',function(){printScope('a')});
+  /* 回到顶部 */
+  var topbtn=doc.getElementById('topbtn');
+  function onScroll(){var y=window.scrollY;if(topbtn)topbtn.style.display=y>600?'block':'none';}
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  if(topbtn)topbtn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})});
+  /* 搜索本章（点击结果滚动定位） */
+  var q=doc.getElementById('q'),sres=doc.getElementById('sres');
+  if(q)q.addEventListener('input',function(){
+    var k=q.value.trim();sres.innerHTML='';
+    if(!k)return;
+    var els=Array.prototype.slice.call(doc.querySelectorAll('#main p,#main li,#main h3,#main h4'));
+    var hits=els.filter(function(e){return e.textContent.indexOf(k)>-1});
+    hits.slice(0,20).forEach(function(e,i){
+      var d=doc.createElement('div');d.className='sr-item';
+      d.textContent=(i+1)+'. '+e.textContent.replace(/\s+/g,' ').slice(0,46);
+      d.addEventListener('click',function(){e.scrollIntoView({behavior:'smooth',block:'center'});sres.innerHTML='';q.value='';});
+      sres.appendChild(d);
+    });
+    if(!hits.length)sres.innerHTML='<div class="sr-none">本页无匹配</div>';
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>第19章 统计 · 高中数学自学系统</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232563EB'/%3E%3Ctext x='32' y='46' font-size='40' text-anchor='middle' font-family='sans-serif' fill='white'%3E数%3C/text%3E%3C/svg%3E">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:88px}
+:root{
+  --fs:16.5px;
+  --bg:#f6f2e9; --card:#fffdf8; --ink:#2b2721; --muted:#8b8477;
+  --line:#e4dccb; --blue:#1f3a5f; --blue2:#3a5a85; --blue-l:#e8f0f9;
+  --gold:#c9a227; --gold-l:#faf3dc; --red:#c03a2b; --red-l:#fdf1ec;
+  --green:#3f8f4f; --green-l:#edf6ef; --purple:#7b5ea7; --purple-l:#f2eefa;
+  --shadow:0 1px 4px rgba(60,50,30,.07);
+}
+html,body{overflow-x:hidden}
+body{background:var(--bg);color:var(--ink);font-family:"Microsoft YaHei","PingFang SC","Noto Sans SC","Segoe UI",sans-serif;font-size:var(--fs);line-height:1.95}
+body.serif{font-family:Georgia,"Noto Serif SC","Source Han Serif SC","Songti SC",SimSun,serif}
+/* 深色模式 */
+body.dark{--bg:#191713;--card:#23201a;--ink:#d6d0c2;--muted:#8d8677;--line:#3a352b;--blue:#93b3dc;--blue2:#6d90bd;--blue-l:#1d2837;--gold:#d9b64e;--gold-l:#2b2513;--red:#e07a5f;--red-l:#2e1c16;--green:#7cbf8a;--green-l:#15251a;--purple:#b39ad8;--purple-l:#251f31;--shadow:0 1px 4px rgba(0,0,0,.35)}
+/* 阅读进度条 */
+#pbar{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,#e8c766,#c9a227);z-index:120;transition:width .1s linear}
+/* 顶部工具栏 */
+#tb{position:fixed;top:0;left:0;right:0;z-index:110;background:#23201b;color:#e8c766;box-shadow:0 1px 6px rgba(0,0,0,.25)}
+#tb-in{display:flex;align-items:center;gap:12px;max-width:min(1920px,calc(100vw - 300px));margin:0 auto;padding:8px 20px}
+.tb-logo{font-weight:800;font-size:13.5px;letter-spacing:.06em;white-space:nowrap;color:#e8c766}
+.tb-search{flex:1;min-width:160px;position:relative}
+#q{width:100%;padding:7px 12px;border-radius:8px;border:1px solid #4a4437;background:#14120e;color:#eee;font-size:13.5px;font-family:inherit;outline:none}
+#q::placeholder{color:#6f6859}
+#q:focus{border-color:#e8c766}
+#sres{position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--card);border:1px solid var(--line);border-radius:10px;box-shadow:0 10px 28px rgba(0,0,0,.18);max-height:340px;overflow-y:auto;display:none;z-index:130}
+#sres.open{display:block}
+#sres a{display:block;padding:9px 14px;border-bottom:1px solid var(--line);color:var(--ink);text-decoration:none;font-size:13.5px;line-height:1.6}
+#sres a .ch{font-size:11.5px;color:var(--gold);display:block;margin-bottom:2px;font-weight:700}
+#sres a b{color:var(--blue)}
+#sres a:hover{background:var(--blue-l)}
+#sres .nores{padding:10px 14px;color:var(--muted);font-size:13px}
+.tb-tools{display:flex;align-items:center;gap:6px;white-space:nowrap}
+.tb-btn{background:#332e25;border:1px solid #4a4437;color:#e8e2d4;border-radius:8px;padding:6px 11px;font-size:12.5px;cursor:pointer;font-family:inherit;transition:.15s}
+.tb-btn:hover{background:#4a4437;color:#fff}
+#fsize{font-size:12px;min-width:32px;text-align:center;color:#c9c0ab}
+/* 侧边目录 */
+#toc{position:fixed;top:0;left:0;bottom:0;width:240px;background:#23201b;color:#d8d2c6;overflow-y:auto;z-index:100;padding:64px 0 40px}
+#toc .toc-title{font-weight:700;font-size:13.5px;letter-spacing:.15em;color:#e8c766;padding:0 22px 12px;border-bottom:1px solid #38332b;margin-bottom:8px}
+#toc a{display:flex;align-items:baseline;gap:9px;color:#c6bfae;text-decoration:none;padding:7px 22px;font-size:13.5px;line-height:1.5;border-left:3px solid transparent}
+#toc a .no{font-weight:700;color:#8a8272;font-size:12px;min-width:20px}
+#toc a:hover{background:#322d25;color:#fff}
+#toc a.on{background:#1a1712;color:#fff;border-left-color:#e8c766}
+#toc a.on .no{color:#e8c766}
+#toc .toc-foot{padding:16px 22px;font-size:11.5px;color:#6f6859;border-top:1px solid #38332b;margin-top:12px;line-height:1.7}
+/* 主内容 */
+#main{margin-left:240px;margin-right:auto;max-width:min(1920px,calc(100vw - 300px));min-width:0;padding:76px 48px 120px}
+section.chapter{padding:54px 0 22px;border-bottom:1px solid var(--line)}
+section.chapter:first-of-type{padding-top:18px}
+/* 章头横幅 */
+.ch-head{background:linear-gradient(135deg,#1f3a5f 0%,#3a5a85 72%,#54739f 100%);border-radius:14px;padding:26px 28px 22px;margin:0 0 20px;color:#fff;position:relative;overflow:hidden;box-shadow:0 3px 10px rgba(31,58,95,.20)}
+.ch-head::after{content:attr(data-no);position:absolute;right:16px;top:-20px;font-size:104px;font-weight:800;color:rgba(255,255,255,.07);line-height:1;pointer-events:none}
+.ch-no{font-size:12.5px;letter-spacing:.3em;color:#e8c766;font-weight:700}
+h1.ch-title{font-size:29px;font-weight:800;color:#fff;margin:8px 0 6px;letter-spacing:.02em;line-height:1.3}
+.ch-sub{color:#ccd8ea;font-size:13px}
+/* 配套资料直达 */
+.mats{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px 16px;margin:0 0 18px;box-shadow:var(--shadow)}
+.mats-t{font-size:12.5px;font-weight:700;color:var(--gold);margin-bottom:9px;letter-spacing:.04em}
+.mats-l{display:flex;flex-wrap:wrap;gap:8px}
+.mats-l a{background:var(--blue-l);color:var(--blue);text-decoration:none;font-size:13px;padding:5px 13px;border-radius:20px;border:1px solid #c9d8ec;transition:.15s}
+.mats-l a:hover{background:var(--blue);color:#fff;transform:translateY(-1px)}
+/* 看不懂怎么办 */
+.help{background:var(--gold-l);border:1px dashed var(--gold);border-radius:12px;padding:13px 16px;margin:0 0 20px;font-size:13.5px;color:#6b5c26;line-height:1.85;box-shadow:var(--shadow)}
+body.dark .help{color:#d8c078}
+.help b{color:var(--gold)}
+/* 小节标题 */
+h2{font-family:inherit;font-size:calc(var(--fs) + 2.5px);font-weight:700;color:var(--blue);margin:40px 0 14px;padding:9px 14px 9px 16px;background:var(--blue-l);border-left:5px solid #c9d8ec;border-radius:0 9px 9px 0;line-height:1.45}
+h2.gate{border-left-color:#3b7dd8}.h2tag{font-size:11px;background:var(--blue-l);color:var(--blue);border-radius:4px;padding:1px 8px;margin-right:8px;vertical-align:2px}
+h2.goal{border-left-color:#3b7dd8}
+h2.body{border-left-color:#c9d8ec}
+h2.ex2{border-left-color:#3f7fd4}
+h2.out{border-left-color:#3b7dd8}
+h2.pit{border-left-color:var(--red)}
+h2.hw{border-left-color:var(--green)}
+h2.formula{border-left-color:var(--gold)}
+h2.adv{border-left-color:var(--purple)}
+h3{font-size:calc(var(--fs) + 0.5px);font-weight:700;color:#3a352c;margin:22px 0 8px}
+p{margin:0 0 12px}
+strong{color:var(--blue)}
+/* 公式独立行：数学衬线字体统一字形（χ Σ √ 上下标同族），避免文本符号混排歪扭 */
+p:has(> strong:only-child){text-align:center;font-size:calc(var(--fs) + 1.5px);margin:16px 0;background:var(--blue-l);border:1px solid #cfe0f2;border-radius:10px;padding:10px 14px;color:var(--blue);font-family:"Cambria Math","STIX Two Math","Times New Roman","Songti SC",serif;letter-spacing:.012em}
+/* 内容块分类 */
+p.def{background:var(--blue-l);border-left:4px solid var(--blue);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0;box-shadow:var(--shadow)}
+p.ex{background:var(--blue-l);border:1px solid #d5e3f7;border-radius:10px;padding:12px 15px;margin:14px 0;box-shadow:var(--shadow)}
+p.warn{background:var(--red-l);border-left:4px solid var(--red);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0;box-shadow:var(--shadow)}
+p.sum{background:var(--gold-l);border-left:4px solid var(--gold);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0;box-shadow:var(--shadow)}
+p.note{background:var(--gold-l);border:1px dashed var(--gold);border-left:4px solid var(--gold);padding:11px 16px;border-radius:0 10px 10px 0;margin:12px 0;font-size:calc(var(--fs) - 1px)}
+/* 大白话旁注：缩进小字块，像教材旁批，一眼区别于正文 */
+p.baihua{background:var(--gold-l);border-left:4px solid var(--gold);border-bottom:1px dashed var(--gold);padding:10px 16px;border-radius:0 10px 10px 0;margin:10px 0 12px 20px;font-size:calc(var(--fs) - 1.5px);line-height:1.75;color:#6a5f45}
+li.baihua{list-style:none;background:var(--gold-l);border-left:4px solid var(--gold);border-bottom:1px dashed var(--gold);padding:9px 14px;border-radius:0 10px 10px 0;margin:8px 0 8px -26px;font-size:calc(var(--fs) - 1.5px);line-height:1.75;color:#6a5f45}
+p.baihua span.tag,li.baihua span.tag{background:var(--gold);color:#5c4a12}
+p.baihua.why span.tag{background:var(--blue);color:#fff}
+p.taskA,p.taskB,p.taskC{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:11px 15px;margin:12px 0;box-shadow:var(--shadow)}
+p.taskA{border-left:4px solid var(--green);background:var(--green-l)}
+p.taskB{border-left:4px solid #3b7dd8;background:var(--blue-l)}
+p.taskC{border-left:4px solid var(--gold);background:var(--gold-l)}
+p.ans{background:var(--blue-l);border:1px dashed #c3cede;border-radius:10px;padding:11px 15px;margin:14px 0}
+.ans-box{margin:16px 0;border:1px solid var(--line);border-radius:10px;background:var(--card);overflow:hidden}
+.ans-box>.ans-toggle{display:block;width:100%;border:none;background:var(--blue-l);color:var(--blue);font-size:13.5px;font-weight:600;padding:10px 14px;cursor:pointer;font-family:inherit;text-align:left;transition:.15s}
+.ans-box>.ans-toggle:hover{background:#d7e3f5}
+.ans-box>.ans-toggle::before{content:"▸ ";transition:transform .15s}
+.ans-box.open>.ans-toggle::before{content:"▾ "}
+.ans-box>.ans-body{display:none;padding:10px 15px 13px;border-top:1px dashed #c3cede}
+.ans-box.open>.ans-body{display:block}
+.ans-body p.ans{background:transparent;border:none;padding:0;margin:0 0 8px;font-weight:600}
+span.tag{display:inline-block;background:var(--blue);color:#fff;font-size:11px;border-radius:4px;padding:0 7px;margin-right:8px;vertical-align:2px}
+p.warn span.tag{background:var(--red)}
+p.sum span.tag{background:var(--gold)}
+p.note span.tag{background:var(--gold);color:#5c4a12}
+p.ans span.tag{background:#5a6b80}
+/* blockquote 提示 */
+blockquote{background:var(--gold-l);border-left:4px solid var(--gold);padding:10px 16px;border-radius:0 10px 10px 0;margin:14px 0;color:#5c543f;font-size:calc(var(--fs) - 2px)}
+body.dark blockquote{color:#c9bc9a}
+body.dark p.baihua,body.dark li.baihua{color:#c9bc9a}
+ul,ol{margin:4px 0 12px 26px}
+li{margin:4px 0}
+li::marker{color:var(--blue)}
+/* 表格 */
+table{border-collapse:collapse;width:100%;margin:14px 0 20px;font-size:calc(var(--fs) - 2px);box-shadow:var(--shadow);border-radius:10px;overflow:hidden}
+td,th{padding:9px 12px;vertical-align:top;word-break:break-word;overflow-wrap:anywhere;text-align:left}
+code{font-family:ui-monospace,Consolas,'Courier New',monospace;font-size:.92em;word-break:break-all;overflow-wrap:anywhere}
+th{background:var(--blue);color:#fff;font-weight:600;text-align:left;padding:9px 12px;border:1px solid var(--blue)}
+td{padding:8px 12px;border:1px solid var(--line);vertical-align:top;background:var(--card)}
+tr:nth-child(even) td{background:rgba(0,0,0,.022)}
+tr:hover td{background:var(--blue-l)}
+img{max-width:92%;height:auto;display:block;margin:16px auto;border-radius:10px;box-shadow:var(--shadow);background:#fff}
+body.dark img{border:1px solid var(--line)}
+hr{border:none;border-top:2px dashed #d8d1c2;margin:22px 0}
+code{background:#efece4;padding:1px 6px;border-radius:4px;font-family:Consolas,monospace;font-size:calc(var(--fs) - 3px);color:#7a4a12;word-break:break-all;overflow-wrap:anywhere}
+body.dark code{background:#332e25;color:#e0b87a}
+pre{background:#26221c;color:#e8e2d4;padding:14px 16px;border-radius:8px;overflow-x:auto;margin:12px 0;font-size:13.5px}
+/* 表格容器：窄屏横向滚动，不压扁列 */
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 0 6px;max-width:100%}
+/* 数学符号统一化：组合音标与上下标（与正文同字体、基线规范） */
+span.ol{text-decoration:overline;text-decoration-thickness:1.1px;text-decoration-skip-ink:none}
+span.hat{position:relative;display:inline-block;padding:0 .04em}
+span.hat::after{content:"^";position:absolute;top:-0.42em;left:0;right:0;text-align:center;font-size:.66em;line-height:1;color:inherit}
+sup,sub{font-size:.7em;line-height:0;font-family:inherit}
+sup{vertical-align:super}sub{vertical-align:sub}
+/* 浮动按钮 */
+#topbtn{position:fixed;right:22px;bottom:26px;background:var(--blue);color:#fff;border:none;border-radius:50%;width:46px;height:46px;font-size:17px;cursor:pointer;box-shadow:0 3px 10px rgba(0,0,0,.25);z-index:100;display:none;font-family:inherit}
+#topbtn:hover{background:var(--blue2)}
+#mnav{display:none}
+/* 搜索命中闪烁 */
+section.flash{animation:flash 1.6s ease}
+@keyframes flash{0%{box-shadow:inset 0 0 0 3px var(--gold)}100%{box-shadow:inset 0 0 0 3px transparent}}
+@media (max-width:900px){
+  html{scroll-padding-top:150px}
+  body{overflow-x:hidden}
+  #main{overflow-x:hidden}
+  .tbl-wrap{overflow-x:auto}
+  .tbl-wrap table{min-width:560px}
+  #toc{transform:translateX(-100%);transition:transform .25s;width:280px;padding-top:56px}
+  #toc.open{transform:translateX(0)}
+  #main{margin-left:0;padding:150px 16px 100px}
+  #tb-in{flex-wrap:wrap;gap:6px 10px;padding:6px 10px}
+  .tb-logo{display:none}
+  .tb-search{flex:1 1 100%;min-width:0}
+  .tb-tools{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+  #mnav{display:flex;position:fixed;top:92px;left:0;right:0;z-index:105;background:#2b2620;color:#e8c766;padding:9px 14px;align-items:center;gap:10px;font-size:13.5px;font-weight:700;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+  #mnav button{background:none;border:1px solid #e8c766;color:#e8c766;border-radius:4px;padding:2px 10px;font-size:15px;cursor:pointer}
+  h1.ch-title{font-size:22px}
+  .ch-head{padding:20px 18px 18px}
+  .ch-head::after{font-size:76px;top:-10px;right:10px}
+  p:has(> strong:only-child){font-size:calc(var(--fs) - 0.5px)}
+  #topbtn{bottom:84px}
+}
+@media print{
+  #toc,#topbtn,#mnav,#tb,#pbar,.ans-toggle{display:none!important}
+  #main{margin:0;max-width:none;padding:0}
+  body{background:#fff;font-size:11.5pt}
+  body.dark{background:#fff;color:#000}
+  section.chapter{page-break-after:always;border:none}
+  body.print-one section.chapter{display:none!important}
+  body.print-one section.chapter.ch-print{display:block!important}
+  /* 讲义：隐藏出口检测+课后习题+全部答案 */
+  body.print-note .sec-out,body.print-note .sec-hw,body.print-note .ans-box{display:none!important}
+  /* 题目卷：只显示出口检测+课后习题 */
+  body.print-q .sec{display:none!important}
+  body.print-q .sec-out,body.print-q .sec-hw{display:block!important}
+  /* 答案卷：只显示含答案的区块（含自测答案与课后答案，JS 已打 sec-has-ans 标） */
+  body.print-a .sec{display:none!important}
+  body.print-a .sec-has-ans{display:block!important}
+  .ans-box{border:none;background:transparent;margin:6px 0}
+  .ans-box>.ans-body{display:none!important;padding:0;border:none}
+  body.print-ans .ans-box>.ans-body{display:block!important}
+  .ans-body p.ans{font-weight:700;margin:4px 0}
+}
+
+
+/* ===== 分章版专用 ===== */
+.ch-nav{display:flex;justify-content:space-between;align-items:center;gap:10px;max-width:min(1920px,calc(100vw - 300px));margin:12px auto 0;padding:9px 16px;background:var(--card);border:1px solid var(--line);border-radius:10px;font-size:13.5px;box-shadow:var(--shadow)}
+.ch-nav .cn-title{font-weight:700;color:var(--ink)}
+.ch-nav a{color:var(--blue);text-decoration:none;padding:2px 8px;border-radius:6px}
+.ch-nav a:hover{background:var(--blue-l);text-decoration:underline}
+#main{margin-top:4px}
+.sr-item{padding:7px 10px;border-bottom:1px solid var(--line);cursor:pointer;font-size:12.5px;line-height:1.5}
+.sr-item:hover{background:var(--blue-l)}
+.sr-none{padding:8px 10px;color:#888;font-size:12.5px}
+@media print{.ch-nav{display:none!important}}
+</style>
+</head>
+<body>
+<div id="pbar"></div>
+<header id="tb"><div id="tb-in">
+  <span class="tb-logo"><a href="index.html" style="color:inherit;text-decoration:none">高中数学自学系统</a></span>
+  <div class="tb-search"><input id="q" type="search" placeholder="搜索本章…" autocomplete="off"><div id="sres"></div></div>
+  <div class="tb-tools">
+    <button class="tb-btn" id="minus" title="减小字号">A−</button><span id="fsize"></span><button class="tb-btn" id="plus" title="增大字号">A+</button>
+    <button class="tb-btn" id="serifbtn" title="切换正文字体"></button>
+    <button class="tb-btn" id="darkbtn" title="深色/日间模式"></button>
+    <button class="tb-btn" id="printnote" title="打印本章讲义（不含题目与答案）">打印讲义</button>
+    <button class="tb-btn" id="printq" title="打印本章所有题目（练习卷）">打印题目</button>
+    <button class="tb-btn" id="printa" title="打印本章所有答案（答案卷）">打印答案</button>
+  </div>
+</div></header>
+<div class="ch-nav"><a href="ch-18.html">← 18</a><span class="cn-title">第19章 · 统计</span><a href="ch-20.html">20 →</a></div>
+<main id="main">
+<section class="chapter" id="ch-19">
+<div class="ch-head" data-no="19"><div class="ch-no">第19章</div><h1 class="ch-title">统计</h1><div class="ch-sub">板块：概率统计 ｜ 前置：第 02 章 ｜ 老教材：必修3 第2章 ｜ 新教材：必修二 第9章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后学习）">老教材·必修3</a><a href="../系统文档/00_素材清单与来源.md" title="教材为版权材料，来源见素材清单（自行获取后对标）">新教材·必修第二册</a><a href="../公式/高中数学公式速查手册.html#ch-19" title="本章公式速查（按章手册，直达本章）">公式速查手册</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
+<p>公式速查：修订版 第12部分（统计）</p>
+<p><strong>本章本质核心</strong>：统计的本质是"用一部分推断整体"——总体太大测不完，就抽一个有代表性的样本，用样本的数字去估计总体的数字，同时守住"样本≠整体"的边界。三种抽样（让样本有代表性）、频率直方图（用图看样本长什么样）、平均数方差（样本的中心与波动）、回归直线（用样本散点配一条估测线）、卡方检验（用样本频数判断两变量有没有关系），全是在"用样本说话"；每一步估计都要记得它来自样本、会有偏差。</p>
+<p class = "baihua why"><span class = "tag">为什么有用</span>学了它，"从一部分数据推断整体""两个现象到底有没有关系"这类现实问题就有了章法——抽样定代表性、直方图看分布、回归估趋势、卡方判相关，想通"用样本说话、守住样本≠整体"，就不会把估计当因果。</p>
+</blockquote>
+<hr />
+<div class="sec sec-meta"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
+<ol>
+<li>求 2、4、6 的平均数。</li>
+<li>方差是描述什么的？（离散程度 or 集中程度）</li>
+<li>全班 50 人按学号抽 10 人，这是随机吗？</li>
+<li>什么是"样本"和"总体"？</li>
+<li>判断：平均数越大，数据一定越集中吗？</li>
+</ol>
+<p><strong>判定</strong>：5 题答对 4 题以上 → 进章。</p>
+</div><div class="sec sec-meta"><h2 class = "goal">② 学习目标</h2>
+<ul>
+<li>掌握三种抽样方法：简单随机抽样、分层抽样、系统抽样</li>
+<li>会读频率分布直方图、频率分布表</li>
+<li>掌握平均数、方差、标准差的计算（含加权）</li>
+<li>掌握回归直线（最小二乘）与相关系数</li>
+<li>掌握独立性检验（卡方检验）的步骤（2020 新高考Ⅰ卷考过）</li>
+</ul>
+</div><div class="sec sec-meta"><h2 class = "body">③ 正文讲解</h2>
+<p><strong>本章结构导图</strong>：</p>
+<pre><code>统计
+├─ 3.1 抽样方法 ── 简单随机/系统/分层
+├─ 3.2 频率分布直方图 ── 用图看数据长什么样
+├─ 3.3 数字特征 ── 平均数(集中)、方差(波动)
+├─ 3.4 回归分析 ── 散点图配一条直线
+└─ 3.5 独立性检验 ── 两个变量有没有关系
+</code></pre>
+<h3>3.1 抽样方法</h3>
+<p><strong>引入</strong>：想知道全校学生的平均身高，总不能把每个人都量一遍。从里面抽一部分人量，再推算全校——这就是抽样。怎么抽才有代表性？这一节讲三种正规抽法。</p>
+<div class = "tbl-wrap"><table style = "table-layout:fixed;max-width:100%"><colgroup><col style = "width:20%"><col style = "width:36%"><col style = "width:44%"></colgroup>
+<thead>
+<tr>
+<th>方法</th>
+<th>什么时候用</th>
+<th>怎么做</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>简单随机抽样</td>
+<td>总体小、个体差不多</td>
+<td>抽签法 / 随机数表，每个机会均等</td>
+</tr>
+<tr>
+<td>系统抽样</td>
+<td>总体已编号、很多</td>
+<td>按间隔 k = N/n 等距抽</td>
+</tr>
+<tr>
+<td>分层抽样</td>
+<td>总体分几层、层间差异大</td>
+<td>按比例从每层抽</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>分层抽样核心公式</strong>：每层抽取数  =  该层人数  ×  (样本量/总体量)。
+为什么按比例？为了让样本里各层的比例和总体一致，样本才有代表性。比如全校高一多、高三少，抽样时也得多抽高一少抽高三，否则用样本估全校就会"偏"。抽样的唯一目的，是用尽量少的人算出尽量准的总体数字——抽得有偏，后面再怎么算都白搭。</p>
+<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题</strong>：</p>
+<blockquote>
+<p>例 3.1-a：高一 500、高二 400、高三 300，分层抽样抽 60 人，各抽多少？
+解：总 1200，比例 60/1200  =  1/20。高一 500/20 = 25，高二 400/20 = 20，高三 300/20 = 15。
+要点：各层相加  =  25+20+15  =  60，正好等于样本量。</p>
+</blockquote>
+<p><strong>小结</strong>：个体差不多随机抽；编号等距系统抽；差异分层按比例抽。</p>
+<p><strong>编者注·本质回扣</strong>：三种抽样方法五花八门，骨子里只干一件事——让抽出来的那部分能代表整体。为什么分层抽样非要按比例？因为全校高一多、高三少，你抽样本时也得多抽高一、少抽高三，样本里各层的比例才和总体一致，后面用样本估全校才不会"偏"。简单随机、系统抽样其实是"总体里个体差不多"时的偷懒版；一旦层间差异大，不按比例抽，样本就会被某一层带偏——抽得有偏，后面平均数、回归再怎么精算，都是在错误的样本上算白账。这就是统计"用样本推断整体"的第一道关口：样本先得抽得正。</p>
+<h3>3.2 频率分布直方图与茎叶图</h3>
+<p><strong>引入</strong>：100 个学生的考试分数堆在面前，密密麻麻看不出规律。把分数分段、数每段多少人，画成柱状图，分布形状一眼就出来了。</p>
+<p><img alt = "频率分布直方图" src = "assets/19-histogram.png" /></p>
+<p><strong>读图要点（最容易错）</strong>：</p>
+<ul>
+<li>纵轴是<strong>频率/组距</strong>，<strong>不是频率</strong>！</li>
+<li>每个矩形<strong>面积  =  频率</strong>（宽 × 高  =  组距 × 频率/组距  =  频率）。</li>
+<li>所有矩形面积之和  =  1。</li>
+<li>求某区间人数：区间面积  ×  总体数。</li>
+</ul>
+<p><img alt = "茎叶图" src = "assets/19-stem-leaf.png" /></p>
+<p><strong>茎叶图</strong>：茎是十位、叶是个位，既保留原始数据又能看出分布形状，适合小样本。它的好处是不用分组、不会丢原始数值，做茎叶图还能顺手看出数据是否对称、有没有离群点。</p>
+<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题</strong>：</p>
+<blockquote>
+<p>例 3.2-a：直方图某组 [10,20)，纵轴（频率/组距） = 0.03，样本 200 人，该组多少人？
+解：频率  =  0.03  ×  组距 10  =  0.3。人数  =  200 × 0.3  =  60。
+要点：纵轴要乘组距才是频率，别直接当频率用。</p>
+</blockquote>
+<p><strong>小结</strong>：直方图看形状、茎叶图保原始，纵轴是"频率/组距"是命门。</p>
+<h3>3.3 数字特征（集中趋势 + 离散程度）</h3>
+<p><strong>引入</strong>：两个班平均分都是 80，一个班分数都挤在 80 附近，另一个班一半 60 一半 100——平均一样，但"稳不稳"天差地别。平均数描述"集中在哪"，方差描述"散得多开"。</p>
+<p><strong>公式</strong>：</p>
+<ul>
+<li><strong>平均数</strong> <span class = "ol">x</span>  =  (x<sub>1</sub>+…+x<sub>n</sub>)/n（加权：Σw<sub>i</sub>x<sub>i</sub>/Σw<sub>i</sub>）</li>
+<li><strong>方差</strong> s<sup>2</sup>  =  [(x<sub>1</sub>−<span class = "ol">x</span>)<sup>2</sup>+…+(x<sub>n</sub>−<span class = "ol">x</span>)<sup>2</sup>]/n</li>
+<li><strong>标准差</strong> s  =  √s<sup>2</sup>（和原数据同单位）</li>
+</ul>
+<p><strong>性质</strong>：每个数据加 a → 平均数加 a、方差不变；每个数据乘 b → 平均数乘 b、方差乘 b<sup>2</sup>。</p>
+<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题</strong>：</p>
+<blockquote>
+<p>例 3.3-a：数据 1、2、3、4、5，求平均数、方差。
+解：<span class = "ol">x</span> = 3。s<sup>2</sup> = [(1−3)<sup>2</sup>+(2−3)<sup>2</sup>+0+(4−3)<sup>2</sup>+(5−3)<sup>2</sup>]/5 = (4+1+0+1+4)/5 = 2。
+要点：方差是"离差平方的平均"。</p>
+</blockquote>
+<p><strong>小结</strong>：平均数看中心、方差看波动，两者合起来才完整描述一组数据。</p>
+<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题（分组合并·一步一验）</strong>：A 组数据 1、2、3，B 组数据 3、4、5，把它们合成一组求平均数和方差。
+解：六个数 1、2、3、3、4、5。总和  =  18，平均数 <span class = "ol">x</span>  =  18/6  =  3。
+方差 s<sup>2</sup>  =  [(1−3)<sup>2</sup>+(2−3)<sup>2</sup>+0+0+(4−3)<sup>2</sup>+(5−3)<sup>2</sup>]/6  =  (4+1+0+0+1+4)/6  =  10/6  =  5/3  ≈  1.67。
+要点：合并时<strong>先把全部数据摆出来重算平均，别拿两组平均直接平均</strong>——这里两组平均是 2 和 4，直接平均得 3，恰好碰对；但组人数不等时直接平均就会错（那是加权平均的活）。方差更要从合并后的数据重算，不能把两组方差简单相加。</p>
+<p><strong>平均数 vs 中位数（常考辨析）</strong>：平均数是"加起来除以个数"，受极端值影响很大——一组工资里如果有一个老板年薪千万，全公司平均工资会被拉得虚高。中位数是"排好序站中间的那个"，不受极端值影响。所以评价收入、房价这类"有极端值"的数据，中位数往往比平均数更真实；但平均数能用每个数据的信息，数学性质更好（后面回归、概率都用它）。</p>
+<p><strong>补·百分位数（人教A版必修第二册 p.209–210；课标必修"能用样本估计百分位数，理解百分位数的统计含义"）</strong>：中位数其实只是"第 50 百分位数"。把 n 个数据从小到大排好，<strong>第 p 百分位数</strong>是这样一个值：至少有 p% 的数据 ≤ 它、且至少有 (100−p)% 的数据 ≥ 它。算法三步：</p>
+<p><strong>① 排序；② 算 i  =  n  ×  p%；③ 若 i 不是整数，取比 i 大的相邻整数 j，第 p 百分位数  =  第 j 项；若 i 是整数，第 p 百分位数  =  (第 i 项 + 第 (i+1) 项)/2</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>25%、50%、75% 三个百分位数把数据分成四等份，分别叫下四分位数、中位数、上四分位数；它像中位数一样耐极端值，常被用来定"前百分之几的录取线""百分之多少的人不超标"这类实际门槛。</li>
+<li>用的时候：教材例——27 名女生身高排序后，25%×27=6.75（非整数）取第 7 项=155.5，50%×27=13.5 取第 14 项=161，75%×27=20.25 取第 21 项=164，即下四分位/中位/上四分位约为 155.5、161、164。</li>
+</ul>
+<h3>3.4 回归分析（最小二乘）</h3>
+<p><strong>引入</strong>：人的身高和体重有没有关系？把 (身高, 体重) 画在图上，是一团散点，但大体"越高越重"。能不能配一条直线，用身高估体重？这就是回归直线。</p>
+<p><img alt = "散点图与回归直线" src = "assets/19-scatter-regression.png" /></p>
+<p><strong>最小二乘回归直线</strong> <span class = "hat">y</span>  =  bx + a：</p>
+<ul>
+<li><strong>b  =  Σ(x<sub>i</sub>−<span class = "ol">x</span>)(y<sub>i</sub>−<span class = "ol">y</span>) / Σ(x<sub>i</sub>−<span class = "ol">x</span>)<sup>2</sup></strong>（斜率）</li>
+<li><strong>a  =  <span class = "ol">y</span> − b·<span class = "ol">x</span></strong>（截距）</li>
+<li><strong>回归直线必过样本中心 (<span class = "ol">x</span>, <span class = "ol">y</span>)</strong>——这是检验计算对不对的照妖镜。</li>
+</ul>
+<p><strong>相关系数 r</strong> ∈ [−1,1]：|r| 越接近 1 线性相关越强；r&gt;0 正相关、r&lt;0 负相关、接近 0 几乎无线性关系。
+<strong>最小二乘的道理</strong>：这条直线让每个点到直线的"竖直偏差"的平方和最小——偏差有正有负会抵消，所以取平方；平方加权等价于"整体看起来最贴"。这就是为什么回归直线不是随手画的那条。</p>
+<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题</strong>：</p>
+<blockquote>
+<p>例 3.4-a：数据 (1,2)(2,3)(3,4)(4,5)，求回归直线。
+解：<span class = "ol">x</span> = 2.5，<span class = "ol">y</span> = 3.5。Σ(x<sub>i</sub>−<span class = "ol">x</span>)<sup>2</sup> = 5，Σ(x<sub>i</sub>−<span class = "ol">x</span>)(y<sub>i</sub>−<span class = "ol">y</span>) = 5。b = 5/5 = 1，a = 3.5−1·2.5 = 1。直线 y = x+1。验证过 (2.5,3.5)。
+要点：b 是协方差除以 x 的方差，直线必过样本中心。</p>
+</blockquote>
+<p><strong>小结</strong>：回归直线是"最贴散点的那条线"，必过样本中心、相关系数量强弱。</p>
+<p><strong>编者注·本质回扣</strong>：回归直线凭什么能"用身高估体重"？本质还是"用样本推断整体"。手里只有几个 (身高, 体重) 的散点，并不知道真关系，最小二乘就是在样本里配一条"整体最贴"的直线（让各点竖直偏差的平方和最小），再假设这条线能代表总体的趋势。所以它必过样本中心 (<span class = "ol">x</span>,<span class = "ol">y</span>)——用样本的平均位置定直线，是"用样本说话"的直接体现；相关系数 r 则在替你把关：|r| 太小说明散点根本不成直线，这时候配回归线就是硬凑。记住：回归方程只能"估计/大约"，不能当精确因果。</p>
+<p><strong>辨析·b 与 r 同号（快速自检）</strong>：斜率 b 和相关系数 r <strong>永远同号</strong>——散点整体上扬时 b&gt;0、r&gt;0（正相关）；整体下滑时 b&lt;0、r&lt;0（负相关）。算完 b 是正的，r 却写成负的，立刻知道错了。比如例 3.4-a 那组 (1,2)(2,3)(3,4)(4,5)，点严格排成一条上升直线，算得 b = 1、r = 1（完全正相关），两者同号且 |r| = 1，互相印证。</p>
+<h3>3.5 独立性检验（卡方检验）</h3>
+<p><strong>引入</strong>：抽烟和得肺病有没有关系？光看列联表两栏比例差多少，还不够"科学"。卡方检验给一个量化标准：算出 χ<sup>2</sup>，和临界值比，大到一定程度就有把握说"两个变量有关"。</p>
+<p><strong>步骤</strong>：</p>
+<ol>
+<li>列 2 × 2 列联表（a,b,c,d）；</li>
+<li>算 <strong>χ<sup>2</sup>  =  n(ad−bc)<sup>2</sup> / [(a+b)(c+d)(a+c)(b+d)]</strong>；</li>
+<li>与临界值比：3.841 对应 95%、6.635 对应 99%、10.828 对应 99.9%。χ<sup>2</sup> 越大越有把握说"有关"。</li>
+</ol>
+<p><strong>表述模板</strong>：χ<sup>2</sup>  ≈  X.XX &gt; 6.635 ⇒ 有 99% 把握认为 A 与 B 有关。<strong>统计相关 ≠ 因果</strong>。这句话每次正式答题都要带上，是高考评分要点。</p>
+<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题</strong>：</p>
+<blockquote>
+<p>例 3.5-a：列联表 a = 20,b = 180,c = 780,d = 20,n = 1000，算 χ<sup>2</sup>。
+解：ad−bc  =  400−140400  =  −140000。χ<sup>2</sup>  =  1000 × 140000<sup>2</sup>/(200 × 800 × 800 × 200)  =  765.6。远大于 10.828 ⇒ 有 99.9% 把握认为有关。
+要点：χ<sup>2</sup> 算出来和临界值比，越大越"铁"。</p>
+</blockquote>
+</div><div class="sec sec-meta"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
+<p class = "ex"><span class = "tag">例题</span><strong>例 1（分层抽样）</strong>：某校高一 500 人、高二 400 人、高三 300 人，按分层抽样抽 60 人，各年级抽多少人？</p>
+<blockquote>
+<p>自己做：按比例。</p>
+</blockquote>
+<p>解：总 1200 人，比例 60/1200  =  1/20。高一 500/20  =  25；高二 400/20  =  20；高三 300/20  =  15。
+要点：<strong>每层抽取数  =  该层人数  ×  抽样比例</strong>；验证 25 + 20 + 15  =  60。</p>
+<p class = "ex"><span class = "tag">例题</span><strong>例 2（数字特征）</strong>：一组数据 1、2、3、4、5，求平均数、方差、标准差。</p>
+<blockquote>
+<p>自己做：先平均，再算差的平方。</p>
+</blockquote>
+<p>解：<span class = "ol">x</span>  =  3。s<sup>2</sup>  =  [(1−3)<sup>2</sup> + (2−3)<sup>2</sup> + (3−3)<sup>2</sup> + (4−3)<sup>2</sup> + (5−3)<sup>2</sup>]/5  =  (4+1+0+1+4)/5  =  2。
+s  =  √2。
+要点：<strong>方差是"离差平方的平均"</strong>；标准差开根号，单位还原。</p>
+<p class = "ex"><span class = "tag">例题</span><strong>例 3（回归直线）</strong>：数据 (1,2)、(2,3)、(3,4)、(4,5)，求回归直线方程。</p>
+<blockquote>
+<p>自己做：先算 <span class = "ol">x</span>、<span class = "ol">y</span>，再算 b，最后 a。</p>
+</blockquote>
+<p>解：<span class = "ol">x</span>  =  2.5，<span class = "ol">y</span>  =  3.5。Σ(x<sub>i</sub>−<span class = "ol">x</span>)<sup>2</sup>  =  (−1.5)<sup>2</sup> + (−0.5)<sup>2</sup> + 0.5<sup>2</sup> + 1.5<sup>2</sup>  =  5。
+Σ(x<sub>i</sub>−<span class = "ol">x</span>)(y<sub>i</sub>−<span class = "ol">y</span>)  =  (−1.5)(−1.5) + (−0.5)(−0.5) + 0.5·0.5 + 1.5·1.5  =  5。
+b  =  5/5  =  1；a  =  <span class = "ol">y</span> − b·<span class = "ol">x</span>  =  3.5 − 2.5  =  1。回归直线 <strong><span class = "hat">y</span>  =  x + 1</strong>。
+要点：<strong>b 是"协方差/方差"</strong>；直线必过 (<span class = "ol">x</span>, <span class = "ol">y</span>) 可作检验。</p>
+<p class = "ex"><span class = "tag">例题</span><strong>例 4（回归直线·分步给分）（苏州教研·专题24，原书p.110）</strong>：某设备使用年限 x（年）与维修费用 y（万元）统计如下：x  =  2, 3, 4, 5, 6；y  =  2.2, 3.8, 5.5, 6.5, 7.0。求 y 关于 x 的线性回归方程。</p>
+<blockquote>
+<p>自己做：先算 <span class = "ol">x</span>、<span class = "ol">y</span>，再分别算两个求和，最后 b、a。</p>
+</blockquote>
+<p>解：<span class = "ol">x</span>  =  (2+3+4+5+6)/5  =  4；<span class = "ol">y</span>  =  (2.2+3.8+5.5+6.5+7.0)/5  =  25/5  =  5。
+Σ(x<sub>i</sub>−<span class = "ol">x</span>)(y<sub>i</sub>−<span class = "ol">y</span>)  =  (−2)(−2.8)+(−1)(−1.2)+0·0.5+1·1.5+2·2.0  =  5.6+1.2+0+1.5+4  =  12.3。
+Σ(x<sub>i</sub>−<span class = "ol">x</span>)<sup>2</sup>  =  4+1+0+1+4  =  10。
+b  =  12.3/10  =  1.23；a  =  <span class = "ol">y</span> − b·<span class = "ol">x</span>  =  5 − 1.23 × 4  =  5 − 4.92  =  0.08。
+回归直线 <strong><span class = "hat">y</span>  =  1.23x + 0.08</strong>（验证：过样本中心 (4,5)，代入 1.23 × 4+0.08  =  5 ✓）。
+要点：<strong>分步算 <span class = "ol">x</span>、<span class = "ol">y</span>、两个求和再代公式</strong>，这正是高考"分步给分"的写法；用回归方程作预测时回答要带"大约/估计"。</p>
+</div><div class="sec sec-meta"><h2 class = "out">⑤ 出口检测</h2>
+<p><strong>自测（15 分钟，每题 2 分）</strong>：</p>
+<ol>
+<li>800 人中抽 40 人做调查，抽样比例是多少？</li>
+<li>数据 4、6、8 的平均数与方差。</li>
+<li>频率分布直方图中所有矩形面积之和等于多少？</li>
+<li>回归直线一定经过哪个点？</li>
+<li>相关系数 r  =  0.95 表示什么？</li>
+</ol>
+<p><strong>真题验收</strong>：完成 2020 新高考Ⅰ卷<strong>统计解答题</strong>（独立性检验/回归）或 2021–2024 卷统计小题 1~2 道：独立完成、每题限时、全对 → 过关。</p>
+<p><strong>过关标准</strong>：自测 ≥ 10 分 且 真题达标 → 打卡。<strong>19 章全部完成后进入阶段 8：整卷真题模拟。</strong></p>
+</div><div class="sec sec-hw"><h2>课后习题（分层练习）</h2>
+<h3>A 基础巩固</h3>
+<p><strong>A1.</strong>【分层抽样】某厂三个车间分别有 300、200、500 人，按分层抽样抽 50 人，各车间抽多少？</p>
+<p><strong>A2.</strong>【平均数方差】数据 3、6、9，求平均数和方差。</p>
+<p><strong>A3.</strong>【频率直方图】直方图某组 [20,30) 的频率/组距  =  0.04，样本 500 人，该组频数是多少？</p>
+<p><strong>A4.</strong>【系统抽样】总体 1000 人抽 50 人，抽样间隔 k 是多少？</p>
+<p><strong>A5.</strong>【回归过样本中心】回归直线过样本中心 (3,5)，已知斜率 b = 2，求截距 a。</p>
+<p><strong>A6.</strong>【独立性检验临界值】算得 χ<sup>2</sup>  =  4.5，查临界值 3.841/6.635，能有多大把握说有关？</p>
+<h3>B 能力提升</h3>
+<p><strong>B7.</strong>【加权平均数】两班成绩：一班 30 人均分 80，二班 20 人均分 90，求两班合起来的平均分。</p>
+<p><strong>B8.</strong>【方差性质】一组数据方差为 4，每个数据都乘 3 再加 10，新数据方差是多少？</p>
+<p><strong>B9.</strong>【回归计算】数据 (1,1)(2,2)(3,4)，求回归直线斜率 b。</p>
+<p><strong>B10.</strong>【卡方计算】列联表 a = 40,b = 10,c = 20,d = 30,n = 100，求 χ<sup>2</sup>。</p>
+<h3>C 真题挑战（真实新高考题）</h3>
+<p><strong>C1.</strong>【频率估计概率·2025 新高考Ⅰ卷第 15 题第 (1) 问】调查 1000 人列联表：患病人群中超声波正常 20、不正常 180；未患病人群中正常 780、不正常 20。记"超声波检查结果不正常者患该疾病的概率"为 P，求 P 的估计值。</p>
+<p><strong>C2.</strong>【独立性检验·2025 新高考Ⅰ卷第 15 题第 (2) 问】用上面列联表，根据小概率值 α = 0.001 的独立性检验，分析超声波检查结果是否与患该疾病有关。（临界值：α = 0.001 对应 10.828。）</p>
+<p><strong>C3.</strong>【分层抽样高考高频题型】某校高一、高二、高三人数比为 4:3:3，用分层抽样抽一个容量为 50 的样本，高一年级抽多少人？</p>
+</div><div class="sec sec-meta"><h2 class = "pit">⑥ 常见坑清单</h2>
+<ul>
+<li>直方图纵轴是"频率/组距"，<strong>面积才是频率</strong>——直接用纵轴数字当频率会错。</li>
+<li>方差公式分母是 n（总体）或 n−1（样本，高中一般用 n），跟教材口径一致即可。</li>
+<li>回归直线必过 (<span class = "ol">x</span>, <span class = "ol">y</span>)，但<strong>不过原点</strong>（除非 a  =  0）。</li>
+<li>独立性检验：χ<sup>2</sup> 大 → "有把握有关"；<strong>统计相关 ≠ 因果关系</strong>。</li>
+<li>分层抽样验证：各层相加必须等于样本总量。</li>
+<li>平均数受极端值影响大，中位数不受——统计评价题里常考这个区别。</li>
+</ul>
+<hr />
+</div><div class="sec sec-meta"><h2>本章公式速查表</h2>
+<blockquote>
+<p>与《高中数学常用公式·修订版》第十二部分"统计与统计案例"逐条核对一致。</p>
+</blockquote>
+<h3>抽样方法</h3>
+<p><strong>分层抽样：每层抽取数  =  该层人数  ×  (样本量/总体量)</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>总体分几层、层间差得多，就按比例从每层抽，让样本比例跟总体一致。</li>
+<li>用的时候：抽完各层相加必须等于样本总量；不等于就抽错了。</li>
+</ul>
+<p><strong>系统抽样间隔 k  =  N/n</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>总体编号很多，每隔 k 个抽一个。</li>
+<li>用的时候：k 是总体量除以样本量；先随机定第一个，再等距往后数。</li>
+</ul>
+<p><strong>等概率抽样：无论哪种抽样，从 N 个元素中抽 n 个，每个元素被抽到的概率都是 p  =  n/N</strong>（苏州教研·专题24）</p>
+<ul>
+<li class = "baihua"><span class = "tag">大白话</span>简单随机、系统、分层，抽法不同，但"每个个体被抽中的机会"一律等于样本量除以总体量。</li>
+<li>用的时候：判断样本是否有代表性时，先看每个个体机会均等不均等；分层抽样是每层内等比例，整体仍 p = n/N。</li>
+</ul>
+<h3>数字特征</h3>
+<p><strong>平均数 <span class = "ol">x</span>  =  (1/n)Σx<sub>i</sub></strong>（加权：Σw<sub>i</sub>x<sub>i</sub>/Σw<sub>i</sub>）</p>
+<ul>
+<li class = "baihua"><span class = "tag">大白话</span>所有数加起来除以个数，就是数据的"中心"。</li>
+<li>用的时候：两组人数不等时合并要按加权平均，不能把两个平均分直接相加除 2。</li>
+</ul>
+<p><strong>方差 s<sup>2</sup>  =  (1/n)Σ(x<sub>i</sub>−<span class = "ol">x</span>)<sup>2</sup>；标准差 s  =  √s<sup>2</sup></strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>每个数离中心多远的平方平均，衡量数据"散得多开"；开根号还原单位。</li>
+<li>用的时候：方差是离差平方的平均；合并数据要重算，不能把两组方差相加。</li>
+</ul>
+<p><strong>平移缩放：数据 +a → 平均数 +a、方差不变；数据  × b → 平均数  × b、方差  × b<sup>2</sup></strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>整体加一个数只平移不影响波动，整体乘一个数波动跟着放大 b<sup>2</sup> 倍。</li>
+<li>用的时候：问"每个数据加几/乘几后新方差"，记住方差里没有加的那个常数。</li>
+</ul>
+<h3>频率分布直方图</h3>
+<p><strong>频率  =  (频率/组距)  ×  组距；每个矩形面积  =  频率</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>纵轴是"频率/组距"不是频率，必须乘组距才是真频率；所有矩形面积加起来 = 1。</li>
+<li>用的时候：求某组人数 = 该组面积 × 总体数；直接拿纵轴数字当频率是命门级错误。</li>
+</ul>
+<p><strong>直方图各矩形：高之比  =  面积比  =  频率比  =  频数比</strong>（苏州教研·专题24）</p>
+<ul>
+<li class = "baihua"><span class = "tag">大白话</span>组距都一样时，柱子的高低直接反映了各组频率、频数的比例。</li>
+<li>用的时候：比较两组人数多少，直接比柱子高度即可，不用每组都乘组距算一遍。</li>
+</ul>
+<p><strong>用频率分布直方图估计"三数"（苏州教研·专题24）</strong></p>
+<ul>
+<li><strong>公式</strong>：众数 = 最高矩形中点的横坐标；中位数 = 累积面积达到 0.5 处的横坐标（常设未知数按面积列方程）；平均数 = Σ（各矩形中点横坐标 × 该矩形面积）。</li>
+<li class="baihua"><span class="tag">大白话</span>从直方图里反推这组数据的中心——最胖那根柱子的中点是众数，面积对半分那点是中位数，按面积加权的中点是平均数。</li>
+<li>用的时候：题目给直方图让估平均数，就把每根柱子中点乘它的面积再加起来；估中位数要"设未知数让左右面积各 0.5"列方程。</li>
+<li>记忆要点：众数看最高、中位数对半砍、平均数按面积加权。</li>
+</ul>
+<p><strong>两组数据比优劣：先比平均数（通常相当），再比方差（标准差），越小越集中、越稳定</strong>（苏州教研·专题24）</p>
+<ul>
+<li class = "baihua"><span class = "tag">大白话</span>两组平均分差不多时，谁方差小谁发挥稳定；评价数据好坏就这两步。</li>
+<li>用的时候：运动员得分、零件质量对比题都这么下结论。</li>
+</ul>
+<h3>回归分析</h3>
+<p><strong>斜率 b  =  Σ(x<sub>i</sub>−<span class = "ol">x</span>)(y<sub>i</sub>−<span class = "ol">y</span>) / Σ(x<sub>i</sub>−<span class = "ol">x</span>)<sup>2</sup>；截距 a  =  <span class = "ol">y</span> − b·<span class = "ol">x</span></strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>最小二乘配出来的最贴散点的那条直线，斜率是"协方差除以 x 的方差"。</li>
+<li>用的时候：先算 <span class="ol">x</span>、<span class="ol">y</span>，再算 b，最后 a；斜率 b 和相关系数 r 一定同号。</li>
+</ul>
+<p><strong>回归直线必过样本中心 (<span class = "ol">x</span>, <span class = "ol">y</span>)</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>这条直线一定穿过所有点的平均位置。</li>
+<li>用的时候：算完拿它代进去验证，是检查对错的照妖镜。</li>
+</ul>
+<p><strong>相关系数 r ∈ [−1,1]：|r|→1 线性越强；r&gt;0 正相关、r&lt;0 负相关</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>衡量两个变量线性关系有多紧，越接近 ±1 越贴一条直线。</li>
+<li>用的时候：r 接近 0 几乎无线性关系；b 和 r 同号可快速自检。</li>
+</ul>
+<p><strong>相关系数 r 的计算公式：r  =  Σ(x<sub>i</sub>−<span class = "ol">x</span>)(y<sub>i</sub>−<span class = "ol">y</span>) / √[Σ(x<sub>i</sub>−<span class = "ol">x</span>)<sup>2</sup>·Σ(y<sub>i</sub>−<span class = "ol">y</span>)<sup>2</sup>]</strong>（苏州教研·专题57）</p>
+<ul>
+<li class = "baihua"><span class = "tag">大白话</span>分子就是回归斜率 b 乘的那个"协方差和"，分母把 x、y 各自波动归一化，结果落在 [−1,1]。</li>
+<li>用的时候：分子和求 b 时是同一个量，算过 b 就不用重算分子；|r|&gt;0.75 就算有很强的线性相关。</li>
+<li>记忆要点：r 接近 1 正相关强、接近 −1 负相关强、接近 0 几乎无线性关系。</li>
+</ul>
+<p><strong>强相关门槛：|r| &gt; 0.75 认为线性相关性很强</strong>（苏州教研·专题57）</p>
+<ul>
+<li class = "baihua"><span class = "tag">大白话</span>相关系数大过 0.75，就有把握说这两个变量线性关系紧密；越接近 0 越弱。</li>
+<li>用的时候：题目问"是否适合线性回归"，先看 |r| 过没过 0.75。</li>
+</ul>
+<p><strong>相关指数 R<sup>2</sup>  =  1 − Σ(y<sub>i</sub>−<span class = "hat">y</span><sub>i</sub>)<sup>2</sup> / Σ(y<sub>i</sub>−<span class = "ol">y</span>)<sup>2</sup>；一元线性模型中 R<sup>2</sup>  =  r<sup>2</sup></strong>（苏州教研·专题57）</p>
+<ul>
+<li class = "baihua"><span class = "tag">大白话</span>R<sup>2</sup> 衡量回归直线解释了多少数据波动，越接近 1 说明模型越贴；只有一个解释变量时它正好等于 r 的平方。</li>
+<li>用的时候：R<sup>2</sup> 越大线性回归效果越好；残差平方和 Σ(y<sub>i</sub>−<span class = "hat">y</span><sub>i</sub>)<sup>2</sup> 越小，R<sup>2</sup> 越大。</li>
+</ul>
+<p><strong>残差平方和 Q  =  Σ(y<sub>i</sub>−<span class = "hat">y</span><sub>i</sub>)<sup>2</sup>  =  Σ(y<sub>i</sub>−bx<sub>i</sub>−a)<sup>2</sup>，最小二乘法就是取使 Q 最小的 b、a</strong>（苏州教研·专题57）</p>
+<ul>
+<li class = "baihua"><span class = "tag">大白话</span>每个真实点到回归直线的竖直偏差平方加起来，最小二乘法就是把这个总和压到最小。</li>
+<li>用的时候：理解回归直线"为什么最贴"就靠它；b、a 的公式正是 Q 取最小的解。</li>
+</ul>
+<h3>独立性检验（卡方）</h3>
+<p><strong>χ<sup>2</sup>  =  n(ad − bc)<sup>2</sup> / [(a+b)(c+d)(a+c)(b+d)]</strong>（2 × 2 列联表 a,b,c,d）</p>
+<ul>
+<li class = "baihua"><span class = "tag">大白话</span>两个变量有没有关系，算出 χ<sup>2</sup> 再和临界值比，越大越有把握说"有关"。</li>
+<li>用的时候：套公式时四个分母因子别漏乘、少写零；算完和临界值比。</li>
+</ul>
+<p><strong>临界值：3.841（95%）/ 6.635（99%）/ 10.828（99.9%，即 α = 0.001）</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>χ<sup>2</sup> 超过哪个临界值，就对应那个把握度。</li>
+<li>用的时候：下结论写"有 X% 把握认为有关"，并补一句"这是统计相关，不等于因果"。</li>
+</ul>
+<p><strong>完整临界值梯度（苏州教研·专题57）：χ<sup>2</sup>&gt;2.706 有 90% 把握；&gt;3.841 有 95%；&gt;6.635 有 99%；&gt;10.828 有 99.9%；χ<sup>2</sup>&lt;2.706 认为没有充分证据显示有关</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>2.706 是"最低及格线"，过了它才敢说有九成把握；连它都不到，就当没关系。</li>
+<li>用的时候：题里若没给临界值，就按这四档对号入座；下结论前先看清 χ<sup>2</sup> 落在哪一档。</li>
+</ul>
+<p><strong>"有关"不等于"一个导致另一个"，"无关"也不等于"两事件互不影响"（苏州教研·专题57）</strong></p>
+<ul>
+<li class="baihua"><span class="tag">大白话</span>独立性检验只说明两个分类变量在统计上有联系，不证明因果；算出"无关"也只是没有足够证据，不能断言它俩真没关系。</li>
+<li>用的时候：答题结尾那句"统计相关≠因果"不能省；别把检验结论说成"抽烟导致肺癌"。</li>
+</ul>
+</div><div class="sec sec-meta"><h2>高级方法·进阶</h2>
+<p>本章方法（抽样、读图、数字特征、回归、卡方）<strong>已全部包含在新教材主线</strong>中，<strong>不超纲高级方法手册中无"统计"的专属进阶节</strong>。下面把高考里最容易丢分的两个"判读规范"点透，均在课标范围内。</p>
+<p><strong>操作规范 1：统计量"平移缩放"口诀（适用信号→步骤）</strong></p>
+<ul>
+<li>适用信号：题目说"每个数据都加 a / 乘 b"，问新平均数、新方差。</li>
+<li>步骤：平均数跟数据一起平移、缩放（加 a 加 a、乘 b 乘 b）；方差只跟缩放、不跟平移（加 a 不变、乘 b 变 b<sup>2</sup> 倍）。</li>
+<li><strong>✓ 不超纲（高考可放心用）</strong>。</li>
+</ul>
+<p><strong>操作规范 2：卡方"三步判读"（适用信号→步骤）</strong></p>
+<ul>
+<li>适用信号：给列联表问"两个变量有没有关系"。</li>
+<li>步骤：①套 χ<sup>2</sup> 公式算值；②和题目给的临界值比；③下结论时写"有 X% 把握认为有关"，并补一句"这是统计相关，不等于因果"。</li>
+<li><strong>✓ 不超纲</strong>。</li>
+</ul>
+<hr />
+<div class="ans-box"><button type="button" class="ans-toggle">显示答案 · 自测</button><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. 40/800 = 1/20 = 5%；2. <span class="ol">x</span> = 6，s<sup>2</sup> = (4+0+4)/3 = 8/3；3. 1；4. 样本中心 (<span class="ol">x</span>, <span class="ol">y</span>)；5. 强正线性相关（|r| 接近 1 且为正）。</p></div></div>
+</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · A 组</button><div class="ans-body"><p><strong>A1.</strong> 总 1000，比例 50/1000=1/20。一车间 300/20=<strong>15</strong>，二车间 200/20=<strong>10</strong>，三车间 500/20=<strong>25</strong>。
+<strong>A2.</strong> <span class="ol">x</span>=(3+6+9)/3=<strong>6</strong>。s<sup>2</sup>=[(3−6)<sup>2</sup>+0+(9−6)<sup>2</sup>]/3=(9+0+9)/3=<strong>6</strong>。
+<strong>A3.</strong> 频率=0.04×组距10=0.4。频数=500×0.4=<strong>200 人</strong>。
+<strong>A4.</strong> k=N/n=1000/50=<strong>20</strong>（每隔 20 抽 1 个）。
+<strong>A5.</strong> a=<span class="ol">y</span>−b·<span class="ol">x</span>=5−2·3=<strong>−1</strong>。
+<strong>A6.</strong> χ<sup>2</sup>=4.5&gt;3.841 但 &lt;6.635，故<strong>有 95% 把握认为有关，但不到 99%</strong>。</p>
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · B 组</button><div class="ans-body"><p><strong>B7.</strong> 加权平均=(30×80+20×90)/(30+20)=(2400+1800)/50=<strong>84 分</strong>。
+<strong>B8.</strong> 方差乘 b<sup>2</sup>=3<sup>2</sup>：新方差=4×9=<strong>36</strong>（加 10 不影响方差）。
+<strong>B9.</strong> <span class="ol">x</span>=2, <span class="ol">y</span>=7/3。Σ(x<sub>i</sub>−<span class="ol">x</span>)<sup>2</sup>=1+0+1=2。Σ(x<sub>i</sub>−<span class="ol">x</span>)(y<sub>i</sub>−<span class="ol">y</span>)=(−1)(1−7/3)+0+(1)(4−7/3)=4/3+5/3=3。b=3/2=<strong>1.5</strong>。
+<strong>B10.</strong> ad−bc=40×30−10×20=1200−200=1000。χ<sup>2</sup>=100×1000<sup>2</sup>/(50×50×60×40)=10<sup>8</sup>/6×10<sup>6</sup>=<strong>50/3≈16.67</strong>。</p>
+</div></div><div class="ans-box"><button type="button" class="ans-toggle">显示答案 · C 组</button><div class="ans-body"><p><strong>C1.</strong> "不正常者患疾病"= 不正常且患病的 180 ÷ 不正常合计 200 = <strong>9/10 = 0.9</strong>。
+<strong>C2.</strong> χ<sup>2</sup>=1000×(20×20−180×780)<sup>2</sup>/(200×800×800×200)=<strong>765.6</strong>。765.6 &gt; 10.828，故在 α=0.001 下，<strong>有 99.9% 的把握认为超声波检查结果与患该疾病有关</strong>。
+<strong>C3.</strong> 比例 4:3:3 共 10 份，高一占 4/10。高一抽 50×4/10=<strong>20 人</strong>。</p>
+</div></div></div><div class="sec sec-meta"><h2>一通百通</h2>
+<p>这一章的"通用骨架"是四步：<strong>① 抽样本（三种抽样按总体特征选，保证有代表性）→ ② 看数据（直方图看形状、茎叶图看原始）→ ③ 算样本数字（平均数定中心、方差看波动）→ ④ 用样本估整体（回归直线估趋势、卡方检验判两变量是否有关）</strong>。每一步都要记得：手里的是样本不是整体，结论带"估计/大约"，卡方结论还要补一句"统计相关≠因果"。会解一道统计解答题，就会解所有统计题——不管考分层抽样、回归还是独立性检验，骨子里都是"抽得正、算得准、估得留余地"。</p>
+</div><div class="sec sec-meta"><h2>跨章结合</h2>
+<ul>
+<li><strong>第 18 章概率 + 本章统计 → "用样本频率估计概率"与独立性检验</strong>：本章 C1（2025 新高考Ⅰ卷第 15 题第 (1) 问）用列联表里"不正常且患病 180 ÷ 不正常合计 200"估计概率 P=0.9，C2（同卷第 (2) 问）再算 χ<sup>2</sup> 做独立性检验——这正是把统计的样本频数喂给概率、再用概率的小概率思想（临界值 10.828）下结论。统计出数据、概率出判断，两章在这道题里合流。</li>
+<li><strong>第 02 章函数 + 本章回归 → 一次函数作估测线</strong>：回归直线 <span class="hat">y</span>=bx+a 本质就是第 02 章的一次函数，斜率 b、截距 a 由样本最小二乘定出（本章例 4，b=1.23、a=0.08），相关系数 r 则用本章样本数据算。会一次函数的性质（必过某点、斜率正负），回归自检就快一倍。</li>
+</ul>
+</div><div class="sec sec-meta"><h2>本章与前后章</h2>
+<p>统计（19）前面接第 02 章函数（会平均数、方程即可）与<strong>第 18 章概率</strong>——统计里"用样本频率估计概率""正态分布用 <span class="ol">x</span> 当 μ、s 当 σ"，正是概率思想往"由样本推总体"的延伸；独立性检验的临界值分档也和概率的小概率事件一脉相承。它后面通向<strong>解答题第 18/19 题</strong>——新高考Ⅰ卷统计解答题固定在这一档，与概率题轮流登场。学完这一章，概率统计板块（17–19）全部走完，即可进入阶段 8 的整卷真题模拟。</p>
+</div><div class="sec sec-meta"><h2>高考怎么考</h2>
+<p>新高考Ⅰ卷里统计是<strong>统计解答题（第 18/19 题）常客</strong>：分层抽样计算、频率分布直方图读"三数"（众数/中位数/平均数）、最小二乘求回归直线（如本章例 4，b=1.23、a=0.08 的分步给分写法）、2×2 列联表独立性检验（本章 B10 的 χ<sup>2</sup>=50/3≈16.67、C2 的卡方结论）；小题则考抽样方法辨析、平均数方差的平移缩放性质。2025 新高考Ⅰ卷第 15 题就是"频率估计概率+独立性检验"的综合（本章 C1、C2 已收录）。得分关键：直方图纵轴别当频率用、回归必过样本中心自检、卡方下结论必带"统计相关≠因果"。</p></div>
+</section>
+</main>
+<button id="topbtn" title="回到顶部">↑</button>
+<script>
+(function(){
+  var doc=document, root=doc.documentElement;
+  /* 字号调节（14.5-19.5，步进 1） */
+  var fs=parseFloat(localStorage.getItem('ebook-fs'))||16.5;
+  fs=Math.max(14.5,Math.min(19.5,fs));
+  root.style.setProperty('--fs',fs+'px');
+  var fsel=doc.getElementById('fsize');
+  function fsLabel(){if(fsel)fsel.textContent=fs.toFixed(1);}
+  var mn=doc.getElementById('minus'),pl=doc.getElementById('plus');
+  if(mn)mn.addEventListener('click',function(){fs=Math.max(14.5,fs-1);root.style.setProperty('--fs',fs+'px');localStorage.setItem('ebook-fs',fs);fsLabel();});
+  if(pl)pl.addEventListener('click',function(){fs=Math.min(19.5,fs+1);root.style.setProperty('--fs',fs+'px');localStorage.setItem('ebook-fs',fs);fsLabel();});
+  fsLabel();
+  /* 正文字体切换 */
+  if(localStorage.getItem('ebook-serif')==='1')doc.body.classList.add('serif');
+  var sbtn=doc.getElementById('serifbtn');
+  function serifLabel(){sbtn.textContent=doc.body.classList.contains('serif')?'黑体':'衬线';}
+  if(sbtn){sbtn.addEventListener('click',function(){var on=doc.body.classList.toggle('serif');localStorage.setItem('ebook-serif',on?'1':'0');serifLabel();});serifLabel();}
+  /* 深色模式 */
+  if(localStorage.getItem('ebook-dark')==='1')doc.body.classList.add('dark');
+  var dbtn=doc.getElementById('darkbtn');
+  function darkLabel(){if(dbtn)dbtn.textContent=doc.body.classList.contains('dark')?'日间':'夜读';}
+  if(dbtn){dbtn.addEventListener('click',function(){var on=doc.body.classList.toggle('dark');localStorage.setItem('ebook-dark',on?'1':'0');darkLabel();});darkLabel();}
+  /* 答案折叠 */
+  doc.querySelectorAll('.ans-toggle').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var box=btn.parentNode;
+      box.classList.toggle('open');
+      btn.textContent=box.classList.contains('open')?'隐藏答案':'显示答案';
+    });
+  });
+  /* 打印三模式（本页章节） */
+  function curSec(){return doc.querySelector('#main section.chapter')}
+  function printScope(mode){
+    doc.body.classList.remove('print-note','print-q','print-a','print-ans','print-one');
+    var s=curSec();if(s)s.classList.remove('ch-print');
+    doc.querySelectorAll('.sec.sec-has-ans').forEach(function(x){x.classList.remove('sec-has-ans')});
+    if(mode==='note')doc.body.classList.add('print-note');
+    if(mode==='q')doc.body.classList.add('print-q');
+    if(mode==='a'){doc.body.classList.add('print-a','print-ans');doc.querySelectorAll('.ans-box').forEach(function(b){var p=b.closest('.sec');if(p)p.classList.add('sec-has-ans')});}
+    if(s){s.classList.add('ch-print');doc.body.classList.add('print-one');}
+    window.print();
+  }
+  var pn=doc.getElementById('printnote'),pq=doc.getElementById('printq'),pa=doc.getElementById('printa');
+  if(pn)pn.addEventListener('click',function(){printScope('note')});
+  if(pq)pq.addEventListener('click',function(){printScope('q')});
+  if(pa)pa.addEventListener('click',function(){printScope('a')});
+  /* 回到顶部 */
+  var topbtn=doc.getElementById('topbtn');
+  function onScroll(){var y=window.scrollY;if(topbtn)topbtn.style.display=y>600?'block':'none';}
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  if(topbtn)topbtn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})});
+  /* 搜索本章（点击结果滚动定位） */
+  var q=doc.getElementById('q'),sres=doc.getElementById('sres');
+  if(q)q.addEventListener('input',function(){
+    var k=q.value.trim();sres.innerHTML='';
+    if(!k)return;
+    var els=Array.prototype.slice.call(doc.querySelectorAll('#main p,#main li,#main h3,#main h4'));
+    var hits=els.filter(function(e){return e.textContent.indexOf(k)>-1});
+    hits.slice(0,20).forEach(function(e,i){
+      var d=doc.createElement('div');d.className='sr-item';
+      d.textContent=(i+1)+'. '+e.textContent.replace(/\s+/g,' ').slice(0,46);
+      d.addEventListener('click',function(){e.scrollIntoView({behavior:'smooth',block:'center'});sres.innerHTML='';q.value='';});
+      sres.appendChild(d);
+    });
+    if(!hits.length)sres.innerHTML='<div class="sr-none">本页无匹配</div>';
+  });
+})();
+</script>
+</body>
+</html>
