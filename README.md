@@ -22,7 +22,6 @@
    - **打印答案** (Print Answers) — the **answer sheet**: self-test answers + A/B/C group answers only.
 4. Follow the "six-step loop" in Chapter 00 for each chapter: **prerequisite self-test → learning goals → main text (with "plain-language" annotations) → A/B/C tiered exercises → formula quick-lookup → advanced methods → answers**.
 5. Each chapter has "chapter materials" links at the top plus a "what if I don't understand" guide; if stuck over 30 minutes, mark and skip, then return later.
-6. Want an AI assistant to answer questions / generate problems / verify progress with the same method? Install the skill package `技能包\gaokao-math-selfstudy\` (see `系统文档\技能包安装说明.md`).
 
 ## Sources of Content
 
@@ -55,10 +54,7 @@
 │   ├── 高中数学自学系统.md            # System main document (8 stages + method card index)
 │   ├── 00_素材清单与来源.md           # Full list of textbooks/exams and download sources
 │   ├── 不超纲高级方法手册.md          # Advanced methods handbook source
-│   ├── 技能包安装说明.md              # Skill installation guide
 
-└── 技能包/
-    └── gaokao-math-selfstudy/        # Installable Skill (5 method cards + 20 chapter cards + formula lookup)
 ```
 
 ## How to Learn (in one sentence)
