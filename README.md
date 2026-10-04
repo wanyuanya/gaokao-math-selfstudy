@@ -1,4 +1,4 @@
-# Gaokao Math Self-Study System (China National New Gaokao I)
+﻿# Gaokao Math Self-Study System (China National New Gaokao I)
 
 > A **self-study system for high school math** that anyone can understand, with clear prerequisites and a continuous learning path.
 > Learn from the **old textbooks** (2004 curriculum, illustrated and detailed), align with the **new textbooks** (PEP A Edition 2019, the scope of New Gaokao I), and validate with **real exam papers** (2020–2025 New Gaokao I).
@@ -87,7 +87,7 @@ Issues / PRs are welcome. Please follow the project's acceptance criteria: **no 
 
 ## Materials (Important)
 
-- **Included in this repo**: the e-book content (single-file + per-chapter versions), the Formula Quick-Reference, and the Non-Out-of-Syllabus Advanced Methods Handbook — all original works by the author.
+- **Included in this repo**: the Formula Quick-Reference and the Non-Out-of-Syllabus Advanced Methods Handbook — original works by the author. **The full e-book is distributed ONLY inside the desktop client (see Releases); no online/web version is provided**, to prevent bulk copying.
 - **Not distributed here**: textbooks and past exam papers are third-party copyrighted materials for personal study only. Please obtain them yourself:
   - Old textbooks: PEP High School Math A (2004 syllabus) Volumes 1–5 and Electives 2-1 / 2-2 / 2-3, etc. Each chapter's "Materials" chips show the **exact book title and edition**.
   - New textbooks: PEP A (2019 syllabus) Compulsory 1–2 and Selective Compulsory 1–3.
