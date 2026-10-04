@@ -56,7 +56,7 @@
 │   ├── 00_素材清单与来源.md           # Full list of textbooks/exams and download sources
 │   ├── 不超纲高级方法手册.md          # Advanced methods handbook source
 │   ├── 技能包安装说明.md              # Skill installation guide
-│   └── 三轮迭代要求.md                # Quality acceptance criteria of this project
+
 └── 技能包/
     └── gaokao-math-selfstudy/        # Installable Skill (5 method cards + 20 chapter cards + formula lookup)
 ```
@@ -70,7 +70,6 @@
 
 ## Quality & Fidelity
 
-- All content went through **three rounds of iteration + independent blind review** (independent reviewers actually executed tests with verifiable records; verbal claims rejected), acceptance criteria in `系统文档\三轮迭代要求.md`.
 - **Anti-hallucination red lines**: formulas, conclusions, and exam answers all have sources (textbooks / exam papers / verified facts); nothing fabricated; every method example cites its source (Suzhou R&D · Topic N / Advanced Methods Handbook · X.Y).
 - Verified anchor examples: 2025 T4=2tan(x−π/3)/B; 2025 T16 recurrence proving arithmetic (common difference 1 of {n·aₙ}); 2024 T7=6; 2023 T1=complex numbers; χ²=50/3; aₙ=4n−3; ellipse eccentricity; permutation-combination counts; expectation/variance; stratified sampling — all verified against real papers / recomputation.
 - **Unverified items (honestly disclosed)**: page-level word-by-word comparison of some 2021/2022 problems, not every self-authored exercise number recomputed (spot-checked), dark-mode mobile contrast not item-by-item verified — you are welcome to point out issues.
@@ -82,7 +81,7 @@
 
 ## Feedback & Contribution
 
-Issues / PRs are welcome. Please follow the project's acceptance criteria: **no hallucination, no fabrication, no deviation from sources**; every change must carry verifiable evidence (source / recomputation / screenshot); changes involving real exam problems must be checked against the official papers.
+Issues / PRs are welcome — found an error? Please report it and we will keep revising.
 
 
 ## Materials (Important)
