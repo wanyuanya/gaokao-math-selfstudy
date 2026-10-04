@@ -65,8 +65,9 @@ h1.ch-title{font-size:29px;font-weight:800;color:#fff;margin:8px 0 6px;letter-sp
 .mats{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px 16px;margin:0 0 18px;box-shadow:var(--shadow)}
 .mats-t{font-size:12.5px;font-weight:700;color:var(--gold);margin-bottom:9px;letter-spacing:.04em}
 .mats-l{display:flex;flex-wrap:wrap;gap:8px}
-.mats-l a{background:var(--blue-l);color:var(--blue);text-decoration:none;font-size:13px;padding:5px 13px;border-radius:20px;border:1px solid #c9d8ec;transition:.15s;white-space:nowrap}
+.mats-l a{background:var(--blue-l);color:var(--blue);text-decoration:none;font-size:13px;padding:5px 13px;border-radius:20px;border:1px solid #c9d8ec;transition:.15s}
 .mats-l a:hover{background:var(--blue);color:#fff;transform:translateY(-1px)}
+.mats-l .mat-txt{background:#eef0f4;color:#4a5568;font-size:12.5px;padding:5px 13px;border-radius:20px;border:1px dashed #c3cad6;cursor:help}
 /* 看不懂怎么办 */
 .help{background:var(--gold-l);border:1px dashed var(--gold);border-radius:12px;padding:13px 16px;margin:0 0 20px;font-size:13.5px;color:#6b5c26;line-height:1.85;box-shadow:var(--shadow)}
 body.dark .help{color:#d8c078}
@@ -85,6 +86,14 @@ h2.adv{border-left-color:var(--purple)}
 h3{font-size:calc(var(--fs) + 0.5px);font-weight:700;color:#3a352c;margin:22px 0 8px}
 p{margin:0 0 12px}
 strong{color:var(--blue)}
+/* 课后习题：题目行题号标签保持正文色（组名行仍按公式块样式显示） */
+.sec-hw p>strong:first-child{color:inherit}
+.sec-hw p:has(>strong:only-child)>strong{color:var(--blue)}
+/* 课后习题答案：每题答案块题号行保留蓝色标题感，其余步骤正文色 */
+.sec-ans p>strong:first-child{color:inherit}
+.sec-ans p:has(>strong:only-child)>strong{color:var(--blue)}
+/* 答案中的解释（方法/为什么/验证/取等条件）：灰色小字，与答案本体区分 */
+.ans-ex{color:#8a8578;font-size:calc(var(--fs) - 1.5px);font-style:normal;letter-spacing:.01em}
 /* 公式独立行：数学衬线字体统一字形（χ Σ √ 上下标同族），避免文本符号混排歪扭 */
 p:has(> strong:only-child){text-align:center;font-size:calc(var(--fs) + 1.5px);margin:16px 0;background:var(--blue-l);border:1px solid #cfe0f2;border-radius:10px;padding:10px 14px;color:var(--blue);font-family:"Cambria Math","STIX Two Math","Times New Roman","Songti SC",serif;letter-spacing:.012em}
 /* 内容块分类 */
@@ -107,6 +116,19 @@ p.ans{background:var(--blue-l);border:1px dashed #c3cede;border-radius:10px;padd
 .ans-grp{font-size:12px;color:#fff;background:var(--blue);display:inline-block;border-radius:6px;padding:2px 9px;margin:0 0 8px;font-weight:600}
 .ans-box>.ans-body{padding:11px 15px 13px}
 .ans-body p.ans{background:transparent;border:none;padding:0;margin:0 0 8px;font-weight:600}
+/* 答案区每题独立分块：A/B/C/D 组答案每题一块，虚线分隔，不夹带、不粘连 */
+.ans-body>p:not(.ans){border-bottom:1px dashed #d9d2c0;padding:9px 2px 11px;margin:0 0 9px;background:transparent;box-shadow:none;text-align:left;font-family:inherit;letter-spacing:normal;font-size:inherit}
+.ans-body>p:not(.ans):last-of-type{border-bottom:none;margin-bottom:0}
+.ans-body>p:has(> strong:only-child){text-align:left;background:transparent;border:1px dashed #c3cede;border-radius:10px;padding:10px 14px;font-family:inherit;letter-spacing:normal;font-size:inherit;box-shadow:none}
+/* 章内左侧小目录（桌面大屏显示，跟随滚动点击直达） */
+#secbar{position:fixed;left:8px;top:70px;bottom:20px;width:150px;overflow-y:auto;z-index:88;border-left:1px solid var(--line);padding:8px 4px 8px 12px;scrollbar-width:thin}
+#secbar .secbar-in{display:flex;flex-direction:column;gap:2px}
+#secbar .secbar-ch{font-size:12px;font-weight:700;color:#8a8272;letter-spacing:.04em;margin:10px 0 2px;padding-top:8px;border-top:1px solid #eee7d8}
+#secbar .secbar-ch:first-child{margin-top:0;border-top:none;padding-top:0}
+#secbar a{display:block;font-size:12.5px;color:#6f6859;text-decoration:none;padding:3px 6px;border-radius:5px;line-height:1.45}
+#secbar a:hover{background:#f2ead8;color:var(--blue)}
+@media (max-width:1399px){#secbar{display:none}}
+@media (min-width:1400px){#main{padding:76px 48px 120px 170px}}
 span.tag{display:inline-block;background:var(--blue);color:#fff;font-size:11px;border-radius:4px;padding:0 7px;margin-right:8px;vertical-align:2px}
 p.warn span.tag{background:var(--red)}
 p.sum span.tag{background:var(--gold)}
@@ -171,7 +193,7 @@ section.flash{animation:flash 1.6s ease}
 }
 @media print{
   @page{size:A4;margin:14mm 12mm}
-  #toc,#topbtn,#mnav,#tb,#pbar{display:none!important}
+  #toc,#topbtn,#mnav,#tb,#pbar,#secbar{display:none!important}
   #main{margin:0;max-width:none;padding:0}
   body{background:#fff!important;font-size:11.5pt;line-height:1.8}
   body.dark{background:#fff!important;color:#000}
@@ -255,30 +277,30 @@ section.flash{animation:flash 1.6s ease}
 <div class="ch-nav"><a href="ch-05.html">← 05</a><span class="cn-title">第06章 · 三角函数的概念与性质</span><a href="ch-07.html">07 →</a></div>
 <main id="main">
 <section class="chapter" id="ch-06">
-<div class="ch-head" data-no="06"><div class="ch-no">第06章</div><h1 class="ch-title">三角函数的概念与性质</h1><div class="ch-sub">板块：三角函数 ｜ 前置：第 02 章 ｜ 老教材：必修4 第1章 ｜ 新教材：必修一 第5章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../公式/高中数学公式速查手册.html#ch06" title="本章公式速查（内置，直达本章）">公式速查手册</a><a href="../手册/不超纲高级方法手册.html" title="不超纲高级方法（内置，按章嵌入方法）">高级方法手册</a><span class="mats-off" style="background:#f0f0f0;color:#999;border:1px dashed #ccc;border-radius:20px;padding:5px 13px;font-size:13px;white-space:nowrap" title="第三方版权素材不随包分发（仅限个人学习）：老教材原件/可搜索版/文字检索请在本机「数学自学系统素材」目录查看，或按开源仓库 README「素材获取」自行获取">老教材（原件/可搜索/检索 · 未随包）</span><span class="mats-off" style="background:#f0f0f0;color:#999;border:1px dashed #ccc;border-radius:20px;padding:5px 13px;font-size:13px;white-space:nowrap" title="第三方版权素材不随包分发：人教A版2019 必修第一册等，请按开源仓库 README「素材获取」自行获取（仅限个人学习）">新教材（未随包）</span><span class="mats-off" style="background:#f0f0f0;color:#999;border:1px dashed #ccc;border-radius:20px;padding:5px 13px;font-size:13px;white-space:nowrap" title="第三方版权素材不随包分发：2020-2025 新高考Ⅰ卷真题，请按开源仓库 README「素材获取」自行获取（仅限个人学习）">历年真题（未随包）</span></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 卡住时在电脑本机「数学自学系统素材」目录打开老教材原件 PDF 细读（图文最清楚；公式符号以原件为准） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
+<div class="ch-head" data-no="06"><div class="ch-no">第06章</div><h1 class="ch-title">三角函数的概念与性质</h1><div class="ch-sub">板块：三角函数 ｜ 前置：第 02 章 ｜ 老教材：必修4 第1章 ｜ 新教材：必修一 第5章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E6%95%B0%E5%AD%A6%E8%87%AA%E5%AD%A6%E7%B3%BB%E7%BB%9F%E7%B4%A0%E6%9D%90/05_%E5%85%B6%E4%BB%96%E5%8F%82%E8%80%83%28%E8%80%81%E6%95%99%E6%9D%90%E7%AD%89%29/2004%E8%AF%BE%E6%A0%87%E7%89%88%E4%BA%BA%E6%95%99A%E7%89%88/%E4%BA%BA%E6%95%99%E7%89%88%E9%AB%98%E4%B8%AD%E6%95%B0%E5%AD%A6A%E7%89%88%E5%BF%85%E4%BF%AE4.pdf" title="老教材原件 PDF（推荐阅读：图文最清楚，公式无误）">老教材·人教版A版必修4（2004课标版）</a><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E8%92%B8%E9%A6%8F%E4%BA%A7%E7%89%A9/searchable_pdfs/%E4%BA%BA%E6%95%99%E7%89%88%E9%AB%98%E4%B8%AD%E6%95%B0%E5%AD%A6A%E7%89%88%E5%BF%85%E4%BF%AE4.pdf" title="可搜索版：页面即原件，Ctrl+F 可搜文字（公式以页面为准）">老教材可搜索版(Ctrl+F)</a><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E8%92%B8%E9%A6%8F%E4%BA%A7%E7%89%A9/ocr_output/%E8%80%81%E6%95%99%E6%9D%90/%E4%BA%BA%E6%95%99%E7%89%88%E9%AB%98%E4%B8%AD%E6%95%B0%E5%AD%A6A%E7%89%88%E5%BF%85%E4%BF%AE4.txt" title="文字检索（RapidOCR 精准版）：文字已校准，公式符号以原件 PDF 为准">文字检索(TXT)</a><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E6%95%B0%E5%AD%A6%E8%87%AA%E5%AD%A6%E7%B3%BB%E7%BB%9F%E7%B4%A0%E6%9D%90/01_%E6%95%99%E6%9D%90%28%E4%BA%BA%E6%95%99A%E7%89%882019%29/%E4%BA%BA%E6%95%99A%E7%89%882019%E5%BF%85%E4%BF%AE%E7%AC%AC%E4%B8%80%E5%86%8C.pdf" title="新教材对标考点（PDF）">新教材·人教A版2019必修第一册</a><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E9%AB%98%E4%B8%AD%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F%E9%80%9F%E6%9F%A5%E6%89%8B%E5%86%8C.html#ch-06" title="本章公式速查（按章手册，直达本章）">公式速查手册</a><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E6%95%B0%E5%AD%A6%E8%87%AA%E5%AD%A6%E7%B3%BB%E7%BB%9F%E7%B4%A0%E6%9D%90/02_%E5%8E%86%E5%B9%B4%E7%9C%9F%E9%A2%98%28%E6%96%B0%E9%AB%98%E8%80%83%E2%85%A0%E5%8D%B7%29" title="历年真题文件夹（2020-2025 新高考Ⅰ卷）">历年真题</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
 <p>公式速查：修订版 第3部分（三角函数）</p>
-<p><strong>本章本质核心</strong>：三角函数本质上就是"圆周运动的坐标投影"——把角的终边放到单位圆上，那个交点绕原点转一圈，它的横坐标就是 cos、纵坐标就是 sin；后面所有东西——象限正负号、同角关系 sin<sup>2</sup>+cos<sup>2</sup> = 1、周期 2π、图象的波浪、奇偶对称——全是这一个模型的自然推论。不用死背：让那个动点转起来，转一整圈坐标回到原位，一切性质就都跟着出来了。
+<p><strong>本章本质核心</strong>：三角函数本质上就是"圆周运动的坐标投影"——把角的终边放到单位圆上，那个交点绕原点转一圈，它的横坐标就是 cos、纵坐标就是 sin；后面所有东西——象限正负号、同角关系 sin<sup>2</sup>+cos<sup>2</sup>=1、周期 2π、图象的波浪、奇偶对称——全是这一个模型的自然推论。不用死背：让那个动点转起来，转一整圈坐标回到原位，一切性质就都跟着出来了。
 <strong>为什么有用</strong>：想通"单位圆上那个点一转、横纵坐标就是 cos、sin"这一件事，你既看得懂现实里所有周而复始的现象（交流电按正弦波动、声波传播、弹簧振动），也能把高考里"给波形求 A/ω/φ、数两条曲线交点个数"这类题一眼看穿——原理想通了，性质表只是想通之后顺带的速查。</p>
 </blockquote>
 <hr />
-<div class="sec sec-gate"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
+<div class="sec sec-gate"><h2 class="gate">① 门槛自测（进章前，10 分钟）</h2>
 <ol>
 <li>直角三角形中，30° 角的正弦值是多少？</li>
 <li>一个圆的周长公式是什么？半圆的弧长呢？</li>
 <li>判断：sin 60° 与 cos 30° 的关系。</li>
 <li>直角坐标系中，点 (1, 0) 绕原点逆时针转 90° 到哪个点？</li>
-<li>函数 y  =  sin x 的值最大是多少？（凭初中印象）</li>
+<li>函数 y = sin x 的值最大是多少？（凭初中印象）</li>
 </ol>
 <p><strong>判定</strong>：5 题答对 4 题以上 → 进章。</p>
-</div><div class="sec sec-goal"><h2 class = "goal">② 学习目标</h2>
+</div><div class="sec sec-goal"><h2 class="goal">② 学习目标</h2>
 <ul>
 <li>理解弧度制；进行弧度与角度互化</li>
 <li>用单位圆定义任意角三角函数（sin、cos、tan）</li>
 <li>背熟同角关系与诱导公式</li>
-<li>掌握 y  =  sin x、y  =  cos x、y  =  tan x 的图象与性质（定义域/值域/周期/单调/对称）</li>
-<li>会画/理解 y  =  A sin(ωx + φ) 的图象变换</li>
+<li>掌握 y = sin x、y = cos x、y = tan x 的图象与性质（定义域/值域/周期/单调/对称）</li>
+<li>会画/理解 y = A sin(ωx + φ) 的图象变换</li>
 </ul>
-</div><div class="sec sec-body"><h2 class = "body">③ 正文讲解</h2>
+</div><div class="sec sec-body"><h2 class="body">③ 正文讲解</h2>
 <p>先给你一张本章的"地图"，看完心里有数再往下钻：</p>
 <pre><code>任意角（正/负/零角、象限角）
         ↓
@@ -286,23 +308,23 @@ section.flash{animation:flash 1.6s ease}
         ↓
 单位圆定义 sin / cos / tan（把角和坐标挂钩）
         ↓
-同角关系（sin<sup>2</sup>+cos<sup>2</sup> = 1）＋ 诱导公式（大角化锐角）
+同角关系（sin<sup>2</sup>+cos<sup>2</sup>=1）＋ 诱导公式（大角化锐角）
         ↓
 三条函数的图象与性质（周期、单调、对称、最值）
         ↓
-y  =  A sin(ωx+φ)（实际波动，比如交流电、声波）
+y = A sin(ωx+φ)（实际波动，比如交流电、声波）
 </code></pre>
 <h3>3.1 弧度制（新教材默认用弧度）</h3>
 <p><strong>先想一个生活场景。</strong> 你坐摩天轮，座舱从最低点转到最高点，到底转了"多少"？用角度说 180° 也行，可角度这个单位其实是人为定的——古人把一圈分成 360 份，凭什么是 360 而不是 100？没道理。数学家想要一个"天生的"量角办法：干脆用<strong>转过的弧长</strong>来量。轮子半径是 1 米，座舱在边上走了 1 米长的弧，就说转了 1"弧度"。这样量出来的角，和圆的大小无关——半径 1 的圆走 1 米弧、半径 2 的圆走 2 米弧，都是 1 弧度，因为弧长正好等于半径。</p>
 <p><strong>定义（人教A版口径）</strong>：长度等于半径长的圆弧所对的圆心角，叫做 <strong>1 弧度（rad）</strong> 的角。</p>
 <p><strong>换算关系（一定要背）</strong>：</p>
 <ul>
-<li>整圈的弧长是周长 2πr，除以半径 r，得整圈  =  2π 弧度。</li>
-<li>而整圈又是 360°。所以 <strong>2π rad  =  360°，即 π rad  =  180°</strong>。</li>
-<li>由此推出：1 rad  =  (180/π)°  ≈  57.3°；1°  =  (π/180) rad。</li>
+<li>整圈的弧长是周长 2πr，除以半径 r，得整圈 = 2π 弧度。</li>
+<li>而整圈又是 360°。所以 <strong>2π rad = 360°，即 π rad = 180°</strong>。</li>
+<li>由此推出：1 rad = (180/π)° ≈ 57.3°；1° = (π/180) rad。</li>
 </ul>
 <p>常用对应表（背到条件反射）：</p>
-<div class = "tbl-wrap"><table style = "table-layout:fixed;max-width:100%"><colgroup><col style = "width:10%"><col style = "width:12%"><col style = "width:12%"><col style = "width:12%"><col style = "width:12%"><col style = "width:10%"><col style = "width:17%"><col style = "width:15%"></colgroup>
+<div class="tbl-wrap"><table style="table-layout:fixed;max-width:100%"><colgroup><col style="width:10%"><col style="width:12%"><col style="width:12%"><col style="width:12%"><col style="width:12%"><col style="width:10%"><col style="width:17%"><col style="width:15%"></colgroup>
 <thead>
 <tr>
 <th>度</th>
@@ -330,21 +352,21 @@ y  =  A sin(ωx+φ)（实际波动，比如交流电、声波）
 </table></div>
 <p><strong>弧长与扇形面积</strong>：设圆心角 α（弧度）、半径 r，则</p>
 <ul>
-<li>弧长 <strong>l  =  |α|·r</strong>（弧度制下这个式子干净；若用角度制还得乘 π/180，麻烦）</li>
-<li>扇形面积 <strong>S  =  ½·l·r  =  ½·|α|·r<sup>2</sup></strong></li>
+<li>弧长 <strong>l = |α|·r</strong>（弧度制下这个式子干净；若用角度制还得乘 π/180，麻烦）</li>
+<li>扇形面积 <strong>S = ½·l·r = ½·|α|·r<sup>2</sup></strong></li>
 </ul>
-<p class = "baihua why"><span class = "tag">为什么</span>高中非要换弧度制？ 因为以后学导数，(sin x)'  =  cos x 这个漂亮结论只在 x 用弧度时才成立。用角度的话，求导会冒出一堆 π/180，没法看。所以从这章起，做题默认弧度。</p>
+<p class="baihua why"><span class="tag">为什么</span>高中非要换弧度制？ 因为以后学导数，(sin x)' = cos x 这个漂亮结论只在 x 用弧度时才成立。用角度的话，求导会冒出一堆 π/180，没法看。所以从这章起，做题默认弧度。</p>
 <p><strong>计算流程（角度↔弧度）</strong>：</p>
 <ol>
-<li>度化弧度：乘以 π/180。例：120°  =  120  ×  π/180  =  2π/3。</li>
-<li>弧度化度：乘以 180/π。例：5π/6  =  5π/6  ×  180/π  =  150°。</li>
+<li>度化弧度：乘以 π/180。例：120° = 120 × π/180 = 2π/3。</li>
+<li>弧度化度：乘以 180/π。例：5π/6 = 5π/6 × 180/π = 150°。</li>
 <li>算弧长/面积时，先确认角是弧度；是角度就先换算。</li>
 </ol>
-<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题 3.1-1</strong>：把 67°30′ 化成弧度（结果保留 π）。
-解：67°30′  =  67.5°。乘以 π/180：67.5  ×  π/180  =  (67.5/180)π  =  (3/8)π。答案 <strong>3π/8</strong>。
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题 3.1-1</strong>：把 67°30′ 化成弧度（结果保留 π）。
+解：67°30′ = 67.5°。乘以 π/180：67.5 × π/180 = (67.5/180)π = (3/8)π。答案 <strong>3π/8</strong>。
 要点：先把分（′）化成小数度，再乘 π/180，别带着 30′ 硬乘。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题 3.1-2</strong>：扇形半径 r  =  6，圆心角 α  =  2π/3，求弧长和面积。
-解：l  =  |α|r  =  (2π/3) × 6  =  <strong>4π</strong>。S  =  ½|α|r<sup>2</sup>  =  ½ × (2π/3) × 36  =  <strong>12π</strong>。
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题 3.1-2</strong>：扇形半径 r = 6，圆心角 α = 2π/3，求弧长和面积。
+解：l = |α|r = (2π/3)×6 = <strong>4π</strong>。S = ½|α|r<sup>2</sup> = ½×(2π/3)×36 = <strong>12π</strong>。
 要点：直接套公式，角已是弧度，不用换算。</p>
 <p><strong>陷阱</strong>：看到"°"别顺手当弧度。题目写 30° 就是角度，写 π/6 就是弧度，两者差远了。</p>
 <h3>3.2 任意角的三角函数（单位圆定义）</h3>
@@ -361,63 +383,63 @@ y  =  A sin(ωx+φ)（实际波动，比如交流电、声波）
 <li>第三象限（x&lt;0, y&lt;0）：只有 tan（y/x，负负得正）正；</li>
 <li>第四象限（x&gt;0, y&lt;0）：只有 cos（即 x）正。</li>
 </ul>
-<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题 3.2-1</strong>：角 α 终边经过点 P(−3, 4)，求 sinα、cosα、tanα。
-解：r  =  √((−3)<sup>2</sup>+4<sup>2</sup>)  =  5。sinα  =  y/r  =  4/5；cosα  =  x/r  =  −3/5；tanα  =  y/x  =  4/(−3)  =  −4/3。
-要点：先算 r，再套 sin = y/r、cos = x/r；P 在第二象限，sin 正、cos 负，和口诀一致。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题 3.2-2</strong>：判断 sin 200° 的符号。
-解：200°  =  180°+20°，终边在第三象限，"三正切"，sin 在第三象限为负。故 sin 200° &lt; 0。
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题 3.2-1</strong>：角 α 终边经过点 P(−3, 4)，求 sinα、cosα、tanα。
+解：r = √((−3)<sup>2</sup>+4<sup>2</sup>) = 5。sinα = y/r = 4/5；cosα = x/r = −3/5；tanα = y/x = 4/(−3) = −4/3。
+要点：先算 r，再套 sin=y/r、cos=x/r；P 在第二象限，sin 正、cos 负，和口诀一致。</p>
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题 3.2-2</strong>：判断 sin 200° 的符号。
+解：200° = 180°+20°，终边在第三象限，"三正切"，sin 在第三象限为负。故 sin 200° &lt; 0。
 要点：先定象限，再背口诀，别去算具体值。</p>
-<p><strong>陷阱</strong>：tan 在终边落在 y 轴上（x = 0，即 α  =  π/2 + kπ）时无意义，这是 tan 定义域的根源。</p>
-<p><strong>编者注·本质回扣</strong>：这一节是整章的"纲"。前面反复说"sin 是纵坐标、cos 是横坐标"，听着像一句口诀，其实它就是本章本质核心的落地：单位圆上那个点 P 一转，横纵坐标怎么变，sin、cos 就怎么变。所谓象限符号"一全正、二正弦、三正切、四余弦"，说白了就是看 P 落在哪个象限时 x、y 谁正谁负；tan = y/x 在 x = 0 处没意义，也只是因为 P 爬到了 y 轴上、横坐标变成了 0。把 P 这个动点想活了，符号、定义域这些结论根本不用背。</p>
+<p><strong>陷阱</strong>：tan 在终边落在 y 轴上（x=0，即 α = π/2 + kπ）时无意义，这是 tan 定义域的根源。</p>
+<p><strong>编者注·本质回扣</strong>：这一节是整章的"纲"。前面反复说"sin 是纵坐标、cos 是横坐标"，听着像一句口诀，其实它就是本章本质核心的落地：单位圆上那个点 P 一转，横纵坐标怎么变，sin、cos 就怎么变。所谓象限符号"一全正、二正弦、三正切、四余弦"，说白了就是看 P 落在哪个象限时 x、y 谁正谁负；tan=y/x 在 x=0 处没意义，也只是因为 P 爬到了 y 轴上、横坐标变成了 0。把 P 这个动点想活了，符号、定义域这些结论根本不用背。</p>
 <h3>3.3 同角关系（必背）</h3>
-<p>单位圆上 P(x,y) 在半径为 1 的圆上，自然满足 <strong>x<sup>2</sup> + y<sup>2</sup>  =  1</strong>。把 x 换回 cosα、y 换回 sinα，就得到：</p>
+<p>单位圆上 P(x,y) 在半径为 1 的圆上，自然满足 <strong>x<sup>2</sup> + y<sup>2</sup> = 1</strong>。把 x 换回 cosα、y 换回 sinα，就得到：</p>
 <ul>
-<li><strong>sin<sup>2</sup>α + cos<sup>2</sup>α  =  1</strong>（平方关系，对任意角成立）</li>
-<li><strong>tan α  =  sin α / cos α</strong>（商数关系，要求 cos α ≠ 0）</li>
+<li><strong>sin<sup>2</sup>α + cos<sup>2</sup>α = 1</strong>（平方关系，对任意角成立）</li>
+<li><strong>tan α = sin α / cos α</strong>（商数关系，要求 cos α ≠ 0）</li>
 </ul>
-<p><strong>这两条为什么对？</strong> 第一条就是单位圆方程本身；第二条是 tan 的定义 y/x  =  (y/r)/(x/r)  =  sin/cos。</p>
+<p><strong>这两条为什么对？</strong> 第一条就是单位圆方程本身；第二条是 tan 的定义 y/x = (y/r)/(x/r) = sin/cos。</p>
 <p><strong>用它们干嘛？</strong> 已知 sinα 和 α 所在象限，就能反推 cosα，进而 tanα——这是"给值求值"的根。</p>
 <p><strong>计算流程</strong>：</p>
 <ol>
-<li>由 sin<sup>2</sup>α + cos<sup>2</sup>α  =  1 求出 cos<sup>2</sup>α；</li>
+<li>由 sin<sup>2</sup>α + cos<sup>2</sup>α = 1 求出 cos<sup>2</sup>α；</li>
 <li><strong>开方前先看象限</strong>，决定 cosα 取正还是负；</li>
-<li>tanα  =  sinα/cosα 相除。</li>
+<li>tanα = sinα/cosα 相除。</li>
 </ol>
-<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题 3.3-1</strong>：已知 cosα  =  −4/5，且 α 是第三象限角，求 sinα 与 tanα。
-解：sin<sup>2</sup>α  =  1 − cos<sup>2</sup>α  =  1 − 16/25  =  9/25。第三象限 sin 为负，故 sinα  =  −3/5。tanα  =  (−3/5)/(−4/5)  =  3/4。
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题 3.3-1</strong>：已知 cosα = −4/5，且 α 是第三象限角，求 sinα 与 tanα。
+解：sin<sup>2</sup>α = 1 − cos<sup>2</sup>α = 1 − 16/25 = 9/25。第三象限 sin 为负，故 sinα = −3/5。tanα = (−3/5)/(−4/5) = 3/4。
 要点：<strong>开方这一步的正负号，完全由象限决定</strong>，这是本节唯一的坑。</p>
-<p><strong>陷阱</strong>：cos<sup>2</sup>α  =  16/25 开方得 cosα  =  ±4/5，别默认写正号——象限说了算。</p>
+<p><strong>陷阱</strong>：cos<sup>2</sup>α = 16/25 开方得 cosα = ±4/5，别默认写正号——象限说了算。</p>
 <h3>3.4 诱导公式（口诀："奇变偶不变，符号看象限"）</h3>
 <p><strong>干嘛用？</strong> 把任意大的、负的、钝角的三角函数，化成 0°~90° 的锐角三角函数，好查表好心算。</p>
 <p><strong>核心逻辑</strong>：终边相同的角三角函数值相同；再利用对称把负角、补角、余角一步步搬回来。常用的几组（把 α 先当成锐角来记符号）：</p>
 <ul>
-<li>负角：sin(−α)  =  −sinα，cos(−α)  =  cosα，tan(−α)  =  −tanα</li>
-<li>补角：sin(π−α)  =  sinα，cos(π−α)  =  −cosα</li>
-<li>平角：sin(π+α)  =  −sinα，cos(π+α)  =  −cosα</li>
-<li>互余：sin(π/2−α)  =  cosα，cos(π/2−α)  =  sinα</li>
+<li>负角：sin(−α) = −sinα，cos(−α) = cosα，tan(−α) = −tanα</li>
+<li>补角：sin(π−α) = sinα，cos(π−α) = −cosα</li>
+<li>平角：sin(π+α) = −sinα，cos(π+α) = −cosα</li>
+<li>互余：sin(π/2−α) = cosα，cos(π/2−α) = sinα</li>
 </ul>
 <p><strong>口诀怎么用</strong>："奇变偶不变"看的是 π/2 的倍数是奇数还是偶数倍——偶数倍（如 π、2π）函数名不变，奇数倍（如 π/2、3π/2）函数名变（sin↔cos）。"符号看象限"：把 α 当锐角，看原式那个角在第几象限、<strong>原函数</strong>取正还是负，符号就带过去。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题 3.4-1</strong>：求 sin(7π/6)。
-解：7π/6  =  π + π/6，用 sin(π+α)  =  −sinα：sin(7π/6)  =  −sin(π/6)  =  −1/2。
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题 3.4-1</strong>：求 sin(7π/6)。
+解：7π/6 = π + π/6，用 sin(π+α) = −sinα：sin(7π/6) = −sin(π/6) = −1/2。
 要点：先把大角拆成"π + 锐角"或"π/2 + 锐角"，再套对应公式。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题 3.4-2</strong>：化简 cos(π/2 + α)。
-解：π/2 是 π/2 的 1 倍（奇数），函数名变：cos → sin；把 α 当锐角，π/2+α 在第二象限，cos 在第二象限为负。故 cos(π/2+α)  =  <strong>−sinα</strong>。
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题 3.4-2</strong>：化简 cos(π/2 + α)。
+解：π/2 是 π/2 的 1 倍（奇数），函数名变：cos → sin；把 α 当锐角，π/2+α 在第二象限，cos 在第二象限为负。故 cos(π/2+α) = <strong>−sinα</strong>。
 要点："变名"+"看象限定号"，两步缺一不可。</p>
 <p><strong>陷阱</strong>：符号看的是<strong>变换前</strong>那个角在象限里的原函数符号，不是变换后的。</p>
 <h3>3.5 三个基本三角函数的图象与性质（必背表）</h3>
 <p>先看图，再背表，脑子里要有"波形"。</p>
-<p><img alt = "正弦余弦函数图像" src = "assets/06-sin-cos-graph.png" /></p>
+<p><img alt="正弦余弦函数图像" src="assets/06-sin-cos-graph.png" /></p>
 <p>正弦像水波一样上下抖，余弦只是把正弦左移了 π/2。它们都<strong>周而复始</strong>——这正是三角函数天生用来描述周期现象的原因（潮汐、季节、交流电）。</p>
-<p><img alt = "正切函数图像与渐近线" src = "assets/06-tan-graph.png" /></p>
-<p>正切不一样：它在 x  =  π/2 + kπ 处"断"掉，冲向无穷，周期也短，只有 π。</p>
+<p><img alt="正切函数图像与渐近线" src="assets/06-tan-graph.png" /></p>
+<p>正切不一样：它在 x = π/2 + kπ 处"断"掉，冲向无穷，周期也短，只有 π。</p>
 <p>把三条函数的性质并排放（<strong>这张表整章最重要，背熟</strong>）：</p>
-<div class = "tbl-wrap"><table style = "table-layout:fixed;max-width:100%"><colgroup><col style = "width:13%"><col style = "width:32%"><col style = "width:27%"><col style = "width:28%"></colgroup>
+<div class="tbl-wrap"><table style="table-layout:fixed;max-width:100%"><colgroup><col style="width:13%"><col style="width:32%"><col style="width:27%"><col style="width:28%"></colgroup>
 <thead>
 <tr>
 <th>性质</th>
-<th>y  =  sin x</th>
-<th>y  =  cos x</th>
-<th>y  =  tan x</th>
+<th>y = sin x</th>
+<th>y = cos x</th>
+<th>y = tan x</th>
 </tr>
 </thead>
 <tbody>
@@ -453,8 +475,8 @@ y  =  A sin(ωx+φ)（实际波动，比如交流电、声波）
 </tr>
 <tr>
 <td>对称轴</td>
-<td>x  =  π/2 + kπ</td>
-<td>x  =  kπ</td>
+<td>x = π/2 + kπ</td>
+<td>x = kπ</td>
 <td>无</td>
 </tr>
 <tr>
@@ -472,82 +494,82 @@ y  =  A sin(ωx+φ)（实际波动，比如交流电、声波）
 <li><strong>sin 奇、cos 偶</strong>：sin(−x)=−sinx、cos(−x)=cosx，就是诱导公式里那两条负角公式。</li>
 <li><strong>tan 周期 π 而非 2π</strong>：因为转 π 后 (x,y)→(−x,−y)，y/x 不变，所以半圈就重复。</li>
 </ul>
-<p><strong>"五点法"画正弦曲线</strong>：一个周期内取五个关键点 (0,0)、(π/2,1)、(π,0)、(3π/2,−1)、(2π,0)，描出来连成波浪，就是草图。以后画 y = Asin(ωx+φ) 也靠这五点。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题 3.5-1</strong>：求 y  =  sin x 的对称轴和对称中心。
-解：最大值点、最小值点在轴上 → 对称轴 x  =  π/2 + kπ；曲线与 x 轴交点为对称中心 → (kπ, 0)。
+<p><strong>"五点法"画正弦曲线</strong>：一个周期内取五个关键点 (0,0)、(π/2,1)、(π,0)、(3π/2,−1)、(2π,0)，描出来连成波浪，就是草图。以后画 y=Asin(ωx+φ) 也靠这五点。</p>
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题 3.5-1</strong>：求 y = sin x 的对称轴和对称中心。
+解：最大值点、最小值点在轴上 → 对称轴 x = π/2 + kπ；曲线与 x 轴交点为对称中心 → (kπ, 0)。
 要点：正弦"峰谷连线是轴，零点是中心"。</p>
 <p><strong>陷阱</strong>：tan x 没有对称轴，但有对称中心 (kπ/2, 0)，别漏。</p>
 <p><strong>编者注·本质回扣</strong>：这一节那张"性质对照表"看着要背十几行，其实条条都能从单位圆那个动点 P 推出来。值域 [−1,1] 不过是 P 的坐标本来就夹在 −1 到 1 之间；周期 2π 不过是 P 转一整圈回到原位、坐标原样重复；sin 奇 cos 偶，就是 P 转到 −α 时 y 变号、x 不变；tan 周期只有 π，是因为转半圈后 (x,y) 变成 (−x,−y)，比值 y/x 不变。所以这张表不是靠背，是脑子里放一个轮子在转，转到哪就知道坐标落在哪。</p>
-<h3>3.6 y  =  A sin(ωx + φ)（A &gt; 0, ω &gt; 0）</h3>
-<p>实际的波动很少是"标准"正弦。交流电电压、声波振幅、弹簧振子，都可能被放大、被压扁、被平移。一般式 <strong>y  =  A sin(ωx + φ)</strong> 就是干这个的。</p>
+<h3>3.6 y = A sin(ωx + φ)（A &gt; 0, ω &gt; 0）</h3>
+<p>实际的波动很少是"标准"正弦。交流电电压、声波振幅、弹簧振子，都可能被放大、被压扁、被平移。一般式 <strong>y = A sin(ωx + φ)</strong> 就是干这个的。</p>
 <p><strong>三个参数各管一件事</strong>：</p>
 <ul>
 <li><strong>振幅 A</strong>：管上下拉伸，最大值 A、最小值 −A。</li>
-<li><strong>ω（欧米伽）</strong>：管横向压缩，<strong>周期 T  =  2π/ω</strong>。ω 越大，波形挤得越密。</li>
+<li><strong>ω（欧米伽）</strong>：管横向压缩，<strong>周期 T = 2π/ω</strong>。ω 越大，波形挤得越密。</li>
 <li><strong>φ（读作 fài）初相</strong>：管左右平移。φ&gt;0 向左移，φ&lt;0 向右移。</li>
 </ul>
-<p><img alt = "y = Asin(ωx+φ)图像变换" src = "assets/07-Asin-transform.png" /></p>
-<p><strong>图象变换顺序</strong>（从 y = sin x 出发）：</p>
+<p><img alt="y=Asin(ωx+φ)图像变换" src="assets/07-Asin-transform.png" /></p>
+<p><strong>图象变换顺序</strong>（从 y=sin x 出发）：</p>
 <ol>
-<li>左右平移 φ 个单位（得 y = sin(x+φ)）；</li>
-<li>横向伸缩 1/ω 倍（得 y = sin(ωx+φ)）；</li>
-<li>纵向伸缩 A 倍（得 y = A sin(ωx+φ)）；</li>
+<li>左右平移 φ 个单位（得 y=sin(x+φ)）；</li>
+<li>横向伸缩 1/ω 倍（得 y=sin(ωx+φ)）；</li>
+<li>纵向伸缩 A 倍（得 y=A sin(ωx+φ)）；</li>
 <li>如有 b，再上下平移 b。</li>
 </ol>
 <p><strong>由图象反求解析式（高考常考）</strong>：</p>
 <ol>
-<li>A  =  (最大值 − 最小值)/2；</li>
-<li>读出周期 T（相邻两个零点或两个峰的距离），则 ω  =  2π/T；</li>
-<li>φ 用"五点法"：把某个关键点的坐标代入 y  =  A sin(ωx+φ) 反解。</li>
+<li>A = (最大值 − 最小值)/2；</li>
+<li>读出周期 T（相邻两个零点或两个峰的距离），则 ω = 2π/T；</li>
+<li>φ 用"五点法"：把某个关键点的坐标代入 y = A sin(ωx+φ) 反解。</li>
 </ol>
-<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题 3.6-1</strong>：简谐运动的位移 y  =  3 sin(2x + π/4)，求振幅、周期、初相。
-解：A  =  3；T  =  2π/ω  =  2π/2  =  π；初相 φ  =  π/4。
-要点：对着标准式 y = A sin(ωx+φ) 对号入座即可。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题 3.6-2</strong>：某曲线振幅为 2，周期为 π，过点 (0, 1)，求 y  =  A sin(ωx+φ) 的一个解析式。
-解：A = 2；ω  =  2π/T  =  2。代入 (0,1)：2 sin(φ)  =  1 → sinφ  =  1/2，取 φ  =  π/6。故 y  =  2 sin(2x + π/6)。
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题 3.6-1</strong>：简谐运动的位移 y = 3 sin(2x + π/4)，求振幅、周期、初相。
+解：A = 3；T = 2π/ω = 2π/2 = π；初相 φ = π/4。
+要点：对着标准式 y=A sin(ωx+φ) 对号入座即可。</p>
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题 3.6-2</strong>：某曲线振幅为 2，周期为 π，过点 (0, 1)，求 y = A sin(ωx+φ) 的一个解析式。
+解：A=2；ω = 2π/T = 2。代入 (0,1)：2 sin(φ) = 1 → sinφ = 1/2，取 φ = π/6。故 y = 2 sin(2x + π/6)。
 要点：φ 的解不唯一（π/6 或 5π/6），结合图象趋势取一个即可。</p>
-<p><strong>陷阱</strong>：T  =  2π/ω，别把 ω 和 T 搞反——y = sin 2x 的周期是 π，不是 2π。</p>
+<p><strong>陷阱</strong>：T = 2π/ω，别把 ω 和 T 搞反——y=sin 2x 的周期是 π，不是 2π。</p>
 <p><strong>小结</strong>：这一章把"角"从初中的直角三角形推广到了单位圆，又从单位圆长出了一整套周期函数。记住三件事：sin 是纵坐标、cos 是横坐标、一切大角都靠诱导公式化回锐角。</p>
 <hr />
-</div><div class="sec sec-ex2"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
-<p class = "ex"><span class = "tag">例题</span><strong>例 1（同角关系）</strong>：已知 sin α  =  3/5，且 α 在第二象限，求 cos α 与 tan α。</p>
+</div><div class="sec sec-ex2"><h2 class="ex2">④ 例题详解（先做再看）</h2>
+<p class="ex"><span class="tag">例题</span><strong>例 1（同角关系）</strong>：已知 sin α = 3/5，且 α 在第二象限，求 cos α 与 tan α。</p>
 <blockquote>
 <p>自己做：用平方关系 + 象限定符号。</p>
 </blockquote>
-<p>解：cos<sup>2</sup>α  =  1 − sin<sup>2</sup>α  =  1 − 9/25  =  16/25。α 在第二象限 ⇒ cos α &lt; 0，故 cos α  =  −4/5。tan α  =  sin α/cos α  =  −3/4。
+<p>解：cos<sup>2</sup>α = 1 − sin<sup>2</sup>α = 1 − 9/25 = 16/25。α 在第二象限 ⇒ cos α &lt; 0，故 cos α = −4/5。tan α = sin α/cos α = −3/4。
 要点：<strong>开方前必须先定象限符号</strong>，正负号是本题唯一的坑。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>例 2（诱导公式化简）</strong>：化简 sin(π + α) · cos(π/2 − α)。</p>
+<p class="ex"><span class="tag">例题</span><strong>例 2（诱导公式化简）</strong>：化简 sin(π + α) · cos(π/2 − α)。</p>
 <blockquote>
 <p>自己做：分别用诱导公式。</p>
 </blockquote>
-<p>解：sin(π + α)  =  −sin α；cos(π/2 − α)  =  sin α。原式  =  −sin<sup>2</sup>α。
+<p>解：sin(π + α) = −sin α；cos(π/2 − α) = sin α。原式 = −sin<sup>2</sup>α。
 要点：<strong>逐项化简，别合并符号</strong>。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>例 3（由图象求解析式）</strong>：某简谐运动图象周期为 π，振幅为 2，初相为 π/6，写出 y  =  A sin(ωx + φ) 的解析式。</p>
+<p class="ex"><span class="tag">例题</span><strong>例 3（由图象求解析式）</strong>：某简谐运动图象周期为 π，振幅为 2，初相为 π/6，写出 y = A sin(ωx + φ) 的解析式。</p>
 <blockquote>
 <p>自己做：A、ω、φ 逐个定。</p>
 </blockquote>
-<p>解：A  =  2；T  =  π ⇒ ω  =  2π/T  =  2；φ  =  π/6。故 <strong>y  =  2 sin(2x + π/6)</strong>。
+<p>解：A = 2；T = π ⇒ ω = 2π/T = 2；φ = π/6。故 <strong>y = 2 sin(2x + π/6)</strong>。
 要点：<strong>ω 由周期反推，别把 ω 和 T 搞混</strong>。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>例 4（换元求值域 + 恒成立，苏州教研·专题27，原书p.117）</strong>：已知函数 f(x)  =  4 sin(2x + π/6) + 1。
+<p class="ex"><span class="tag">例题</span><strong>例 4（换元求值域 + 恒成立，苏州教研·专题27，原书p.117）</strong>：已知函数 f(x) = 4 sin(2x + π/6) + 1。
 (1) 当 x∈[−π/6, π/3] 时，求 f(x) 的值域；
 (2) 若不等式 −10 ≤ m − f(x) ≤ 10 对一切 x∈[−π/6, π/3] 都成立，求实数 m 的取值范围。</p>
 <blockquote>
 <p>自己做：把括号里的 2x+π/6 当成一个整体 t。</p>
 </blockquote>
-<p>解：(1) x∈[−π/6, π/3] ⇒ t  =  2x+π/6 ∈ [−π/6, 5π/6]。t 在这个区间上 sin t 的最小值在 t = −π/6 处取 −1/2，最大值在 t = π/2 处取 1，故 sin t ∈ [−1/2, 1]。
-f(x)  =  4 sin t + 1 ∈ [4·(−1/2)+1, 4·1+1]  =  <strong>[−1, 5]</strong>。
+<p>解：(1) x∈[−π/6, π/3] ⇒ t = 2x+π/6 ∈ [−π/6, 5π/6]。t 在这个区间上 sin t 的最小值在 t=−π/6 处取 −1/2，最大值在 t=π/2 处取 1，故 sin t ∈ [−1/2, 1]。
+f(x) = 4 sin t + 1 ∈ [4×(−1/2)+1, 4×1+1] = <strong>[−1, 5]</strong>。
 (2) −10 ≤ m−f(x) ≤ 10 等价于 f(x)−10 ≤ m ≤ f(x)+10。它要对所有 x 成立，m 就得不超过右边的最小值、不低于左边的最大值：
-m ≤ min(f(x)+10)  =  −1+10  =  9；m ≥ max(f(x)−10)  =  5−10  =  −5。
+m ≤ min(f(x)+10) = −1+10 = 9；m ≥ max(f(x)−10) = 5−10 = −5。
 故 <strong>m∈[−5, 9]</strong>。
-要点：<strong>求 y = A sin(ωx+φ) 在区间上的值域，先把 ωx+φ 整体换元成 t，再看 sin t 在 t 的区间上的最大/最小</strong>；恒成立问题最后归到"m 夹在值域两端"。</p>
-</div><div class="sec sec-out"><h2 class = "out">⑤ 出口检测</h2>
+要点：<strong>求 y=A sin(ωx+φ) 在区间上的值域，先把 ωx+φ 整体换元成 t，再看 sin t 在 t 的区间上的最大/最小</strong>；恒成立问题最后归到"m 夹在值域两端"。</p>
+</div><div class="sec sec-out"><h2 class="out">⑤ 出口检测</h2>
 <p><strong>自测（15 分钟，每题 2 分）</strong>：</p>
 <ol>
 <li>把 120° 化成弧度。</li>
-<li>已知 cos α  =  −1/2，α 在第二象限，求 sin α。</li>
+<li>已知 cos α = −1/2，α 在第二象限，求 sin α。</li>
 <li>化简 sin(π/2 − x) − cos x。</li>
-<li>y  =  sin x 的对称轴方程是什么？</li>
-<li>函数 y  =  sin 2x 的周期是多少？</li>
+<li>y = sin x 的对称轴方程是什么？</li>
+<li>函数 y = sin 2x 的周期是多少？</li>
 </ol>
 <p><strong>真题验收</strong>：2020–2024 新高考Ⅰ卷三角函数小题 2 道（图象性质/诱导/同角，多在选择题 5–8 题区间）：每题 2 分钟、全对过关。</p>
 <p><strong>过关标准</strong>：自测 ≥ 10 分 且 真题全对 → 打卡，进入 07 章。</p>
@@ -595,9 +617,9 @@ A. 3　　B. 4　　C. 6　　D. 8</p>
 <li>用的时候：度化弧度乘 π/180，弧度化度乘 180/π；从这章起做题默认弧度。</li>
 <li>记忆要点：整圈 2π = 360°，其余都从这一句推。</li>
 </ul>
-<p><strong>弧长 l  =  |α|·r；扇形面积 S  =  ½·l·r  =  ½·|α|·r<sup>2</sup></strong>（α 必须用弧度）</p>
+<p><strong>弧长 l = |α|·r；扇形面积 S = ½·l·r = ½·|α|·r<sup>2</sup></strong>（α 必须用弧度）</p>
 <ul>
-<li class = "baihua"><span class = "tag">大白话</span>弧度制下弧长就是"圆心角乘半径"，扇形面积是弧长乘半径再折半。</li>
+<li class="baihua"><span class="tag">大白话</span>弧度制下弧长就是"圆心角乘半径"，扇形面积是弧长乘半径再折半。</li>
 <li>用的时候：题目给角度就先换成弧度；看到扇形直接套，别再绕"底乘高"。</li>
 </ul>
 <h3>三角函数的定义（单位圆）</h3>
@@ -606,7 +628,7 @@ A. 3　　B. 4　　C. 6　　D. 8</p>
 <li class="baihua"><span class="tag">大白话</span>sin 就是那个点的纵坐标，cos 就是横坐标。</li>
 <li>用的时候：别死守初中"对边比斜边"，直接把 sin、cos 想成单位圆上点的 y、x。</li>
 </ul>
-<p><strong>终边上一般点 P(x,y)、r  =  √(x<sup>2</sup>+y<sup>2</sup>)：sinα  =  y/r，cosα  =  x/r，tanα  =  y/x</strong></p>
+<p><strong>终边上一般点 P(x,y)、r = √(x<sup>2</sup>+y<sup>2</sup>)：sinα = y/r，cosα = x/r，tanα = y/x</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>圆半径不是 1 也不怕，先把 r 算出来再比。</li>
 <li>用的时候：给终边上一点求三角值，第一步永远是先算 r。</li>
@@ -617,16 +639,16 @@ A. 3　　B. 4　　C. 6　　D. 8</p>
 <li>用的时候：判断正负不用算具体值，先定象限再套口诀。</li>
 </ul>
 <h3>同角基本关系</h3>
-<p><strong>sin<sup>2</sup>α + cos<sup>2</sup>α  =  1</strong></p>
+<p><strong>sin<sup>2</sup>α + cos<sup>2</sup>α = 1</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>同一个角的 sin、cos 平方和永远等于 1，不管角多大。</li>
 <li>用的时候：已知 sin 求 cos 时用它；注意开方取正负要看角所在象限。</li>
 <li>记忆要点：画单位圆，斜边是 1，勾股定理就是它。</li>
 </ul>
-<p><strong>tanα  =  sinα / cosα</strong>（要求 cosα ≠ 0）</p>
+<p><strong>tanα = sinα / cosα</strong>（要求 cosα ≠ 0）</p>
 <ul>
-<li class = "baihua"><span class = "tag">大白话</span>tan 就是 sin 除以 cos。</li>
-<li>用的时候：角落在 y 轴上（cos = 0）时 tan 没意义，这是 tan 定义域的根。</li>
+<li class="baihua"><span class="tag">大白话</span>tan 就是 sin 除以 cos。</li>
+<li>用的时候：角落在 y 轴上（cos=0）时 tan 没意义，这是 tan 定义域的根。</li>
 </ul>
 <h3>诱导公式（大角化锐角）</h3>
 <p><strong>口诀：奇变偶不变，符号看象限</strong></p>
@@ -717,7 +739,7 @@ A. 3　　B. 4　　C. 6　　D. 8</p>
 <p><strong>本章无对应高级方法手册条目</strong>。说明：《不超纲高级方法手册》"五、三角与解三角形"中的辅助角公式属于下一章（07 三角恒等变换），本章尚不引入；本章所有常用技巧（五点法、由图求 A/ω/φ、象限定号）已在正文 3.5、3.6 讲透，无需额外超纲方法。</p>
 <hr />
 
-</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. 120°  =  2π/3 rad；2. sin α  =  √3/2（sin<sup>2</sup>α  =  3/4，第二象限 sin &gt; 0）；3. cos x − cos x  =  0；4. x  =  π/2 + kπ；5. T  =  2π/2  =  π。</p></div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">A 组答案</p><p><strong>A 组</strong></p>
+</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. 120° = 2π/3 rad；2. sin α = √3/2（sin<sup>2</sup>α = 3/4，第二象限 sin &gt; 0）；3. cos x − cos x = 0；4. x = π/2 + kπ；5. T = 2π/2 = π。</p></div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">A 组答案</p><p><strong>A 组</strong></p>
 <ol>
 <li>(1) 135° = 135×π/180 = <strong>3π/4</strong>；(2) 240° = <strong>4π/3</strong>；(3) −30° = <strong>−π/6</strong>。</li>
 <li>(1) 5π/6 ×180/π = <strong>150°</strong>；(2) 3π/4 = <strong>135°</strong>；(3) π/9 = <strong>20°</strong>。</li>
@@ -750,7 +772,20 @@ A. 3　　B. 4　　C. 6　　D. 8</p>
 </div><div class="sec sec-meta"><h2>本章与前后章</h2>
 <p>本章上接第 02 章函数（定义域、值域、奇偶性那套语言），把"函数"第一次用到"周期现象"上；再往前是初中直角三角形里的锐角三角比，本章把它推广到了任意角、推广到单位圆。本章是三角函数板块的地基：第 07 章的和差角、倍角、辅助角公式，全都建立在本章的单位圆定义和同角关系 sin<sup>2</sup>+cos<sup>2</sup>=1 之上；第 08 章解三角形里的正弦、余弦定理，又是把这些三角函数用到三角形的边角上去。学完本章，你手里有了一个能描述一切周而复始现象（潮汐、交流电、声波）的数学模型。</p>
 </div><div class="sec sec-meta"><h2>高考怎么考</h2>
-<p>新高考Ⅰ卷里三角函数概念与性质通常出 1~2 道小题，位置在选择题中段（第 4~8 题一带），考法集中在：由图象/对称中心求参数（如 2025 新高考Ⅰ卷第 4 题，y=2tan(x−π/3) 的对称中心，答案 B，a 的最小值 π/3）、两条三角函数曲线在给定区间内的交点个数（如 2024 新高考Ⅰ卷第 7 题，靠画图数变号、交点 6 次）、同角关系与诱导公式化简。难度中等、套路固定——核心还是"脑子里有没有那个转着的单位圆"，会画波形、会读 A/ω/φ，这些题就是送分。</p></div>
+<p>新高考Ⅰ卷里三角函数概念与性质通常出 1~2 道小题，位置在选择题中段（第 4~8 题一带），考法集中在：由图象/对称中心求参数（如 2025 新高考Ⅰ卷第 4 题，y=2tan(x−π/3) 的对称中心，答案 B，a 的最小值 π/3）、两条三角函数曲线在给定区间内的交点个数（如 2024 新高考Ⅰ卷第 7 题，靠画图数变号、交点 6 次）、同角关系与诱导公式化简。难度中等、套路固定——核心还是"脑子里有没有那个转着的单位圆"，会画波形、会读 A/ω/φ，这些题就是送分。</p>
+<hr />
+</div><div class="sec sec-meta"><h2>同法跨章 · 一通百通</h2>
+<p><strong>数形结合（本章 → ch12 不等式 → ch16 曲线）</strong>：本章画正弦/余弦图象看单调、最值、交点；ch12 画图看不等式解集；ch16 画图看曲线位置关系。<strong>"图给方向、式给证明"三步走</strong>。</p>
+<p><strong>换元 / 辅助角（本章 → ch05 最值 → ch16 参数方程）</strong>：本章 asinx+bcosx 合成 √(a<sup>2</sup>+b<sup>2</sup>)sin(x+φ)；ch05 求含三角的最值先换元；ch16 椭圆参数方程 acosθ+bsinθ 型最值。<strong>三角换元是"化多元为单元"的老朋友</strong>。</p>
+<p><strong>周期与对称（本章 → ch02 抽象函数 → ch16 椭圆对称）</strong>：本章周期/对称轴公式；ch02 抽象函数 f(x+T)=f(x)；ch16 椭圆对称性求最值。<strong>对称性是"免费压缩包"</strong>。</p>
+</div><div class="sec sec-meta"><h2>本章连接全书</h2>
+<ul>
+<li><strong>→ ch02 函数</strong>：正弦函数是周期+奇偶性质的最佳模特。</li>
+<li><strong>→ ch07 三角恒等</strong>：诱导公式、和差角是本章图象背后的代数引擎。</li>
+<li><strong>→ ch08 解三角形</strong>：正弦定理/余弦定理直接调用本章函数。</li>
+<li><strong>→ ch09 平面向量</strong>：向量夹角余弦 = 三角函数定义。</li>
+<li><strong>→ ch16 圆锥曲线</strong>：参数方程、焦点三角形都用三角。</li>
+</ul></div>
 </section>
 </main>
 <button id="topbtn" title="回到顶部">↑</button>
@@ -939,6 +974,35 @@ A. 3　　B. 4　　C. 6　　D. 8</p>
     window.addEventListener('resize',renderPen);
     loadPen();renderPen();
   }
+})();
+/* 章内左侧小目录：扫描各章 h2 生成，点击平滑滚动直达 */
+(function(){
+  var secs=document.querySelectorAll('section.chapter');
+  if(!secs.length||document.getElementById('secbar'))return;
+  var sb=document.createElement('div');sb.id='secbar';
+  var inner=document.createElement('div');inner.className='secbar-in';
+  sb.appendChild(inner);
+  secs.forEach(function(sec,si){
+    if(si>0){
+      var ttl=sec.querySelector('.ch-title');
+      var hd=document.createElement('div');hd.className='secbar-ch';
+      hd.textContent=(ttl?ttl.textContent.replace(/^\d+·?/,'').slice(0,8):sec.id);
+      inner.appendChild(hd);
+    }
+    sec.querySelectorAll('h2').forEach(function(h2){
+      var a=document.createElement('a');
+      var t=h2.textContent.replace(/^\s*[①-⑨]/,'').replace(/^\s*\d+\s*/,'').trim();
+      a.textContent=t.length>12?t.slice(0,12):t;
+      a.title=t;
+      a.addEventListener('click',function(ev){
+        ev.preventDefault();
+        var r=h2.getBoundingClientRect().top+window.scrollY;
+        window.scrollTo({top:Math.max(0,r-70),behavior:'smooth'});
+      });
+      inner.appendChild(a);
+    });
+  });
+  document.body.appendChild(sb);
 })();
 </script>
 </body>

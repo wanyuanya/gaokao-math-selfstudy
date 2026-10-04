@@ -65,8 +65,9 @@ h1.ch-title{font-size:29px;font-weight:800;color:#fff;margin:8px 0 6px;letter-sp
 .mats{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px 16px;margin:0 0 18px;box-shadow:var(--shadow)}
 .mats-t{font-size:12.5px;font-weight:700;color:var(--gold);margin-bottom:9px;letter-spacing:.04em}
 .mats-l{display:flex;flex-wrap:wrap;gap:8px}
-.mats-l a{background:var(--blue-l);color:var(--blue);text-decoration:none;font-size:13px;padding:5px 13px;border-radius:20px;border:1px solid #c9d8ec;transition:.15s;white-space:nowrap}
+.mats-l a{background:var(--blue-l);color:var(--blue);text-decoration:none;font-size:13px;padding:5px 13px;border-radius:20px;border:1px solid #c9d8ec;transition:.15s}
 .mats-l a:hover{background:var(--blue);color:#fff;transform:translateY(-1px)}
+.mats-l .mat-txt{background:#eef0f4;color:#4a5568;font-size:12.5px;padding:5px 13px;border-radius:20px;border:1px dashed #c3cad6;cursor:help}
 /* 看不懂怎么办 */
 .help{background:var(--gold-l);border:1px dashed var(--gold);border-radius:12px;padding:13px 16px;margin:0 0 20px;font-size:13.5px;color:#6b5c26;line-height:1.85;box-shadow:var(--shadow)}
 body.dark .help{color:#d8c078}
@@ -85,6 +86,14 @@ h2.adv{border-left-color:var(--purple)}
 h3{font-size:calc(var(--fs) + 0.5px);font-weight:700;color:#3a352c;margin:22px 0 8px}
 p{margin:0 0 12px}
 strong{color:var(--blue)}
+/* 课后习题：题目行题号标签保持正文色（组名行仍按公式块样式显示） */
+.sec-hw p>strong:first-child{color:inherit}
+.sec-hw p:has(>strong:only-child)>strong{color:var(--blue)}
+/* 课后习题答案：每题答案块题号行保留蓝色标题感，其余步骤正文色 */
+.sec-ans p>strong:first-child{color:inherit}
+.sec-ans p:has(>strong:only-child)>strong{color:var(--blue)}
+/* 答案中的解释（方法/为什么/验证/取等条件）：灰色小字，与答案本体区分 */
+.ans-ex{color:#8a8578;font-size:calc(var(--fs) - 1.5px);font-style:normal;letter-spacing:.01em}
 /* 公式独立行：数学衬线字体统一字形（χ Σ √ 上下标同族），避免文本符号混排歪扭 */
 p:has(> strong:only-child){text-align:center;font-size:calc(var(--fs) + 1.5px);margin:16px 0;background:var(--blue-l);border:1px solid #cfe0f2;border-radius:10px;padding:10px 14px;color:var(--blue);font-family:"Cambria Math","STIX Two Math","Times New Roman","Songti SC",serif;letter-spacing:.012em}
 /* 内容块分类 */
@@ -107,6 +116,19 @@ p.ans{background:var(--blue-l);border:1px dashed #c3cede;border-radius:10px;padd
 .ans-grp{font-size:12px;color:#fff;background:var(--blue);display:inline-block;border-radius:6px;padding:2px 9px;margin:0 0 8px;font-weight:600}
 .ans-box>.ans-body{padding:11px 15px 13px}
 .ans-body p.ans{background:transparent;border:none;padding:0;margin:0 0 8px;font-weight:600}
+/* 答案区每题独立分块：A/B/C/D 组答案每题一块，虚线分隔，不夹带、不粘连 */
+.ans-body>p:not(.ans){border-bottom:1px dashed #d9d2c0;padding:9px 2px 11px;margin:0 0 9px;background:transparent;box-shadow:none;text-align:left;font-family:inherit;letter-spacing:normal;font-size:inherit}
+.ans-body>p:not(.ans):last-of-type{border-bottom:none;margin-bottom:0}
+.ans-body>p:has(> strong:only-child){text-align:left;background:transparent;border:1px dashed #c3cede;border-radius:10px;padding:10px 14px;font-family:inherit;letter-spacing:normal;font-size:inherit;box-shadow:none}
+/* 章内左侧小目录（桌面大屏显示，跟随滚动点击直达） */
+#secbar{position:fixed;left:8px;top:70px;bottom:20px;width:150px;overflow-y:auto;z-index:88;border-left:1px solid var(--line);padding:8px 4px 8px 12px;scrollbar-width:thin}
+#secbar .secbar-in{display:flex;flex-direction:column;gap:2px}
+#secbar .secbar-ch{font-size:12px;font-weight:700;color:#8a8272;letter-spacing:.04em;margin:10px 0 2px;padding-top:8px;border-top:1px solid #eee7d8}
+#secbar .secbar-ch:first-child{margin-top:0;border-top:none;padding-top:0}
+#secbar a{display:block;font-size:12.5px;color:#6f6859;text-decoration:none;padding:3px 6px;border-radius:5px;line-height:1.45}
+#secbar a:hover{background:#f2ead8;color:var(--blue)}
+@media (max-width:1399px){#secbar{display:none}}
+@media (min-width:1400px){#main{padding:76px 48px 120px 170px}}
 span.tag{display:inline-block;background:var(--blue);color:#fff;font-size:11px;border-radius:4px;padding:0 7px;margin-right:8px;vertical-align:2px}
 p.warn span.tag{background:var(--red)}
 p.sum span.tag{background:var(--gold)}
@@ -171,7 +193,7 @@ section.flash{animation:flash 1.6s ease}
 }
 @media print{
   @page{size:A4;margin:14mm 12mm}
-  #toc,#topbtn,#mnav,#tb,#pbar{display:none!important}
+  #toc,#topbtn,#mnav,#tb,#pbar,#secbar{display:none!important}
   #main{margin:0;max-width:none;padding:0}
   body{background:#fff!important;font-size:11.5pt;line-height:1.8}
   body.dark{background:#fff!important;color:#000}
@@ -255,28 +277,28 @@ section.flash{animation:flash 1.6s ease}
 <div class="ch-nav"><a href="ch-16.html">← 16</a><span class="cn-title">第17章 · 计数原理（排列、组合、二项式定理）</span><a href="ch-18.html">18 →</a></div>
 <main id="main">
 <section class="chapter" id="ch-17">
-<div class="ch-head" data-no="17"><div class="ch-no">第17章</div><h1 class="ch-title">计数原理（排列、组合、二项式定理）</h1><div class="ch-sub">板块：概率统计 ｜ 前置：第 02 章 ｜ 老教材：选修2-3 第1章 ｜ 新教材：选择性必修三 第6章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../公式/高中数学公式速查手册.html#ch17" title="本章公式速查（内置，直达本章）">公式速查手册</a><a href="../手册/不超纲高级方法手册.html" title="不超纲高级方法（内置，按章嵌入方法）">高级方法手册</a><span class="mats-off" style="background:#f0f0f0;color:#999;border:1px dashed #ccc;border-radius:20px;padding:5px 13px;font-size:13px;white-space:nowrap" title="第三方版权素材不随包分发（仅限个人学习）：老教材原件/可搜索版/文字检索请在本机「数学自学系统素材」目录查看，或按开源仓库 README「素材获取」自行获取">老教材（原件/可搜索/检索 · 未随包）</span><span class="mats-off" style="background:#f0f0f0;color:#999;border:1px dashed #ccc;border-radius:20px;padding:5px 13px;font-size:13px;white-space:nowrap" title="第三方版权素材不随包分发：人教A版2019 必修第一册等，请按开源仓库 README「素材获取」自行获取（仅限个人学习）">新教材（未随包）</span><span class="mats-off" style="background:#f0f0f0;color:#999;border:1px dashed #ccc;border-radius:20px;padding:5px 13px;font-size:13px;white-space:nowrap" title="第三方版权素材不随包分发：2020-2025 新高考Ⅰ卷真题，请按开源仓库 README「素材获取」自行获取（仅限个人学习）">历年真题（未随包）</span></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 卡住时在电脑本机「数学自学系统素材」目录打开老教材原件 PDF 细读（图文最清楚；公式符号以原件为准） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
+<div class="ch-head" data-no="17"><div class="ch-no">第17章</div><h1 class="ch-title">计数原理（排列、组合、二项式定理）</h1><div class="ch-sub">板块：概率统计 ｜ 前置：第 02 章 ｜ 老教材：选修2-3 第1章 ｜ 新教材：选择性必修三 第6章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E6%95%B0%E5%AD%A6%E8%87%AA%E5%AD%A6%E7%B3%BB%E7%BB%9F%E7%B4%A0%E6%9D%90/05_%E5%85%B6%E4%BB%96%E5%8F%82%E8%80%83%28%E8%80%81%E6%95%99%E6%9D%90%E7%AD%89%29/2004%E8%AF%BE%E6%A0%87%E7%89%88%E4%BA%BA%E6%95%99A%E7%89%88/%E4%BA%BA%E6%95%99%E7%89%88%E9%AB%98%E4%B8%AD%E6%95%B0%E5%AD%A6A%E7%89%88%E9%80%89%E4%BF%AE2-3.pdf" title="老教材原件 PDF（推荐阅读：图文最清楚，公式无误）">老教材·人教版A版选修2-3（2004课标版）</a><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E8%92%B8%E9%A6%8F%E4%BA%A7%E7%89%A9/searchable_pdfs/%E4%BA%BA%E6%95%99%E7%89%88%E9%AB%98%E4%B8%AD%E6%95%B0%E5%AD%A6A%E7%89%88%E9%80%89%E4%BF%AE2-3.pdf" title="可搜索版：页面即原件，Ctrl+F 可搜文字（公式以页面为准）">老教材可搜索版(Ctrl+F)</a><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E8%92%B8%E9%A6%8F%E4%BA%A7%E7%89%A9/ocr_output/%E8%80%81%E6%95%99%E6%9D%90/%E4%BA%BA%E6%95%99%E7%89%88%E9%AB%98%E4%B8%AD%E6%95%B0%E5%AD%A6A%E7%89%88%E9%80%89%E4%BF%AE2-3.txt" title="文字检索（RapidOCR 精准版）：文字已校准，公式符号以原件 PDF 为准">文字检索(TXT)</a><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E6%95%B0%E5%AD%A6%E8%87%AA%E5%AD%A6%E7%B3%BB%E7%BB%9F%E7%B4%A0%E6%9D%90/01_%E6%95%99%E6%9D%90%28%E4%BA%BA%E6%95%99A%E7%89%882019%29/%E4%BA%BA%E6%95%99A%E7%89%882019%E9%80%89%E6%8B%A9%E6%80%A7%E5%BF%85%E4%BF%AE%E7%AC%AC%E4%B8%89%E5%86%8C.pdf" title="新教材对标考点（PDF）">新教材·人教A版2019选择性必修第三册</a><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E9%AB%98%E4%B8%AD%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F%E9%80%9F%E6%9F%A5%E6%89%8B%E5%86%8C.html#ch-17" title="本章公式速查（按章手册，直达本章）">公式速查手册</a><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E6%95%B0%E5%AD%A6%E8%87%AA%E5%AD%A6%E7%B3%BB%E7%BB%9F%E7%B4%A0%E6%9D%90/02_%E5%8E%86%E5%B9%B4%E7%9C%9F%E9%A2%98%28%E6%96%B0%E9%AB%98%E8%80%83%E2%85%A0%E5%8D%B7%29" title="历年真题文件夹（2020-2025 新高考Ⅰ卷）">历年真题</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
 <p><strong>本章本质核心</strong>：计数原理的本质是"分类相加、分步相乘"——一件事分几类办法，任选一类就完事，各类相加（加）；一件事要分几步，每步都做完才算完，步步相乘（乘）。本章排列 A(n,m)、组合 C(n,m)、二项式定理全是在回答"有多少种"这一个问题，所有公式都是这两条计数规则的展开：排列是"分步排队"、组合是"分步选人再去掉顺序"、二项式是"n 个 (a+b) 连乘后按次数归类"。</p>
-<p class = "baihua why"><span class = "tag">为什么有用</span>学了它，排队、分组、抽样、二项式展开求系数这类"数有多少种"的题就能自己推出来——不靠死背公式，想通"分类相加、分步相乘"两条规则，A(n,m)、C(n,m)、通项公式都是从这两条自然长出来的。</p>
+<p class="baihua why"><span class="tag">为什么有用</span>学了它，排队、分组、抽样、二项式展开求系数这类"数有多少种"的题就能自己推出来——不靠死背公式，想通"分类相加、分步相乘"两条规则，A(n,m)、C(n,m)、通项公式都是从这两条自然长出来的。</p>
 </blockquote>
 <hr />
-<div class="sec sec-gate"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
+<div class="sec sec-gate"><h2 class="gate">① 门槛自测（进章前，10 分钟）</h2>
 <ol>
 <li>从 3 个人中选 1 人当组长，有几种选法？</li>
 <li>从 3 个人中选 2 人排成一排，有几种排法？</li>
-<li>3!  =  ？(阶乘)</li>
+<li>3! = ？(阶乘)</li>
 <li>"分类"和"分步"有什么区别？（吃饭：选米饭或面条 vs 先选主食再选菜）</li>
-<li>计算 5  ×  4  ×  3。</li>
+<li>计算 5 × 4 × 3。</li>
 </ol>
 <p><strong>判定</strong>：5 题答对 4 题以上 → 进章。</p>
-</div><div class="sec sec-goal"><h2 class = "goal">② 学习目标</h2>
+</div><div class="sec sec-goal"><h2 class="goal">② 学习目标</h2>
 <ul>
 <li>理解并区分分类加法计数原理与分步乘法计数原理</li>
 <li>掌握排列、组合的概念与公式</li>
 <li>会解决典型计数问题（相邻/不相邻/有限制位置）</li>
 <li>掌握二项式定理与通项公式（求指定项/系数）</li>
 </ul>
-</div><div class="sec sec-body"><h2 class = "body">③ 正文讲解</h2>
+</div><div class="sec sec-body"><h2 class="body">③ 正文讲解</h2>
 <p><strong>本章结构导图</strong>：</p>
 <pre><code>计数原理
 ├─ 3.1 两大原理 ── 分类用加、分步用乘（一切的地基）
@@ -286,25 +308,25 @@ section.flash{animation:flash 1.6s ease}
 └─ 3.5 二项式定理 ── (a+b)^n 展开，通项定系数
 </code></pre>
 <h3>3.1 两大计数原理（一切计数的基础）</h3>
-<p><strong>引入</strong>：中午吃饭。食堂有米饭、面条、馒头三种主食，菜有荤、素两种。问："选一种主食"有几种选法？——3 种（米饭、面条、馒头任选其一）。问："选一份套餐（主食+菜）"有几种？——3 种主食  ×  2 种菜  =  6 种。前一个是"几选一"（分类），后一个是"先主食再菜"（分步）。</p>
-<p><img alt = "计数树状图" src = "assets/17-tree-principle.png" /></p>
+<p><strong>引入</strong>：中午吃饭。食堂有米饭、面条、馒头三种主食，菜有荤、素两种。问："选一种主食"有几种选法？——3 种（米饭、面条、馒头任选其一）。问："选一份套餐（主食+菜）"有几种？——3 种主食 × 2 种菜 = 6 种。前一个是"几选一"（分类），后一个是"先主食再菜"（分步）。</p>
+<p><img alt="计数树状图" src="assets/17-tree-principle.png" /></p>
 <p><strong>正式定义</strong>：</p>
 <ol>
-<li><strong>分类加法计数原理</strong>：完成一件事有 <strong>k 类</strong>互斥办法，第 i 类有 n<sub>i</sub> 种方法，则总方法数  =  <strong>n<sub>1</sub> + n<sub>2</sub> + … + n<sub>k</sub></strong>。关键词"<strong>要么…要么…</strong>"。</li>
-<li><strong>分步乘法计数原理</strong>：完成一件事要分 <strong>k 个步骤</strong>，第 i 步有 n<sub>i</sub> 种方法，缺一不可，则总方法数  =  <strong>n<sub>1</sub>  ×  n<sub>2</sub>  ×  …  ×  n<sub>k</sub></strong>。关键词"<strong>先…再…</strong>"。</li>
+<li><strong>分类加法计数原理</strong>：完成一件事有 <strong>k 类</strong>互斥办法，第 i 类有 n<sub>i</sub> 种方法，则总方法数 = <strong>n<sub>1</sub> + n<sub>2</sub> + … + n<sub>k</sub></strong>。关键词"<strong>要么…要么…</strong>"。</li>
+<li><strong>分步乘法计数原理</strong>：完成一件事要分 <strong>k 个步骤</strong>，第 i 步有 n<sub>i</sub> 种方法，缺一不可，则总方法数 = <strong>n<sub>1</sub> × n<sub>2</sub> × … × n<sub>k</sub></strong>。关键词"<strong>先…再…</strong>"。</li>
 </ol>
 <p><strong>判断口诀</strong>：<strong>"或"用加，"和/再"用乘</strong>。</p>
 <ul>
 <li>能一口气"任选一类就完事"→ 加；</li>
 <li>必须"一步接一步都做完才算完"→ 乘。</li>
 </ul>
-<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题</strong>：</p>
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题</strong>：</p>
 <blockquote>
 <p>例 3.1-a：从甲地到乙地，有 3 班火车、2 班汽车、1 班飞机。一天中从甲到乙有几种走法？
-解：任选一种交通工具即可（分类），加法：3 + 2 + 1  =  6 种。
+解：任选一种交通工具即可（分类），加法：3 + 2 + 1 = 6 种。
 要点：都是"从甲到乙"，选一种就完事 → 加。</p>
 <p>例 3.1-b：从 4 名男生、3 名女生中各选 1 人参加活动，几种选法？
-解：选男生一步、选女生一步，两步都要做（分步），乘法：4  ×  3  =  12 种。
+解：选男生一步、选女生一步，两步都要做（分步），乘法：4 × 3 = 12 种。
 要点："各选一个"是分步，乘。</p>
 </blockquote>
 <p><strong>常见陷阱</strong>：</p>
@@ -320,10 +342,10 @@ section.flash{animation:flash 1.6s ease}
 <p><strong>A(n, m)  =  n(n−1)(n−2)…(n−m+1)  =  n! / (n−m)!</strong></p>
 <p>全排列：A(n, n) = n!。</p>
 <p><strong>推导</strong>：排第一个位置 n 种，第二个 n−1 种……第 m 个 n−m+1 种，步步相乘。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题</strong>：</p>
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题</strong>：</p>
 <blockquote>
 <p>例 3.2-a：从 5 人中选 3 人排成一排合影，多少种？
-解：排列（有位置顺序）：A(5,3)  =  5 × 4 × 3  =  60 种。
+解：排列（有位置顺序）：A(5,3) = 5×4×3 = 60 种。
 要点：合影站哪边位置不同就是不同照片 → 排列。</p>
 </blockquote>
 <p><strong>小结</strong>：要"排队/有先后/分位置"用排列 A(n,m)。</p>
@@ -334,44 +356,44 @@ section.flash{animation:flash 1.6s ease}
 <p class="baihua why"><span class="tag">为什么</span>除以 m! m 个元素的排列有 m! 种，但组合里这 m! 种只算一组，所以 A(n,m) 要除以 m!。</p>
 <p><strong>性质</strong>：</p>
 <ol>
-<li><strong>C(n, m)  =  C(n, n−m)</strong>（对称）：选 m 个  =  挑出 n−m 个不要。</li>
-<li><strong>C(n, m)  =  C(n−1, m−1) + C(n−1, m)</strong>（递推，杨辉三角的腰）。</li>
+<li><strong>C(n, m) = C(n, n−m)</strong>（对称）：选 m 个 = 挑出 n−m 个不要。</li>
+<li><strong>C(n, m) = C(n−1, m−1) + C(n−1, m)</strong>（递推，杨辉三角的腰）。</li>
 </ol>
 <p><strong>排列 vs 组合</strong>：选出来还要"排位置/分先后"→ 排列；只选不排 → 组合。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题</strong>：</p>
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题</strong>：</p>
 <blockquote>
 <p>例 3.3-a：从 10 件产品中抽 3 件检查，多少种抽法？
-解：抽样不分顺序 → 组合 C(10,3)  =  10 × 9 × 8/(3 × 2 × 1)  =  120。
+解：抽样不分顺序 → 组合 C(10,3) = 10×9×8/(3×2×1) = 120。
 要点：抽出来摆一堆检查，不分先后 → 组合。</p>
 </blockquote>
 <p><strong>小结</strong>：排列是"站队"，组合是"抱团"，差就差在要不要顺序。</p>
-<p><strong>编者注·本质回扣</strong>：排列和组合为什么只差一个除以 m!？本质还是分步乘法。排列是"分位置排队"：m 个位置逐个选，步步相乘得 A(n,m)。组合是"只选人不排位置"，但选出来的 m 个人内部有 m! 种排队方式，在组合里这 m! 种被算成同一种，所以要除以 m! 去重。C(n,m) = C(n,n−m) 也不难理解：挑 m 个留下，等价于挑 n−m 个不要——这只是换个角度数同一个集合，结果自然相等。</p>
+<p><strong>编者注·本质回扣</strong>：排列和组合为什么只差一个除以 m!？本质还是分步乘法。排列是"分位置排队"：m 个位置逐个选，步步相乘得 A(n,m)。组合是"只选人不排位置"，但选出来的 m 个人内部有 m! 种排队方式，在组合里这 m! 种被算成同一种，所以要除以 m! 去重。C(n,m)=C(n,n−m) 也不难理解：挑 m 个留下，等价于挑 n−m 个不要——这只是换个角度数同一个集合，结果自然相等。</p>
 <h3>3.4 典型题型技巧（大题小题都考）</h3>
 <p><strong>① 相邻问题 → 捆绑法</strong>：把要求相邻的元素捆成一个整体，先排整体（乘上内部排列），再和别的元素一起排。</p>
 <p><strong>② 不相邻问题 → 插空法</strong>：先排没有要求的元素，它们之间（含两端）产生空位，再把不相邻的元素插入空位。</p>
 <p><strong>③ 有限制位置 → 优先安排</strong>：谁特殊先排谁（受限元素/受限位置先处理）。</p>
 <p><strong>④ 分组分配</strong>：先分组再分配。注意<strong>平均分组要除以组数的阶乘</strong>（因为几组之间无编号，会重复计数）。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题</strong>：</p>
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题</strong>：</p>
 <blockquote>
 <p>例 3.4-a：3 名男生、2 名女生排成一排。(1) 女生必须相邻；(2) 女生不相邻。
-解：(1) 捆绑：两女捆成一体（内部 2! 种），与 3 男生共 4 个整体排：2!·4!  =  48。
-(2) 插空：先排 3 男生（3! = 6），产生 4 个空位，插入 2 女 A(4,2) = 12：6·12  =  72。
+解：(1) 捆绑：两女捆成一体（内部 2! 种），与 3 男生共 4 个整体排：2!·4! = 48。
+(2) 插空：先排 3 男生（3!=6），产生 4 个空位，插入 2 女 A(4,2)=12：6×12 = 72。
 要点：相邻捆（内部要排），不相邻插（先排后插）。</p>
 <p>例 3.4-b：6 人平均分成 3 组，多少种分法？
-解：C(6,2)C(4,2)C(2,2)/3!  =  15·6·1/6  =  15。
+解：C(6,2)C(4,2)C(2,2)/3! = 15×6×1/6 = 15。
 要点：平均分组除以组数阶乘 3!，否则同一种分法被数了 6 遍。</p>
 </blockquote>
 <p><strong>常见陷阱</strong>：</p>
 <ul>
 <li>捆绑法别忘内部还要排列。</li>
-<li>插空法空位数  =  先排元素数 + 1（含两端）。</li>
+<li>插空法空位数 = 先排元素数 + 1（含两端）。</li>
 </ul>
 <p><strong>小结</strong>：相邻捆、不相邻插、特殊先排、均分除阶乘。</p>
 <h3>3.5 二项式定理</h3>
-<p><strong>引入</strong>：(a+b)<sup>2</sup>  =  a<sup>2</sup>+2ab+b<sup>2</sup> 你会，(a+b)<sup>3</sup> 展开呢？(a+b)<sup>100</sup> 呢？硬乘累死。二项式定理给你一张"系数表"——这就是杨辉三角。</p>
-<p><img alt = "杨辉三角" src = "assets/17-pascal-triangle.png" /></p>
+<p><strong>引入</strong>：(a+b)<sup>2</sup> = a<sup>2</sup>+2ab+b<sup>2</sup> 你会，(a+b)<sup>3</sup> 展开呢？(a+b)<sup>100</sup> 呢？硬乘累死。二项式定理给你一张"系数表"——这就是杨辉三角。</p>
+<p><img alt="杨辉三角" src="assets/17-pascal-triangle.png" /></p>
 <p><strong>定理</strong>：</p>
-<p><strong>(a + b)<sup>n</sup>  =  C(n,0)a<sup>n</sup> + C(n,1)a<sup>n−1</sup>b + … + C(n,k)a<sup>n−k</sup>b<sup>k</sup> + … + C(n,n)b<sup>n</sup></strong></p>
+<p><strong>(a + b)<sup>n</sup> = C(n,0)a<sup>n</sup> + C(n,1)a<sup>n−1</sup>b + … + C(n,k)a<sup>n−k</sup>b<sup>k</sup> + … + C(n,n)b<sup>n</sup></strong></p>
 <ul>
 <li>共 n+1 项。</li>
 <li><strong>通项公式</strong>：第 k+1 项 <strong>T₍<sub>k+1</sub>₎ = C(n,k)·a<sup>n−k</sup>·b<sup>k</sup></strong>（k 从 0 开始）。</li>
@@ -381,50 +403,50 @@ section.flash{animation:flash 1.6s ease}
 <p class="ex"><span class="tag">例题</span><strong>跟讲例题</strong>：</p>
 <blockquote>
 <p>例 3.5-a：求 (x + 2)<sup>5</sup> 展开式中 x<sup>3</sup> 的系数。
-解：T₍<sub>k+1</sub>₎ = C(5,k)·x<sup>5−k</sup>·2<sup>k</sup>。令 5−k = 3 ⇒ k = 2。系数 = C(5,2)·2<sup>2</sup> = 10·4 = 40。
+解：T₍<sub>k+1</sub>₎ = C(5,k)·x<sup>5−k</sup>·2<sup>k</sup>。令 5−k = 3 ⇒ k = 2。系数 = C(5,2)×2<sup>2</sup> = 10×4 = 40。
 要点：先定 k（由 x 的幂次），再算系数（C(n,k) 乘 b 的幂）。</p>
 <p>例 3.5-b：求 (2x − 1)<sup>5</sup> 展开式中 x<sup>2</sup> 的系数。
-解：T₍<sub>k+1</sub>₎ = C(5,k)·(2x)<sup>5−k</sup>·(−1)<sup>k</sup>。令 5−k=2 ⇒ k=3。系数 = C(5,3)·2<sup>2</sup>·(−1)<sup>3</sup> = 10·4·(−1) = −40。
+解：T₍<sub>k+1</sub>₎ = C(5,k)×(2x)<sup>5−k</sup>·(−1)<sup>k</sup>。令 5−k=2 ⇒ k=3。系数 = C(5,3)×2<sup>2</sup>·(−1)<sup>3</sup> = 10×4×(−1) = −40。
 要点：负号别丢，(−1)<sup>k</sup> 会决定正负。</p>
 </blockquote>
 <p><strong>常见陷阱</strong>：</p>
 <ul>
 <li>二项式系数 C(n,k) ≠ 该项实际系数：实际系数要乘 a、b 的数字幂。</li>
-<li>通项是"第 k+1 项"：求第 3 项时 k = 2，不是 k = 3。</li>
+<li>通项是"第 k+1 项"：求第 3 项时 k=2，不是 k=3。</li>
 </ul>
 <p><strong>小结</strong>：二项式系数是杨辉三角，通项定 k 算系数，符号看 b 的正负。</p>
 <h3>3.6 隔板法（选学）</h3>
-<p><strong>适用</strong>：把 n 个<strong>相同</strong>的球分给 k 个盒子，每盒至少 1 个，分法  =  <strong>C(n−1, k−1)</strong>。
+<p><strong>适用</strong>：把 n 个<strong>相同</strong>的球分给 k 个盒子，每盒至少 1 个，分法 = <strong>C(n−1, k−1)</strong>。
 道理：n 个球排成一排，中间 n−1 个缝插 k−1 块隔板。
-例：10 个相同球放 3 盒每盒至少 1，C(9,2)  =  36。</p>
-</div><div class="sec sec-ex2"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
-<p class = "ex"><span class = "tag">例题</span><strong>例 1（分步乘法）</strong>：从 4 名男生、3 名女生中各选 1 人参加活动，有几种选法？</p>
+例：10 个相同球放 3 盒每盒至少 1，C(9,2) = 36。</p>
+</div><div class="sec sec-ex2"><h2 class="ex2">④ 例题详解（先做再看）</h2>
+<p class="ex"><span class="tag">例题</span><strong>例 1（分步乘法）</strong>：从 4 名男生、3 名女生中各选 1 人参加活动，有几种选法？</p>
 <blockquote>
 <p>自己做：分两步，乘起来。</p>
 </blockquote>
-<p>解：选男生 4 种  ×  选女生 3 种  =  12 种。
+<p>解：选男生 4 种 × 选女生 3 种 = 12 种。
 要点：<strong>"各选一个"是分步</strong>，用乘法。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>例 2（排列 vs 组合）</strong>：从 5 名学生中选 3 名，(1) 排成一排合影；(2) 参加同一项比赛。各有多少种？</p>
+<p class="ex"><span class="tag">例题</span><strong>例 2（排列 vs 组合）</strong>：从 5 名学生中选 3 名，(1) 排成一排合影；(2) 参加同一项比赛。各有多少种？</p>
 <blockquote>
 <p>自己做：第一问有顺序，第二问无顺序。</p>
 </blockquote>
-<p>解：(1) 排列：A(5,3)  =  5·4·3  =  60。(2) 组合：C(5,3)  =  5·4·3/(3·2·1)  =  10。
+<p>解：(1) 排列：A(5,3) = 5×4×3 = 60。(2) 组合：C(5,3) = 5×4×3/(3×2×1) = 10。
 要点：<strong>合影有位置顺序 → 排列；比赛不分顺序 → 组合</strong>。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>例 3（相邻/不相邻）</strong>：3 名男生、2 名女生排成一排，(1) 女生必须相邻；(2) 女生不相邻。各有多少种排法？</p>
+<p class="ex"><span class="tag">例题</span><strong>例 3（相邻/不相邻）</strong>：3 名男生、2 名女生排成一排，(1) 女生必须相邻；(2) 女生不相邻。各有多少种排法？</p>
 <blockquote>
 <p>自己做：捆绑 / 插空。</p>
 </blockquote>
-<p>解：(1) 捆绑：两女生捆成一体（内部 2! 种），与 3 男生共 4 个"整体"排（4! 种）：2!·4!  =  48。
-(2) 插空：先排 3 男生（3!  =  6 种），产生 4 个空位（含两端），插入 2 女生（A(4,2)  =  12）：6·12  =  72。
+<p>解：(1) 捆绑：两女生捆成一体（内部 2! 种），与 3 男生共 4 个"整体"排（4! 种）：2!·4! = 48。
+(2) 插空：先排 3 男生（3! = 6 种），产生 4 个空位（含两端），插入 2 女生（A(4,2) = 12）：6×12 = 72。
 要点：<strong>相邻→捆绑（内部也要排）；不相邻→插空（先排后插）</strong>。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>例 4（二项式定理）</strong>：求 (x + 2)<sup>5</sup> 展开式中 x<sup>3</sup> 的系数。</p>
+<p class="ex"><span class="tag">例题</span><strong>例 4（二项式定理）</strong>：求 (x + 2)<sup>5</sup> 展开式中 x<sup>3</sup> 的系数。</p>
 <blockquote>
 <p>自己做：通项公式找 x<sup>3</sup> 项。</p>
 </blockquote>
-<p>解：T₍<sub>k+1</sub>₎  =  C(5,k)·x<sup>5−k</sup>·2<sup>k</sup>。令 5 − k  =  3 ⇒ k  =  2。
-系数  =  C(5,2)·2<sup>2</sup>  =  10·4  =  40。
+<p>解：T₍<sub>k+1</sub>₎ = C(5,k)·x<sup>5−k</sup>·2<sup>k</sup>。令 5 − k = 3 ⇒ k = 2。
+系数 = C(5,2)×2<sup>2</sup> = 10×4 = 40。
 要点：<strong>通项公式：C(n,k)·a<sup>n−k</sup>·b<sup>k</sup>，先定 k 再算系数</strong>。</p>
-</div><div class="sec sec-out"><h2 class = "out">⑤ 出口检测</h2>
+</div><div class="sec sec-out"><h2 class="out">⑤ 出口检测</h2>
 <p><strong>自测（15 分钟，每题 2 分）</strong>：</p>
 <ol>
 <li>计算 C(6, 2)。</li>
@@ -452,14 +474,14 @@ section.flash{animation:flash 1.6s ease}
 <p><strong>C1.</strong>【枚举计数·2024 新高考Ⅰ卷第 14 题】甲、乙两人各有四张卡片：甲卡 {1,3,5,7}，乙卡 {2,4,6,8}。两人进行四轮比赛，每轮各自从手中随机选一张比较大小，大者得 1 分，用后弃置。求四轮比赛后甲的总得分不小于 2 的概率。</p>
 <p><strong>C2.</strong>【计数+期望·2025 新高考Ⅰ卷第 14 题】一个箱子里有 5 个相同的球，分别标 1~5 号。每次取一颗、有放回地取三次，记"至少被取到一次的不同球的个数"为 X，求 E(X)。（提示：用本章的计数思想，配合下一章期望的线性性。）</p>
 <p><strong>C3.</strong>【二项式高考高频题型】求 (x<sup>2</sup> + 1/x)<sup>6</sup> 展开式中的常数项。</p>
-</div><div class="sec sec-pit"><h2 class = "pit">⑥ 常见坑清单</h2>
+</div><div class="sec sec-pit"><h2 class="pit">⑥ 常见坑清单</h2>
 <ul>
 <li><strong>先判断"排列 or 组合"</strong>：出现"排队/顺序/编号/角色"→ 排列；"选人/分组/抽样"→ 组合。</li>
 <li>平均分组要除以重复：3 组每组 2 人（6 人），C(6,2)C(4,2)C(2,2)/3!。</li>
 <li>捆绑法<strong>内部也要排列</strong>（被捆的元素有顺序）。</li>
-<li>插空法：空位数  =  先排元素个数 + 1（含两端）。</li>
+<li>插空法：空位数 = 先排元素个数 + 1（含两端）。</li>
 <li>二项式系数 ≠ 该项系数：C(n,k) 只是二项式系数，实际系数要乘 a、b 的系数幂。</li>
-<li>通项是"第 k+1 项"：求第 3 项时 k  =  2，不是 3。</li>
+<li>通项是"第 k+1 项"：求第 3 项时 k = 2，不是 3。</li>
 </ul>
 <hr />
 </div><div class="sec sec-meta"><h2>本章公式速查表</h2>
@@ -467,12 +489,12 @@ section.flash{animation:flash 1.6s ease}
 <p>排列组合部分：修订版手册未单列"排列组合"专章（其第十一部分为概率），本表按人教A版2019选必三第6章主线整理；排列数/组合数/二项式定理属常识性公式，口径与教材一致。</p>
 </blockquote>
 <h3>两大计数原理</h3>
-<p><strong>分类加法：总数  =  n<sub>1</sub> + n<sub>2</sub> + … + n<sub>k</sub></strong></p>
+<p><strong>分类加法：总数 = n<sub>1</sub> + n<sub>2</sub> + … + n<sub>k</sub></strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>一件事分几类办法，任选一类就完事，各类相加。</li>
 <li>用的时候：见到"要么…要么…"用加；各类要不重不漏。</li>
 </ul>
-<p><strong>分步乘法：总数  =  n<sub>1</sub>  ×  n<sub>2</sub>  ×  …  ×  n<sub>k</sub></strong></p>
+<p><strong>分步乘法：总数 = n<sub>1</sub> × n<sub>2</sub> × … × n<sub>k</sub></strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>一件事分几步，每步都做完才算完，步步相乘。</li>
 <li>用的时候：见到"先…再…""各选一个"用乘；少一步都不行。</li>
@@ -495,24 +517,24 @@ section.flash{animation:flash 1.6s ease}
 <li class="baihua"><span class="tag">大白话</span>从 n 个里挑 m 个摆一堆、不分顺序，就用组合。</li>
 <li>用的时候：抽样/选人/连成线段这种不分先后的用 C；除以 m! 是因为同一组的 m! 种排列只算一次。</li>
 </ul>
-<p><strong>C(n, m)  =  C(n, n−m)</strong>（对称）</p>
+<p><strong>C(n, m) = C(n, n−m)</strong>（对称）</p>
 <ul>
-<li class = "baihua"><span class = "tag">大白话</span>挑出 m 个留下，等价于挑出 n−m 个不要。</li>
-<li>用的时候：m 很大时换成 n−m 好算（如 C(7,4) = C(7,3)）。</li>
+<li class="baihua"><span class="tag">大白话</span>挑出 m 个留下，等价于挑出 n−m 个不要。</li>
+<li>用的时候：m 很大时换成 n−m 好算（如 C(7,4)=C(7,3)）。</li>
 </ul>
-<p><strong>C(n, m)  =  C(n−1, m−1) + C(n−1, m)</strong>（递推）</p>
+<p><strong>C(n, m) = C(n−1, m−1) + C(n−1, m)</strong>（递推）</p>
 <ul>
-<li class = "baihua"><span class = "tag">大白话</span>杨辉三角腰上的数等于它肩上两个数之和。</li>
+<li class="baihua"><span class="tag">大白话</span>杨辉三角腰上的数等于它肩上两个数之和。</li>
 <li>用的时候：验算或推导性质时用。</li>
 </ul>
-<p><strong>m·C(n, m)  =  n·C(n−1, m−1)</strong>（苏州教研·专题54）</p>
+<p><strong>m·C(n, m) = n·C(n−1, m−1)</strong>（苏州教研·专题54）</p>
 <ul>
-<li class = "baihua"><span class = "tag">大白话</span>从 n 人里选 m 人再指定其中 1 人当组长  =  先指定组长再从剩下 n−1 人里选 m−1 个组员。</li>
-<li>用的时候：带系数的组合数求和、化简时用；等价变形 (m/n)·C(n,m)  =  C(n−1,m−1)。</li>
+<li class="baihua"><span class="tag">大白话</span>从 n 人里选 m 人再指定其中 1 人当组长 = 先指定组长再从剩下 n−1 人里选 m−1 个组员。</li>
+<li>用的时候：带系数的组合数求和、化简时用；等价变形 (m/n)·C(n,m) = C(n−1,m−1)。</li>
 </ul>
-<p><strong>朱世杰恒等式：C(r, r) + C(r+1, r) + … + C(n, r)  =  C(n+1, r+1)</strong>（苏州教研·专题54）</p>
+<p><strong>朱世杰恒等式：C(r, r) + C(r+1, r) + … + C(n, r) = C(n+1, r+1)</strong>（苏州教研·专题54）</p>
 <ul>
-<li class = "baihua"><span class = "tag">大白话</span>同一行（固定上标 r）的组合数从 r 一直加到 n，等于下一行错位一格的那个数。</li>
+<li class="baihua"><span class="tag">大白话</span>同一行（固定上标 r）的组合数从 r 一直加到 n，等于下一行错位一格的那个数。</li>
 <li>用的时候：一串组合数连加（上标相同、下标递增）直接合成一个组合数，不用逐项算。</li>
 <li>记忆要点：跟杨辉三角"肩上两数相加"是同一个道理的连加版本。</li>
 </ul>
@@ -537,66 +559,66 @@ section.flash{animation:flash 1.6s ease}
 <li class="baihua"><span class="tag">大白话</span>球排好，中间 n−1 个缝插 k−1 块板。</li>
 <li>用的时候：只对"球相同、每盒至少一个"用；要求"可以空盒"要先转化。</li>
 </ul>
-<p><strong>隔板法·允许空盒（非负整数解）：方程 x<sub>1</sub>+…+x<sub>k</sub>  =  n 的非负整数解个数  =  C(n+k−1, k−1)</strong>（苏州教研·专题54）</p>
+<p><strong>隔板法·允许空盒（非负整数解）：方程 x<sub>1</sub>+…+x<sub>k</sub> = n 的非负整数解个数 = C(n+k−1, k−1)</strong>（苏州教研·专题54）</p>
 <ul>
-<li class = "baihua"><span class = "tag">大白话</span>允许某盒空着时，先给每盒"垫"1 个球变成每盒至少 1 个，再用隔板法——总数变成 n+k。</li>
-<li>用的时候：求"x<sub>1</sub>+…+x<sub>k</sub>  =  n"的正整数解用 C(n−1,k−1)；非负整数解（可以取 0）用 C(n+k−1,k−1)。</li>
+<li class="baihua"><span class="tag">大白话</span>允许某盒空着时，先给每盒"垫"1 个球变成每盒至少 1 个，再用隔板法——总数变成 n+k。</li>
+<li>用的时候：求"x<sub>1</sub>+…+x<sub>k</sub> = n"的正整数解用 C(n−1,k−1)；非负整数解（可以取 0）用 C(n+k−1,k−1)。</li>
 <li>记忆要点：正解垫 0、非负解垫 k，垫完都套"至少 1 个"的隔板公式。</li>
 </ul>
-<p><strong>多重排列（有相同元素）：n 个元素里有 m<sub>1</sub> 个相同、m<sub>2</sub> 个相同……排法  =  n! / (m<sub>1</sub>!·m<sub>2</sub>!·…·m<sub>k</sub>!)</strong>（苏州教研·专题54）</p>
+<p><strong>多重排列（有相同元素）：n 个元素里有 m<sub>1</sub> 个相同、m<sub>2</sub> 个相同……排法 = n! / (m<sub>1</sub>!·m<sub>2</sub>!·…·m<sub>k</sub>!)</strong>（苏州教研·专题54）</p>
 <ul>
-<li class = "baihua"><span class = "tag">大白话</span>先把所有不同元素全排 n!，再把每一组相同元素内部的 m<sub>i</sub>! 种"假不同"除掉。</li>
-<li>用的时候：如 2 红 3 黄 4 白同色不区分排成一列  =  9!/(2!·3!·4!)  =  1260。</li>
+<li class="baihua"><span class="tag">大白话</span>先把所有不同元素全排 n!，再把每一组相同元素内部的 m<sub>i</sub>! 种"假不同"除掉。</li>
+<li>用的时候：如 2 红 3 黄 4 白同色不区分排成一列 = 9!/(2!·3!·4!) = 1260。</li>
 <li>记忆要点：和平均分组除 m! 一个道理——相同元素之间交换不算新排法。</li>
 </ul>
-<p><strong>错位排列（n 封信全装错信封）：D<sub>2</sub> = 1，D<sub>3</sub> = 2，D<sub>4</sub> = 9，D<sub>5</sub> = 44</strong>（苏州教研·专题54）</p>
+<p><strong>错位排列（n 封信全装错信封）：D<sub>2</sub>=1，D<sub>3</sub>=2，D<sub>4</sub>=9，D<sub>5</sub>=44</strong>（苏州教研·专题54）</p>
 <ul>
-<li class = "baihua"><span class = "tag">大白话</span>每个元素都不在自己原来位置上，n 不大时这几个数直接背。</li>
-<li>用的时候："每个人都不坐自己位置"这类题，n≤5 直接套；n 再大用递推 D<sub>n</sub>  =  (n−1)(D<sub>n−1</sub>+D<sub>n−2</sub>)。</li>
-<li>实算复核：D<sub>4</sub> = 4!(1−1+1/2!−1/3!+1/4!) = 24 × (9/24) = 9；D<sub>5</sub> = 120 × (44/120) = 44。</li>
+<li class="baihua"><span class="tag">大白话</span>每个元素都不在自己原来位置上，n 不大时这几个数直接背。</li>
+<li>用的时候："每个人都不坐自己位置"这类题，n≤5 直接套；n 再大用递推 D<sub>n</sub> = (n−1)(D<sub>n−1</sub>+D<sub>n−2</sub>)。</li>
+<li>实算复核：D<sub>4</sub>=4!(1−1+1/2!−1/3!+1/4!)=24×(9/24)=9；D<sub>5</sub>=120×(44/120)=44。</li>
 </ul>
 <h3>二项式定理</h3>
-<p><strong>(a + b)<sup>n</sup>  =  Σ C(n,k)·a<sup>n−k</sup>·b<sup>k</sup></strong>（共 n+1 项）</p>
+<p><strong>(a + b)<sup>n</sup> = Σ C(n,k)·a<sup>n−k</sup>·b<sup>k</sup></strong>（共 n+1 项）</p>
 <ul>
-<li class = "baihua"><span class = "tag">大白话</span>把 (a+b) 的高次方展开，系数就是杨辉三角那排数。</li>
+<li class="baihua"><span class="tag">大白话</span>把 (a+b) 的高次方展开，系数就是杨辉三角那排数。</li>
 </ul>
-<p><strong>通项 T₍<sub>k+1</sub>₎  =  C(n,k)·a<sup>n−k</sup>·b<sup>k</sup></strong>（k 从 0 开始）</p>
+<p><strong>通项 T₍<sub>k+1</sub>₎ = C(n,k)·a<sup>n−k</sup>·b<sup>k</sup></strong>（k 从 0 开始）</p>
 <ul>
-<li class = "baihua"><span class = "tag">大白话</span>第 k+1 项长什么样，全靠这条写出来。</li>
-<li>用的时候：求指定项系数，先令 x 的幂等于目标解出 k，再代回算；求第 3 项对应 k = 2 不是 k = 3；实际系数还要乘 a、b 的数字幂和符号。</li>
+<li class="baihua"><span class="tag">大白话</span>第 k+1 项长什么样，全靠这条写出来。</li>
+<li>用的时候：求指定项系数，先令 x 的幂等于目标解出 k，再代回算；求第 3 项对应 k=2 不是 k=3；实际系数还要乘 a、b 的数字幂和符号。</li>
 </ul>
-<p><strong>所有项系数之和  =  2<sup>n</sup></strong>（令 a = b = 1）</p>
+<p><strong>所有项系数之和 = 2<sup>n</sup></strong>（令 a=b=1）</p>
 <ul>
-<li class = "baihua"><span class = "tag">大白话</span>把 a、b 都代成 1，加起来就是全部系数和。</li>
-<li>用的时候：问"系数和"就令变量 x = 1；奇数项系数和  =  偶数项系数和  =  2<sup>n−1</sup>。</li>
+<li class="baihua"><span class="tag">大白话</span>把 a、b 都代成 1，加起来就是全部系数和。</li>
+<li>用的时候：问"系数和"就令变量 x=1；奇数项系数和 = 偶数项系数和 = 2<sup>n−1</sup>。</li>
 </ul>
-<p><strong>赋值法三公式：设 (ax+b)<sup>n</sup>  =  a<sub>0</sub>+a<sub>1</sub>x+…+a<sub>n</sub>x<sup>n</sup>  =  f(x)</strong>（苏州教研·专题55）</p>
+<p><strong>赋值法三公式：设 (ax+b)<sup>n</sup> = a<sub>0</sub>+a<sub>1</sub>x+…+a<sub>n</sub>x<sup>n</sup> = f(x)</strong>（苏州教研·专题55）</p>
 <ul>
-<li><strong>公式</strong>：a<sub>0</sub>  =  f(0)；a<sub>0</sub>+a<sub>1</sub>+…+a<sub>n</sub>  =  f(1)；a<sub>0</sub>−a<sub>1</sub>+a<sub>2</sub>−…  =  f(−1)。</li>
-<li class = "baihua"><span class = "tag">大白话</span>常数项、全部系数和、正负交替系数和，分别靠代 0、代 1、代 −1 得到。</li>
+<li><strong>公式</strong>：a<sub>0</sub> = f(0)；a<sub>0</sub>+a<sub>1</sub>+…+a<sub>n</sub> = f(1)；a<sub>0</sub>−a<sub>1</sub>+a<sub>2</sub>−… = f(−1)。</li>
+<li class="baihua"><span class="tag">大白话</span>常数项、全部系数和、正负交替系数和，分别靠代 0、代 1、代 −1 得到。</li>
 <li>用的时候：问"系数和""奇数项系数和""偶数项系数和"都用它，不用逐项展开。</li>
 </ul>
-<p><strong>|系数|之和的求法：|a<sub>0</sub>|+|a<sub>1</sub>|+…+|a<sub>n</sub>|  =  (|a|x+|b|)<sup>n</sup> 展开式的系数和  =  f₍∣∣₎(1)</strong>（苏州教研·专题55）</p>
+<p><strong>|系数|之和的求法：|a<sub>0</sub>|+|a<sub>1</sub>|+…+|a<sub>n</sub>| = (|a|x+|b|)<sup>n</sup> 展开式的系数和 = f₍∣∣₎(1)</strong>（苏州教研·专题55）</p>
 <ul>
-<li class = "baihua"><span class = "tag">大白话</span>绝对值符号往往正负交替出现，干脆把 a、b 都换成正数再代 x = 1。</li>
-<li>用的时候：求各项系数绝对值之和，别先去展开去绝对值——直接写 (|a|x+|b|)<sup>n</sup> 再令 x = 1。</li>
+<li class="baihua"><span class="tag">大白话</span>绝对值符号往往正负交替出现，干脆把 a、b 都换成正数再代 x=1。</li>
+<li>用的时候：求各项系数绝对值之和，别先去展开去绝对值——直接写 (|a|x+|b|)<sup>n</sup> 再令 x=1。</li>
 </ul>
 <p><strong>系数最大（小）项：设第 r 项系数 A<sub>r</sub> 最大，解不等式组 A<sub>r</sub> ≥ A<sub>r−1</sub> 且 A<sub>r</sub> ≥ A<sub>r+1</sub></strong>（苏州教研·专题55）</p>
 <ul>
-<li class = "baihua"><span class = "tag">大白话</span>系数最大那一项，一定比它左右邻居都大（或相等）。</li>
+<li class="baihua"><span class="tag">大白话</span>系数最大那一项，一定比它左右邻居都大（或相等）。</li>
 <li>用的时候：列出相邻两项系数比 ≥1 的不等式组，解出整数 r；注意这是"项的系数"不是"二项式系数"。</li>
 </ul>
-<p><strong>两个二项式相乘的通项：(a+b)<sup>n</sup>·(c+d)<sup>m</sup> 展开式一般项  =  C(n,s)·a<sup>n−s</sup>b<sup>s</sup> · C(m,t)·c<sup>m−t</sup>d<sup>t</sup></strong>（苏州教研·专题55）</p>
+<p><strong>两个二项式相乘的通项：(a+b)<sup>n</sup>·(c+d)<sup>m</sup> 展开式一般项 = C(n,s)·a<sup>n−s</sup>b<sup>s</sup> · C(m,t)·c<sup>m−t</sup>d<sup>t</sup></strong>（苏州教研·专题55）</p>
 <ul>
-<li class = "baihua"><span class = "tag">大白话</span>第一个式子取第 s+1 项、第二个取第 t+1 项相乘，再合并同类项。</li>
+<li class="baihua"><span class="tag">大白话</span>第一个式子取第 s+1 项、第二个取第 t+1 项相乘，再合并同类项。</li>
 <li>用的时候：求 (a+b)<sup>n</sup>(c+d)<sup>m</sup> 展开式里某指定幂次的项，联立两个指数方程解 s、t。</li>
 </ul>
-<p><strong>求导法求和：1·C(n,1)+2·C(n,2)+…+n·C(n,n)  =  n·2<sup>n−1</sup></strong>（苏州教研·专题55）</p>
+<p><strong>求导法求和：1·C(n,1)+2·C(n,2)+…+n·C(n,n) = n·2<sup>n−1</sup></strong>（苏州教研·专题55）</p>
 <ul>
-<li><strong>公式</strong>：对 (1+x)<sup>n</sup>  =  1+C(n,1)x+…+C(n,n)x<sup>n</sup> 两边求导，再令 x = 1。</li>
-<li class = "baihua"><span class = "tag">大白话</span>给通项里多出来的那个 k 乘号，正好用"求导把幂次拉下来"消掉。</li>
-<li>实算复核（n = 3）：1·3+2·3+3·1  =  12；n·2<sup>n−1</sup>  =  3·4  =  12 ✓。</li>
-<li>记忆要点：带系数 k·C(n,k) 求和 → 求导；不带系数 → 直接令 x = 1。</li>
+<li><strong>公式</strong>：对 (1+x)<sup>n</sup> = 1+C(n,1)x+…+C(n,n)x<sup>n</sup> 两边求导，再令 x=1。</li>
+<li class="baihua"><span class="tag">大白话</span>给通项里多出来的那个 k 乘号，正好用"求导把幂次拉下来"消掉。</li>
+<li>实算复核（n=3）：1×3+2×3+3×1 = 12；n·2<sup>n−1</sup> = 3×4 = 12 ✓。</li>
+<li>记忆要点：带系数 k·C(n,k) 求和 → 求导；不带系数 → 直接令 x=1。</li>
 </ul>
 </div><div class="sec sec-meta"><h2>高级方法·进阶</h2>
 <p>本章的核心技巧（捆绑法、插空法、优先位置、隔板法）<strong>已全部包含在教材主线（3.4、3.6）中</strong>，<strong>不超纲高级方法手册中无"计数原理"的专属进阶节</strong>。下面把主线里几个最容易错的操作规范点透，均在课标范围内。</p>
@@ -626,7 +648,7 @@ section.flash{animation:flash 1.6s ease}
 <strong>A4.</strong> C(7,3)=35，C(7,4)=C(7,3)=35（对称性），差 = <strong>0</strong>。选 3 个 = 留下 4 个，所以相等。
 <strong>A5.</strong> 两女捆绑（内部 2!），与 4 男共 5 个整体排 5!：2!·5!=2×120=<strong>240 种</strong>。
 <strong>A6.</strong> T₍<sub>k+1</sub>₎=C(6,k)x<sup>6−k</sup>(−1)<sup>k</sup>，令 6−k=3⇒k=3：C(6,3)(−1)<sup>3</sup>=20×(−1)=<strong>−20</strong>。</p>
-</div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">B 组答案</p><p><strong>B7.</strong> 男女相间：男先排 3!，女插入（男 _ 男 _ 男 _ ，3 个空位放 3 女）3!，但相间有两种起手（男女男女男女 / 女男女男女男）：2·3!·3!=2×6×6=<strong>72 种</strong>。
+</div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">B 组答案</p><p><strong>B7.</strong> 男女相间：男先排 3!，女插入（男 _ 男 _ 男 _ ，3 个空位放 3 女）3!，但相间有两种起手（男女男女男女 / 女男女男女男）：2×3!·3!=2×6×6=<strong>72 种</strong>。
 <strong>B8.</strong> 6 本平均分给甲乙丙（组有名字）：C(6,2)C(4,2)C(2,2)=15×6×1=<strong>90 种</strong>（分给三人不再除 3!，因为甲乙丙有区别）。
 <strong>B9.</strong> 隔板法：C(10−1, 3−1)=C(9,2)=<strong>36 种</strong>。
 <strong>B10.</strong> 令 x=1：(2+1)<sup>6</sup>=3<sup>6</sup>=<strong>729</strong>。</p>
@@ -643,7 +665,19 @@ section.flash{animation:flash 1.6s ease}
 </div><div class="sec sec-meta"><h2>本章与前后章</h2>
 <p>计数原理（17）前面接第 02 章函数（门槛只需会乘除与阶乘概念），是概率统计板块的第一站；它后面直接接<strong>第 18 章概率</strong>——古典概型里"有利基本事件数/总基本事件数"，分子分母全靠本章排列组合去数。学完这一章，你手里有了概率统计的"计数器"：不会计数，概率题就是空中楼阁；同时本章也是第 19 章统计里"抽样数、列联表频数"等计数操作的底层工具。</p>
 </div><div class="sec sec-meta"><h2>高考怎么考</h2>
-<p>新高考Ⅰ卷里计数原理多以<strong>小题</strong>出现（排列组合、二项式定理，选择题 8–14 题区间，每年 1~2 道），偶尔与概率、期望综合成解答题一问。典型考法：排队相邻/不相邻（捆绑插空）、平均分组、二项式展开求指定项系数或常数项；2024、2025 新高考Ⅰ卷第 14 题就是计数与概率/期望综合的代表（本章 C1、C2 已收录）。难度中档、套路固定，核心就是"先判分类分步、再判有序无序"两步走，是概率统计板块里必须拿稳的送分题。</p></div>
+<p>新高考Ⅰ卷里计数原理多以<strong>小题</strong>出现（排列组合、二项式定理，选择题 8–14 题区间，每年 1~2 道），偶尔与概率、期望综合成解答题一问。典型考法：排队相邻/不相邻（捆绑插空）、平均分组、二项式展开求指定项系数或常数项；2024、2025 新高考Ⅰ卷第 14 题就是计数与概率/期望综合的代表（本章 C1、C2 已收录）。难度中档、套路固定，核心就是"先判分类分步、再判有序无序"两步走，是概率统计板块里必须拿稳的送分题。</p>
+<hr />
+</div><div class="sec sec-meta"><h2>同法跨章 · 一通百通</h2>
+<p><strong>分类分步（本章 → ch18 概率 → ch19 统计）</strong>：本章加法原理/乘法原理；ch18 概率的分情况讨论、ch19 抽样方案设计全依赖它。<strong>"分类用加法、分步用乘法"是概率统计的地基</strong>。</p>
+<p><strong>正难则反（本章 → ch18 对立事件 → ch01 补集）</strong>：本章"至多/至少"用反面数；ch18 "至少一次"=1−全不发生；ch01 补集。<strong>同一个"反面切入"三处通杀</strong>。</p>
+<p><strong>组合恒等（本章 → ch11 数列 → 总纲通法 14）</strong>：本章 C(n,k) 性质；ch11 数列求和中的组合恒等式；二项式展开与系数。<strong>组合数是"离散世界的系数"</strong>。</p>
+</div><div class="sec sec-meta"><h2>本章连接全书</h2>
+<ul>
+<li><strong>→ ch18 概率</strong>：古典概型、超几何分布都建立在计数上。</li>
+<li><strong>→ ch19 统计</strong>：抽样方法（简单随机/分层）的本质是计数设计。</li>
+<li><strong>→ ch11 数列</strong>：二项式系数、求和恒等式与数列关联。</li>
+<li><strong>→ ch01 集合</strong>：子集个数的计数 = 2<sup>n</sup> 的组合解释。</li>
+</ul></div>
 </section>
 </main>
 <button id="topbtn" title="回到顶部">↑</button>
@@ -832,6 +866,35 @@ section.flash{animation:flash 1.6s ease}
     window.addEventListener('resize',renderPen);
     loadPen();renderPen();
   }
+})();
+/* 章内左侧小目录：扫描各章 h2 生成，点击平滑滚动直达 */
+(function(){
+  var secs=document.querySelectorAll('section.chapter');
+  if(!secs.length||document.getElementById('secbar'))return;
+  var sb=document.createElement('div');sb.id='secbar';
+  var inner=document.createElement('div');inner.className='secbar-in';
+  sb.appendChild(inner);
+  secs.forEach(function(sec,si){
+    if(si>0){
+      var ttl=sec.querySelector('.ch-title');
+      var hd=document.createElement('div');hd.className='secbar-ch';
+      hd.textContent=(ttl?ttl.textContent.replace(/^\d+·?/,'').slice(0,8):sec.id);
+      inner.appendChild(hd);
+    }
+    sec.querySelectorAll('h2').forEach(function(h2){
+      var a=document.createElement('a');
+      var t=h2.textContent.replace(/^\s*[①-⑨]/,'').replace(/^\s*\d+\s*/,'').trim();
+      a.textContent=t.length>12?t.slice(0,12):t;
+      a.title=t;
+      a.addEventListener('click',function(ev){
+        ev.preventDefault();
+        var r=h2.getBoundingClientRect().top+window.scrollY;
+        window.scrollTo({top:Math.max(0,r-70),behavior:'smooth'});
+      });
+      inner.appendChild(a);
+    });
+  });
+  document.body.appendChild(sb);
 })();
 </script>
 </body>

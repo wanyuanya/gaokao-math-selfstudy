@@ -65,8 +65,9 @@ h1.ch-title{font-size:29px;font-weight:800;color:#fff;margin:8px 0 6px;letter-sp
 .mats{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px 16px;margin:0 0 18px;box-shadow:var(--shadow)}
 .mats-t{font-size:12.5px;font-weight:700;color:var(--gold);margin-bottom:9px;letter-spacing:.04em}
 .mats-l{display:flex;flex-wrap:wrap;gap:8px}
-.mats-l a{background:var(--blue-l);color:var(--blue);text-decoration:none;font-size:13px;padding:5px 13px;border-radius:20px;border:1px solid #c9d8ec;transition:.15s;white-space:nowrap}
+.mats-l a{background:var(--blue-l);color:var(--blue);text-decoration:none;font-size:13px;padding:5px 13px;border-radius:20px;border:1px solid #c9d8ec;transition:.15s}
 .mats-l a:hover{background:var(--blue);color:#fff;transform:translateY(-1px)}
+.mats-l .mat-txt{background:#eef0f4;color:#4a5568;font-size:12.5px;padding:5px 13px;border-radius:20px;border:1px dashed #c3cad6;cursor:help}
 /* 看不懂怎么办 */
 .help{background:var(--gold-l);border:1px dashed var(--gold);border-radius:12px;padding:13px 16px;margin:0 0 20px;font-size:13.5px;color:#6b5c26;line-height:1.85;box-shadow:var(--shadow)}
 body.dark .help{color:#d8c078}
@@ -85,6 +86,14 @@ h2.adv{border-left-color:var(--purple)}
 h3{font-size:calc(var(--fs) + 0.5px);font-weight:700;color:#3a352c;margin:22px 0 8px}
 p{margin:0 0 12px}
 strong{color:var(--blue)}
+/* 课后习题：题目行题号标签保持正文色（组名行仍按公式块样式显示） */
+.sec-hw p>strong:first-child{color:inherit}
+.sec-hw p:has(>strong:only-child)>strong{color:var(--blue)}
+/* 课后习题答案：每题答案块题号行保留蓝色标题感，其余步骤正文色 */
+.sec-ans p>strong:first-child{color:inherit}
+.sec-ans p:has(>strong:only-child)>strong{color:var(--blue)}
+/* 答案中的解释（方法/为什么/验证/取等条件）：灰色小字，与答案本体区分 */
+.ans-ex{color:#8a8578;font-size:calc(var(--fs) - 1.5px);font-style:normal;letter-spacing:.01em}
 /* 公式独立行：数学衬线字体统一字形（χ Σ √ 上下标同族），避免文本符号混排歪扭 */
 p:has(> strong:only-child){text-align:center;font-size:calc(var(--fs) + 1.5px);margin:16px 0;background:var(--blue-l);border:1px solid #cfe0f2;border-radius:10px;padding:10px 14px;color:var(--blue);font-family:"Cambria Math","STIX Two Math","Times New Roman","Songti SC",serif;letter-spacing:.012em}
 /* 内容块分类 */
@@ -107,6 +116,19 @@ p.ans{background:var(--blue-l);border:1px dashed #c3cede;border-radius:10px;padd
 .ans-grp{font-size:12px;color:#fff;background:var(--blue);display:inline-block;border-radius:6px;padding:2px 9px;margin:0 0 8px;font-weight:600}
 .ans-box>.ans-body{padding:11px 15px 13px}
 .ans-body p.ans{background:transparent;border:none;padding:0;margin:0 0 8px;font-weight:600}
+/* 答案区每题独立分块：A/B/C/D 组答案每题一块，虚线分隔，不夹带、不粘连 */
+.ans-body>p:not(.ans){border-bottom:1px dashed #d9d2c0;padding:9px 2px 11px;margin:0 0 9px;background:transparent;box-shadow:none;text-align:left;font-family:inherit;letter-spacing:normal;font-size:inherit}
+.ans-body>p:not(.ans):last-of-type{border-bottom:none;margin-bottom:0}
+.ans-body>p:has(> strong:only-child){text-align:left;background:transparent;border:1px dashed #c3cede;border-radius:10px;padding:10px 14px;font-family:inherit;letter-spacing:normal;font-size:inherit;box-shadow:none}
+/* 章内左侧小目录（桌面大屏显示，跟随滚动点击直达） */
+#secbar{position:fixed;left:8px;top:70px;bottom:20px;width:150px;overflow-y:auto;z-index:88;border-left:1px solid var(--line);padding:8px 4px 8px 12px;scrollbar-width:thin}
+#secbar .secbar-in{display:flex;flex-direction:column;gap:2px}
+#secbar .secbar-ch{font-size:12px;font-weight:700;color:#8a8272;letter-spacing:.04em;margin:10px 0 2px;padding-top:8px;border-top:1px solid #eee7d8}
+#secbar .secbar-ch:first-child{margin-top:0;border-top:none;padding-top:0}
+#secbar a{display:block;font-size:12.5px;color:#6f6859;text-decoration:none;padding:3px 6px;border-radius:5px;line-height:1.45}
+#secbar a:hover{background:#f2ead8;color:var(--blue)}
+@media (max-width:1399px){#secbar{display:none}}
+@media (min-width:1400px){#main{padding:76px 48px 120px 170px}}
 span.tag{display:inline-block;background:var(--blue);color:#fff;font-size:11px;border-radius:4px;padding:0 7px;margin-right:8px;vertical-align:2px}
 p.warn span.tag{background:var(--red)}
 p.sum span.tag{background:var(--gold)}
@@ -171,7 +193,7 @@ section.flash{animation:flash 1.6s ease}
 }
 @media print{
   @page{size:A4;margin:14mm 12mm}
-  #toc,#topbtn,#mnav,#tb,#pbar{display:none!important}
+  #toc,#topbtn,#mnav,#tb,#pbar,#secbar{display:none!important}
   #main{margin:0;max-width:none;padding:0}
   body{background:#fff!important;font-size:11.5pt;line-height:1.8}
   body.dark{background:#fff!important;color:#000}
@@ -255,38 +277,38 @@ section.flash{animation:flash 1.6s ease}
 <div class="ch-nav"><a href="ch-09.html">← 09</a><span class="cn-title">第10章 · 复数</span><a href="ch-11.html">11 →</a></div>
 <main id="main">
 <section class="chapter" id="ch-10">
-<div class="ch-head" data-no="10"><div class="ch-no">第10章</div><h1 class="ch-title">复数</h1><div class="ch-sub">板块：向量与复数 ｜ 前置：第 02 章 ｜ 老教材：选修1-2 / 2-2 复数章 ｜ 新教材：必修二 第7章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../公式/高中数学公式速查手册.html#ch10" title="本章公式速查（内置，直达本章）">公式速查手册</a><a href="../手册/不超纲高级方法手册.html" title="不超纲高级方法（内置，按章嵌入方法）">高级方法手册</a><span class="mats-off" style="background:#f0f0f0;color:#999;border:1px dashed #ccc;border-radius:20px;padding:5px 13px;font-size:13px;white-space:nowrap" title="第三方版权素材不随包分发（仅限个人学习）：老教材原件/可搜索版/文字检索请在本机「数学自学系统素材」目录查看，或按开源仓库 README「素材获取」自行获取">老教材（原件/可搜索/检索 · 未随包）</span><span class="mats-off" style="background:#f0f0f0;color:#999;border:1px dashed #ccc;border-radius:20px;padding:5px 13px;font-size:13px;white-space:nowrap" title="第三方版权素材不随包分发：人教A版2019 必修第一册等，请按开源仓库 README「素材获取」自行获取（仅限个人学习）">新教材（未随包）</span><span class="mats-off" style="background:#f0f0f0;color:#999;border:1px dashed #ccc;border-radius:20px;padding:5px 13px;font-size:13px;white-space:nowrap" title="第三方版权素材不随包分发：2020-2025 新高考Ⅰ卷真题，请按开源仓库 README「素材获取」自行获取（仅限个人学习）">历年真题（未随包）</span></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 卡住时在电脑本机「数学自学系统素材」目录打开老教材原件 PDF 细读（图文最清楚；公式符号以原件为准） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
+<div class="ch-head" data-no="10"><div class="ch-no">第10章</div><h1 class="ch-title">复数</h1><div class="ch-sub">板块：向量与复数 ｜ 前置：第 02 章 ｜ 老教材：选修1-2 / 2-2 复数章 ｜ 新教材：必修二 第7章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E6%95%B0%E5%AD%A6%E8%87%AA%E5%AD%A6%E7%B3%BB%E7%BB%9F%E7%B4%A0%E6%9D%90/05_%E5%85%B6%E4%BB%96%E5%8F%82%E8%80%83%28%E8%80%81%E6%95%99%E6%9D%90%E7%AD%89%29/2004%E8%AF%BE%E6%A0%87%E7%89%88%E4%BA%BA%E6%95%99A%E7%89%88/%E4%BA%BA%E6%95%99%E7%89%88%E9%AB%98%E4%B8%AD%E6%95%B0%E5%AD%A6A%E7%89%88%E9%80%89%E4%BF%AE1-2.pdf" title="老教材原件 PDF（推荐阅读：图文最清楚，公式无误）">老教材·人教版A版选修1-2（2004课标版）</a><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E8%92%B8%E9%A6%8F%E4%BA%A7%E7%89%A9/searchable_pdfs/%E4%BA%BA%E6%95%99%E7%89%88%E9%AB%98%E4%B8%AD%E6%95%B0%E5%AD%A6A%E7%89%88%E9%80%89%E4%BF%AE1-2.pdf" title="可搜索版：页面即原件，Ctrl+F 可搜文字（公式以页面为准）">老教材可搜索版(Ctrl+F)</a><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E8%92%B8%E9%A6%8F%E4%BA%A7%E7%89%A9/ocr_output/%E8%80%81%E6%95%99%E6%9D%90/%E4%BA%BA%E6%95%99%E7%89%88%E9%AB%98%E4%B8%AD%E6%95%B0%E5%AD%A6A%E7%89%88%E9%80%89%E4%BF%AE1-2.txt" title="文字检索（RapidOCR 精准版）：文字已校准，公式符号以原件 PDF 为准">文字检索(TXT)</a><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E6%95%B0%E5%AD%A6%E8%87%AA%E5%AD%A6%E7%B3%BB%E7%BB%9F%E7%B4%A0%E6%9D%90/01_%E6%95%99%E6%9D%90%28%E4%BA%BA%E6%95%99A%E7%89%882019%29/%E4%BA%BA%E6%95%99A%E7%89%882019%E5%BF%85%E4%BF%AE%E7%AC%AC%E4%BA%8C%E5%86%8C.pdf" title="新教材对标考点（PDF）">新教材·人教A版2019必修第二册</a><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E9%AB%98%E4%B8%AD%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F%E9%80%9F%E6%9F%A5%E6%89%8B%E5%86%8C.html#ch-10" title="本章公式速查（按章手册，直达本章）">公式速查手册</a><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E6%95%B0%E5%AD%A6%E8%87%AA%E5%AD%A6%E7%B3%BB%E7%BB%9F%E7%B4%A0%E6%9D%90/02_%E5%8E%86%E5%B9%B4%E7%9C%9F%E9%A2%98%28%E6%96%B0%E9%AB%98%E8%80%83%E2%85%A0%E5%8D%B7%29" title="历年真题文件夹（2020-2025 新高考Ⅰ卷）">历年真题</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
 <p>公式速查：修订版 第10部分（复数）</p>
-<p><strong>本章本质核心</strong>：复数的本质是"把数从一维直线搬到二维平面"——规定 i<sup>2</sup> = −1 等于把 i 当成一个"逆时针转 90°"的算子，于是每个复数 z = a+bi 就是复平面上的一个点（或一支从原点出发的向量），|z| 就是它到原点的距离。本章全部内容（相等、共轭、模、四则运算、复根）都是这一个原理的变体：运算像多项式展开，唯一新规则是 i<sup>2</sup> = −1，几何上和第 09 章向量是同一张图。</p>
-<p class = "baihua why"><span class = "tag">为什么有用</span>想通"i 是转 90°、z = a+bi 是平面上的点"，复数运算就只是多项式展开加一条 i<sup>2</sup> = −1，除法会乘共轭就行——卷面上固定的第 1 题送分等于白捡；它的几何意义还能帮你看懂圆和旋转。</p>
+<p><strong>本章本质核心</strong>：复数的本质是"把数从一维直线搬到二维平面"——规定 i<sup>2</sup>=−1 等于把 i 当成一个"逆时针转 90°"的算子，于是每个复数 z=a+bi 就是复平面上的一个点（或一支从原点出发的向量），|z| 就是它到原点的距离。本章全部内容（相等、共轭、模、四则运算、复根）都是这一个原理的变体：运算像多项式展开，唯一新规则是 i<sup>2</sup>=−1，几何上和第 09 章向量是同一张图。</p>
+<p class="baihua why"><span class="tag">为什么有用</span>想通"i 是转 90°、z=a+bi 是平面上的点"，复数运算就只是多项式展开加一条 i<sup>2</sup>=−1，除法会乘共轭就行——卷面上固定的第 1 题送分等于白捡；它的几何意义还能帮你看懂圆和旋转。</p>
 </blockquote>
 <hr />
-<div class="sec sec-gate"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
+<div class="sec sec-gate"><h2 class="gate">① 门槛自测（进章前，10 分钟）</h2>
 <ol>
-<li>方程 x<sup>2</sup> + 1  =  0 在实数范围内有解吗？</li>
-<li>(a + b)(a − b)  =  a<sup>2</sup> − b<sup>2</sup> 成立吗？</li>
+<li>方程 x<sup>2</sup> + 1 = 0 在实数范围内有解吗？</li>
+<li>(a + b)(a − b) = a<sup>2</sup> − b<sup>2</sup> 成立吗？</li>
 <li>直角坐标系中点的坐标 (x, y) 表示什么？</li>
 <li>i 是什么？（初中提过吗）</li>
 <li>判断：负数能不能开平方？</li>
 </ol>
 <p><strong>判定</strong>：5 题答对 4 题以上 → 进章。</p>
-</div><div class="sec sec-goal"><h2 class = "goal">② 学习目标</h2>
+</div><div class="sec sec-goal"><h2 class="goal">② 学习目标</h2>
 <ul>
-<li>理解虚数单位 i（i<sup>2</sup>  =  −1）与复数的概念</li>
+<li>理解虚数单位 i（i<sup>2</sup> = −1）与复数的概念</li>
 <li>掌握复数相等、共轭复数、复数的模</li>
-<li>掌握复数的四则运算（重点：除法  =  分母实数化）</li>
+<li>掌握复数的四则运算（重点：除法 = 分母实数化）</li>
 <li>了解复数的几何意义（复平面）</li>
 </ul>
-</div><div class="sec sec-body"><h2 class = "body">③ 正文讲解</h2>
-<p><strong>先想一个让人"卡住"的问题</strong>：方程 x<sup>2</sup> + 1  =  0，在实数范围内没解——因为没有哪个实数的平方是 −1。数学家不甘心：那就规定一个新数 i，让它满足 i<sup>2</sup>  =  −1。有了 i，负数就能开平方了，二次方程也总是有解了。这就是复数的来历。</p>
+</div><div class="sec sec-body"><h2 class="body">③ 正文讲解</h2>
+<p><strong>先想一个让人"卡住"的问题</strong>：方程 x<sup>2</sup> + 1 = 0，在实数范围内没解——因为没有哪个实数的平方是 −1。数学家不甘心：那就规定一个新数 i，让它满足 i<sup>2</sup> = −1。有了 i，负数就能开平方了，二次方程也总是有解了。这就是复数的来历。</p>
 <p><strong>这段历史值得知道</strong>：i 刚被提出时，连数学家都觉得别扭——"平方是负数的数，存在吗？"所以给它起名叫"虚数"，意思是"虚幻的数"。后来发现它能描述交流电、波浪、量子力学，才成了正经工具。名字里的"虚"只是历史玩笑，别被它吓到。本章地图：</p>
-<pre><code>i（规定 i<sup>2</sup> = −1）
+<pre><code>i（规定 i<sup>2</sup>=−1）
    ↓
-复数 z  =  a+bi（实部 a、虚部 b）
+复数 z = a+bi（实部 a、虚部 b）
    ↓
 复数相等 / 共轭 / 模
    ↓
-四则运算（除法 = 分母实数化）
+四则运算（除法=分母实数化）
    ↓
 几何意义：复平面上的点与向量
 </code></pre>
@@ -294,41 +316,41 @@ section.flash{animation:flash 1.6s ease}
 <ul>
 <li><strong>复数不能比大小</strong>：两个复数（只要不全是实数）不能说谁大谁小——你不能写 "1+i &gt; 2−i"。能比大小的只有它的模 |z|（那是个实数）。这和向量不能比大小是一个道理。</li>
 </ul>
-<p><strong>i 的幂循环</strong>：i<sup>1</sup>  =  i，i<sup>2</sup>  =  −1，i<sup>3</sup>  =  −i，i<sup>4</sup>  =  1，然后 i<sup>5</sup>  =  i……<strong>每 4 个一循环</strong>。</p>
-<p><strong>复数（人教A版口径）</strong>：形如 <strong>z  =  a + bi</strong>（a、b ∈ R）的数叫复数。a 叫<strong>实部</strong>，b 叫<strong>虚部</strong>。全体复数组成复数集 C。</p>
+<p><strong>i 的幂循环</strong>：i<sup>1</sup> = i，i<sup>2</sup> = −1，i<sup>3</sup> = −i，i<sup>4</sup> = 1，然后 i<sup>5</sup> = i……<strong>每 4 个一循环</strong>。</p>
+<p><strong>复数（人教A版口径）</strong>：形如 <strong>z = a + bi</strong>（a、b ∈ R）的数叫复数。a 叫<strong>实部</strong>，b 叫<strong>虚部</strong>。全体复数组成复数集 C。</p>
 <ul>
-<li>b  =  0：z 是实数；</li>
+<li>b = 0：z 是实数；</li>
 <li>b ≠ 0：z 是<strong>虚数</strong>；</li>
-<li>a  =  0 且 b ≠ 0：z 是<strong>纯虚数</strong>（如 3i、−0.5i）。</li>
+<li>a = 0 且 b ≠ 0：z 是<strong>纯虚数</strong>（如 3i、−0.5i）。</li>
 </ul>
-<p><strong>复数相等</strong>：<strong>a + bi  =  c + di ⇔ a  =  c 且 b  =  d</strong>（实部等于实部，虚部等于虚部，两个条件缺一不可）。</p>
-<p><strong>复数家族的关系</strong>：实数是复数的"子集"（b = 0 的复数就是实数）；虚数里再分出纯虚数（a = 0,b≠0）。画个圈想：最大的圈是复数 C，里面套着实数和虚数两块，纯虚数只是虚数里的一小块。考试常考"z 是纯虚数"这个条件，记得要同时写 a = 0 和 b≠0 两个方程。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题 3.1-1</strong>：若 (a+1) + (b−2)i  =  3 + 4i，求 a、b。
-解：实部相等 a+1  =  3 → a  =  2；虚部相等 b−2  =  4 → b  =  6。
+<p><strong>复数相等</strong>：<strong>a + bi = c + di ⇔ a = c 且 b = d</strong>（实部等于实部，虚部等于虚部，两个条件缺一不可）。</p>
+<p><strong>复数家族的关系</strong>：实数是复数的"子集"（b=0 的复数就是实数）；虚数里再分出纯虚数（a=0,b≠0）。画个圈想：最大的圈是复数 C，里面套着实数和虚数两块，纯虚数只是虚数里的一小块。考试常考"z 是纯虚数"这个条件，记得要同时写 a=0 和 b≠0 两个方程。</p>
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题 3.1-1</strong>：若 (a+1) + (b−2)i = 3 + 4i，求 a、b。
+解：实部相等 a+1 = 3 → a = 2；虚部相等 b−2 = 4 → b = 6。
 要点：复数相等要<strong>两边实部、虚部分别相等</strong>，列两个方程。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题 3.1-0（i 的幂）</strong>：求 i<sup>2024</sup> 的值。
-解：i 的幂 4 个一循环：2024 ÷ 4  =  506 余 0，正好整除，所以 i<sup>2024</sup>  =  i<sup>4</sup>  =  <strong>1</strong>。
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题 3.1-0（i 的幂）</strong>：求 i<sup>2024</sup> 的值。
+解：i 的幂 4 个一循环：2024 ÷ 4 = 506 余 0，正好整除，所以 i<sup>2024</sup> = i<sup>4</sup> = <strong>1</strong>。
 要点：求 i 的大数次幂，用指数除以 4 看余数——余 0 是 1，余 1 是 i，余 2 是 −1，余 3 是 −i。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题 3.1-2</strong>：判断 2i、3、−5、0 各是不是纯虚数。
-解：纯虚数要求 a = 0 且 b≠0。2i 是纯虚数；3、−5、0 是实数（b = 0），不是纯虚数。
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题 3.1-2</strong>：判断 2i、3、−5、0 各是不是纯虚数。
+解：纯虚数要求 a=0 且 b≠0。2i 是纯虚数；3、−5、0 是实数（b=0），不是纯虚数。
 要点：实部为 0 还不够，虚部不能为 0——0 不是纯虚数。</p>
-<p><strong>编者注·本质回扣</strong>：i 这个"虚幻的数"，本质就是一个"转 90°"的记号。实数只能在一条直线上左右走，乘 −1 是掉头（转 180°）；现在规定乘 i 是转 90°，那转两次就是转 180°，正好得到 i<sup>2</sup> = −1——这就是为什么 i<sup>2</sup> = −1，不是硬规定。有了它，每个复数 a+bi 就能拆成"实轴走 a 步、虚轴走 b 步"，对应平面上一个点。复数不能比大小，和向量不能比大小是同一个道理：平面上的点没有"谁大谁小"，只有到原点的距离（模）能比。</p>
+<p><strong>编者注·本质回扣</strong>：i 这个"虚幻的数"，本质就是一个"转 90°"的记号。实数只能在一条直线上左右走，乘 −1 是掉头（转 180°）；现在规定乘 i 是转 90°，那转两次就是转 180°，正好得到 i<sup>2</sup>=−1——这就是为什么 i<sup>2</sup>=−1，不是硬规定。有了它，每个复数 a+bi 就能拆成"实轴走 a 步、虚轴走 b 步"，对应平面上一个点。复数不能比大小，和向量不能比大小是同一个道理：平面上的点没有"谁大谁小"，只有到原点的距离（模）能比。</p>
 <h3>3.2 共轭与模</h3>
-<p><strong>共轭复数</strong>：z  =  a + bi 的共轭记作 <strong><span class = "ol">z</span>  =  a − bi</strong>（实部不变，虚部变号）。一个好用的结论：<strong>z·<span class = "ol">z</span>  =  a<sup>2</sup> + b<sup>2</sup></strong>（是个实数）。</p>
-<p><strong>模</strong>：<strong>|z|  =  √(a<sup>2</sup> + b<sup>2</sup>)</strong>。它是一个非负实数，表示复平面上 z 这个点到原点的距离。</p>
-<p><strong>共轭在图上是什么？</strong> z  =  a+bi 对应点 (a,b)，共轭 <span class = "ol">z</span>  =  a−bi 对应点 (a,−b)——这两个点关于实轴对称。所以"取共轭"就是"把点沿实轴翻个面"。</p>
-<p><img alt = "复平面上的点与向量" src = "assets/10-complex-plane.png" /></p>
-<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题 3.2-1</strong>：已知 z  =  3 − 4i，求 |z| 和 z·<span class = "ol">z</span>。
-解：|z|  =  √(3<sup>2</sup>+(−4)<sup>2</sup>)  =  5；z·<span class = "ol">z</span>  =  3<sup>2</sup>+4<sup>2</sup>  =  25  =  |z|<sup>2</sup>。
-要点：<strong>z·<span class = "ol">z</span>  =  |z|<sup>2</sup> 恒成立</strong>，小题常用来"消掉 i"。</p>
-<p><strong>模的两条好性质</strong>：|z<sub>1</sub>·z<sub>2</sub>|  =  |z<sub>1</sub>|·|z<sub>2</sub>|，|z<sub>1</sub>/z<sub>2</sub>|  =  |z<sub>1</sub>|/|z<sub>2</sub>|。意思是"乘积的模  =  模的乘积，商的模  =  模的商"。求复杂复数的模时，可以先拆开算模再相乘，比先化简省事。</p>
+<p><strong>共轭复数</strong>：z = a + bi 的共轭记作 <strong><span class="ol">z</span> = a − bi</strong>（实部不变，虚部变号）。一个好用的结论：<strong>z·<span class="ol">z</span> = a<sup>2</sup> + b<sup>2</sup></strong>（是个实数）。</p>
+<p><strong>模</strong>：<strong>|z| = √(a<sup>2</sup> + b<sup>2</sup>)</strong>。它是一个非负实数，表示复平面上 z 这个点到原点的距离。</p>
+<p><strong>共轭在图上是什么？</strong> z = a+bi 对应点 (a,b)，共轭 <span class="ol">z</span> = a−bi 对应点 (a,−b)——这两个点关于实轴对称。所以"取共轭"就是"把点沿实轴翻个面"。</p>
+<p><img alt="复平面上的点与向量" src="assets/10-complex-plane.png" /></p>
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题 3.2-1</strong>：已知 z = 3 − 4i，求 |z| 和 z·<span class="ol">z</span>。
+解：|z| = √(3<sup>2</sup>+(−4)<sup>2</sup>) = 5；z·<span class="ol">z</span> = 3<sup>2</sup>+4<sup>2</sup> = 25 = |z|<sup>2</sup>。
+要点：<strong>z·<span class="ol">z</span> = |z|<sup>2</sup> 恒成立</strong>，小题常用来"消掉 i"。</p>
+<p><strong>模的两条好性质</strong>：|z<sub>1</sub>·z<sub>2</sub>| = |z<sub>1</sub>|·|z<sub>2</sub>|，|z<sub>1</sub>/z<sub>2</sub>| = |z<sub>1</sub>|/|z<sub>2</sub>|。意思是"乘积的模 = 模的乘积，商的模 = 模的商"。求复杂复数的模时，可以先拆开算模再相乘，比先化简省事。</p>
 <h3>3.3 四则运算</h3>
-<p>复数运算就把 i 当成一个字母，像多项式一样展开，<strong>唯一的新规则是 i<sup>2</sup>  =  −1，最后把 i<sup>2</sup> 换成 −1</strong>。换句话说：会做多项式乘法，就会复数乘法；会分数通分，就会复数除法。</p>
+<p>复数运算就把 i 当成一个字母，像多项式一样展开，<strong>唯一的新规则是 i<sup>2</sup> = −1，最后把 i<sup>2</sup> 换成 −1</strong>。换句话说：会做多项式乘法，就会复数乘法；会分数通分，就会复数除法。</p>
 <ul>
-<li><strong>加减</strong>：实部、虚部分别相加减：(a+bi) ± (c+di)  =  (a±c) + (b±d)i。</li>
-<li><strong>乘法</strong>：像多项式乘：(a+bi)(c+di)  =  ac + adi + bci + bdi<sup>2</sup>  =  <strong>(ac−bd) + (ad+bc)i</strong>。</li>
+<li><strong>加减</strong>：实部、虚部分别相加减：(a+bi) ± (c+di) = (a±c) + (b±d)i。</li>
+<li><strong>乘法</strong>：像多项式乘：(a+bi)(c+di) = ac + adi + bci + bdi<sup>2</sup> = <strong>(ac−bd) + (ad+bc)i</strong>。</li>
 <li><strong>除法</strong>：<strong>分母实数化</strong>——分子分母同乘分母的共轭，把分母变成实数：
-  (a+bi)/(c+di)  =  (a+bi)(c−di) / [(c+di)(c−di)]  =  <strong>[(ac+bd) + (bc−ad)i] / (c<sup>2</sup>+d<sup>2</sup>)</strong>。</li>
+  (a+bi)/(c+di) = (a+bi)(c−di) / [(c+di)(c−di)] = <strong>[(ac+bd) + (bc−ad)i] / (c<sup>2</sup>+d<sup>2</sup>)</strong>。</li>
 </ul>
 <p><strong>计算流程（除法）</strong>：</p>
 <ol>
@@ -337,91 +359,91 @@ section.flash{animation:flash 1.6s ease}
 <li>分母变成 c<sup>2</sup>+d<sup>2</sup>（实数）；</li>
 <li>分子展开、i<sup>2</sup> 换 −1，整理成 a+bi。</li>
 </ol>
-<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题 3.3-1</strong>：计算 (1+2i)/(1−i)。
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题 3.3-1</strong>：计算 (1+2i)/(1−i)。
 解：同乘分母共轭 (1+i)：
-原式  =  (1+2i)(1+i)/[(1−i)(1+i)]  =  (1+i+2i+2i<sup>2</sup>)/(1+1)  =  (1+3i−2)/2  =  <strong>−1/2 + (3/2)i</strong>。
-要点：(1−i)(1+i)  =  1−i<sup>2</sup>  =  2，分母干净了。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题 3.3-2</strong>：计算 (1+i)<sup>2</sup>。
-解：(1+i)<sup>2</sup>  =  1 + 2i + i<sup>2</sup>  =  1 + 2i − 1  =  <strong>2i</strong>。
-要点：常用小结论 (1±i)<sup>2</sup>  =  ±2i，记下来小题能秒。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题 3.3-3</strong>：计算 (2−i)/(3+i)。
+原式 = (1+2i)(1+i)/[(1−i)(1+i)] = (1+i+2i+2i<sup>2</sup>)/(1+1) = (1+3i−2)/2 = <strong>−1/2 + (3/2)i</strong>。
+要点：(1−i)(1+i) = 1−i<sup>2</sup> = 2，分母干净了。</p>
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题 3.3-2</strong>：计算 (1+i)<sup>2</sup>。
+解：(1+i)<sup>2</sup> = 1 + 2i + i<sup>2</sup> = 1 + 2i − 1 = <strong>2i</strong>。
+要点：常用小结论 (1±i)<sup>2</sup> = ±2i，记下来小题能秒。</p>
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题 3.3-3</strong>：计算 (2−i)/(3+i)。
 解：分母共轭是 3−i。分子分母同乘：
-原式  =  (2−i)(3−i)/[(3+i)(3−i)]  =  (6−2i−3i+i<sup>2</sup>)/(9+1)  =  (6−5i−1)/10  =  (5−5i)/10  =  <strong>1/2 − (1/2)i</strong>。
+原式 = (2−i)(3−i)/[(3+i)(3−i)] = (6−2i−3i+i<sup>2</sup>)/(9+1) = (6−5i−1)/10 = (5−5i)/10 = <strong>1/2 − (1/2)i</strong>。
 要点：分母实数化后，分母一定是 c<sup>2</sup>+d<sup>2</sup>；分子展开别急着约，最后一步再约分。</p>
 <p><strong>陷阱</strong>：乘完一定要把 i<sup>2</sup> 换成 −1，这是唯一容易漏的代换。</p>
-<p><strong>两个可背的模板</strong>：(1+i)/(1−i)  =  i，(1−i)/(1+i)  =  −i。推导：前者分子分母同乘 (1+i) 得 (1+i)<sup>2</sup>/2  =  2i/2  =  i。选择题里见到这种形式，直接写结果，不用现算。</p>
-<p><strong>编者注·本质回扣</strong>：复数四则运算看着新，本质就是多项式运算外加一条 i<sup>2</sup> = −1。加减是实部虚部分别合并同类项；乘法像 (a+b)(c+d) 那样展开，只是最后把 i<sup>2</sup> 换成 −1；除法最巧——分母是 c+di，乘上它的共轭 c−di 后，按平方差得 c<sup>2</sup>+d<sup>2</sup> 变成纯实数，分母就"干净"了，这一步叫分母实数化，和分数里"分母有理化"是同一个思路。所以会做多项式乘法和分数通分，就会复数运算。</p>
+<p><strong>两个可背的模板</strong>：(1+i)/(1−i) = i，(1−i)/(1+i) = −i。推导：前者分子分母同乘 (1+i) 得 (1+i)<sup>2</sup>/2 = 2i/2 = i。选择题里见到这种形式，直接写结果，不用现算。</p>
+<p><strong>编者注·本质回扣</strong>：复数四则运算看着新，本质就是多项式运算外加一条 i<sup>2</sup>=−1。加减是实部虚部分别合并同类项；乘法像 (a+b)(c+d) 那样展开，只是最后把 i<sup>2</sup> 换成 −1；除法最巧——分母是 c+di，乘上它的共轭 c−di 后，按平方差得 c<sup>2</sup>+d<sup>2</sup> 变成纯实数，分母就"干净"了，这一步叫分母实数化，和分数里"分母有理化"是同一个思路。所以会做多项式乘法和分数通分，就会复数运算。</p>
 <h3>3.4 几何意义（复平面）</h3>
-<p>把直角坐标系借给复数用：<strong>x 轴叫实轴，y 轴叫虚轴</strong>，复数 z  =  a+bi 对应平面上的点 (a,b)，也对应从原点到该点的向量 OZ。</p>
+<p>把直角坐标系借给复数用：<strong>x 轴叫实轴，y 轴叫虚轴</strong>，复数 z = a+bi 对应平面上的点 (a,b)，也对应从原点到该点的向量 OZ。</p>
 <ul>
-<li><strong>|z|</strong>  =  点 z 到原点的距离；</li>
-<li><strong>|z<sub>1</sub> − z<sub>2</sub>|</strong>  =  两点 z<sub>1</sub>、z<sub>2</sub> 之间的距离；</li>
+<li><strong>|z|</strong> = 点 z 到原点的距离；</li>
+<li><strong>|z<sub>1</sub> − z<sub>2</sub>|</strong> = 两点 z<sub>1</sub>、z<sub>2</sub> 之间的距离；</li>
 <li>加法的几何意义：<strong>向量平行四边形法则</strong>。</li>
 </ul>
-<p class = "baihua why"><span class = "tag">为什么</span>复数加法像向量加法？ 因为复数 a+bi 本来就对应向量 (a,b)。两个复数相加  =  两个向量相加，坐标对应相加即可，画在图上就是平行四边形法则。这也说明：复数的几何和向量（第 09 章）是同一张图，你已经会了，这里只是换个名字。</p>
-<p><img alt = "复数加法的几何意义" src = "assets/10-complex-add.png" /></p>
-<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题 3.4-1</strong>：|z−1|  =  2 在复平面上表示什么图形？
+<p class="baihua why"><span class="tag">为什么</span>复数加法像向量加法？ 因为复数 a+bi 本来就对应向量 (a,b)。两个复数相加 = 两个向量相加，坐标对应相加即可，画在图上就是平行四边形法则。这也说明：复数的几何和向量（第 09 章）是同一张图，你已经会了，这里只是换个名字。</p>
+<p><img alt="复数加法的几何意义" src="assets/10-complex-add.png" /></p>
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题 3.4-1</strong>：|z−1| = 2 在复平面上表示什么图形？
 解：|z−1| 是点 z 到点 (1,0) 的距离，等于 2，所以是以 (1,0) 为圆心、半径 2 的圆。
-要点：|z−z<sub>0</sub>|  =  r 就是"以 z<sub>0</sub> 为圆心、r 为半径的圆"。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题 3.4-2</strong>：求 z<sub>1</sub>  =  3+4i 与 z<sub>2</sub>  =  0 之间的距离。
-解：|z<sub>1</sub>−z<sub>2</sub>|  =  |z<sub>1</sub>|  =  √(3<sup>2</sup>+4<sup>2</sup>)  =  5。
-要点：两点距离就是复数差的模，和向量里"两点距离  =  向量模"一模一样——复数和向量在平面上是同一张图。</p>
+要点：|z−z<sub>0</sub>| = r 就是"以 z<sub>0</sub> 为圆心、r 为半径的圆"。</p>
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题 3.4-2</strong>：求 z<sub>1</sub> = 3+4i 与 z<sub>2</sub> = 0 之间的距离。
+解：|z<sub>1</sub>−z<sub>2</sub>| = |z<sub>1</sub>| = √(3<sup>2</sup>+4<sup>2</sup>) = 5。
+要点：两点距离就是复数差的模，和向量里"两点距离 = 向量模"一模一样——复数和向量在平面上是同一张图。</p>
 <h3>3.5 实系数二次方程的复数根（了解）</h3>
 <p>初中说"判别式 Δ&lt;0 时方程没有实数根"。有了复数，这句话要改口：<strong>不是没根，是没有实根，但有一对共轭复根</strong>。</p>
-<p>对实系数一元二次方程 ax<sup>2</sup> + bx + c  =  0（a≠0），记 Δ  =  b<sup>2</sup>−4ac：</p>
+<p>对实系数一元二次方程 ax<sup>2</sup> + bx + c = 0（a≠0），记 Δ = b<sup>2</sup>−4ac：</p>
 <ul>
-<li>Δ &gt; 0：两个不等实根 x  =  (−b±√Δ)/(2a)；</li>
-<li>Δ  =  0：两个相等实根 x  =  −b/(2a)；</li>
-<li><strong>Δ &lt; 0</strong>：实数范围内无实根，复数集内有一对共轭复根：<strong>x  =  (−b ± √(−Δ)·i)/(2a)</strong>。</li>
+<li>Δ &gt; 0：两个不等实根 x = (−b±√Δ)/(2a)；</li>
+<li>Δ = 0：两个相等实根 x = −b/(2a)；</li>
+<li><strong>Δ &lt; 0</strong>：实数范围内无实根，复数集内有一对共轭复根：<strong>x = (−b ± √(−Δ)·i)/(2a)</strong>。</li>
 </ul>
-<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题 3.5-1</strong>：解方程 x<sup>2</sup> + 2x + 5  =  0。
-解：Δ  =  4 − 20  =  −16 &lt; 0。由公式 x  =  (−2 ± √16·i)/2  =  (−2 ± 4i)/2  =  <strong>−1 ± 2i</strong>。
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题 3.5-1</strong>：解方程 x<sup>2</sup> + 2x + 5 = 0。
+解：Δ = 4 − 20 = −16 &lt; 0。由公式 x = (−2 ± √16·i)/2 = (−2 ± 4i)/2 = <strong>−1 ± 2i</strong>。
 要点：Δ&lt;0 时照套求根公式，把 √Δ 换成 √(−Δ)·i，最后约分得标准 a+bi。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题 3.5-2</strong>：解方程 x<sup>2</sup> + 9  =  0。
-解：x<sup>2</sup>  =  −9  =  9i<sup>2</sup>，故 x  =  ±3i。两根 3i 与 −3i 互为共轭，符合"实系数方程复根成对"。
-要点：这种缺一次项的，直接 x<sup>2</sup>  =  负数，开方得 ±√(正数)·i。</p>
-<p class = "baihua why"><span class = "tag">为什么</span>两根共轭？ 因为系数都是实数，若 x  =  a+bi 是根，把 i 换成 −i（取共轭）等式仍然成立，所以共轭复数 a−bi 也是根。这解释了"复根成对出现"。</p>
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题 3.5-2</strong>：解方程 x<sup>2</sup> + 9 = 0。
+解：x<sup>2</sup> = −9 = 9i<sup>2</sup>，故 x = ±3i。两根 3i 与 −3i 互为共轭，符合"实系数方程复根成对"。
+要点：这种缺一次项的，直接 x<sup>2</sup> = 负数，开方得 ±√(正数)·i。</p>
+<p class="baihua why"><span class="tag">为什么</span>两根共轭？ 因为系数都是实数，若 x = a+bi 是根，把 i 换成 −i（取共轭）等式仍然成立，所以共轭复数 a−bi 也是根。这解释了"复根成对出现"。</p>
 <h3>3.6 复数方程里的待定系数</h3>
-<p>高考有一类题：给一个含实数 x、y 的复数等式，让你求 x、y。钥匙只有一把——<strong>复数相等 ⇔ 实部相等、虚部相等</strong>。把两边都整理成 a+bi 标准形，令实部 = 实部、虚部 = 虚部，就得到两个方程。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题 3.6-1</strong>：已知 (x + yi)·i  =  1 − i（x、y 为实数），求 x、y。
-解：左边先展开：(x+yi)·i  =  xi + yi<sup>2</sup>  =  xi − y  =  −y + xi。
-右边是 1 − i。复数相等 ⇒ 实部相等：−y  =  1；虚部相等：x  =  −1。
-故 <strong>x  =  −1，y  =  −1</strong>。
-一步一验：代回 (−1−i)·i  =  −i − i<sup>2</sup>  =  −i + 1  =  1 − i，与右边相等 ✓。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题 3.6-2</strong>：已知 z + 2·<span class = "ol">z</span>  =  9 + i（z 为复数），求 z。
-解：设 z  =  a+bi，则 <span class = "ol">z</span>  =  a−bi。代入：(a+bi) + 2(a−bi)  =  3a − bi。
-等于 9 + i ⇒ 实部 3a  =  9，虚部 −b  =  1 ⇒ a  =  3，b  =  −1。
-故 <strong>z  =  3 − i</strong>。
-要点：见到 <span class = "ol">z</span> 就设 z  =  a+bi 展开，再用"实部 = 实部、虚部 = 虚部"列两个方程。</p>
-<p><strong>小结</strong>：复数  =  实数 + 一个 i；运算像多项式，只多一条 i<sup>2</sup> = −1；除法靠乘共轭"实数化"；几何上它就是复平面上的点和向量。考试拿分的关键就两处：i<sup>2</sup> = −1 别代错，除法别忘了乘共轭。</p>
+<p>高考有一类题：给一个含实数 x、y 的复数等式，让你求 x、y。钥匙只有一把——<strong>复数相等 ⇔ 实部相等、虚部相等</strong>。把两边都整理成 a+bi 标准形，令实部=实部、虚部=虚部，就得到两个方程。</p>
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题 3.6-1</strong>：已知 (x + yi)·i = 1 − i（x、y 为实数），求 x、y。
+解：左边先展开：(x+yi)·i = xi + yi<sup>2</sup> = xi − y = −y + xi。
+右边是 1 − i。复数相等 ⇒ 实部相等：−y = 1；虚部相等：x = −1。
+故 <strong>x = −1，y = −1</strong>。
+一步一验：代回 (−1−i)·i = −i − i<sup>2</sup> = −i + 1 = 1 − i，与右边相等 ✓。</p>
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题 3.6-2</strong>：已知 z + 2·<span class="ol">z</span> = 9 + i（z 为复数），求 z。
+解：设 z = a+bi，则 <span class="ol">z</span> = a−bi。代入：(a+bi) + 2(a−bi) = 3a − bi。
+等于 9 + i ⇒ 实部 3a = 9，虚部 −b = 1 ⇒ a = 3，b = −1。
+故 <strong>z = 3 − i</strong>。
+要点：见到 <span class="ol">z</span> 就设 z = a+bi 展开，再用"实部=实部、虚部=虚部"列两个方程。</p>
+<p><strong>小结</strong>：复数 = 实数 + 一个 i；运算像多项式，只多一条 i<sup>2</sup>=−1；除法靠乘共轭"实数化"；几何上它就是复平面上的点和向量。考试拿分的关键就两处：i<sup>2</sup>=−1 别代错，除法别忘了乘共轭。</p>
 <hr />
-</div><div class="sec sec-ex2"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
-<p class = "ex"><span class = "tag">例题</span><strong>例 1（运算 + 纯虚数）</strong>：已知 z  =  (1 + i)(2 − i)，求 z 的实部与虚部。</p>
+</div><div class="sec sec-ex2"><h2 class="ex2">④ 例题详解（先做再看）</h2>
+<p class="ex"><span class="tag">例题</span><strong>例 1（运算 + 纯虚数）</strong>：已知 z = (1 + i)(2 − i)，求 z 的实部与虚部。</p>
 <blockquote>
 <p>自己做：展开，i<sup>2</sup> 换成 −1。</p>
 </blockquote>
-<p>解：(1 + i)(2 − i)  =  2 − i + 2i − i<sup>2</sup>  =  2 + i + 1  =  3 + i。实部 3，虚部 1。
-要点：<strong>i<sup>2</sup>  =  −1 是唯一的"新"规则</strong>，其余都像多项式乘法。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>例 2（除法  =  分母实数化）</strong>：计算 (1 + 2i)/(1 − i)。</p>
+<p>解：(1 + i)(2 − i) = 2 − i + 2i − i<sup>2</sup> = 2 + i + 1 = 3 + i。实部 3，虚部 1。
+要点：<strong>i<sup>2</sup> = −1 是唯一的"新"规则</strong>，其余都像多项式乘法。</p>
+<p class="ex"><span class="tag">例题</span><strong>例 2（除法 = 分母实数化）</strong>：计算 (1 + 2i)/(1 − i)。</p>
 <blockquote>
 <p>自己做：乘共轭。</p>
 </blockquote>
-<p>解：原式  =  (1 + 2i)(1 + i)/[(1 − i)(1 + i)]  =  (1 + i + 2i + 2i<sup>2</sup>)/(1 + 1)  =  (1 + 3i − 2)/2  =  (−1 + 3i)/2  =  −1/2 + (3/2)i。
-要点：<strong>分母是 a + bi 就乘 a − bi</strong>；(1 − i)(1 + i)  =  1 + 1  =  2 是常见模板。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>例 3（模与共轭）</strong>：已知 z  =  3 − 4i，求 |z| 与 z·<span class = "ol">z</span>。</p>
+<p>解：原式 = (1 + 2i)(1 + i)/[(1 − i)(1 + i)] = (1 + i + 2i + 2i<sup>2</sup>)/(1 + 1) = (1 + 3i − 2)/2 = (−1 + 3i)/2 = −1/2 + (3/2)i。
+要点：<strong>分母是 a + bi 就乘 a − bi</strong>；(1 − i)(1 + i) = 1 + 1 = 2 是常见模板。</p>
+<p class="ex"><span class="tag">例题</span><strong>例 3（模与共轭）</strong>：已知 z = 3 − 4i，求 |z| 与 z·<span class="ol">z</span>。</p>
 <blockquote>
 <p>自己做：套公式。</p>
 </blockquote>
-<p>解：|z|  =  √(9 + 16)  =  5；z·<span class = "ol">z</span>  =  3<sup>2</sup> + 4<sup>2</sup>  =  25  =  |z|<sup>2</sup>。
-要点：<strong>z·<span class = "ol">z</span>  =  |z|<sup>2</sup> 恒成立</strong>，小题常用来化简。</p>
-</div><div class="sec sec-out"><h2 class = "out">⑤ 出口检测</h2>
+<p>解：|z| = √(9 + 16) = 5；z·<span class="ol">z</span> = 3<sup>2</sup> + 4<sup>2</sup> = 25 = |z|<sup>2</sup>。
+要点：<strong>z·<span class="ol">z</span> = |z|<sup>2</sup> 恒成立</strong>，小题常用来化简。</p>
+</div><div class="sec sec-out"><h2 class="out">⑤ 出口检测</h2>
 <p><strong>自测（12 分钟，每题 2 分）</strong>：</p>
 <ol>
 <li>计算 i<sup>3</sup>。</li>
-<li>复数 z  =  2 − 3i 的共轭是什么？模是多少？</li>
+<li>复数 z = 2 − 3i 的共轭是什么？模是多少？</li>
 <li>计算 (2 + i)(3 − i)。</li>
 <li>计算 1/(2 − i)（写成 a + bi 形式）。</li>
-<li>若 (a + 1) + (b − 2)i  =  3 + 4i，求 a、b。</li>
+<li>若 (a + 1) + (b − 2)i = 3 + 4i，求 a、b。</li>
 </ol>
 <p><strong>真题验收</strong>：2025 新高考Ⅰ卷 <strong>选择题第 1 题</strong>（复数运算）＋ 2020–2024 卷中复数小题 1 道：每题 1 分钟、全对过关。</p>
 <p><strong>过关标准</strong>：自测 ≥ 10 分 且 真题全对 → 打卡。</p>
@@ -480,67 +502,67 @@ A. −1　　B. 0　　C. 1　　D. 6</p>
 <li class="baihua"><span class="tag">大白话</span>像多项式一样展开，最后把 i<sup>2</sup> 换成 −1。</li>
 <li>用的时候：乘完一定记得 i<sup>2</sup>=−1，这是唯一容易漏的代换。</li>
 </ul>
-<p><strong>除法：(a+bi)/(c+di)  =  [(ac+bd) + (bc−ad)i] / (c<sup>2</sup>+d<sup>2</sup>)</strong>（分母不为 0）</p>
+<p><strong>除法：(a+bi)/(c+di) = [(ac+bd) + (bc−ad)i] / (c<sup>2</sup>+d<sup>2</sup>)</strong>（分母不为 0）</p>
 <ul>
-<li class = "baihua"><span class = "tag">大白话</span>分子分母同乘分母的共轭，把分母"实数化"成 c<sup>2</sup>+d<sup>2</sup>。</li>
+<li class="baihua"><span class="tag">大白话</span>分子分母同乘分母的共轭，把分母"实数化"成 c<sup>2</sup>+d<sup>2</sup>。</li>
 <li>用的时候：结果要写成 a+bi 标准形；别忘乘共轭这一步。</li>
 </ul>
 <h3>共轭与模</h3>
-<p><strong>共轭：z  =  a+bi 的共轭 <span class = "ol">z</span>  =  a − bi（实部不变，虚部变号）</strong></p>
+<p><strong>共轭：z = a+bi 的共轭 <span class="ol">z</span> = a − bi（实部不变，虚部变号）</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>取共轭就是把点沿实轴翻个面。</li>
 <li>用的时候：除法里乘的那个"分母共轭"就是它。</li>
 </ul>
-<p><strong>z·<span class = "ol">z</span>  =  |z|<sup>2</sup>  =  a<sup>2</sup> + b<sup>2</sup></strong></p>
+<p><strong>z·<span class="ol">z</span> = |z|<sup>2</sup> = a<sup>2</sup> + b<sup>2</sup></strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>一个复数乘它的共轭，一定等于模的平方，是个实数。</li>
 <li>用的时候：小题里常用它"消掉 i"、化简分母。</li>
 </ul>
-<p><strong>模：|z|  =  √(a<sup>2</sup> + b<sup>2</sup>)</strong></p>
+<p><strong>模：|z| = √(a<sup>2</sup> + b<sup>2</sup>)</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>模就是复平面上点 (a,b) 到原点的距离，是个非负实数。</li>
 <li>用的时候：复数本身不能比大小，但模能比。</li>
 </ul>
-<p><strong>模的乘法性质：|z<sub>1</sub>·z<sub>2</sub>|  =  |z<sub>1</sub>||z<sub>2</sub>|；|z<sub>1</sub>/z<sub>2</sub>|  =  |z<sub>1</sub>|/|z<sub>2</sub>|</strong></p>
+<p><strong>模的乘法性质：|z<sub>1</sub>·z<sub>2</sub>| = |z<sub>1</sub>||z<sub>2</sub>|；|z<sub>1</sub>/z<sub>2</sub>| = |z<sub>1</sub>|/|z<sub>2</sub>|</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>乘积的模等于模的乘积，商的模等于模的商。</li>
 <li>用的时候：求复杂复数的模，可以先拆开算模再相乘，比先化简省事。</li>
 </ul>
 <h3>i 的幂与常用小结论</h3>
-<p><strong>i 的幂每 4 个一循环：i<sup>4n</sup> = 1，i<sup>4n+1</sup> = i，i<sup>4n+2</sup> = −1，i<sup>4n+3</sup> = −i</strong></p>
+<p><strong>i 的幂每 4 个一循环：i<sup>4n</sup>=1，i<sup>4n+1</sup>=i，i<sup>4n+2</sup>=−1，i<sup>4n+3</sup>=−i</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>i 的大数次幂，指数除以 4 看余数——余 0 是 1，余 1 是 i，余 2 是 −1，余 3 是 −i。</li>
 <li>用的时候：求 i<sup>2024</sup> 这种，先拿指数除以 4。</li>
 </ul>
-<p><strong>常用小结论：(1+i)<sup>2</sup>  =  2i，(1−i)<sup>2</sup>  =  −2i；(1+i)/(1−i)  =  i，(1−i)/(1+i)  =  −i</strong></p>
+<p><strong>常用小结论：(1+i)<sup>2</sup> = 2i，(1−i)<sup>2</sup> = −2i；(1+i)/(1−i) = i，(1−i)/(1+i) = −i</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>见到这两种特殊形式直接写答案，不用现场算。</li>
 <li>用的时候：选择题里秒答；不熟就分子分母乘共轭推一遍。</li>
 </ul>
-<p><strong>平行四边形恒等式：|z<sub>1</sub>+z<sub>2</sub>|<sup>2</sup> + |z<sub>1</sub>−z<sub>2</sub>|<sup>2</sup>  =  2(|z<sub>1</sub>|<sup>2</sup> + |z<sub>2</sub>|<sup>2</sup>)</strong></p>
+<p><strong>平行四边形恒等式：|z<sub>1</sub>+z<sub>2</sub>|<sup>2</sup> + |z<sub>1</sub>−z<sub>2</sub>|<sup>2</sup> = 2(|z<sub>1</sub>|<sup>2</sup> + |z<sub>2</sub>|<sup>2</sup>)</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>两复数和的模平方加差的模平方，等于各自模平方和的 2 倍。</li>
 <li>用的时候：知道 |z<sub>1</sub>|、|z<sub>2</sub>| 及和（差）模之一时，可求另一个。</li>
 </ul>
 <h3>实系数二次方程的复根（了解）</h3>
-<p><strong>ax<sup>2</sup>+bx+c = 0（实系数），Δ = b<sup>2</sup>−4ac：Δ&lt;0 时有一对共轭复根 x  =  (−b ± √(−Δ)·i)/(2a)</strong></p>
+<p><strong>ax<sup>2</sup>+bx+c=0（实系数），Δ=b<sup>2</sup>−4ac：Δ&lt;0 时有一对共轭复根 x = (−b ± √(−Δ)·i)/(2a)</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>判别式小于 0 不是"没根"，而是没有实根、有一对互为共轭的复根。</li>
 <li>用的时候：照套求根公式，把 √Δ 换成 √(−Δ)·i；两根互为共轭。</li>
 </ul>
 <h3>复数范围内因式分解与单位根（苏州教研·专题53）</h3>
-<p><strong>a<sup>2</sup> + b<sup>2</sup>  =  (a + bi)(a − bi)</strong>（a、b 为实数）</p>
+<p><strong>a<sup>2</sup> + b<sup>2</sup> = (a + bi)(a − bi)</strong>（a、b 为实数）</p>
 <ul>
-<li class = "baihua"><span class = "tag">大白话</span>在实数里 a<sup>2</sup>+b<sup>2</sup> 不能再分解，到了复数里就能拆成一对共轭复数的乘积。</li>
-<li>用的时候：x<sup>2</sup>+4  =  (x+2i)(x−2i) 这类题直接套；因式分解范围从实数扩到复数。</li>
-<li>记忆要点：平方和  =  共轭两复数相乘，正好和 z·<span class = "ol">z</span>  =  a<sup>2</sup>+b<sup>2</sup> 反过来用。</li>
+<li class="baihua"><span class="tag">大白话</span>在实数里 a<sup>2</sup>+b<sup>2</sup> 不能再分解，到了复数里就能拆成一对共轭复数的乘积。</li>
+<li>用的时候：x<sup>2</sup>+4 = (x+2i)(x−2i) 这类题直接套；因式分解范围从实数扩到复数。</li>
+<li>记忆要点：平方和 = 共轭两复数相乘，正好和 z·<span class="ol">z</span> = a<sup>2</sup>+b<sup>2</sup> 反过来用。</li>
 </ul>
-<p><strong>|z|  =  |<span class = "ol">z</span>|</strong></p>
+<p><strong>|z| = |<span class="ol">z</span>|</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>一个复数和它的共轭，模是一样大的（它们关于实轴对称，到原点距离相同）。</li>
 <li>用的时候：求共轭的模可换成求原复数的模，省一步。</li>
 </ul>
-<p><strong>x<sup>3</sup>  =  1 的三个根（三次单位根）：1、ω、ω̄，其中 ω  =  −1/2 + (√3/2)i，ω̄  =  −1/2 − (√3/2)i</strong></p>
+<p><strong>x<sup>3</sup> = 1 的三个根（三次单位根）：1、ω、ω̄，其中 ω = −1/2 + (√3/2)i，ω̄ = −1/2 − (√3/2)i</strong></p>
 <ul>
 <li><strong>公式</strong>：ω<sup>3</sup> = 1，ω̄<sup>3</sup> = 1；<strong>1 + ω + ω<sup>2</sup> = 0</strong>；ω·ω̄ = 1；ω<sup>2</sup> = ω̄，ω̄<sup>2</sup> = ω。</li>
 <li class="baihua"><span class="tag">大白话</span>把单位圆三等分得到的三个复数，加起来正好归零，互相还是共轭。</li>
@@ -554,10 +576,10 @@ A. −1　　B. 0　　C. 1　　D. 6</p>
 </ul>
 </div><div class="sec sec-meta"><h2>高级方法·进阶</h2>
 <p>本章主线（复数概念 + 共轭/模 + 四则运算 + 几何意义）已覆盖高考全部考点。高考复数题固定出在选择第 1 题附近，难度很低，只要别在 i<sup>2</sup>=−1 和分母实数化两处失手，就是送分题。</p>
-<p><strong>本章无对应高级方法手册条目</strong>。说明：《不超纲高级方法手册》未单列"复数"专题。高考复数题只在第 1 题左右出一道选择，考的就是本章四则运算与 i 的幂循环，全部不超纲。一个可直接用的小结论：<strong>实系数一元二次方程 ax<sup>2</sup>+bx+c = 0 当 Δ&lt;0 时，在复数集内有一对共轭复根 x  =  (−b±√(−Δ)·i)/(2a)</strong>（选学了解）。</p>
+<p><strong>本章无对应高级方法手册条目</strong>。说明：《不超纲高级方法手册》未单列"复数"专题。高考复数题只在第 1 题左右出一道选择，考的就是本章四则运算与 i 的幂循环，全部不超纲。一个可直接用的小结论：<strong>实系数一元二次方程 ax<sup>2</sup>+bx+c=0 当 Δ&lt;0 时，在复数集内有一对共轭复根 x = (−b±√(−Δ)·i)/(2a)</strong>（选学了解）。</p>
 <hr />
 
-</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. −i；2. <span class = "ol">z</span>  =  2 + 3i，|z|  =  √13；3. (2+i)(3−i)  =  6 − 2i + 3i − i<sup>2</sup>  =  6 + i + 1  =  <strong>7 + i</strong>；4. (2 + i)/(4 + 1)  =  2/5 + (1/5)i；5. a + 1  =  3 ⇒ a  =  2；b − 2  =  4 ⇒ b  =  6。</p></div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">A 组答案</p><p><strong>A 组</strong></p>
+</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. −i；2. <span class="ol">z</span> = 2 + 3i，|z| = √13；3. (2+i)(3−i) = 6 − 2i + 3i − i<sup>2</sup> = 6 + i + 1 = <strong>7 + i</strong>；4. (2 + i)/(4 + 1) = 2/5 + (1/5)i；5. a + 1 = 3 ⇒ a = 2；b − 2 = 4 ⇒ b = 6。</p></div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">A 组答案</p><p><strong>A 组</strong></p>
 <ol>
 <li>i<sup>5</sup> = <strong>i</strong>；i<sup>6</sup> = <strong>−1</strong>；i<sup>7</sup> = <strong>−i</strong>；i<sup>8</sup> = <strong>1</strong>。</li>
 <li>实部 <strong>−3</strong>，虚部 <strong>5</strong>；b≠0，是<strong>虚数</strong>（不是纯虚数，实部不为 0）。</li>
@@ -585,7 +607,19 @@ A. −1　　B. 0　　C. 1　　D. 6</p>
 </div><div class="sec sec-meta"><h2>本章与前后章</h2>
 <p>复数前接第 02 章（函数与实数系、坐标系）——它是在实数不够用（负数开平方）时把数系从一维扩到二维；几何上它和第 09 章平面向量共用一张复平面图（a+bi 对应向量 (a,b)）。它向后不直接推哪一章，但作为第 01 章集合与逻辑里"数集包含链 R⊂C"的落脚点，以及卷面上固定的第 1 题送分小题，地位是"小而稳"。学完它，你手里多了一套能让负数开平方、能描述旋转的二维数。</p>
 </div><div class="sec sec-meta"><h2>高考怎么考</h2>
-<p>新高考Ⅰ卷里复数固定在选择题第 1 题附近，难度很低、是全卷送分题：考法集中在四则运算（尤其除法的分母实数化）、求实部虚部、共轭与模、i 的幂循环。真题如 2025 新高考Ⅰ卷第 1 题（(1+5i)i 的虚部，答案选 C），以及 2023 年卷第 1 题也考复数（该年集合退到第 2 题）。它考的不是思维，而是你别在 i<sup>2</sup>=−1 和乘共轭两处失手——一分钟内必须拿下，为后面大题省时间。</p></div>
+<p>新高考Ⅰ卷里复数固定在选择题第 1 题附近，难度很低、是全卷送分题：考法集中在四则运算（尤其除法的分母实数化）、求实部虚部、共轭与模、i 的幂循环。真题如 2025 新高考Ⅰ卷第 1 题（(1+5i)i 的虚部，答案选 C），以及 2023 年卷第 1 题也考复数（该年集合退到第 2 题）。它考的不是思维，而是你别在 i<sup>2</sup>=−1 和乘共轭两处失手——一分钟内必须拿下，为后面大题省时间。</p>
+<hr />
+</div><div class="sec sec-meta"><h2>同法跨章 · 一通百通</h2>
+<p><strong>几何意义（本章 → ch16 圆与最值 → ch12 三角不等式）</strong>：本章复数 = 复平面点，|z|=到原点距离；ch16 圆上点到定点距离最值（±半径）；ch12 三角不等式 ||a|−|b||≤|a±b|。<strong>"复数=点、模=距离、加减=向量"——几何直觉一套带走</strong>。</p>
+<p><strong>模长运算（本章 → ch09 向量模）</strong>：本章 |z<sub>1</sub>z<sub>2</sub>|=|z<sub>1</sub>||z<sub>2</sub>|、共轭复数积；ch09 向量模长运算同构。<strong>模与模的运算是"长度代数"</strong>。</p>
+<p><strong>代数结构（本章 → ch02 代数运算）</strong>：本章复数的四则运算、分母实数化；代数式的化简整理能力在 ch02 函数解析、ch12 恒等变形中复用。<strong>基本功是通用的</strong>。</p>
+</div><div class="sec sec-meta"><h2>本章连接全书</h2>
+<ul>
+<li><strong>→ ch09 平面向量</strong>：复数的加减、模长与向量完全对应。</li>
+<li><strong>→ ch12 不等式</strong>：|z<sub>1</sub>±z<sub>2</sub>| 的范围题用三角不等式。</li>
+<li><strong>→ ch16 解析几何</strong>：|z−(a+bi)|=r 就是圆方程；复数轨迹问题。</li>
+<li><strong>→ ch06 三角</strong>：复数的三角形式与辐角。</li>
+</ul></div>
 </section>
 </main>
 <button id="topbtn" title="回到顶部">↑</button>
@@ -774,6 +808,35 @@ A. −1　　B. 0　　C. 1　　D. 6</p>
     window.addEventListener('resize',renderPen);
     loadPen();renderPen();
   }
+})();
+/* 章内左侧小目录：扫描各章 h2 生成，点击平滑滚动直达 */
+(function(){
+  var secs=document.querySelectorAll('section.chapter');
+  if(!secs.length||document.getElementById('secbar'))return;
+  var sb=document.createElement('div');sb.id='secbar';
+  var inner=document.createElement('div');inner.className='secbar-in';
+  sb.appendChild(inner);
+  secs.forEach(function(sec,si){
+    if(si>0){
+      var ttl=sec.querySelector('.ch-title');
+      var hd=document.createElement('div');hd.className='secbar-ch';
+      hd.textContent=(ttl?ttl.textContent.replace(/^\d+·?/,'').slice(0,8):sec.id);
+      inner.appendChild(hd);
+    }
+    sec.querySelectorAll('h2').forEach(function(h2){
+      var a=document.createElement('a');
+      var t=h2.textContent.replace(/^\s*[①-⑨]/,'').replace(/^\s*\d+\s*/,'').trim();
+      a.textContent=t.length>12?t.slice(0,12):t;
+      a.title=t;
+      a.addEventListener('click',function(ev){
+        ev.preventDefault();
+        var r=h2.getBoundingClientRect().top+window.scrollY;
+        window.scrollTo({top:Math.max(0,r-70),behavior:'smooth'});
+      });
+      inner.appendChild(a);
+    });
+  });
+  document.body.appendChild(sb);
 })();
 </script>
 </body>

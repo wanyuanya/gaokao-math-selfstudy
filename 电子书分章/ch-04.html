@@ -65,8 +65,9 @@ h1.ch-title{font-size:29px;font-weight:800;color:#fff;margin:8px 0 6px;letter-sp
 .mats{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px 16px;margin:0 0 18px;box-shadow:var(--shadow)}
 .mats-t{font-size:12.5px;font-weight:700;color:var(--gold);margin-bottom:9px;letter-spacing:.04em}
 .mats-l{display:flex;flex-wrap:wrap;gap:8px}
-.mats-l a{background:var(--blue-l);color:var(--blue);text-decoration:none;font-size:13px;padding:5px 13px;border-radius:20px;border:1px solid #c9d8ec;transition:.15s;white-space:nowrap}
+.mats-l a{background:var(--blue-l);color:var(--blue);text-decoration:none;font-size:13px;padding:5px 13px;border-radius:20px;border:1px solid #c9d8ec;transition:.15s}
 .mats-l a:hover{background:var(--blue);color:#fff;transform:translateY(-1px)}
+.mats-l .mat-txt{background:#eef0f4;color:#4a5568;font-size:12.5px;padding:5px 13px;border-radius:20px;border:1px dashed #c3cad6;cursor:help}
 /* 看不懂怎么办 */
 .help{background:var(--gold-l);border:1px dashed var(--gold);border-radius:12px;padding:13px 16px;margin:0 0 20px;font-size:13.5px;color:#6b5c26;line-height:1.85;box-shadow:var(--shadow)}
 body.dark .help{color:#d8c078}
@@ -85,6 +86,14 @@ h2.adv{border-left-color:var(--purple)}
 h3{font-size:calc(var(--fs) + 0.5px);font-weight:700;color:#3a352c;margin:22px 0 8px}
 p{margin:0 0 12px}
 strong{color:var(--blue)}
+/* 课后习题：题目行题号标签保持正文色（组名行仍按公式块样式显示） */
+.sec-hw p>strong:first-child{color:inherit}
+.sec-hw p:has(>strong:only-child)>strong{color:var(--blue)}
+/* 课后习题答案：每题答案块题号行保留蓝色标题感，其余步骤正文色 */
+.sec-ans p>strong:first-child{color:inherit}
+.sec-ans p:has(>strong:only-child)>strong{color:var(--blue)}
+/* 答案中的解释（方法/为什么/验证/取等条件）：灰色小字，与答案本体区分 */
+.ans-ex{color:#8a8578;font-size:calc(var(--fs) - 1.5px);font-style:normal;letter-spacing:.01em}
 /* 公式独立行：数学衬线字体统一字形（χ Σ √ 上下标同族），避免文本符号混排歪扭 */
 p:has(> strong:only-child){text-align:center;font-size:calc(var(--fs) + 1.5px);margin:16px 0;background:var(--blue-l);border:1px solid #cfe0f2;border-radius:10px;padding:10px 14px;color:var(--blue);font-family:"Cambria Math","STIX Two Math","Times New Roman","Songti SC",serif;letter-spacing:.012em}
 /* 内容块分类 */
@@ -107,6 +116,19 @@ p.ans{background:var(--blue-l);border:1px dashed #c3cede;border-radius:10px;padd
 .ans-grp{font-size:12px;color:#fff;background:var(--blue);display:inline-block;border-radius:6px;padding:2px 9px;margin:0 0 8px;font-weight:600}
 .ans-box>.ans-body{padding:11px 15px 13px}
 .ans-body p.ans{background:transparent;border:none;padding:0;margin:0 0 8px;font-weight:600}
+/* 答案区每题独立分块：A/B/C/D 组答案每题一块，虚线分隔，不夹带、不粘连 */
+.ans-body>p:not(.ans){border-bottom:1px dashed #d9d2c0;padding:9px 2px 11px;margin:0 0 9px;background:transparent;box-shadow:none;text-align:left;font-family:inherit;letter-spacing:normal;font-size:inherit}
+.ans-body>p:not(.ans):last-of-type{border-bottom:none;margin-bottom:0}
+.ans-body>p:has(> strong:only-child){text-align:left;background:transparent;border:1px dashed #c3cede;border-radius:10px;padding:10px 14px;font-family:inherit;letter-spacing:normal;font-size:inherit;box-shadow:none}
+/* 章内左侧小目录（桌面大屏显示，跟随滚动点击直达） */
+#secbar{position:fixed;left:8px;top:70px;bottom:20px;width:150px;overflow-y:auto;z-index:88;border-left:1px solid var(--line);padding:8px 4px 8px 12px;scrollbar-width:thin}
+#secbar .secbar-in{display:flex;flex-direction:column;gap:2px}
+#secbar .secbar-ch{font-size:12px;font-weight:700;color:#8a8272;letter-spacing:.04em;margin:10px 0 2px;padding-top:8px;border-top:1px solid #eee7d8}
+#secbar .secbar-ch:first-child{margin-top:0;border-top:none;padding-top:0}
+#secbar a{display:block;font-size:12.5px;color:#6f6859;text-decoration:none;padding:3px 6px;border-radius:5px;line-height:1.45}
+#secbar a:hover{background:#f2ead8;color:var(--blue)}
+@media (max-width:1399px){#secbar{display:none}}
+@media (min-width:1400px){#main{padding:76px 48px 120px 170px}}
 span.tag{display:inline-block;background:var(--blue);color:#fff;font-size:11px;border-radius:4px;padding:0 7px;margin-right:8px;vertical-align:2px}
 p.warn span.tag{background:var(--red)}
 p.sum span.tag{background:var(--gold)}
@@ -171,7 +193,7 @@ section.flash{animation:flash 1.6s ease}
 }
 @media print{
   @page{size:A4;margin:14mm 12mm}
-  #toc,#topbtn,#mnav,#tb,#pbar{display:none!important}
+  #toc,#topbtn,#mnav,#tb,#pbar,#secbar{display:none!important}
   #main{margin:0;max-width:none;padding:0}
   body{background:#fff!important;font-size:11.5pt;line-height:1.8}
   body.dark{background:#fff!important;color:#000}
@@ -255,31 +277,31 @@ section.flash{animation:flash 1.6s ease}
 <div class="ch-nav"><a href="ch-03.html">← 03</a><span class="cn-title">第04章 · 函数的应用与方程（零点、二分法、函数模型）</span><a href="ch-05.html">05 →</a></div>
 <main id="main">
 <section class="chapter" id="ch-04">
-<div class="ch-head" data-no="04"><div class="ch-no">第04章</div><h1 class="ch-title">函数的应用与方程（零点、二分法、函数模型）</h1><div class="ch-sub">板块：函数与导数 ｜ 前置：第 03 章 ｜ 老教材：必修1 第3章 ｜ 新教材：必修一 第4章 4.5</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../公式/高中数学公式速查手册.html#ch04" title="本章公式速查（内置，直达本章）">公式速查手册</a><a href="../手册/不超纲高级方法手册.html" title="不超纲高级方法（内置，按章嵌入方法）">高级方法手册</a><span class="mats-off" style="background:#f0f0f0;color:#999;border:1px dashed #ccc;border-radius:20px;padding:5px 13px;font-size:13px;white-space:nowrap" title="第三方版权素材不随包分发（仅限个人学习）：老教材原件/可搜索版/文字检索请在本机「数学自学系统素材」目录查看，或按开源仓库 README「素材获取」自行获取">老教材（原件/可搜索/检索 · 未随包）</span><span class="mats-off" style="background:#f0f0f0;color:#999;border:1px dashed #ccc;border-radius:20px;padding:5px 13px;font-size:13px;white-space:nowrap" title="第三方版权素材不随包分发：人教A版2019 必修第一册等，请按开源仓库 README「素材获取」自行获取（仅限个人学习）">新教材（未随包）</span><span class="mats-off" style="background:#f0f0f0;color:#999;border:1px dashed #ccc;border-radius:20px;padding:5px 13px;font-size:13px;white-space:nowrap" title="第三方版权素材不随包分发：2020-2025 新高考Ⅰ卷真题，请按开源仓库 README「素材获取」自行获取（仅限个人学习）">历年真题（未随包）</span></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 卡住时在电脑本机「数学自学系统素材」目录打开老教材原件 PDF 细读（图文最清楚；公式符号以原件为准） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
+<div class="ch-head" data-no="04"><div class="ch-no">第04章</div><h1 class="ch-title">函数的应用与方程（零点、二分法、函数模型）</h1><div class="ch-sub">板块：函数与导数 ｜ 前置：第 03 章 ｜ 老教材：必修1 第3章 ｜ 新教材：必修一 第4章 4.5</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E6%95%B0%E5%AD%A6%E8%87%AA%E5%AD%A6%E7%B3%BB%E7%BB%9F%E7%B4%A0%E6%9D%90/05_%E5%85%B6%E4%BB%96%E5%8F%82%E8%80%83%28%E8%80%81%E6%95%99%E6%9D%90%E7%AD%89%29/2004%E8%AF%BE%E6%A0%87%E7%89%88%E4%BA%BA%E6%95%99A%E7%89%88/%E4%BA%BA%E6%95%99%E7%89%88%E9%AB%98%E4%B8%AD%E6%95%B0%E5%AD%A6A%E7%89%88%E5%BF%85%E4%BF%AE1.pdf" title="老教材原件 PDF（推荐阅读：图文最清楚，公式无误）">老教材·人教版A版必修1（2004课标版）</a><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E8%92%B8%E9%A6%8F%E4%BA%A7%E7%89%A9/searchable_pdfs/%E4%BA%BA%E6%95%99%E7%89%88%E9%AB%98%E4%B8%AD%E6%95%B0%E5%AD%A6A%E7%89%88%E5%BF%85%E4%BF%AE1.pdf" title="可搜索版：页面即原件，Ctrl+F 可搜文字（公式以页面为准）">老教材可搜索版(Ctrl+F)</a><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E8%92%B8%E9%A6%8F%E4%BA%A7%E7%89%A9/ocr_output/%E8%80%81%E6%95%99%E6%9D%90/%E4%BA%BA%E6%95%99%E7%89%88%E9%AB%98%E4%B8%AD%E6%95%B0%E5%AD%A6A%E7%89%88%E5%BF%85%E4%BF%AE1.txt" title="文字检索（RapidOCR 精准版）：文字已校准，公式符号以原件 PDF 为准">文字检索(TXT)</a><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E6%95%B0%E5%AD%A6%E8%87%AA%E5%AD%A6%E7%B3%BB%E7%BB%9F%E7%B4%A0%E6%9D%90/01_%E6%95%99%E6%9D%90%28%E4%BA%BA%E6%95%99A%E7%89%882019%29/%E4%BA%BA%E6%95%99A%E7%89%882019%E5%BF%85%E4%BF%AE%E7%AC%AC%E4%B8%80%E5%86%8C.pdf" title="新教材对标考点（PDF）">新教材·人教A版2019必修第一册</a><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E9%AB%98%E4%B8%AD%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F%E9%80%9F%E6%9F%A5%E6%89%8B%E5%86%8C.html#ch-04" title="本章公式速查（按章手册，直达本章）">公式速查手册</a><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E6%95%B0%E5%AD%A6%E8%87%AA%E5%AD%A6%E7%B3%BB%E7%BB%9F%E7%B4%A0%E6%9D%90/02_%E5%8E%86%E5%B9%B4%E7%9C%9F%E9%A2%98%28%E6%96%B0%E9%AB%98%E8%80%83%E2%85%A0%E5%8D%B7%29" title="历年真题文件夹（2020-2025 新高考Ⅰ卷）">历年真题</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
 <p>公式速查：修订版 第2部分</p>
-<p><strong>本章本质核心</strong>：函数应用的本质是"两次翻译"——先把一个现实问题（或一个带参数的方程、不等式）翻译成"函数的零点、恒成立或最值"，再把算出来的函数结论翻译回题目要的答案。本章从零点存在定理、二分法、零点个数，到恒成立、根的分布、增长模型，全都是这一个原理的变体：<strong>先把问题建成 y = f(x)，再靠图象和最值说话</strong>。</p>
-<p class = "baihua why"><span class = "tag">为什么有用</span>想通了"问题 → 函数 → 结论 → 答案"这条翻译链，你就不必死记"恒成立看 max/min""二分法砍一半"——遇到任何带参数的方程、不等式、利润最值题，都能自己推出该看哪个最值、根大概落在哪，而不是套模板碰运气。</p>
+<p><strong>本章本质核心</strong>：函数应用的本质是"两次翻译"——先把一个现实问题（或一个带参数的方程、不等式）翻译成"函数的零点、恒成立或最值"，再把算出来的函数结论翻译回题目要的答案。本章从零点存在定理、二分法、零点个数，到恒成立、根的分布、增长模型，全都是这一个原理的变体：<strong>先把问题建成 y=f(x)，再靠图象和最值说话</strong>。</p>
+<p class="baihua why"><span class="tag">为什么有用</span>想通了"问题 → 函数 → 结论 → 答案"这条翻译链，你就不必死记"恒成立看 max/min""二分法砍一半"——遇到任何带参数的方程、不等式、利润最值题，都能自己推出该看哪个最值、根大概落在哪，而不是套模板碰运气。</p>
 </blockquote>
 <hr />
-<div class="sec sec-gate"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
+<div class="sec sec-gate"><h2 class="gate">① 门槛自测（进章前，10 分钟）</h2>
 <ol>
-<li>解方程 x<sup>2</sup> − 3x + 2  =  0。</li>
-<li>二次函数 y  =  x<sup>2</sup> − 1 的图象与 x 轴有几个交点？</li>
-<li>求 f(2)（f(x)  =  x<sup>3</sup> + x − 1）。</li>
-<li>判断：f(x)  =  x<sup>2</sup> + 1 与 x 轴有交点吗？为什么？</li>
-<li>指数函数 y  =  2<sup>x</sup> 与 y  =  3<sup>x</sup> 谁增长更快？</li>
+<li>解方程 x<sup>2</sup> − 3x + 2 = 0。</li>
+<li>二次函数 y = x<sup>2</sup> − 1 的图象与 x 轴有几个交点？</li>
+<li>求 f(2)（f(x) = x<sup>3</sup> + x − 1）。</li>
+<li>判断：f(x) = x<sup>2</sup> + 1 与 x 轴有交点吗？为什么？</li>
+<li>指数函数 y = 2<sup>x</sup> 与 y = 3<sup>x</sup> 谁增长更快？</li>
 </ol>
 <p><strong>判定</strong>：5 题答对 4 题以上 → 进章。</p>
-</div><div class="sec sec-goal"><h2 class = "goal">② 学习目标</h2>
+</div><div class="sec sec-goal"><h2 class="goal">② 学习目标</h2>
 <ul>
-<li>理解函数零点  =  方程根  =  与 x 轴交点的横坐标（三件同一件事）</li>
+<li>理解函数零点 = 方程根 = 与 x 轴交点的横坐标（三件同一件事）</li>
 <li>会用零点存在定理判断零点所在区间；会数零点个数</li>
 <li>掌握二分法求近似解的步骤</li>
 <li>认识三类增长模型（指数/对数/幂）的差异</li>
 </ul>
-</div><div class="sec sec-body"><h2 class = "body">③ 正文讲解</h2>
+</div><div class="sec sec-body"><h2 class="body">③ 正文讲解</h2>
 <p>本章地图：</p>
-<div class = "tbl-wrap"><table style = "table-layout:fixed;max-width:100%"><colgroup><col style = "width:39%"><col style = "width:44%"><col style = "width:17%"></colgroup>
+<div class="tbl-wrap"><table style="table-layout:fixed;max-width:100%"><colgroup><col style="width:39%"><col style="width:44%"><col style="width:17%"></colgroup>
 <thead>
 <tr>
 <th>小节</th>
@@ -316,42 +338,42 @@ section.flash{animation:flash 1.6s ease}
 </tbody>
 </table></div>
 <h3>3.1 方程的根与函数的零点</h3>
-<p><strong>先解决一个老问题。</strong> 你会解 x−1 = 0（根 x = 1），会解 x<sup>2</sup>−3x+2 = 0（根 x = 1,2）。但 x<sup>3</sup>−x−1 = 0 怎么解？没有求根公式。这时候换个思路：解方程 f(x) = 0，就是找函数 y = f(x) 的图象和 x 轴的交点。</p>
-<p><strong>定义</strong>：使 f(x) = 0 的实数 x 叫做函数 y = f(x) 的<strong>零点</strong>。
-换句话说：<strong>方程 f(x) = 0 有实数根 ⇔ 函数 y = f(x) 有零点 ⇔ 图象与 x 轴有交点。</strong>（三件事说的是一回事）</p>
-<p><strong>【跟讲例题 3.1-1】</strong> 求 f(x) = x<sup>2</sup>−3x+2 的零点。
-解：令 x<sup>2</sup>−3x+2 = 0，(x−1)(x−2) = 0，x = 1 或 x = 2。零点是 1 和 2。（注意：零点是数 x，不是点 (x,0)。）</p>
-<p><strong>小结</strong>：零点  =  方程的实根  =  图象与 x 轴交点的横坐标。注意零点是一个数 x，不是一个点。</p>
+<p><strong>先解决一个老问题。</strong> 你会解 x−1=0（根 x=1），会解 x<sup>2</sup>−3x+2=0（根 x=1,2）。但 x<sup>3</sup>−x−1=0 怎么解？没有求根公式。这时候换个思路：解方程 f(x)=0，就是找函数 y=f(x) 的图象和 x 轴的交点。</p>
+<p><strong>定义</strong>：使 f(x)=0 的实数 x 叫做函数 y=f(x) 的<strong>零点</strong>。
+换句话说：<strong>方程 f(x)=0 有实数根 ⇔ 函数 y=f(x) 有零点 ⇔ 图象与 x 轴有交点。</strong>（三件事说的是一回事）</p>
+<p><strong>【跟讲例题 3.1-1】</strong> 求 f(x)=x<sup>2</sup>−3x+2 的零点。
+解：令 x<sup>2</sup>−3x+2=0，(x−1)(x−2)=0，x=1 或 x=2。零点是 1 和 2。（注意：零点是数 x，不是点 (x,0)。）</p>
+<p><strong>小结</strong>：零点 = 方程的实根 = 图象与 x 轴交点的横坐标。注意零点是一个数 x，不是一个点。</p>
 <h3>3.2 零点存在定理</h3>
 <p><strong>问题来了</strong>：我怎么知道一个函数"在某个区间里一定有零点"，而不用真的解出来？</p>
-<p><strong>零点存在定理</strong>：如果函数 y = f(x) 在区间 [a, b] 上的图象是<strong>一条连续不断的曲线</strong>，并且 <strong>f(a)·f(b) &lt; 0</strong>（两端一正一负），那么函数 y = f(x) 在区间 (a, b) 内<strong>至少有一个零点</strong>，即至少存在一个 c∈(a,b) 使 f(c) = 0。</p>
-<p><img alt = "零点存在定理：两端异号，中间必穿过 x 轴" src = "assets/04-zero-exist.png" /></p>
-<p class = "baihua why"><span class = "tag">为什么</span>是这样 图象从 x 轴上方（f(a)&gt;0）连续走到下方（f(b)&lt;0），中间必然至少穿过 x 轴一次。直觉就像走楼梯从楼上到楼下，中间一定过了某个楼层。</p>
+<p><strong>零点存在定理</strong>：如果函数 y=f(x) 在区间 [a, b] 上的图象是<strong>一条连续不断的曲线</strong>，并且 <strong>f(a)·f(b) &lt; 0</strong>（两端一正一负），那么函数 y=f(x) 在区间 (a, b) 内<strong>至少有一个零点</strong>，即至少存在一个 c∈(a,b) 使 f(c)=0。</p>
+<p><img alt="零点存在定理：两端异号，中间必穿过 x 轴" src="assets/04-zero-exist.png" /></p>
+<p class="baihua why"><span class="tag">为什么</span>是这样 图象从 x 轴上方（f(a)&gt;0）连续走到下方（f(b)&lt;0），中间必然至少穿过 x 轴一次。直觉就像走楼梯从楼上到楼下，中间一定过了某个楼层。</p>
 <p><strong>注意三个前提</strong>：</p>
 <ol>
 <li>图象要<strong>连续不断</strong>（有断点不成立）；</li>
 <li>f(a)·f(b)&lt;0 是<strong>充分</strong>条件，不是必要——两端同号也可能有零点（比如抛物线顶点正好在 x 轴上）；</li>
 <li>定理只保证"至少一个"，不保证只有一个。</li>
 </ol>
-<p class = "baihua why"><span class = "tag">为什么</span>要强调"连续"？ 举个反例：分段函数 f(x) = 1/x，取 a = −1、b = 1，f(a) = −1、f(b) = 1，乘积&lt;0，但 f 在 x = 0 处断开（无定义），它根本不穿过 x 轴——1/x = 0 无解。可见"连续不断"是定理的命门，少了它就不能乱用。</p>
-<p><strong>【跟讲例题 3.2-1】</strong> f(x) = lnx+x−2 在区间 (1,2) 内有没有零点？
-解：f(1) = ln1+1−2 = −1&lt;0；f(2) = ln2+2−2 = ln2&gt;0。f(1)·f(2)&lt;0，且 f 连续，故 (1,2) 内至少有一个零点。</p>
+<p class="baihua why"><span class="tag">为什么</span>要强调"连续"？ 举个反例：分段函数 f(x)=1/x，取 a=−1、b=1，f(a)=−1、f(b)=1，乘积&lt;0，但 f 在 x=0 处断开（无定义），它根本不穿过 x 轴——1/x=0 无解。可见"连续不断"是定理的命门，少了它就不能乱用。</p>
+<p><strong>【跟讲例题 3.2-1】</strong> f(x)=lnx+x−2 在区间 (1,2) 内有没有零点？
+解：f(1)=ln1+1−2=−1&lt;0；f(2)=ln2+2−2=ln2&gt;0。f(1)·f(2)&lt;0，且 f 连续，故 (1,2) 内至少有一个零点。</p>
 <p><strong>小结</strong>：两端异号 + 连续 ⇒ 区间内至少一个零点；这是"定性判断有没有根"的利器。</p>
 <p><strong>编者注·本质回扣</strong>：这条"两端异号就有根"的定理，本质上就是本章主线"两次翻译"的第一步——把"这个方程到底有没有解"这种硬算不出来的问题，翻译成"图象连不连续、两端是不是一正一负"这个看得见的问题。为什么死咬"连续不断"？因为一断，曲线就可能在 x 轴上方直接跳走、根本不穿轴（前面 1/x 的反例就是这个意思）。为什么只说"至少一个"不说"只有一个"？因为一条曲线可以上下穿好几次。记住它只负责"定性地告诉你根在不在里面"，到底有几个、精确值多少，是后面数个数和二分法去补的活。</p>
 <h3>3.3 二分法</h3>
 <p><strong>零点存在定理只告诉我们"根在里面"，但到底是多少？</strong> 二分法就是一个笨办法但很可靠的逼近法。</p>
 <p><strong>流程（每次把区间对半砍）</strong>：</p>
 <ol>
-<li>取区间中点 c = (a+b)/2，算 f(c)。</li>
-<li>若 f(c) = 0，c 就是根；否则看 f(a) 和 f(c) 异号 → 根在 (a,c)；f(c) 和 f(b) 异号 → 根在 (c,b)。</li>
+<li>取区间中点 c=(a+b)/2，算 f(c)。</li>
+<li>若 f(c)=0，c 就是根；否则看 f(a) 和 f(c) 异号 → 根在 (a,c)；f(c) 和 f(b) 异号 → 根在 (c,b)。</li>
 <li>新区间长度是原来的一半。重复，直到区间足够小（达到精度要求）。</li>
 </ol>
-<p><img alt = "二分法：每次对半砍区间逼近根" src = "assets/04-bisection.png" /></p>
-<p><strong>【跟讲例题 3.3-1】</strong> 用二分法估计 x<sup>3</sup>−x−1 = 0 在 (1,2) 的根（f(1) = −1&lt;0，f(2) = 5&gt;0）。
-解：中点 1.5，f(1.5) = 3.375−1.5−1 = 0.875&gt;0，根在 (1,1.5)。
-中点 1.25，f(1.25) = 1.95−1.25−1 = −0.30&lt;0，根在 (1.25,1.5)。
-中点 1.375，……如此反复，区间越来越小，就逼近了真根  ≈ 1.325。</p>
-<p><strong>小结</strong>：二分法  =  反复取中点、看符号、砍一半；不用会求根公式也能把根算到任意精度。</p>
+<p><img alt="二分法：每次对半砍区间逼近根" src="assets/04-bisection.png" /></p>
+<p><strong>【跟讲例题 3.3-1】</strong> 用二分法估计 x<sup>3</sup>−x−1=0 在 (1,2) 的根（f(1)=−1&lt;0，f(2)=5&gt;0）。
+解：中点 1.5，f(1.5)=3.375−1.5−1=0.875&gt;0，根在 (1,1.5)。
+中点 1.25，f(1.25)=1.95−1.25−1=−0.30&lt;0，根在 (1.25,1.5)。
+中点 1.375，……如此反复，区间越来越小，就逼近了真根 ≈1.325。</p>
+<p><strong>小结</strong>：二分法 = 反复取中点、看符号、砍一半；不用会求根公式也能把根算到任意精度。</p>
 <p><strong>精度怎么定</strong>：题目往往要求"精确到 0.1"。做法是一直砍到区间长度 &lt;0.2（这样区间中点到两端误差都 &lt;0.1）。砍 n 次后区间长度是 (b−a)/2<sup>n</sup>，想精确到 ε，就砍到 (b−a)/2<sup>n</sup>&lt;ε 为止。这是计算机求根的经典算法，你手机上的某些数值求解背后就是它。</p>
 <h3>3.4 零点个数判断</h3>
 <p><strong>知道"有零点"后，常问"到底有几个"。</strong> 方法：</p>
@@ -360,13 +382,13 @@ section.flash{animation:flash 1.6s ease}
 <li><strong>结合单调性</strong>：若函数在区间上单调，则变号区间里<strong>恰好一个</strong>零点（单调把"至少一个"升级成"恰一个"）。</li>
 <li><strong>画图象</strong>：看曲线和 x 轴交几次。</li>
 </ol>
-<p><strong>【跟讲例题 3.4-1】</strong> f(x) = 2<sup>x</sup>+x−3 有几个零点？
-解：f(0) = 1+0−3 = −2&lt;0；f(1) = 2+1−3 = 0（x = 1 是零点）；f(2) = 4+2−3 = 3&gt;0。又 f(x) = 2<sup>x</sup>+x−3 是增函数（2<sup>x</sup> 增、x 增，加起来增）。单调函数一旦变号就只有一个零点，故 f 只有一个零点 x = 1。</p>
-<p><strong>小结</strong>：零点个数  =  变号次数  ×  单调性；单调+变号 ⇒ 恰一个零点。</p>
+<p><strong>【跟讲例题 3.4-1】</strong> f(x)=2<sup>x</sup>+x−3 有几个零点？
+解：f(0)=1+0−3=−2&lt;0；f(1)=2+1−3=0（x=1 是零点）；f(2)=4+2−3=3&gt;0。又 f(x)=2<sup>x</sup>+x−3 是增函数（2<sup>x</sup> 增、x 增，加起来增）。单调函数一旦变号就只有一个零点，故 f 只有一个零点 x=1。</p>
+<p><strong>小结</strong>：零点个数 = 变号次数 × 单调性；单调+变号 ⇒ 恰一个零点。</p>
 <h3>3.5 三种函数增长模型</h3>
 <p><strong>生活里到处是增长</strong>：存钱的利息（指数）、匀速走路（线性）、经验积累越到后面越慢（对数）。数学上把它们分开看。</p>
-<p><img alt = "三种增长模型：指数终将压倒一切" src = "assets/04-growth-models.png" /></p>
-<div class = "tbl-wrap"><table style = "table-layout:fixed;max-width:100%"><colgroup><col style = "width:18%"><col style = "width:42%"><col style = "width:40%"></colgroup>
+<p><img alt="三种增长模型：指数终将压倒一切" src="assets/04-growth-models.png" /></p>
+<div class="tbl-wrap"><table style="table-layout:fixed;max-width:100%"><colgroup><col style="width:18%"><col style="width:42%"><col style="width:40%"></colgroup>
 <thead>
 <tr>
 <th>模型</th>
@@ -377,70 +399,70 @@ section.flash{animation:flash 1.6s ease}
 <tbody>
 <tr>
 <td>指数模型</td>
-<td>y = a·b<sup>x</sup>（b&gt;1）</td>
+<td>y=a·b<sup>x</sup>（b&gt;1）</td>
 <td>开头慢，后来<strong>爆炸</strong>，最终最快</td>
 </tr>
 <tr>
 <td>线性模型</td>
-<td>y = kx+b</td>
+<td>y=kx+b</td>
 <td>匀速，恒定斜率</td>
 </tr>
 <tr>
 <td>对数模型</td>
-<td>y = lgx / lnx</td>
+<td>y=lgx / lnx</td>
 <td>越涨越慢，后劲不足</td>
 </tr>
 <tr>
 <td>幂模型</td>
-<td>y = x<sup>n</sup>（n&gt;0）</td>
+<td>y=x<sup>n</sup>（n&gt;0）</td>
 <td>介于线性和指数之间</td>
 </tr>
 </tbody>
 </table></div>
-<p><strong>关键结论</strong>：在 x 足够大时，<strong>指数函数 y = a<sup>x</sup>（a&gt;1）会最终超过任何幂函数和对数函数</strong>。这就是"指数爆炸"——别被它开头慢骗了。</p>
+<p><strong>关键结论</strong>：在 x 足够大时，<strong>指数函数 y=a<sup>x</sup>（a&gt;1）会最终超过任何幂函数和对数函数</strong>。这就是"指数爆炸"——别被它开头慢骗了。</p>
 <p><strong>一个生活对照</strong>：线性模型像领死工资，每年涨得一样多；对数模型像学新东西，刚开始进步飞快，到后来瓶颈了、涨不动；指数模型像利滚利，基数越大滚得越快。理解了这三种曲线的"脾气"，遇到应用题里的"细胞分裂、复利、传染病扩散"就能立刻反应过来该用哪种模型。</p>
-<p><strong>【跟讲例题 3.5-1】</strong> y = 2<sup>x</sup> 与 y = x<sup>2</sup>，当 x 很大时谁更大？
-解：x = 10 时，2<sup>x</sup> = 1024，x<sup>2</sup> = 100，2<sup>x</sup> 反超。x 再大，指数增长甩开平方增长。</p>
+<p><strong>【跟讲例题 3.5-1】</strong> y=2<sup>x</sup> 与 y=x<sup>2</sup>，当 x 很大时谁更大？
+解：x=10 时，2<sup>x</sup>=1024，x<sup>2</sup>=100，2<sup>x</sup> 反超。x 再大，指数增长甩开平方增长。</p>
 <p><strong>指数增长模型（苏州教研·专题16，原书p.60）</strong>：原有量为 N，每次增长率为 p，经过 x 次增长后</p>
-<p><strong>y  =  N(1+p)<sup>x</sup>（x∈N）</strong></p>
+<p><strong>y = N(1+p)<sup>x</sup>（x∈N）</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>利滚利、细胞分裂都是这个式子；反过来 p&lt;0 就是衰减（半衰期）。</li>
 <li>复利问题、半衰期问题都套它。如半衰期 P = P<sub>0</sub>e^(−kt) 也是指数衰减。</li>
 </ul>
 <p><strong>解应用题四步（苏州教研·专题16，原书p.60）</strong>：审题（找等量关系）→ 建模（设变量、注明实际定义域）→ 解模（求最值/解不等式）→ 回归（答案说回实际问题）。数量关系多时，先分类列式，哪怕算不完也能拿步骤分。</p>
 <p><strong>【跟讲例题 3.5-2（苏州教研·专题16，原书p.61）】</strong> 某商品进货价 14 元/件，售价 15 元时每天卖 500 件；每涨价 1 元，日销量少 20 件。定价多少时日利润最高？
-解：设涨价 x 元，则售价 (15+x) 元，单件利润 (15+x−14)  =  (1+x) 元，日销量 (500−20x) 件。
-日利润 P  =  (1+x)(500−20x)  =  −20x<sup>2</sup> + 480x + 500。这是开口向下的二次函数，顶点 x  =  −480/(2 × (−20))  =  12。
-此时定价  =  15+12  =  <strong>27 元</strong>，日利润 P  =  (1+12)(500−240)  =  13 × 260  =  <strong>3380 元</strong>。
+解：设涨价 x 元，则售价 (15+x) 元，单件利润 (15+x−14) = (1+x) 元，日销量 (500−20x) 件。
+日利润 P = (1+x)(500−20x) = −20x<sup>2</sup> + 480x + 500。这是开口向下的二次函数，顶点 x = −480/(2×(−20)) = 12。
+此时定价 = 15+12 = <strong>27 元</strong>，日利润 P = (1+12)(500−240) = 13×260 = <strong>3380 元</strong>。
 要点：<strong>"涨价多少、少卖几件"这类利润题，永远是建一个二次函数，顶点即最值</strong>。</p>
 <p><strong>小结</strong>：短期看幂/线性，长期看指数；指数模型"笑到最后"；应用题四步走，利润题建二次函数。</p>
 <h3>3.6 恒成立与能成立（压轴常客，多思多悟）</h3>
 <p>这是高考"每次必考"的一类题（苏州教研·专题13，原书p.52，原话"重点掌握！每次必考！"）。一句话：<strong>求参数范围，先想"恒成立⇔最值"</strong>。</p>
-<p><strong>四条核心转化（配合 y = f(x) 的图象，一眼就懂）</strong>：设 f(x) 在某区间上有最大值 max、最小值 min。</p>
+<p><strong>四条核心转化（配合 y=f(x) 的图象，一眼就懂）</strong>：设 f(x) 在某区间上有最大值 max、最小值 min。</p>
 <ul>
 <li><strong>λ ≥ f(x) 恒成立</strong>（λ 始终压在 f(x) 上方）⇔ <strong>λ ≥ f(x)max</strong>；</li>
 <li><strong>λ ≤ f(x) 恒成立</strong>（λ 始终贴在 f(x) 下方）⇔ <strong>λ ≤ f(x)min</strong>；</li>
 <li><strong>λ ≥ f(x) 有解</strong>（只要存在一个 x 让 λ≥f(x)）⇔ <strong>λ ≥ f(x)min</strong>；</li>
 <li><strong>λ ≤ f(x) 有解</strong>（只要存在一个 x 让 λ≤f(x)）⇔ <strong>λ ≤ f(x)max</strong>。</li>
 </ul>
-<p class = "baihua"><span class = "tag">大白话</span><strong>"恒成立"看的是离得最远那个最值（上方就压最高、下方就托最低）；"能成立/有解"看的是离得最近那个最值（上方只要够到最低、下方只要够到最高）</strong>。注意等号端点要不要取，单独检验。</p>
-<p><strong>主力方法：分离参数</strong>。把 λ 单独挪到一边：如 λf(x) = g(x) ⇒ λ  =  g(x)/f(x)，问题就变成"求右边那个函数的最值/值域"。若参数拆不开，才用"含参转化法"（按参数讨论）。</p>
+<p class="baihua"><span class="tag">大白话</span><strong>"恒成立"看的是离得最远那个最值（上方就压最高、下方就托最低）；"能成立/有解"看的是离得最近那个最值（上方只要够到最低、下方只要够到最高）</strong>。注意等号端点要不要取，单独检验。</p>
+<p><strong>主力方法：分离参数</strong>。把 λ 单独挪到一边：如 λf(x)=g(x) ⇒ λ = g(x)/f(x)，问题就变成"求右边那个函数的最值/值域"。若参数拆不开，才用"含参转化法"（按参数讨论）。</p>
 <p><strong>两类常见的恒成立（苏州教研·专题13补充，原书p.53）</strong>：</p>
 <ul>
-<li><strong>一次函数 f(x) = kx+b 在区间 [m,n] 上恒正</strong> ⇔ <strong>f(m)&gt;0 且 f(n)&gt;0</strong>（一次函数笔直，两头正中间必正）；</li>
-<li><strong>二次函数 f(x) = ax<sup>2</sup>+bx+c 在 R 上恒正</strong> ⇔ <strong>a&gt;0 且 Δ = b<sup>2</sup>−4ac&lt;0</strong>（开口向上且与 x 轴不相交）；恒负则 a&lt;0 且 Δ&lt;0。</li>
+<li><strong>一次函数 f(x)=kx+b 在区间 [m,n] 上恒正</strong> ⇔ <strong>f(m)&gt;0 且 f(n)&gt;0</strong>（一次函数笔直，两头正中间必正）；</li>
+<li><strong>二次函数 f(x)=ax<sup>2</sup>+bx+c 在 R 上恒正</strong> ⇔ <strong>a&gt;0 且 Δ=b<sup>2</sup>−4ac&lt;0</strong>（开口向上且与 x 轴不相交）；恒负则 a&lt;0 且 Δ&lt;0。</li>
 </ul>
-<p><strong>【跟讲例题 3.6-1（苏州教研·专题13，原书p.54）】</strong> 已知 f(x) = x<sup>2</sup>−x+1，若在区间 [−1,1] 上不等式 f(x)&gt;2x+m 恒成立，求 m 的范围。
-解：分离参数。f(x)&gt;2x+m ⇔ m &lt; x<sup>2</sup>−3x+1。令 g(x) = x<sup>2</sup>−3x+1，要 m 小于 g(x) 在 [−1,1] 上的<strong>最小值</strong>（恒成立看最低）。g(x) 对称轴 x = 3/2，在 [−1,1] 上单调递减（导数 2x−3&lt;0），最小值 g(1) = 1−3+1 = −1。故 <strong>m &lt; −1</strong>。</p>
+<p><strong>【跟讲例题 3.6-1（苏州教研·专题13，原书p.54）】</strong> 已知 f(x)=x<sup>2</sup>−x+1，若在区间 [−1,1] 上不等式 f(x)&gt;2x+m 恒成立，求 m 的范围。
+解：分离参数。f(x)&gt;2x+m ⇔ m &lt; x<sup>2</sup>−3x+1。令 g(x)=x<sup>2</sup>−3x+1，要 m 小于 g(x) 在 [−1,1] 上的<strong>最小值</strong>（恒成立看最低）。g(x) 对称轴 x=3/2，在 [−1,1] 上单调递减（导数 2x−3&lt;0），最小值 g(1)=1−3+1=−1。故 <strong>m &lt; −1</strong>。</p>
 <p><strong>【跟讲例题 3.6-2（苏州教研·专题13，原书p.54）】</strong> 不等式 x<sup>2</sup>+ax+1 ≥ 0 对任意 x∈(0, 1/2] 恒成立，求 a 的最小值。
-解：分离参数：a ≥ −(x+1/x)。要 a 大于等于 −(x+1/x) 在 (0,1/2] 上的<strong>最大值</strong>。x+1/x 在 (0,1/2] 递减，故 −(x+1/x) 在该区间递增，最大值在 x = 1/2：−(1/2+2)  =  −5/2。故 <strong>a ≥ −5/2</strong>，a 的最小值为 <strong>−5/2</strong>。</p>
+解：分离参数：a ≥ −(x+1/x)。要 a 大于等于 −(x+1/x) 在 (0,1/2] 上的<strong>最大值</strong>。x+1/x 在 (0,1/2] 递减，故 −(x+1/x) 在该区间递增，最大值在 x=1/2：−(1/2+2) = −5/2。故 <strong>a ≥ −5/2</strong>，a 的最小值为 <strong>−5/2</strong>。</p>
 <p><strong>【跟讲例题 3.6-3（苏州教研·专题13，原书p.54）】</strong> |x+1|+|2x−1|−m ≥ 0 对 x∈R 恒成立，求 m 的范围。
-解：分离参数 m ≤ |x+1|+|2x−1|。记 g(x) = |x+1|+|2x−1|，关键点点 x = −1、x = 1/2 分段讨论：x≤−1 时 g = −3x（递减），−1≤x≤1/2 时 g = −x+2，x≥1/2 时 g = 3x（递增）。g(x) 在 x = 1/2 处取最小值 g(1/2) = |3/2|+0 = 3/2。恒成立要求 m ≤ 这个最小值，故 <strong>m ≤ 3/2</strong>。</p>
+解：分离参数 m ≤ |x+1|+|2x−1|。记 g(x)=|x+1|+|2x−1|，关键点点 x=−1、x=1/2 分段讨论：x≤−1 时 g=−3x（递减），−1≤x≤1/2 时 g=−x+2，x≥1/2 时 g=3x（递增）。g(x) 在 x=1/2 处取最小值 g(1/2)=|3/2|+0=3/2。恒成立要求 m ≤ 这个最小值，故 <strong>m ≤ 3/2</strong>。</p>
 <p><strong>小结</strong>：恒成立看最值（上方压 max、下方托 min）；分离参数是主力；一次函数区间恒正看两头，二次函数 R 上恒正看 a&gt;0 且 Δ&lt;0。</p>
 <p><strong>编者注·本质回扣</strong>：这四条转化看着像要背的口诀，本质还是本章"靠最值说话"那条主线。为什么"恒成立"非得去翻最大值、最小值？因为"恒成立"就是参数 λ 要压得住（或托得住）函数 f(x) 的全部取值——它得比 f 最高的那个还高、或比最低的那个还低，自然就落到 max、min 头上。"能成立/有解"宽松得多：只要够着一次就行，所以看的是离得最近的那个最值。分离参数不过是把 λ 单独拎到一边，让右边变成一个纯粹求最值的函数。说白了，这四条不是四个结论，而是"翻译回最值"这一个动作的四种说法。</p>
 <h3>3.7 二次方程根的分布（数形结合经典）</h3>
-<p>"方程 ax<sup>2</sup>+bx+c = 0 的根落在哪个区间"这类题，苏州书给了一句口诀（专题15，原书p.57）：<strong>两根在同一区间，三抓——一抓判别式 Δ、二抓对称轴 −b/2a、三抓区间端点函数值；两根不在同一区间，一抓——只抓端点函数值符号</strong>。</p>
-<p>设 a&gt;0，f(x) = ax<sup>2</sup>+bx+c，两根 x<sub>1</sub>≤x<sub>2</sub>。</p>
+<p>"方程 ax<sup>2</sup>+bx+c=0 的根落在哪个区间"这类题，苏州书给了一句口诀（专题15，原书p.57）：<strong>两根在同一区间，三抓——一抓判别式 Δ、二抓对称轴 −b/2a、三抓区间端点函数值；两根不在同一区间，一抓——只抓端点函数值符号</strong>。</p>
+<p>设 a&gt;0，f(x)=ax<sup>2</sup>+bx+c，两根 x<sub>1</sub>≤x<sub>2</sub>。</p>
 <p><strong>情形一：两根落在同一区间（三抓）</strong>：</p>
 <ul>
 <li>两根都小于 m（x<sub>1</sub>,x<sub>2</sub>∈(−∞,m)）⇔ <strong>Δ≥0，−b/2a&lt;m，f(m)&gt;0</strong>；</li>
@@ -451,41 +473,41 @@ section.flash{animation:flash 1.6s ease}
 <ul>
 <li><strong>一根大于 m、一根小于 m（x<sub>1</sub>&lt;m&lt;x<sub>2</sub>）⇔ f(m)&lt;0</strong>（开口向上，m 点在 x 轴下方，必夹在两根之间）。</li>
 </ul>
-<p><strong>【跟讲例题 3.7-1（苏州教研·专题15，原书p.58）】</strong> 已知方程 x<sup>2</sup>+λx+3λ−9 = 0 的一根比 1 大、另一根比 1 小，求 λ 的范围。
-解：这是"一根大于 m、一根小于 m"的情形（m = 1），直接用一抓：令 f(x) = x<sup>2</sup>+λx+3λ−9，条件即 <strong>f(1)&lt;0</strong>。
-f(1) = 1+λ+3λ−9 = 4λ−8&lt;0 ⇒ <strong>λ&lt;2</strong>。
+<p><strong>【跟讲例题 3.7-1（苏州教研·专题15，原书p.58）】</strong> 已知方程 x<sup>2</sup>+λx+3λ−9=0 的一根比 1 大、另一根比 1 小，求 λ 的范围。
+解：这是"一根大于 m、一根小于 m"的情形（m=1），直接用一抓：令 f(x)=x<sup>2</sup>+λx+3λ−9，条件即 <strong>f(1)&lt;0</strong>。
+f(1)=1+λ+3λ−9=4λ−8&lt;0 ⇒ <strong>λ&lt;2</strong>。
 要点：开口向上的抛物线，要 1 夹在两根中间，只要 f(1) 掉到 x 轴下方即可，Δ 都不用算。</p>
 <p><strong>小结</strong>：同区间三抓（Δ、对称轴、端点值），异区间一抓（端点值符号）；画抛物线脑子里过一遍，符号就不会反。</p>
-</div><div class="sec sec-ex2"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
-<p class = "ex"><span class = "tag">例题</span><strong>例 1（零点存在定理）</strong>：函数 f(x)  =  x<sup>3</sup> + x − 1 在下列哪个区间内必有零点？
+</div><div class="sec sec-ex2"><h2 class="ex2">④ 例题详解（先做再看）</h2>
+<p class="ex"><span class="tag">例题</span><strong>例 1（零点存在定理）</strong>：函数 f(x) = x<sup>3</sup> + x − 1 在下列哪个区间内必有零点？
 A. (0, 1)　B. (1, 2)　C. (2, 3)　D. (3, 4)</p>
 <blockquote>
 <p>自己做：算端点值，找符号相反的区间。</p>
 </blockquote>
-<p>解：f(0)  =  −1 &lt; 0；f(1)  =  1 &gt; 0。f(0)·f(1) &lt; 0 且 f 连续 ⇒ 零点在 (0, 1)，选 <strong>A</strong>。
+<p>解：f(0) = −1 &lt; 0；f(1) = 1 &gt; 0。f(0)·f(1) &lt; 0 且 f 连续 ⇒ 零点在 (0, 1)，选 <strong>A</strong>。
 要点：<strong>逐个端点试符号</strong>，异号区间即答案；x<sup>3</sup> 这种多项式恒连续，不用写证明。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>例 2（零点个数）</strong>：求方程 2<sup>x</sup> + x − 2  =  0 的实数根的个数。</p>
+<p class="ex"><span class="tag">例题</span><strong>例 2（零点个数）</strong>：求方程 2<sup>x</sup> + x − 2 = 0 的实数根的个数。</p>
 <blockquote>
 <p>自己做：拆成两个函数看交点。</p>
 </blockquote>
-<p>解：2<sup>x</sup>  =  2 − x。左侧 y  =  2<sup>x</sup> 递增，右侧 y  =  2 − x 递减，两图象至多一个交点。取两点试高低：x  =  0 时，2<sup>0</sup>  =  1，2 − 0  =  2，左 1 &lt; 右 2（右高）；x  =  1 时，2<sup>1</sup>  =  2，2 − 1  =  1，左 2 &gt; 右 1（左高）。一增一减，高低在 (0,1) 间翻转一次，故必有一个交点。实数根个数为 <strong>1</strong>。
+<p>解：2<sup>x</sup> = 2 − x。左侧 y = 2<sup>x</sup> 递增，右侧 y = 2 − x 递减，两图象至多一个交点。取两点试高低：x = 0 时，2<sup>0</sup> = 1，2 − 0 = 2，左 1 &lt; 右 2（右高）；x = 1 时，2<sup>1</sup> = 2，2 − 1 = 1，左 2 &gt; 右 1（左高）。一增一减，高低在 (0,1) 间翻转一次，故必有一个交点。实数根个数为 <strong>1</strong>。
 要点：<strong>"一增一减"或"一增一平"用交点数秒杀；一增一增要小心</strong>。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>例 3（二分法）</strong>：用二分法求 f(x)  =  x<sup>3</sup> − 2 在区间 (1, 2) 内的零点近似值（精确到 0.25）。</p>
+<p class="ex"><span class="tag">例题</span><strong>例 3（二分法）</strong>：用二分法求 f(x) = x<sup>3</sup> − 2 在区间 (1, 2) 内的零点近似值（精确到 0.25）。</p>
 <blockquote>
 <p>自己做：走三步。</p>
 </blockquote>
-<p>解：f(1)  =  −1 &lt; 0，f(2)  =  6 &gt; 0。
-第一次：c  =  1.5，f(1.5)  =  1.375 &gt; 0 → 零点在 (1, 1.5)；
-第二次：c  =  1.25，f(1.25)  =  −0.047 &lt; 0 → 零点在 (1.25, 1.5)；
-第三次：c  =  1.375，f(1.375)  ≈  0.6 &gt; 0 → 零点在 (1.25, 1.375)，区间长 0.125 &lt; 0.25。
+<p>解：f(1) = −1 &lt; 0，f(2) = 6 &gt; 0。
+第一次：c = 1.5，f(1.5) = 1.375 &gt; 0 → 零点在 (1, 1.5)；
+第二次：c = 1.25，f(1.25) = −0.047 &lt; 0 → 零点在 (1.25, 1.5)；
+第三次：c = 1.375，f(1.375) ≈ 0.6 &gt; 0 → 零点在 (1.25, 1.375)，区间长 0.125 &lt; 0.25。
 取近似值 1.25（或 1.3）。要点：<strong>每次只看 f(中点) 符号，区间一分为二</strong>。</p>
-</div><div class="sec sec-out"><h2 class = "out">⑤ 出口检测</h2>
+</div><div class="sec sec-out"><h2 class="out">⑤ 出口检测</h2>
 <p><strong>自测（15 分钟，每题 2 分）</strong>：</p>
 <ol>
-<li>判断 f(x)  =  e<sup>x</sup> + x − 2 在区间 (0, 1) 内是否有零点。</li>
-<li>求方程 x<sup>2</sup> − 4x + 3  =  0 的根的个数。</li>
-<li>函数 f(x)  =  x<sup>2</sup> − 2x 的零点是什么？</li>
-<li>为什么 f(x)  =  x<sup>2</sup> 在 [−1, 1] 有零点但端点异号不成立？</li>
+<li>判断 f(x) = e<sup>x</sup> + x − 2 在区间 (0, 1) 内是否有零点。</li>
+<li>求方程 x<sup>2</sup> − 4x + 3 = 0 的根的个数。</li>
+<li>函数 f(x) = x<sup>2</sup> − 2x 的零点是什么？</li>
+<li>为什么 f(x) = x<sup>2</sup> 在 [−1, 1] 有零点但端点异号不成立？</li>
 <li>描述二分法第一步做什么。</li>
 </ol>
 <p><strong>真题验收</strong>：2020–2024 新高考Ⅰ卷中零点/函数图象交点类小题 1~2 道（多在选择题 8–12 题区间）：每题 3 分钟、全对过关。</p>
@@ -493,36 +515,36 @@ A. (0, 1)　B. (1, 2)　C. (2, 3)　D. (3, 4)</p>
 </div><div class="sec sec-hw"><h2>课后习题（分层练习）</h2>
 <h3>A 组 基础巩固</h3>
 <ol>
-<li>【考点：零点定义】求 f(x) = x<sup>2</sup>−5x+6 的零点。</li>
-<li>【考点：零点存在定理】f(x) = x<sup>3</sup>−2x−1，判断 f(x) 在区间 (1,2) 内是否有零点。</li>
-<li>【考点：零点存在定理】f(x) = lnx−2/x，f(1) = −2&lt;0，f(e) = 1−2/e&gt;0，能得出什么结论？</li>
-<li>【考点：二分法】用二分法求 x<sup>2</sup>−2 = 0 在 (1,2) 的根，第一次中点 x = 1.5 时 f(1.5) ≈ 0.25&gt;0，下一步该在哪个区间找？</li>
+<li>【考点：零点定义】求 f(x)=x<sup>2</sup>−5x+6 的零点。</li>
+<li>【考点：零点存在定理】f(x)=x<sup>3</sup>−2x−1，判断 f(x) 在区间 (1,2) 内是否有零点。</li>
+<li>【考点：零点存在定理】f(x)=lnx−2/x，f(1)=−2&lt;0，f(e)=1−2/e&gt;0，能得出什么结论？</li>
+<li>【考点：二分法】用二分法求 x<sup>2</sup>−2=0 在 (1,2) 的根，第一次中点 x=1.5 时 f(1.5)≈0.25&gt;0，下一步该在哪个区间找？</li>
 <li>
 <p>【考点：增长模型】下列哪个是"爆炸增长"模型（　）
-   A. y = 2x　B. y = 2·1.1<sup>x</sup>　C. y = lgx　D. y = √x</p>
+   A. y=2x　B. y=2×1.1<sup>x</sup>　C. y=lgx　D. y=√x</p>
 </li>
 <li>
-<p>【考点：零点个数】f(x) = x−lnx 的零点个数是？（提示：f(1) = 1&gt;0，想想最小值）</p>
+<p>【考点：零点个数】f(x)=x−lnx 的零点个数是？（提示：f(1)=1&gt;0，想想最小值）</p>
 </li>
 </ol>
 <h3>B 组 能力提升</h3>
-<ol start = "7">
-<li>【考点：零点个数+单调】证明 f(x) = 3<sup>x</sup>+x−3 在 R 上有且只有一个零点。</li>
-<li>【考点：零点存在定理应用】f(x) = 2<sup>x</sup>−3，f(1) = −1&lt;0，f(2) = 1&gt;0，写出它所在的零点区间，并用二分法做一次取中点估计。</li>
-<li>【考点：增长模型对比】x 很大时，比较 y = 100·x、y = 1.01<sup>x</sup>、y = lnx 的增长快慢，从快到慢排序。</li>
-<li>【考点：零点与方程】方程 2<sup>x</sup>  =  x+1 有几个解？（提示：画 y = 2<sup>x</sup> 和 y = x+1 两条线看交几次）</li>
+<ol start="7">
+<li>【考点：零点个数+单调】证明 f(x)=3<sup>x</sup>+x−3 在 R 上有且只有一个零点。</li>
+<li>【考点：零点存在定理应用】f(x)=2<sup>x</sup>−3，f(1)=−1&lt;0，f(2)=1&gt;0，写出它所在的零点区间，并用二分法做一次取中点估计。</li>
+<li>【考点：增长模型对比】x 很大时，比较 y=100·x、y=1.01<sup>x</sup>、y=lnx 的增长快慢，从快到慢排序。</li>
+<li>【考点：零点与方程】方程 2<sup>x</sup> = x+1 有几个解？（提示：画 y=2<sup>x</sup> 和 y=x+1 两条线看交几次）</li>
 </ol>
 <h3>C 组 真题挑战</h3>
-<ol start = "11">
-<li>【考点：零点个数+对称中心】（2022 新高考Ⅰ卷 第10题，多选）已知函数 f(x) = x<sup>3</sup>−x+1，则（　）
+<ol start="11">
+<li>【考点：零点个数+对称中心】（2022 新高考Ⅰ卷 第10题，多选）已知函数 f(x)=x<sup>3</sup>−x+1，则（　）
     A. f(x) 有两个极值点　B. f(x) 有三个零点
-    C. 点 (0,1) 是曲线 y = f(x) 的对称中心　D. 直线 y = 2x 是曲线 y = f(x) 的切线</li>
+    C. 点 (0,1) 是曲线 y=f(x) 的对称中心　D. 直线 y=2x 是曲线 y=f(x) 的切线</li>
 </ol>
-</div><div class="sec sec-pit"><h2 class = "pit">⑥ 常见坑清单</h2>
+</div><div class="sec sec-pit"><h2 class="pit">⑥ 常见坑清单</h2>
 <ul>
 <li>零点存在定理只说"至少一个"，只有<strong>加单调性</strong>才能说"恰一个"。</li>
 <li>f(a)·f(b) &lt; 0 是充分条件不是必要条件——别用"端点同号"判定"没有零点"。</li>
-<li>零点  =  横坐标（数），不是交点坐标（点）。</li>
+<li>零点 = 横坐标（数），不是交点坐标（点）。</li>
 <li>拆函数求交点时注意：两边函数都单调且方向相反 → 恰一个；方向相同 → 可能 0/1/2 个，逐个检验。</li>
 <li>二分法收敛：每次都把区间长度减半。</li>
 </ul>
@@ -554,7 +576,7 @@ A. (0, 1)　B. (1, 2)　C. (2, 3)　D. (3, 4)</p>
 <li class="baihua"><span class="tag">大白话</span>每次取区间中点，根据中点值符号，保留根所在的那一半。</li>
 <li>用的时候：f(c)=0 直接得根；否则 f(a) 与 f(c) 异号就缩到 (a,c)。</li>
 </ul>
-<p><strong>砍 n 次后区间长度  =  (b−a)/2<sup>n</sup></strong></p>
+<p><strong>砍 n 次后区间长度 = (b−a)/2<sup>n</sup></strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>每砍一次区间减半，越缩越接近真根。</li>
 <li>用的时候：想精确到 ε，就砍到 (b−a)/2<sup>n</sup>&lt;ε 为止。</li>
@@ -566,7 +588,7 @@ A. (0, 1)　B. (1, 2)　C. (2, 3)　D. (3, 4)</p>
 <li>用的时候：零点定理只说"至少一个"，加上单调性才升级成"恰一个"。</li>
 </ul>
 <h3>增长模型</h3>
-<p><strong>指数模型 y = a·b<sup>x</sup>（b&gt;1）：长期最快，指数爆炸</strong></p>
+<p><strong>指数模型 y=a·b<sup>x</sup>（b&gt;1）：长期最快，指数爆炸</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>开头慢，后来越涨越猛，最终压倒一切幂函数和对数函数。</li>
 <li>用的时候：细胞分裂、复利、传染病扩散，长期都归指数模型。</li>
@@ -581,7 +603,7 @@ A. (0, 1)　B. (1, 2)　C. (2, 3)　D. (3, 4)</p>
 <li class="baihua"><span class="tag">大白话</span>时间拉长，指数模型笑到最后。</li>
 <li>用的时候：别被指数开头慢骗了，长期必看指数。</li>
 </ul>
-<p><strong>指数增长模型 y = N(1+p)<sup>x</sup>（复利/细胞分裂/半衰期）（苏州教研·专题16）</strong></p>
+<p><strong>指数增长模型 y=N(1+p)<sup>x</sup>（复利/细胞分裂/半衰期）（苏州教研·专题16）</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>原有量 N，每次乘 (1+p)，利滚利；p&lt;0 就是衰减（半衰期）。</li>
 <li>用的时候：复利、人口增长、放射性衰减都套它；应用题四步"审题→建模→解模→回归"。</li>
@@ -634,13 +656,13 @@ A. (0, 1)　B. (1, 2)　C. (2, 3)　D. (3, 4)</p>
 </ul>
 <hr />
 
-</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. f(0)  =  −1 &lt; 0，f(1)  =  e − 1 &gt; 0，异号 ⇒ 有零点；2. 2 个（x  =  1、3）；3. 0 和 2；4. 端点同号但图象"碰到 x 轴又返回"（f(x)  =  x<sup>2</sup> ≥ 0，零点为偶重根）；5. 取中点 c  =  (a+b)/2 并计算 f(c)，比较 f(a)·f(c) 符号决定缩小区间。</p></div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">A 组答案</p><p><strong>A 组</strong></p>
+</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. f(0) = −1 &lt; 0，f(1) = e − 1 &gt; 0，异号 ⇒ 有零点；2. 2 个（x = 1、3）；3. 0 和 2；4. 端点同号但图象"碰到 x 轴又返回"（f(x) = x<sup>2</sup> ≥ 0，零点为偶重根）；5. 取中点 c = (a+b)/2 并计算 f(c)，比较 f(a)·f(c) 符号决定缩小区间。</p></div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">A 组答案</p><p><strong>A 组</strong></p>
 <ol>
 <li>x<sup>2</sup>−5x+6=(x−2)(x−3)=0，零点为 2 和 3。</li>
 <li>f(1)=1−2−1=−2&lt;0；f(2)=8−4−1=3&gt;0。f 连续，f(1)·f(2)&lt;0，故 (1,2) 内有零点。</li>
 <li>f(1)·f(e)&lt;0 且连续，故 (1,e) 内至少有一个零点。</li>
 <li>f(1.5)&gt;0 而 f(1)&lt;0，根在异号的那一端，即 (1,1.5)。</li>
-<li>B。y=2·1.1<sup>x</sup> 底数 1.1&gt;1，是指数爆炸增长。</li>
+<li>B。y=2×1.1<sup>x</sup> 底数 1.1&gt;1，是指数爆炸增长。</li>
 <li>f(x)=x−lnx。f'(x) 这里先不正式用；直接看：f(1)=1&gt;0，f(e)=e−1≈1.72&gt;0，且 x→0<sup>+</sup> 时 −lnx→+∞，函数在 x=1 附近取最小值 f(1)=1&gt;0。最小值 &gt;0，故没有零点，零点个数 0。</li>
 </ol>
 </div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">B 组答案</p><p><strong>B 组</strong></p>
@@ -668,7 +690,20 @@ A. (0, 1)　B. (1, 2)　C. (2, 3)　D. (3, 4)</p>
 </div><div class="sec sec-meta"><h2>本章与前后章</h2>
 <p>这一章是函数主线的"第一次实战"：它前面接 <strong>第 02 章函数概念与性质</strong>（单调、最值、图象）和 <strong>第 03 章指对幂函数</strong>（增长模型、算函数值）——没有前两章的图象和基本函数，这章连 f(a)、f(b) 都算不出来；它后面直接通向 <strong>第 05 章导数</strong>：这章靠"单调性 + 变号"数零点、靠"最值"做恒成立，可一旦函数复杂到看不出单调、求不出最值，就得请导数当新工具。学完这章，你手里多了一套"把现实问题翻译成函数、再翻译回答案"的本事，它正是下一章求导、求极值、解压轴的地基。</p>
 </div><div class="sec sec-meta"><h2>高考怎么考</h2>
-<p>这一章在新高考Ⅰ卷里通常以<strong>小题</strong>出现：零点存在定理判断根所在区间、零点个数（常和函数图象交点、单调性结合）、二分法近似解，多落在选择题中后段；恒成立、根的分布这类更像"工具"，往往嵌进函数与导数解答题的第一问，而不是单独成题（本章 C 组收录的 2022 新高考Ⅰ卷第 10 题多选，就把零点个数、对称中心和切线揉在一起考）。难度以中档为主，不偏不怪——它真正的分量不在这几道小题，而在于给第 05 章导数压轴备好"数零点、求最值"这两块基本功。</p></div>
+<p>这一章在新高考Ⅰ卷里通常以<strong>小题</strong>出现：零点存在定理判断根所在区间、零点个数（常和函数图象交点、单调性结合）、二分法近似解，多落在选择题中后段；恒成立、根的分布这类更像"工具"，往往嵌进函数与导数解答题的第一问，而不是单独成题（本章 C 组收录的 2022 新高考Ⅰ卷第 10 题多选，就把零点个数、对称中心和切线揉在一起考）。难度以中档为主，不偏不怪——它真正的分量不在这几道小题，而在于给第 05 章导数压轴备好"数零点、求最值"这两块基本功。</p>
+<hr />
+</div><div class="sec sec-meta"><h2>同法跨章 · 一通百通</h2>
+<p><strong>零点与交点（本章 → ch05 导数 → ch16 圆锥曲线）</strong>：本章 f(x)=0 的根 ⇔ 图象与 x 轴交点；ch05 导数用单调性精确定位零点个数；ch16 直线与曲线交点即"两个函数的零点差"。<strong>"零点=交点"一句话通三章</strong>。</p>
+<p><strong>二分法思想（本章 → 总纲通法 8 特殊化）</strong>：本章二分法缩小区间找零点；选择题秒杀用特殊值+端点夹逼，同一个"区间压缩"逻辑。<strong>二分法练的是"逼近"的直觉</strong>。</p>
+<p><strong>函数模型（本章 → ch19 统计回归）</strong>：本章指数/对数增长模型描述现实数据；ch19 统计里的回归拟合（线性/指数）就是"数据 → 选模型"的实战版。<strong>学完本章，统计回归的"为什么"就懂了</strong>。</p>
+</div><div class="sec sec-meta"><h2>本章连接全书</h2>
+<ul>
+<li><strong>→ ch02 函数</strong>：零点定理、二分法都建立在函数连续性与图象上。</li>
+<li><strong>→ ch05 导数</strong>：零点个数判断升级为"导数定单调 → 端点定符号"。</li>
+<li><strong>→ ch12 不等式</strong>：f(x)&gt;0 的解集与 f(x) 零点密不可分。</li>
+<li><strong>→ ch16 解析几何</strong>：联立方程的判别式 Δ 决定交点个数 = 零点思想的几何版。</li>
+<li><strong>→ ch19 统计</strong>：函数建模与回归分析同源（数据 → 规律 → 预测）。</li>
+</ul></div>
 </section>
 </main>
 <button id="topbtn" title="回到顶部">↑</button>
@@ -857,6 +892,35 @@ A. (0, 1)　B. (1, 2)　C. (2, 3)　D. (3, 4)</p>
     window.addEventListener('resize',renderPen);
     loadPen();renderPen();
   }
+})();
+/* 章内左侧小目录：扫描各章 h2 生成，点击平滑滚动直达 */
+(function(){
+  var secs=document.querySelectorAll('section.chapter');
+  if(!secs.length||document.getElementById('secbar'))return;
+  var sb=document.createElement('div');sb.id='secbar';
+  var inner=document.createElement('div');inner.className='secbar-in';
+  sb.appendChild(inner);
+  secs.forEach(function(sec,si){
+    if(si>0){
+      var ttl=sec.querySelector('.ch-title');
+      var hd=document.createElement('div');hd.className='secbar-ch';
+      hd.textContent=(ttl?ttl.textContent.replace(/^\d+·?/,'').slice(0,8):sec.id);
+      inner.appendChild(hd);
+    }
+    sec.querySelectorAll('h2').forEach(function(h2){
+      var a=document.createElement('a');
+      var t=h2.textContent.replace(/^\s*[①-⑨]/,'').replace(/^\s*\d+\s*/,'').trim();
+      a.textContent=t.length>12?t.slice(0,12):t;
+      a.title=t;
+      a.addEventListener('click',function(ev){
+        ev.preventDefault();
+        var r=h2.getBoundingClientRect().top+window.scrollY;
+        window.scrollTo({top:Math.max(0,r-70),behavior:'smooth'});
+      });
+      inner.appendChild(a);
+    });
+  });
+  document.body.appendChild(sb);
 })();
 </script>
 </body>

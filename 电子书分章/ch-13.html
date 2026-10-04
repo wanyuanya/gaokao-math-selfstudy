@@ -65,8 +65,9 @@ h1.ch-title{font-size:29px;font-weight:800;color:#fff;margin:8px 0 6px;letter-sp
 .mats{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px 16px;margin:0 0 18px;box-shadow:var(--shadow)}
 .mats-t{font-size:12.5px;font-weight:700;color:var(--gold);margin-bottom:9px;letter-spacing:.04em}
 .mats-l{display:flex;flex-wrap:wrap;gap:8px}
-.mats-l a{background:var(--blue-l);color:var(--blue);text-decoration:none;font-size:13px;padding:5px 13px;border-radius:20px;border:1px solid #c9d8ec;transition:.15s;white-space:nowrap}
+.mats-l a{background:var(--blue-l);color:var(--blue);text-decoration:none;font-size:13px;padding:5px 13px;border-radius:20px;border:1px solid #c9d8ec;transition:.15s}
 .mats-l a:hover{background:var(--blue);color:#fff;transform:translateY(-1px)}
+.mats-l .mat-txt{background:#eef0f4;color:#4a5568;font-size:12.5px;padding:5px 13px;border-radius:20px;border:1px dashed #c3cad6;cursor:help}
 /* 看不懂怎么办 */
 .help{background:var(--gold-l);border:1px dashed var(--gold);border-radius:12px;padding:13px 16px;margin:0 0 20px;font-size:13.5px;color:#6b5c26;line-height:1.85;box-shadow:var(--shadow)}
 body.dark .help{color:#d8c078}
@@ -85,6 +86,14 @@ h2.adv{border-left-color:var(--purple)}
 h3{font-size:calc(var(--fs) + 0.5px);font-weight:700;color:#3a352c;margin:22px 0 8px}
 p{margin:0 0 12px}
 strong{color:var(--blue)}
+/* 课后习题：题目行题号标签保持正文色（组名行仍按公式块样式显示） */
+.sec-hw p>strong:first-child{color:inherit}
+.sec-hw p:has(>strong:only-child)>strong{color:var(--blue)}
+/* 课后习题答案：每题答案块题号行保留蓝色标题感，其余步骤正文色 */
+.sec-ans p>strong:first-child{color:inherit}
+.sec-ans p:has(>strong:only-child)>strong{color:var(--blue)}
+/* 答案中的解释（方法/为什么/验证/取等条件）：灰色小字，与答案本体区分 */
+.ans-ex{color:#8a8578;font-size:calc(var(--fs) - 1.5px);font-style:normal;letter-spacing:.01em}
 /* 公式独立行：数学衬线字体统一字形（χ Σ √ 上下标同族），避免文本符号混排歪扭 */
 p:has(> strong:only-child){text-align:center;font-size:calc(var(--fs) + 1.5px);margin:16px 0;background:var(--blue-l);border:1px solid #cfe0f2;border-radius:10px;padding:10px 14px;color:var(--blue);font-family:"Cambria Math","STIX Two Math","Times New Roman","Songti SC",serif;letter-spacing:.012em}
 /* 内容块分类 */
@@ -107,6 +116,19 @@ p.ans{background:var(--blue-l);border:1px dashed #c3cede;border-radius:10px;padd
 .ans-grp{font-size:12px;color:#fff;background:var(--blue);display:inline-block;border-radius:6px;padding:2px 9px;margin:0 0 8px;font-weight:600}
 .ans-box>.ans-body{padding:11px 15px 13px}
 .ans-body p.ans{background:transparent;border:none;padding:0;margin:0 0 8px;font-weight:600}
+/* 答案区每题独立分块：A/B/C/D 组答案每题一块，虚线分隔，不夹带、不粘连 */
+.ans-body>p:not(.ans){border-bottom:1px dashed #d9d2c0;padding:9px 2px 11px;margin:0 0 9px;background:transparent;box-shadow:none;text-align:left;font-family:inherit;letter-spacing:normal;font-size:inherit}
+.ans-body>p:not(.ans):last-of-type{border-bottom:none;margin-bottom:0}
+.ans-body>p:has(> strong:only-child){text-align:left;background:transparent;border:1px dashed #c3cede;border-radius:10px;padding:10px 14px;font-family:inherit;letter-spacing:normal;font-size:inherit;box-shadow:none}
+/* 章内左侧小目录（桌面大屏显示，跟随滚动点击直达） */
+#secbar{position:fixed;left:8px;top:70px;bottom:20px;width:150px;overflow-y:auto;z-index:88;border-left:1px solid var(--line);padding:8px 4px 8px 12px;scrollbar-width:thin}
+#secbar .secbar-in{display:flex;flex-direction:column;gap:2px}
+#secbar .secbar-ch{font-size:12px;font-weight:700;color:#8a8272;letter-spacing:.04em;margin:10px 0 2px;padding-top:8px;border-top:1px solid #eee7d8}
+#secbar .secbar-ch:first-child{margin-top:0;border-top:none;padding-top:0}
+#secbar a{display:block;font-size:12.5px;color:#6f6859;text-decoration:none;padding:3px 6px;border-radius:5px;line-height:1.45}
+#secbar a:hover{background:#f2ead8;color:var(--blue)}
+@media (max-width:1399px){#secbar{display:none}}
+@media (min-width:1400px){#main{padding:76px 48px 120px 170px}}
 span.tag{display:inline-block;background:var(--blue);color:#fff;font-size:11px;border-radius:4px;padding:0 7px;margin-right:8px;vertical-align:2px}
 p.warn span.tag{background:var(--red)}
 p.sum span.tag{background:var(--gold)}
@@ -171,7 +193,7 @@ section.flash{animation:flash 1.6s ease}
 }
 @media print{
   @page{size:A4;margin:14mm 12mm}
-  #toc,#topbtn,#mnav,#tb,#pbar{display:none!important}
+  #toc,#topbtn,#mnav,#tb,#pbar,#secbar{display:none!important}
   #main{margin:0;max-width:none;padding:0}
   body{background:#fff!important;font-size:11.5pt;line-height:1.8}
   body.dark{background:#fff!important;color:#000}
@@ -255,13 +277,13 @@ section.flash{animation:flash 1.6s ease}
 <div class="ch-nav"><a href="ch-12.html">← 12</a><span class="cn-title">第13章 · 立体几何初步</span><a href="ch-14.html">14 →</a></div>
 <main id="main">
 <section class="chapter" id="ch-13">
-<div class="ch-head" data-no="13"><div class="ch-no">第13章</div><h1 class="ch-title">立体几何初步</h1><div class="ch-sub">板块：立体几何 ｜ 前置：初中几何基础 ｜ 老教材：必修2 第1章 ｜ 新教材：必修二 第8章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../公式/高中数学公式速查手册.html#ch13" title="本章公式速查（内置，直达本章）">公式速查手册</a><a href="../手册/不超纲高级方法手册.html" title="不超纲高级方法（内置，按章嵌入方法）">高级方法手册</a><span class="mats-off" style="background:#f0f0f0;color:#999;border:1px dashed #ccc;border-radius:20px;padding:5px 13px;font-size:13px;white-space:nowrap" title="第三方版权素材不随包分发（仅限个人学习）：老教材原件/可搜索版/文字检索请在本机「数学自学系统素材」目录查看，或按开源仓库 README「素材获取」自行获取">老教材（原件/可搜索/检索 · 未随包）</span><span class="mats-off" style="background:#f0f0f0;color:#999;border:1px dashed #ccc;border-radius:20px;padding:5px 13px;font-size:13px;white-space:nowrap" title="第三方版权素材不随包分发：人教A版2019 必修第一册等，请按开源仓库 README「素材获取」自行获取（仅限个人学习）">新教材（未随包）</span><span class="mats-off" style="background:#f0f0f0;color:#999;border:1px dashed #ccc;border-radius:20px;padding:5px 13px;font-size:13px;white-space:nowrap" title="第三方版权素材不随包分发：2020-2025 新高考Ⅰ卷真题，请按开源仓库 README「素材获取」自行获取（仅限个人学习）">历年真题（未随包）</span></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 卡住时在电脑本机「数学自学系统素材」目录打开老教材原件 PDF 细读（图文最清楚；公式符号以原件为准） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
+<div class="ch-head" data-no="13"><div class="ch-no">第13章</div><h1 class="ch-title">立体几何初步</h1><div class="ch-sub">板块：立体几何 ｜ 前置：初中几何基础 ｜ 老教材：必修2 第1章 ｜ 新教材：必修二 第8章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E6%95%B0%E5%AD%A6%E8%87%AA%E5%AD%A6%E7%B3%BB%E7%BB%9F%E7%B4%A0%E6%9D%90/05_%E5%85%B6%E4%BB%96%E5%8F%82%E8%80%83%28%E8%80%81%E6%95%99%E6%9D%90%E7%AD%89%29/2004%E8%AF%BE%E6%A0%87%E7%89%88%E4%BA%BA%E6%95%99A%E7%89%88/%E4%BA%BA%E6%95%99%E7%89%88%E9%AB%98%E4%B8%AD%E6%95%B0%E5%AD%A6A%E7%89%88%E5%BF%85%E4%BF%AE2.pdf" title="老教材原件 PDF（推荐阅读：图文最清楚，公式无误）">老教材·人教版A版必修2（2004课标版）</a><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E8%92%B8%E9%A6%8F%E4%BA%A7%E7%89%A9/searchable_pdfs/%E4%BA%BA%E6%95%99%E7%89%88%E9%AB%98%E4%B8%AD%E6%95%B0%E5%AD%A6A%E7%89%88%E5%BF%85%E4%BF%AE2.pdf" title="可搜索版：页面即原件，Ctrl+F 可搜文字（公式以页面为准）">老教材可搜索版(Ctrl+F)</a><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E8%92%B8%E9%A6%8F%E4%BA%A7%E7%89%A9/ocr_output/%E8%80%81%E6%95%99%E6%9D%90/%E4%BA%BA%E6%95%99%E7%89%88%E9%AB%98%E4%B8%AD%E6%95%B0%E5%AD%A6A%E7%89%88%E5%BF%85%E4%BF%AE2.txt" title="文字检索（RapidOCR 精准版）：文字已校准，公式符号以原件 PDF 为准">文字检索(TXT)</a><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E6%95%B0%E5%AD%A6%E8%87%AA%E5%AD%A6%E7%B3%BB%E7%BB%9F%E7%B4%A0%E6%9D%90/01_%E6%95%99%E6%9D%90%28%E4%BA%BA%E6%95%99A%E7%89%882019%29/%E4%BA%BA%E6%95%99A%E7%89%882019%E5%BF%85%E4%BF%AE%E7%AC%AC%E4%BA%8C%E5%86%8C.pdf" title="新教材对标考点（PDF）">新教材·人教A版2019必修第二册</a><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E9%AB%98%E4%B8%AD%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F%E9%80%9F%E6%9F%A5%E6%89%8B%E5%86%8C.html#ch-13" title="本章公式速查（按章手册，直达本章）">公式速查手册</a><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E6%95%B0%E5%AD%A6%E8%87%AA%E5%AD%A6%E7%B3%BB%E7%BB%9F%E7%B4%A0%E6%9D%90/02_%E5%8E%86%E5%B9%B4%E7%9C%9F%E9%A2%98%28%E6%96%B0%E9%AB%98%E8%80%83%E2%85%A0%E5%8D%B7%29" title="历年真题文件夹（2020-2025 新高考Ⅰ卷）">历年真题</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
 <p>公式速查：修订版 第4部分（立体几何）</p>
 <p><strong>本章本质核心</strong>：立体几何初步的本质是"把空间里的问题降维到平面来解决"——人脑只会算平面图形，所以学立体几何就是想办法把三维图形"拍扁"成二维：展开图把侧面铺平成矩形或扇形、截面把球切出一个圆、斜二测把立体画成平面直观图；而四个公理、平行与垂直的判定定理，就是允许你这样"拍扁"和"翻译"的通行证。本章所有公式（体积表面积、球截面、展开最短路径）与所有证明（线面平行、线面垂直），都是"降维"这一个动作的变体。</p>
-<p class = "baihua why"><span class = "tag">为什么有用</span>想通"把三维拍回平面"这个办法，你就能看懂并算准身边的立体——给一个柱锥台球，会算它占多大地方（体积）、包它要多少料（表面积）；给空间里几根线几个面，能判断并证明它们平行还是垂直。锥体为什么是 1/3、展开图怎么找最短路、线面平行怎么证，都能顺着"降维"自己想明白，而不是硬背一堆公式和判定。</p>
+<p class="baihua why"><span class="tag">为什么有用</span>想通"把三维拍回平面"这个办法，你就能看懂并算准身边的立体——给一个柱锥台球，会算它占多大地方（体积）、包它要多少料（表面积）；给空间里几根线几个面，能判断并证明它们平行还是垂直。锥体为什么是 1/3、展开图怎么找最短路、线面平行怎么证，都能顺着"降维"自己想明白，而不是硬背一堆公式和判定。</p>
 </blockquote>
 <hr />
-<div class="sec sec-gate"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
+<div class="sec sec-gate"><h2 class="gate">① 门槛自测（进章前，10 分钟）</h2>
 <ol>
 <li>长方体的体积公式是什么？</li>
 <li>圆的面积、周长公式是什么？</li>
@@ -270,14 +292,14 @@ section.flash{animation:flash 1.6s ease}
 <li>两个平面"平行"和"垂直"在生活中分别是什么样子？</li>
 </ol>
 <p><strong>判定</strong>：5 题答对 4 题以上 → 进章。</p>
-</div><div class="sec sec-goal"><h2 class = "goal">② 学习目标</h2>
+</div><div class="sec sec-goal"><h2 class="goal">② 学习目标</h2>
 <ul>
 <li>认识柱、锥、台、球的几何特征</li>
 <li>掌握常见几何体（柱锥台球）的表面积与体积公式</li>
 <li>掌握空间点、线、面的位置关系：平行与垂直的判定和性质</li>
 <li>掌握线面平行/垂直、面面平行/垂直的证明（大题第 1 问常考）</li>
 </ul>
-</div><div class="sec sec-body"><h2 class = "body">③ 正文讲解</h2>
+</div><div class="sec sec-body"><h2 class="body">③ 正文讲解</h2>
 <p>本章地图：</p>
 <ul>
 <li>3.1 认识空间几何体：柱、锥、台、球长什么样。</li>
@@ -297,19 +319,19 @@ section.flash{animation:flash 1.6s ease}
 <li><strong>球</strong>：半圆绕它的直径旋转一周形成的旋转体。</li>
 </ul>
 <p>圆柱、圆锥、圆台是棱柱、棱锥、棱台的"旋转版本"——把多边形底面换成圆。</p>
-<p><img alt = "常见几何体：棱柱、棱锥、圆柱" src = "assets/13-solids-3d.png" /></p>
+<p><img alt="常见几何体：棱柱、棱锥、圆柱" src="assets/13-solids-3d.png" /></p>
 <p><strong>特殊结论</strong>：</p>
 <ul>
-<li>长方体长宽高 a、b、c，<strong>体对角线 l = √(a<sup>2</sup>+b<sup>2</sup>+c<sup>2</sup>)</strong>；</li>
+<li>长方体长宽高 a、b、c，<strong>体对角线 l=√(a<sup>2</sup>+b<sup>2</sup>+c<sup>2</sup>)</strong>；</li>
 <li>正方体棱长 a，体对角线 √3a；</li>
 <li>正四面体（棱长 a）：高 √6/3·a，外接球半径 √6/4·a。</li>
 </ul>
-<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题</strong>：长方体长宽高 2、3、6，求体对角线。
-解：l = √(4+9+36) = √49 = <strong>7</strong>。</p>
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题</strong>：长方体长宽高 2、3、6，求体对角线。
+解：l=√(4+9+36)=√49=<strong>7</strong>。</p>
 <h3>3.2 表面积与体积公式（必背表）</h3>
-<p><strong>引入</strong>：装水问的是"体积"，包包装纸问的是"表面积"。柱体体积 = 底面积 × 高；锥体为什么要乘 1/3？拿三个一模一样的圆锥装满沙倒到等底等高的圆柱里，正好倒满三次——这就是 1/3 的来历。</p>
+<p><strong>引入</strong>：装水问的是"体积"，包包装纸问的是"表面积"。柱体体积=底面积×高；锥体为什么要乘 1/3？拿三个一模一样的圆锥装满沙倒到等底等高的圆柱里，正好倒满三次——这就是 1/3 的来历。</p>
 <p><strong>核心公式表</strong>：</p>
-<div class = "tbl-wrap"><table style = "table-layout:fixed;max-width:100%"><colgroup><col style = "width:13%"><col style = "width:48%"><col style = "width:39%"></colgroup>
+<div class="tbl-wrap"><table style="table-layout:fixed;max-width:100%"><colgroup><col style="width:13%"><col style="width:48%"><col style="width:39%"></colgroup>
 <thead>
 <tr>
 <th>几何体</th>
@@ -320,53 +342,53 @@ section.flash{animation:flash 1.6s ease}
 <tbody>
 <tr>
 <td>柱体</td>
-<td>V = S底·h</td>
-<td>S = S侧+2S底</td>
+<td>V=S底·h</td>
+<td>S=S侧+2S底</td>
 </tr>
 <tr>
 <td>锥体</td>
-<td><strong>V = ⅓·S底·h</strong></td>
-<td>S = S侧+S底</td>
+<td><strong>V=⅓·S底·h</strong></td>
+<td>S=S侧+S底</td>
 </tr>
 <tr>
 <td>台体</td>
-<td>V = ⅓(S上+S下+√(S上S下))h</td>
-<td>S = S侧+S上+S下</td>
+<td>V=⅓(S上+S下+√(S上S下))h</td>
+<td>S=S侧+S上+S下</td>
 </tr>
 <tr>
 <td>球</td>
-<td><strong>V = (4/3)πR<sup>3</sup></strong></td>
-<td>S = 4πR<sup>2</sup></td>
+<td><strong>V=(4/3)πR<sup>3</sup></strong></td>
+<td>S=4πR<sup>2</sup></td>
 </tr>
 </tbody>
 </table></div>
 <p>圆柱侧面积 2πrh、圆锥侧面积 πrl（l 是母线长）要单独记。
-圆台侧面积 <strong>S  =  π(r′+r)l</strong>（l 是母线长，r′、r 分别是上、下底半径），侧面展开是扇环（苏州教研·专题18）。</p>
-<p><strong>球的组合体</strong>：长方体外接球直径 = 体对角线；正方体外接球直径 = 体对角线 √3a；正方体内切球直径 = 棱长 a。</p>
-<p><img alt = "正方体外接球——直径就是体对角线" src = "assets/13-cube-circumsphere.png" /></p>
-<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题</strong>：正四棱锥底面边长 2、高 3，求体积。
-解：S底 = 4，V = ⅓·4·3 = <strong>4</strong>。锥体记得乘 1/3。</p>
+圆台侧面积 <strong>S = π(r′+r)l</strong>（l 是母线长，r′、r 分别是上、下底半径），侧面展开是扇环（苏州教研·专题18）。</p>
+<p><strong>球的组合体</strong>：长方体外接球直径=体对角线；正方体外接球直径=体对角线 √3a；正方体内切球直径=棱长 a。</p>
+<p><img alt="正方体外接球——直径就是体对角线" src="assets/13-cube-circumsphere.png" /></p>
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题</strong>：正四棱锥底面边长 2、高 3，求体积。
+解：S底=4，V=⅓·4×3=<strong>4</strong>。锥体记得乘 1/3。</p>
 <p><strong>再跟一道（球的组合体）</strong>：一个圆柱底面半径 2、高 3，它的外接球半径是多少？
-解：圆柱上下底面圆心连线是高，中点到圆周上一点的距离就是半径。球心在圆柱中截面处，到下底边缘点：水平 2、竖直 3/2，故 R = √(2<sup>2</sup>+(3/2)<sup>2</sup>) = √(4+9/4) = √(25/4) = <strong>5/2</strong>。</p>
+解：圆柱上下底面圆心连线是高，中点到圆周上一点的距离就是半径。球心在圆柱中截面处，到下底边缘点：水平 2、竖直 3/2，故 R=√(2<sup>2</sup>+(3/2)<sup>2</sup>)=√(4+9/4)=√(25/4)=<strong>5/2</strong>。</p>
 <p><strong>球的截面（苏州教研·专题18）</strong>：一个平面截球，截面是个圆；过球心与截面圆心的连线垂直于截面。若球半径 R、截面圆半径 r、球心到截面的距离为 d，则
-<strong>d<sup>2</sup>  =  R<sup>2</sup> − r<sup>2</sup></strong>。</p>
+<strong>d<sup>2</sup> = R<sup>2</sup> − r<sup>2</sup></strong>。</p>
 <ul>
-<li class = "baihua"><span class = "tag">大白话</span>截面离球心越远，截面圆越小，这就是截面里的勾股定理。</li>
+<li class="baihua"><span class="tag">大白话</span>截面离球心越远，截面圆越小，这就是截面里的勾股定理。</li>
 <li>用的时候：球半径、截面圆半径、球心到截面距离，知二求一。</li>
 </ul>
 <p><strong>展开图上的最短路径（苏州教研·专题18）</strong>：柱、锥、台的侧面都能展开成平面；几何体表面上两点间的最短距离（或蚂蚁沿侧面爬行、绕侧面几周的最短路程），就是把侧面剪开平铺成平面后两点间的线段长。</p>
 <ul>
-<li class = "baihua"><span class = "tag">大白话</span>把立体侧面"剪开平铺"，在平面上量直线距离。</li>
+<li class="baihua"><span class="tag">大白话</span>把立体侧面"剪开平铺"，在平面上量直线距离。</li>
 <li>用的时候：见到"沿侧面绕行""表面两点最短"，先展开放平再套勾股。</li>
 </ul>
 <p><strong>斜二测画法的面积比（苏州教研·专题18）</strong>：水平放置的平面多边形画成斜二测直观图后，直观图面积 S′ 与原面积 S 的关系是
-<strong>S′  =  S / (2√2)，即 S  =  2√2·S′</strong>。</p>
+<strong>S′ = S / (2√2)，即 S = 2√2·S′</strong>。</p>
 <ul>
-<li class = "baihua"><span class = "tag">大白话</span>直观图被"压扁"，面积只剩原图的 1/(2√2)。</li>
+<li class="baihua"><span class="tag">大白话</span>直观图被"压扁"，面积只剩原图的 1/(2√2)。</li>
 <li>用的时候：由直观图反求原图形面积就乘 2√2；正向画直观图就除以 2√2。</li>
 </ul>
 <p><strong>常见陷阱</strong>：锥体体积 1/3 别丢；台体公式里的 √(S上S下) 别漏。</p>
-<p><strong>编者注·本质回扣</strong>：这一节里"展开图最短路径""球的截面 d<sup>2</sup> = R<sup>2</sup>−r<sup>2</sup>""斜二测面积比"看着像三块零散结论，本质却是同一个动作——把三维问题压回二维。蚂蚁沿侧面爬最短，靠的是把侧面剪开平铺后用"两点之间线段最短"这条平面公理；球的截面离球心越远截面圆越小，用的是截面圆里的勾股定理；斜二测面积被压成 1/(2√2)，也是先想清楚"平面上原来的图被缩成了什么样"。说白了，只要你能把空间里的量挪到一个平面上去算，立体就立刻退化成你初中就熟的平面几何。</p>
+<p><strong>编者注·本质回扣</strong>：这一节里"展开图最短路径""球的截面 d<sup>2</sup>=R<sup>2</sup>−r<sup>2</sup>""斜二测面积比"看着像三块零散结论，本质却是同一个动作——把三维问题压回二维。蚂蚁沿侧面爬最短，靠的是把侧面剪开平铺后用"两点之间线段最短"这条平面公理；球的截面离球心越远截面圆越小，用的是截面圆里的勾股定理；斜二测面积被压成 1/(2√2)，也是先想清楚"平面上原来的图被缩成了什么样"。说白了，只要你能把空间里的量挪到一个平面上去算，立体就立刻退化成你初中就熟的平面几何。</p>
 <h3>3.3 空间点、直线、平面的位置关系</h3>
 <p><strong>引入</strong>：一支笔（直线）放在桌面上（平面内），还是悬空（平面外）？两支笔可能平行、相交、或既不平行也不相交（异面）。把这些关系用符号说清楚，后面证明才有依据。</p>
 <p><strong>四个公理</strong>（了解即可，重点用后两个）：</p>
@@ -376,8 +398,8 @@ section.flash{animation:flash 1.6s ease}
 <li>过直线外一点，有且只有一条直线与已知直线平行；</li>
 <li>平行于同一直线的两条直线互相平行（平行传递）。</li>
 </ol>
-<p><strong>符号</strong>：直线在面内 a⊂α；直线在面外 a⊄α；相交 a∩b = P；平行 a∥b。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题</strong>：直线 a⊂α，直线 b⊂α，且 a∥b，能推出 a∥α 吗？
+<p><strong>符号</strong>：直线在面内 a⊂α；直线在面外 a⊄α；相交 a∩b=P；平行 a∥b。</p>
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题</strong>：直线 a⊂α，直线 b⊂α，且 a∥b，能推出 a∥α 吗？
 解：不能！因为 a 已经在平面 α 内了。线面平行要求直线在<strong>平面外</strong>。</p>
 <p><strong>确定平面的三个推论（苏州教研·专题19）</strong>：由"不共线三点确定一个平面"（公理2），还推出三条同样好用的定平面依据——</p>
 <ul>
@@ -385,10 +407,10 @@ section.flash{animation:flash 1.6s ease}
 <li>过<strong>两条相交直线</strong>，有且只有一个平面；</li>
 <li>过<strong>两条平行直线</strong>，有且只有一个平面。</li>
 </ul>
-<p class = "baihua"><span class = "tag">大白话</span>只要手里有"三点不共线""一直线加线外一点""两条相交线""两条平行线"中的任意一种，就能定一个平面——后面证"若干线共面"全靠它。</p>
+<p class="baihua"><span class="tag">大白话</span>只要手里有"三点不共线""一直线加线外一点""两条相交线""两条平行线"中的任意一种，就能定一个平面——后面证"若干线共面"全靠它。</p>
 <p><strong>等角定理（苏州教研·专题19）</strong>：空间中如果两个角的两边分别对应平行，那么这两个角相等或互补。</p>
 <ul>
-<li class = "baihua"><span class = "tag">大白话</span>两组边分别同向平行，角相等；其中一组方向反过来，就互补。</li>
+<li class="baihua"><span class="tag">大白话</span>两组边分别同向平行，角相等；其中一组方向反过来，就互补。</li>
 <li>用的时候：定义异面直线所成角时，把两条异面直线平移成相交线来量，依据就是它。</li>
 </ul>
 <h3>3.4 平行关系（证明题核心）</h3>
@@ -404,7 +426,7 @@ section.flash{animation:flash 1.6s ease}
 <li><strong>性质</strong>：面面平行，则一平面内任意直线平行于另一平面；被第三个平面截出的交线互相平行。</li>
 </ul>
 <p><strong>证明链</strong>：证线面平行 → 找线线平行（常用中位线、平行四边形）。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题</strong>：正方体中 E、F 分别是棱 A<sub>1</sub>B<sub>1</sub>、A<sub>1</sub>D<sub>1</sub> 的中点，证明 EF∥平面 BDD<sub>1</sub>B<sub>1</sub>。
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题</strong>：正方体中 E、F 分别是棱 A<sub>1</sub>B<sub>1</sub>、A<sub>1</sub>D<sub>1</sub> 的中点，证明 EF∥平面 BDD<sub>1</sub>B<sub>1</sub>。
 解：E、F 是中点，在 △A<sub>1</sub>B<sub>1</sub>D<sub>1</sub> 中 EF 是中位线，故 EF∥B<sub>1</sub>D<sub>1</sub>。又 B<sub>1</sub>D<sub>1</sub>⊂平面 BDD<sub>1</sub>B<sub>1</sub>，EF⊄该平面，由线面平行判定，<strong>EF∥平面 BDD<sub>1</sub>B<sub>1</sub></strong>。要点：见到"两个中点"，先想中位线。</p>
 <p><strong>编者注·本质回扣</strong>：证"线面平行"为什么不直接去量线和面的夹角？因为一旦降维成平面，几何就好算了——判定定理的全部意思就是：你要证一条线平行于一个面，不必去碰整个面，只要在这个面里找出一条和它平行的线就行（线线平行推出线面平行）。而"找线线平行"又常常靠中位线、平行四边形这些你初中就熟的平面技巧。所以这一章的证明套路，本质是不断把"面与线"的高维关系，翻译成"线与线"的平面关系；后面证垂直也一模一样，只是把"平行"换成"垂直"——这正是本章本质核心说的"降维通行证"。</p>
 <h3>3.5 垂直关系</h3>
@@ -427,13 +449,13 @@ section.flash{animation:flash 1.6s ease}
 <p><strong>垂直于同一平面的两条直线平行（苏州教研·专题19）</strong>：
 <strong>a⊥α，b⊥α ⇒ a∥b</strong>。</p>
 <ul>
-<li class = "baihua"><span class = "tag">大白话</span>都直立在同一个面上的两根杆，互相平行。</li>
+<li class="baihua"><span class="tag">大白话</span>都直立在同一个面上的两根杆，互相平行。</li>
 <li>用的时候：证线线平行的一条冷门但好用的路径。</li>
 </ul>
 <p><strong>从教材里提炼的几条常用判定 / 性质（苏州教研·专题19，都可直接当证题依据）</strong>：</p>
 <ul>
 <li><strong>证面面平行</strong>：一个面内两条相交直线分别平行于另一个面内两条相交直线 ⇒ 两面平行；<strong>垂直于同一条直线的两个平面平行</strong>（l⊥α、l⊥β ⇒ α∥β）。</li>
-<li><strong>证线面垂直</strong>：两条平行线中一条垂直一个面，另一条也垂直该面（a⊥α、a∥b ⇒ b⊥α）；<strong>两个相交平面都垂直第三个平面，则它们的交线垂直第三个平面</strong>（α⊥γ、β⊥γ、α∩β = l ⇒ l⊥γ）。</li>
+<li><strong>证线面垂直</strong>：两条平行线中一条垂直一个面，另一条也垂直该面（a⊥α、a∥b ⇒ b⊥α）；<strong>两个相交平面都垂直第三个平面，则它们的交线垂直第三个平面</strong>（α⊥γ、β⊥γ、α∩β=l ⇒ l⊥γ）。</li>
 <li><strong>面面垂直的传递</strong>：两个平行平面中一个垂直第三个面，另一个也垂直（α∥β、α⊥γ ⇒ β⊥γ）。</li>
 <li><strong>唯一性</strong>：过空间一点，有且只有一条直线垂直于已知平面；过空间一点，有且只有一个平面垂直于已知直线。</li>
 </ul>
@@ -444,15 +466,15 @@ section.flash{animation:flash 1.6s ease}
 <p><strong>逆定理</strong>：PO⊥a ⇒ <strong>AO⊥a</strong>。</p>
 </li>
 <li>
-<p class = "baihua"><span class = "tag">大白话</span>斜线和平面内一条直线垂直 ⇔ 它的射影也和这条直线垂直。</p>
+<p class="baihua"><span class="tag">大白话</span>斜线和平面内一条直线垂直 ⇔ 它的射影也和这条直线垂直。</p>
 </li>
 <li>用的时候：见到"面的垂线 PA + 斜线 PO + 面内直线 a"的格局，证线线垂直或找二面角平面角，它是一把快刀。</li>
 </ul>
 <h3>3.6 外接球与等体积法（高频小题）</h3>
-<p><strong>外接球补形</strong>：凡是"三条棱两两垂直"的墙角形三棱锥，补成长方体，外接球直径就是长方体体对角线，<strong>R = ½√(a<sup>2</sup>+b<sup>2</sup>+c<sup>2</sup>)</strong>。</p>
-<p><strong>等体积法</strong>：求点到面的距离（高）时，换一个更好算的顶点和底面，体积不变，反解出高：h = 3V/S底。这比建系算距离省事。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题</strong>：三条侧棱两两垂直且长为 3、4、5 的三棱锥，求外接球半径。
-解：补成长方体，R = ½√(9+16+25) = ½√50 = <strong>(5√2)/2</strong>。</p>
+<p><strong>外接球补形</strong>：凡是"三条棱两两垂直"的墙角形三棱锥，补成长方体，外接球直径就是长方体体对角线，<strong>R=½√(a<sup>2</sup>+b<sup>2</sup>+c<sup>2</sup>)</strong>。</p>
+<p><strong>等体积法</strong>：求点到面的距离（高）时，换一个更好算的顶点和底面，体积不变，反解出高：h=3V/S底。这比建系算距离省事。</p>
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题</strong>：三条侧棱两两垂直且长为 3、4、5 的三棱锥，求外接球半径。
+解：补成长方体，R=½√(9+16+25)=½√50=<strong>(5√2)/2</strong>。</p>
 <p><strong>补形模型的几种情形（苏州教研·专题19）</strong>：把四面体补成平行六面体（长方体）是求外接球的大招——</p>
 <ul>
 <li>同一顶点处三条棱两两垂直 ⇒ 补成长方体（墙角形，上面已讲）；</li>
@@ -461,20 +483,20 @@ section.flash{animation:flash 1.6s ease}
 <li>棱台、圆台 ⇒ 分别补回棱锥、圆锥（研究台体别忘了还原成锥体）。</li>
 </ul>
 <p><strong>多面体内切球半径：等体积法（苏州教研·专题19）</strong>：一个多面体若存在内切球（与所有面都相切），把它从球心处切成若干个以各面为底、内切球半径 r 为高的小棱锥，总体积
-<strong>V  =  ⅓·S全·r，故 r  =  3V / S全</strong>。</p>
+<strong>V = ⅓·S全·r，故 r = 3V / S全</strong>。</p>
 <ul>
-<li class = "baihua"><span class = "tag">大白话</span>内切球心到每个面距离都是 r，把多面体拆成一堆高为 r 的小棱锥，体积加起来就解出 r。</li>
-<li>用的时候：求三棱锥、多面体内切球半径，别硬画，套 r  =  3V/S全。</li>
+<li class="baihua"><span class="tag">大白话</span>内切球心到每个面距离都是 r，把多面体拆成一堆高为 r 的小棱锥，体积加起来就解出 r。</li>
+<li>用的时候：求三棱锥、多面体内切球半径，别硬画，套 r = 3V/S全。</li>
 </ul>
 <p><strong>小结</strong>：立体几何证明就两条线——平行找线线平行，垂直找线线垂直；计算套公式，锥体别忘 1/3。</p>
-</div><div class="sec sec-ex2"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
-<p class = "ex"><span class = "tag">例题</span><strong>例 1（体积计算）</strong>：正四棱锥底面边长为 2，高为 3，求体积。</p>
+</div><div class="sec sec-ex2"><h2 class="ex2">④ 例题详解（先做再看）</h2>
+<p class="ex"><span class="tag">例题</span><strong>例 1（体积计算）</strong>：正四棱锥底面边长为 2，高为 3，求体积。</p>
 <blockquote>
 <p>自己做：套锥体公式。</p>
 </blockquote>
-<p>解：S 底  =  2<sup>2</sup>  =  4，V  =  ⅓·4·3  =  4。
+<p>解：S 底 = 2<sup>2</sup> = 4，V = ⅓·4×3 = 4。
 要点：<strong>锥体记得乘 1/3</strong>，柱体不乘。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>例 2（线面平行证明）</strong>：正方体 ABCD−A<sub>1</sub>B<sub>1</sub>C<sub>1</sub>D<sub>1</sub> 中，E 是棱 CC<sub>1</sub> 的中点，证明 AC<sub>1</sub> ∥ 平面 BDE。</p>
+<p class="ex"><span class="tag">例题</span><strong>例 2（线面平行证明）</strong>：正方体 ABCD−A<sub>1</sub>B<sub>1</sub>C<sub>1</sub>D<sub>1</sub> 中，E 是棱 CC<sub>1</sub> 的中点，证明 AC<sub>1</sub> ∥ 平面 BDE。</p>
 <blockquote>
 <p>自己做：在平面 BDE 里找一条与 AC<sub>1</sub> 平行的线。</p>
 </blockquote>
@@ -482,34 +504,34 @@ section.flash{animation:flash 1.6s ease}
 在 △ACC<sub>1</sub> 中，O 是 AC 中点，E 是 CC<sub>1</sub> 中点 ⇒ OE ∥ AC<sub>1</sub>（中位线）。
 又 OE ⊂ 平面 BDE，AC<sub>1</sub> ⊄ 平面 BDE ⇒ <strong>AC<sub>1</sub> ∥ 平面 BDE</strong>。
 要点：<strong>中点 → 中位线 → 线线平行 → 线面平行</strong>，这是最常用的一条证明链。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>例 3（球与正方体）</strong>：棱长为 2 的正方体的外接球体积是多少？</p>
+<p class="ex"><span class="tag">例题</span><strong>例 3（球与正方体）</strong>：棱长为 2 的正方体的外接球体积是多少？</p>
 <blockquote>
-<p>自己做：体对角线  =  外接球直径。</p>
+<p>自己做：体对角线 = 外接球直径。</p>
 </blockquote>
-<p>解：体对角线  =  √(4 + 4 + 4)  =  2√3  =  2R ⇒ R  =  √3。V  =  (4/3)π(√3)<sup>3</sup>  =  <strong>4√3 π</strong>。
+<p>解：体对角线 = √(4 + 4 + 4) = 2√3 = 2R ⇒ R = √3。V = (4/3)π(√3)<sup>3</sup> = <strong>4√3 π</strong>。
 要点：<strong>外接球看对角线，内切球看棱长</strong>。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>例 4（对棱相等·补形求体积与外接球）（苏州教研·专题18，原书p.68）</strong>：在四面体 P−ABC 中，PA = BC = √41，PB = AC = √34，PC = AB = 5，求四面体的体积和外接球的表面积。</p>
+<p class="ex"><span class="tag">例题</span><strong>例 4（对棱相等·补形求体积与外接球）（苏州教研·专题18，原书p.68）</strong>：在四面体 P−ABC 中，PA=BC=√41，PB=AC=√34，PC=AB=5，求四面体的体积和外接球的表面积。</p>
 <blockquote>
 <p>自己做：三组对棱分别相等，想到补成长方体。</p>
 </blockquote>
 <p>解：设补成的长方体长宽高为 a、b、c，则三组面对角线满足
-a<sup>2</sup>+b<sup>2</sup> = 41，a<sup>2</sup>+c<sup>2</sup> = 34，b<sup>2</sup>+c<sup>2</sup> = 25。
-三式相加：2(a<sup>2</sup>+b<sup>2</sup>+c<sup>2</sup>) = 41+34+25 = 100 ⇒ a<sup>2</sup>+b<sup>2</sup>+c<sup>2</sup> = 50。
-于是 a<sup>2</sup> = 50−25 = 25，b<sup>2</sup> = 50−34 = 16，c<sup>2</sup> = 50−41 = 9，得 <strong>a = 5，b = 4，c = 3</strong>。
-长方体体积 abc = 5·4·3 = 60。四个角上各切去一个小三棱锥，每个体积为 ⅓·(½ab)·c  =  ⅙abc  =  10，四个共 40，故四面体 V = 60−40  =  ⅓abc  =  <strong>20</strong>。
-外接球直径  =  长方体体对角线：(2R)<sup>2</sup> = a<sup>2</sup>+b<sup>2</sup>+c<sup>2</sup> = 50，故外接球表面积 S = 4πR<sup>2</sup> = π(2R)<sup>2</sup> = <strong>50π</strong>。
-要点：<strong>三组对棱分别相等 ⇒ 补成长方体</strong>；四面体体积  =  ⅓·abc；外接球表面积  =  π·(体对角线)<sup>2</sup>。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>例 5（线面角·垂足是外心）（苏州教研·专题19，原书p.76）</strong>：在四面体 A−BCD 中，DA = DB = DC = a，BC = √2a，∠ADB = ∠ADC = 60°，求直线 DA 与平面 BCD 所成的角。</p>
+a<sup>2</sup>+b<sup>2</sup>=41，a<sup>2</sup>+c<sup>2</sup>=34，b<sup>2</sup>+c<sup>2</sup>=25。
+三式相加：2(a<sup>2</sup>+b<sup>2</sup>+c<sup>2</sup>)=41+34+25=100 ⇒ a<sup>2</sup>+b<sup>2</sup>+c<sup>2</sup>=50。
+于是 a<sup>2</sup>=50−25=25，b<sup>2</sup>=50−34=16，c<sup>2</sup>=50−41=9，得 <strong>a=5，b=4，c=3</strong>。
+长方体体积 abc=5×4×3=60。四个角上各切去一个小三棱锥，每个体积为 ⅓·(½ab)·c = ⅙abc = 10，四个共 40，故四面体 V=60−40 = ⅓abc = <strong>20</strong>。
+外接球直径 = 长方体体对角线：(2R)<sup>2</sup>=a<sup>2</sup>+b<sup>2</sup>+c<sup>2</sup>=50，故外接球表面积 S=4πR<sup>2</sup>=π(2R)<sup>2</sup>=<strong>50π</strong>。
+要点：<strong>三组对棱分别相等 ⇒ 补成长方体</strong>；四面体体积 = ⅓·abc；外接球表面积 = π·(体对角线)<sup>2</sup>。</p>
+<p class="ex"><span class="tag">例题</span><strong>例 5（线面角·垂足是外心）（苏州教研·专题19，原书p.76）</strong>：在四面体 A−BCD 中，DA=DB=DC=a，BC=√2a，∠ADB=∠ADC=60°，求直线 DA 与平面 BCD 所成的角。</p>
 <blockquote>
 <p>自己做：先由等长斜线段判断垂足位置。</p>
 </blockquote>
-<p>解：∠ADB = 60°、DA = DB = a ⇒ △ADB 等边 ⇒ AB = a；同理 AC = a。又 DB = DC = a、BC = √2a，DB<sup>2</sup>+DC<sup>2</sup> = a<sup>2</sup>+a<sup>2</sup> = 2a<sup>2</sup> = BC<sup>2</sup> ⇒ <strong>DB⊥DC</strong>，即 △BCD 直角在 D。
-过 A 作 AO⊥平面 BCD，垂足 O。由 DA = DB = DC（三条斜线段等长）⇒ 它们在平面 BCD 上的射影 OD = OB = OC，即 O 是 △BCD 的外心。
-直角三角形 BCD 的外心是斜边 BC 的中点，外接圆半径 OD = ½·BC = √2a/2 = a/√2。
-在直角三角形 AOD 中（AO⊥OD）：AO = √(AD<sup>2</sup>−OD<sup>2</sup>) = √(a<sup>2</sup>−a<sup>2</sup>/2) = a/√2。
-∠ADO 就是 DA 与平面 BCD 所成的角，tan∠ADO = AO/OD = (a/√2)/(a/√2) = 1 ⇒ <strong>∠ADO = 45°</strong>。
-要点：<strong>斜线段等长 ⇒ 射影等长 ⇒ 垂足是底面外心</strong>；线面角  =  斜线与它在面内射影的夹角。</p>
-</div><div class="sec sec-out"><h2 class = "out">⑤ 出口检测</h2>
+<p>解：∠ADB=60°、DA=DB=a ⇒ △ADB 等边 ⇒ AB=a；同理 AC=a。又 DB=DC=a、BC=√2a，DB<sup>2</sup>+DC<sup>2</sup>=a<sup>2</sup>+a<sup>2</sup>=2a<sup>2</sup>=BC<sup>2</sup> ⇒ <strong>DB⊥DC</strong>，即 △BCD 直角在 D。
+过 A 作 AO⊥平面 BCD，垂足 O。由 DA=DB=DC（三条斜线段等长）⇒ 它们在平面 BCD 上的射影 OD=OB=OC，即 O 是 △BCD 的外心。
+直角三角形 BCD 的外心是斜边 BC 的中点，外接圆半径 OD=½·BC=√2a/2=a/√2。
+在直角三角形 AOD 中（AO⊥OD）：AO=√(AD<sup>2</sup>−OD<sup>2</sup>)=√(a<sup>2</sup>−a<sup>2</sup>/2)=a/√2。
+∠ADO 就是 DA 与平面 BCD 所成的角，tan∠ADO=AO/OD=(a/√2)/(a/√2)=1 ⇒ <strong>∠ADO=45°</strong>。
+要点：<strong>斜线段等长 ⇒ 射影等长 ⇒ 垂足是底面外心</strong>；线面角 = 斜线与它在面内射影的夹角。</p>
+</div><div class="sec sec-out"><h2 class="out">⑤ 出口检测</h2>
 <p><strong>自测（15 分钟，每题 2 分）</strong>：</p>
 <ol>
 <li>圆柱底面半径 2、高 3，求体积与侧面积。</li>
@@ -523,7 +545,7 @@ a<sup>2</sup>+b<sup>2</sup> = 41，a<sup>2</sup>+c<sup>2</sup> = 34，b<
 </div><div class="sec sec-hw"><h2>课后习题（分层练习）</h2>
 <h3>A 组 · 基础巩固</h3>
 <p>1.【考点：正方体表面积体积】正方体棱长为 3，求它的表面积、体积与体对角线长。
-2.【考点：圆锥体积侧面积】圆锥底面半径 3、高 4，求体积与侧面积（母线 l = 5）。
+2.【考点：圆锥体积侧面积】圆锥底面半径 3、高 4，求体积与侧面积（母线 l=5）。
 3.【考点：球的公式】球的半径为 3，求表面积与体积。
 4.【考点：线面平行条件】判断：直线 a⊄平面 α，直线 b⊂α，且 a∥b，能否推出 a∥α？
 5.【考点：长方体对角线】长方体长宽高为 2、3、4，求体对角线长。
@@ -531,13 +553,13 @@ a<sup>2</sup>+b<sup>2</sup> = 41，a<sup>2</sup>+c<sup>2</sup> = 34，b<
 <h3>B 组 · 能力提升</h3>
 <p>7.【考点：正方体外接球】棱长为 2 的正方体外接球体积是多少？
 8.【考点：线面平行证明】正方体 ABCD−A<sub>1</sub>B<sub>1</sub>C<sub>1</sub>D<sub>1</sub> 中，E 是棱 CC<sub>1</sub> 中点，证明 AC<sub>1</sub> ∥ 平面 BDE。
-9.【考点：等体积法】三棱锥 P−ABC 中，PA⊥底面 ABC，PA = 3，△ABC 面积为 4，求点 A 到平面 PBC 的高 h（用等体积法思路）。
+9.【考点：等体积法】三棱锥 P−ABC 中，PA⊥底面 ABC，PA=3，△ABC 面积为 4，求点 A 到平面 PBC 的高 h（用等体积法思路）。
 10.【考点：面面垂直】正方体中，平面 ABCD 与平面 ABB<sub>1</sub>A<sub>1</sub> 为什么互相垂直？用判定定理说明。</p>
 <h3>C 组 · 真题挑战</h3>
 <p>11.【考点：位置关系多选】（2025 年新高考Ⅰ卷·多选第 9 题）在正三棱柱 ABC−A<sub>1</sub>B<sub>1</sub>C<sub>1</sub> 中，D 为 BC 的中点，则（ ）。
    A. AD⊥A<sub>1</sub>C　B. BC⊥平面 AA<sub>1</sub>D　C. CC<sub>1</sub>∥平面 AA<sub>1</sub>D　D. AD∥A<sub>1</sub>B<sub>1</sub>
-12.【考点：线面平行证明】（2024 新高考Ⅰ卷·解答第 17 题第 (1) 问）四棱锥 P−ABCD 中，PA⊥底面 ABCD，PA = AC = 2，BC = 1，AB = √3。若 AD⊥PB，证明：AD∥平面 PBC。</p>
-</div><div class="sec sec-pit"><h2 class = "pit">⑥ 常见坑清单</h2>
+12.【考点：线面平行证明】（2024 新高考Ⅰ卷·解答第 17 题第 (1) 问）四棱锥 P−ABCD 中，PA⊥底面 ABCD，PA=AC=2，BC=1，AB=√3。若 AD⊥PB，证明：AD∥平面 PBC。</p>
+</div><div class="sec sec-pit"><h2 class="pit">⑥ 常见坑清单</h2>
 <ul>
 <li><strong>锥体体积 1/3 别丢</strong>；台体公式里的"根号"别漏。</li>
 <li>线面平行判定：<strong>a ⊄ α 是前提</strong>，a 在面内就不能用。</li>
@@ -551,12 +573,12 @@ a<sup>2</sup>+b<sup>2</sup> = 41，a<sup>2</sup>+c<sup>2</sup> = 34，b<
 <p>口径与《高中数学常用公式·修订版》第四部分（立体几何）一致。</p>
 </blockquote>
 <h3>柱锥台球体积</h3>
-<p><strong>柱体：V  =  S底·h（圆柱 V  =  πr<sup>2</sup>h）</strong></p>
+<p><strong>柱体：V = S底·h（圆柱 V = πr<sup>2</sup>h）</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>底面积乘高，柱体不乘 1/3。</li>
 <li>用的时候：柱和锥别混，锥体才要除以 3。</li>
 </ul>
-<p><strong>锥体：V  =  ⅓·S底·h（圆锥 V  =  ⅓πr<sup>2</sup>h）</strong></p>
+<p><strong>锥体：V = ⅓·S底·h（圆锥 V = ⅓πr<sup>2</sup>h）</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>等底等高的柱，锥只占它的三分之一。</li>
 <li>用的时候：最容易漏的就是这个 1/3，写完先检查。</li>
@@ -566,7 +588,7 @@ a<sup>2</sup>+b<sup>2</sup> = 41，a<sup>2</sup>+c<sup>2</sup> = 34，b<
 <li class="baihua"><span class="tag">大白话</span>上下底面积和，再加个"上下底面积几何平均"，一起乘高除以 3。</li>
 <li>用的时候：中间那个 √(S上S下) 别漏；台体可看成锥截出来的。</li>
 </ul>
-<p><strong>球：V  =  (4/3)πR<sup>3</sup>，表面积 S  =  4πR<sup>2</sup></strong></p>
+<p><strong>球：V = (4/3)πR<sup>3</sup>，表面积 S = 4πR<sup>2</sup></strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>球的体积和表面积只跟半径有关。</li>
 <li>用的时候：表面积是 4πR<sup>2</sup>，别记成 πR<sup>2</sup>。</li>
@@ -582,7 +604,7 @@ a<sup>2</sup>+b<sup>2</sup> = 41，a<sup>2</sup>+c<sup>2</sup> = 34，b<
 <li class="baihua"><span class="tag">大白话</span>六个正方形面，对角线跨三个棱。</li>
 </ul>
 <h3>外接球与体对角线</h3>
-<p><strong>长方体体对角线 l  =  √(a<sup>2</sup>+b<sup>2</sup>+c<sup>2</sup>)；外接球直径  =  体对角线</strong></p>
+<p><strong>长方体体对角线 l = √(a<sup>2</sup>+b<sup>2</sup>+c<sup>2</sup>)；外接球直径 = 体对角线</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>从一个顶点出发三条棱，勾股连套两次就是对角线。</li>
 <li>用的时候：墙角形三棱锥（三条棱两两垂直）补成长方体，R = ½√(a<sup>2</sup>+b<sup>2</sup>+c<sup>2</sup>)。</li>
@@ -623,7 +645,7 @@ a<sup>2</sup>+b<sup>2</sup> = 41，a<sup>2</sup>+c<sup>2</sup> = 34，b<
 <li>用的时候：求点到面的高，建系麻烦时用它。</li>
 </ul>
 <h3>补充二级结论（苏州教研·专题18/19）</h3>
-<p><strong>球的截面：d<sup>2</sup>  =  R<sup>2</sup> − r<sup>2</sup>（R 球半径，r 截面圆半径，d 球心到截面距离）</strong></p>
+<p><strong>球的截面：d<sup>2</sup> = R<sup>2</sup> − r<sup>2</sup>（R 球半径，r 截面圆半径，d 球心到截面距离）</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>截面离球心越远、截面圆越小，就是截面里的勾股。</li>
 <li>用的时候：球半径、截面圆半径、球心到截面距离知二求一。</li>
@@ -659,46 +681,46 @@ a<sup>2</sup>+b<sup>2</sup> = 41，a<sup>2</sup>+c<sup>2</sup> = 34，b<
 </blockquote>
 <h3>进阶 1：外接球"补形模型"速查</h3>
 <p><strong>适用信号</strong>：三棱锥三条棱两两垂直，或"对棱相等"，求外接球半径。
-<strong>操作步骤</strong>：补成长方体，外接球直径 = 长方体体对角线，<strong>R = ½√(a<sup>2</sup>+b<sup>2</sup>+c<sup>2</sup>)</strong>。
-<strong>例题</strong>：墙角三棱锥三条直角棱长 3、4、5，则 R = ½√(9+16+25) = 5√2/2。
-<strong>课标依据/红线</strong>：球的直径 = 长方体体对角线是教材结论，✓ <strong>不超纲（高考可放心用）</strong>。</p>
+<strong>操作步骤</strong>：补成长方体，外接球直径=长方体体对角线，<strong>R=½√(a<sup>2</sup>+b<sup>2</sup>+c<sup>2</sup>)</strong>。
+<strong>例题</strong>：墙角三棱锥三条直角棱长 3、4、5，则 R=½√(9+16+25)=5√2/2。
+<strong>课标依据/红线</strong>：球的直径=长方体体对角线是教材结论，✓ <strong>不超纲（高考可放心用）</strong>。</p>
 <h3>进阶 2：等体积法求距离</h3>
 <p><strong>适用信号</strong>：求点到平面的距离、求锥体的高，又不想建系。
-<strong>操作步骤</strong>：换一组好算的顶点和底面，体积 V 不变，由 V = ⅓·S底·h 反解 h = 3V/S底。
-<strong>例题</strong>：三棱锥 PA⊥底面，PA = 3，底面 △ABC 面积 4，则 V = ⅓·4·3 = 4；若换用面 PBC 作底，测出其面积即可反求对应高。
+<strong>操作步骤</strong>：换一组好算的顶点和底面，体积 V 不变，由 V=⅓·S底·h 反解 h=3V/S底。
+<strong>例题</strong>：三棱锥 PA⊥底面，PA=3，底面 △ABC 面积 4，则 V=⅓·4×3=4；若换用面 PBC 作底，测出其面积即可反求对应高。
 <strong>课标依据/红线</strong>：体积变换是教材内容，✓ <strong>不超纲</strong>。</p>
 <h3>进阶 3：三视图（说明）</h3>
 <p><strong>课标依据/红线</strong>：三视图已从新高考删除，<strong>不考，不必花时间</strong>；斜二测画法画直观图了解即可。</p>
 <hr />
 
-</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. V  =  π·2<sup>2</sup>·3  =  12π；S 侧  =  2π·2·3  =  12π；2. V  =  ⅓·4·6  =  8；3. 不能（a ⊂ α，需平面外一条直线）；4. (4/3)πR<sup>3</sup>  =  36π ⇒ R<sup>3</sup>  =  27 ⇒ R  =  3；5. √(4 + 9 + 36)  =  7。</p></div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">A 组答案</p><p><strong>A 组</strong></p>
+</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. V = π·2<sup>2</sup>·3 = 12π；S 侧 = 2π·2×3 = 12π；2. V = ⅓·4×6 = 8；3. 不能（a ⊂ α，需平面外一条直线）；4. (4/3)πR<sup>3</sup> = 36π ⇒ R<sup>3</sup> = 27 ⇒ R = 3；5. √(4 + 9 + 36) = 7。</p></div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">A 组答案</p><p><strong>A 组</strong></p>
 <ol>
-<li>表面积 6·9=<strong>54</strong>；体积 3<sup>3</sup>=<strong>27</strong>；体对角线 √3·3=<strong>3√3</strong>。</li>
-<li>V=⅓π·3<sup>2</sup>·4=<strong>12π</strong>；侧面积 π·3·5=<strong>15π</strong>。</li>
+<li>表面积 6×9=<strong>54</strong>；体积 3<sup>3</sup>=<strong>27</strong>；体对角线 √3×3=<strong>3√3</strong>。</li>
+<li>V=⅓π·3<sup>2</sup>·4=<strong>12π</strong>；侧面积 π·3×5=<strong>15π</strong>。</li>
 <li>S=4π·3<sup>2</sup>=<strong>36π</strong>；V=(4/3)π·27=<strong>36π</strong>。</li>
 <li>能。a⊄α、b⊂α、a∥b 三条都满足，<strong>可以推出 a∥α</strong>。</li>
 <li>l=√(4+9+16)=<strong>√29</strong>。</li>
-<li>V=⅓·6·5=<strong>10</strong>。</li>
+<li>V=⅓·6×5=<strong>10</strong>。</li>
 </ol>
 </div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">B 组答案</p><p><strong>B 组</strong></p>
 <ol start="7">
 <li>体对角线=√(4+4+4)=2√3=2R ⇒ R=√3。V=(4/3)π(√3)<sup>3</sup>=<strong>4√3 π</strong>。</li>
 <li>连接 AC 交 BD 于 O（O 是 AC 中点），连 OE。在 △ACC<sub>1</sub> 中 O、E 分别是 AC、CC<sub>1</sub> 中点，故 OE∥AC<sub>1</sub>（中位线）。OE⊂平面 BDE，AC<sub>1</sub>⊄平面 BDE ⇒ <strong>AC<sub>1</sub>∥平面 BDE</strong>。</li>
-<li>V=⅓·S底·PA=⅓·4·3=4。等体积法下高由对应底面积决定；此处换顶点后高 h=3V/S△PBC，思路成立（具体数值需先求 △PBC 面积）。</li>
+<li>V=⅓·S底·PA=⅓·4×3=4。等体积法下高由对应底面积决定；此处换顶点后高 h=3V/S△PBC，思路成立（具体数值需先求 △PBC 面积）。</li>
 <li>因为 BC⊥AB（底面正方形邻边垂直），且 BC⊥BB<sub>1</sub>（侧棱 BB<sub>1</sub> 垂直底面 ABCD），而 AB 与 BB<sub>1</sub> 是平面 ABB<sub>1</sub>A<sub>1</sub> 内的两条相交直线，故 BC⊥平面 ABB<sub>1</sub>A<sub>1</sub>。又 BC⊂平面 ABCD，由面面垂直判定，<strong>平面 ABCD⊥平面 ABB<sub>1</sub>A<sub>1</sub></strong>。</li>
 </ol>
 </div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">C 组答案</p><p><strong>C 组</strong></p>
 <ol start="11">
 <li>
 <p>设底面边长 2、侧棱 2，建系 A(0,0,0)、B(2,0,0)、C(1,√3,0)、D(1.5,√3/2,0)、A<sub>1</sub>(0,0,2)、C<sub>1</sub>(1,√3,2)。
-   A. AD·A<sub>1</sub>C=(1.5,√3/2,0)·(1,√3,−2)=1.5+1.5+0=3≠0，不垂直；
+   A. AD·A<sub>1</sub>C=(1.5,√3/2,0)×(1,√3,−2)=1.5+1.5+0=3≠0，不垂直；
    B. BC=(−1,√3,0)，AA<sub>1</sub>=(0,0,2)，AD=(1.5,√3/2,0)，BC·AA<sub>1</sub>=0 且 BC·AD=−1.5+1.5=0，故 BC⊥平面 AA<sub>1</sub>D；
    C. CC<sub>1</sub>=(0,0,2)，与平面 AA<sub>1</sub>D 的法向量垂直，故 CC<sub>1</sub>∥平面 AA<sub>1</sub>D；
    D. A<sub>1</sub>B<sub>1</sub>=(2,0,0)，与 AD=(1.5,√3/2,0) 方向不共线，不平行。
    综上选 <strong>BC</strong>。</p>
 </li>
 <li>
-<p>建系 A(0,0,0)、C(2,0,0)、P(0,0,2)；由 AB=√3、BC=1 得 B(3/2,√3/2,0)。设 D=(u,v,0)。由 AD⊥PB：(D−A)·(B−P)=(u,v,0)·(3/2,√3/2,−2)=3u/2+(√3/2)v=0，即 v=−√3 u。平面 PBC 的法向量可取 n=(√3,1,√3)（取相反方向）。AD·n=√3 u+v=√3 u−√3 u=0，故 AD⊥n，又 AD⊄平面 PBC，所以 <strong>AD∥平面 PBC</strong>。</p>
+<p>建系 A(0,0,0)、C(2,0,0)、P(0,0,2)；由 AB=√3、BC=1 得 B(3/2,√3/2,0)。设 D=(u,v,0)。由 AD⊥PB：(D−A)×(B−P)=(u,v,0)×(3/2,√3/2,−2)=3u/2+(√3/2)v=0，即 v=−√3 u。平面 PBC 的法向量可取 n=(√3,1,√3)（取相反方向）。AD·n=√3 u+v=√3 u−√3 u=0，故 AD⊥n，又 AD⊄平面 PBC，所以 <strong>AD∥平面 PBC</strong>。</p>
 </li>
 </ol>
 </div></div></div><div class="sec sec-meta"><h2>一通百通</h2>
@@ -711,7 +733,19 @@ a<sup>2</sup>+b<sup>2</sup> = 41，a<sup>2</sup>+c<sup>2</sup> = 34，b<
 </div><div class="sec sec-meta"><h2>本章与前后章</h2>
 <p>按全书蓝图，13 章的前置就是初中几何——平面几何里的勾股定理、中位线、等腰三角形三线合一、直径对直角，本章全部直接搬用，只是放进了三维背景里。它后面接第 14 章空间向量：13 章用"几何法"（看图、找线线关系、作辅助线）做证明和计算，14 章则把同一幅图形建系翻译成坐标运算，两条路解的是同一类立体几何题。学完这章你先在脑子里建立起三维直观，14 章只是给这套直观装上坐标。</p>
 </div><div class="sec sec-meta"><h2>高考怎么考</h2>
-<p>新高考Ⅰ卷里本章主要出"立体几何小题"：体积/表面积计算、外接球补形、球的截面、以及空间线面位置关系的多选判断（如本章 C 组 2025 年多选第 9 题正三棱柱）；另外解答题的第 1 问（证线面平行或垂直，如本章 C 组 2024 年解答第 17 题第 (1) 问）几乎固定考本章这套几何证明。它是立体几何大题的"送分入口"，难度中档，考的就是你会不会把空间关系降维成平面关系。</p></div>
+<p>新高考Ⅰ卷里本章主要出"立体几何小题"：体积/表面积计算、外接球补形、球的截面、以及空间线面位置关系的多选判断（如本章 C 组 2025 年多选第 9 题正三棱柱）；另外解答题的第 1 问（证线面平行或垂直，如本章 C 组 2024 年解答第 17 题第 (1) 问）几乎固定考本章这套几何证明。它是立体几何大题的"送分入口"，难度中档，考的就是你会不会把空间关系降维成平面关系。</p>
+<hr />
+</div><div class="sec sec-meta"><h2>同法跨章 · 一通百通</h2>
+<p><strong>空间想象 → 建系（本章 → ch14 空间向量 → ch09 向量）</strong>：本章三视图、直观图培养空间感；ch14 用坐标/向量把空间问题变成代数运算；ch09 平面向量是 2D 起点。<strong>"先看懂图，再上坐标系"</strong>。</p>
+<p><strong>截面与球（本章 → ch16 圆 → ch12 最值）</strong>：本章外接球找球心（到顶点等距）；ch16 圆的定义、ch12 距离最值。<strong>球 = 空间中的圆，同一套"到定点等距"逻辑</strong>。</p>
+<p><strong>投影与距离（本章 → ch08 解三角形 → ch14 法向量）</strong>：本章线面距离/射影；ch08 用三角求距离；ch14 向量投影公式。<strong>距离 = 投影长度，三种写法一条线</strong>。</p>
+</div><div class="sec sec-meta"><h2>本章连接全书</h2>
+<ul>
+<li><strong>→ ch14 空间向量</strong>：立体几何计算升级为建系向量法。</li>
+<li><strong>→ ch08 解三角形</strong>：空间角常化为平面角用三角求。</li>
+<li><strong>→ ch16 解析几何</strong>：圆、球、切线的几何性质互通。</li>
+<li><strong>→ ch09 平面向量</strong>：向量语言是空间向量的基础。</li>
+</ul></div>
 </section>
 </main>
 <button id="topbtn" title="回到顶部">↑</button>
@@ -900,6 +934,35 @@ a<sup>2</sup>+b<sup>2</sup> = 41，a<sup>2</sup>+c<sup>2</sup> = 34，b<
     window.addEventListener('resize',renderPen);
     loadPen();renderPen();
   }
+})();
+/* 章内左侧小目录：扫描各章 h2 生成，点击平滑滚动直达 */
+(function(){
+  var secs=document.querySelectorAll('section.chapter');
+  if(!secs.length||document.getElementById('secbar'))return;
+  var sb=document.createElement('div');sb.id='secbar';
+  var inner=document.createElement('div');inner.className='secbar-in';
+  sb.appendChild(inner);
+  secs.forEach(function(sec,si){
+    if(si>0){
+      var ttl=sec.querySelector('.ch-title');
+      var hd=document.createElement('div');hd.className='secbar-ch';
+      hd.textContent=(ttl?ttl.textContent.replace(/^\d+·?/,'').slice(0,8):sec.id);
+      inner.appendChild(hd);
+    }
+    sec.querySelectorAll('h2').forEach(function(h2){
+      var a=document.createElement('a');
+      var t=h2.textContent.replace(/^\s*[①-⑨]/,'').replace(/^\s*\d+\s*/,'').trim();
+      a.textContent=t.length>12?t.slice(0,12):t;
+      a.title=t;
+      a.addEventListener('click',function(ev){
+        ev.preventDefault();
+        var r=h2.getBoundingClientRect().top+window.scrollY;
+        window.scrollTo({top:Math.max(0,r-70),behavior:'smooth'});
+      });
+      inner.appendChild(a);
+    });
+  });
+  document.body.appendChild(sb);
 })();
 </script>
 </body>

@@ -65,8 +65,9 @@ h1.ch-title{font-size:29px;font-weight:800;color:#fff;margin:8px 0 6px;letter-sp
 .mats{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px 16px;margin:0 0 18px;box-shadow:var(--shadow)}
 .mats-t{font-size:12.5px;font-weight:700;color:var(--gold);margin-bottom:9px;letter-spacing:.04em}
 .mats-l{display:flex;flex-wrap:wrap;gap:8px}
-.mats-l a{background:var(--blue-l);color:var(--blue);text-decoration:none;font-size:13px;padding:5px 13px;border-radius:20px;border:1px solid #c9d8ec;transition:.15s;white-space:nowrap}
+.mats-l a{background:var(--blue-l);color:var(--blue);text-decoration:none;font-size:13px;padding:5px 13px;border-radius:20px;border:1px solid #c9d8ec;transition:.15s}
 .mats-l a:hover{background:var(--blue);color:#fff;transform:translateY(-1px)}
+.mats-l .mat-txt{background:#eef0f4;color:#4a5568;font-size:12.5px;padding:5px 13px;border-radius:20px;border:1px dashed #c3cad6;cursor:help}
 /* 看不懂怎么办 */
 .help{background:var(--gold-l);border:1px dashed var(--gold);border-radius:12px;padding:13px 16px;margin:0 0 20px;font-size:13.5px;color:#6b5c26;line-height:1.85;box-shadow:var(--shadow)}
 body.dark .help{color:#d8c078}
@@ -85,6 +86,14 @@ h2.adv{border-left-color:var(--purple)}
 h3{font-size:calc(var(--fs) + 0.5px);font-weight:700;color:#3a352c;margin:22px 0 8px}
 p{margin:0 0 12px}
 strong{color:var(--blue)}
+/* 课后习题：题目行题号标签保持正文色（组名行仍按公式块样式显示） */
+.sec-hw p>strong:first-child{color:inherit}
+.sec-hw p:has(>strong:only-child)>strong{color:var(--blue)}
+/* 课后习题答案：每题答案块题号行保留蓝色标题感，其余步骤正文色 */
+.sec-ans p>strong:first-child{color:inherit}
+.sec-ans p:has(>strong:only-child)>strong{color:var(--blue)}
+/* 答案中的解释（方法/为什么/验证/取等条件）：灰色小字，与答案本体区分 */
+.ans-ex{color:#8a8578;font-size:calc(var(--fs) - 1.5px);font-style:normal;letter-spacing:.01em}
 /* 公式独立行：数学衬线字体统一字形（χ Σ √ 上下标同族），避免文本符号混排歪扭 */
 p:has(> strong:only-child){text-align:center;font-size:calc(var(--fs) + 1.5px);margin:16px 0;background:var(--blue-l);border:1px solid #cfe0f2;border-radius:10px;padding:10px 14px;color:var(--blue);font-family:"Cambria Math","STIX Two Math","Times New Roman","Songti SC",serif;letter-spacing:.012em}
 /* 内容块分类 */
@@ -107,6 +116,19 @@ p.ans{background:var(--blue-l);border:1px dashed #c3cede;border-radius:10px;padd
 .ans-grp{font-size:12px;color:#fff;background:var(--blue);display:inline-block;border-radius:6px;padding:2px 9px;margin:0 0 8px;font-weight:600}
 .ans-box>.ans-body{padding:11px 15px 13px}
 .ans-body p.ans{background:transparent;border:none;padding:0;margin:0 0 8px;font-weight:600}
+/* 答案区每题独立分块：A/B/C/D 组答案每题一块，虚线分隔，不夹带、不粘连 */
+.ans-body>p:not(.ans){border-bottom:1px dashed #d9d2c0;padding:9px 2px 11px;margin:0 0 9px;background:transparent;box-shadow:none;text-align:left;font-family:inherit;letter-spacing:normal;font-size:inherit}
+.ans-body>p:not(.ans):last-of-type{border-bottom:none;margin-bottom:0}
+.ans-body>p:has(> strong:only-child){text-align:left;background:transparent;border:1px dashed #c3cede;border-radius:10px;padding:10px 14px;font-family:inherit;letter-spacing:normal;font-size:inherit;box-shadow:none}
+/* 章内左侧小目录（桌面大屏显示，跟随滚动点击直达） */
+#secbar{position:fixed;left:8px;top:70px;bottom:20px;width:150px;overflow-y:auto;z-index:88;border-left:1px solid var(--line);padding:8px 4px 8px 12px;scrollbar-width:thin}
+#secbar .secbar-in{display:flex;flex-direction:column;gap:2px}
+#secbar .secbar-ch{font-size:12px;font-weight:700;color:#8a8272;letter-spacing:.04em;margin:10px 0 2px;padding-top:8px;border-top:1px solid #eee7d8}
+#secbar .secbar-ch:first-child{margin-top:0;border-top:none;padding-top:0}
+#secbar a{display:block;font-size:12.5px;color:#6f6859;text-decoration:none;padding:3px 6px;border-radius:5px;line-height:1.45}
+#secbar a:hover{background:#f2ead8;color:var(--blue)}
+@media (max-width:1399px){#secbar{display:none}}
+@media (min-width:1400px){#main{padding:76px 48px 120px 170px}}
 span.tag{display:inline-block;background:var(--blue);color:#fff;font-size:11px;border-radius:4px;padding:0 7px;margin-right:8px;vertical-align:2px}
 p.warn span.tag{background:var(--red)}
 p.sum span.tag{background:var(--gold)}
@@ -171,7 +193,7 @@ section.flash{animation:flash 1.6s ease}
 }
 @media print{
   @page{size:A4;margin:14mm 12mm}
-  #toc,#topbtn,#mnav,#tb,#pbar{display:none!important}
+  #toc,#topbtn,#mnav,#tb,#pbar,#secbar{display:none!important}
   #main{margin:0;max-width:none;padding:0}
   body{background:#fff!important;font-size:11.5pt;line-height:1.8}
   body.dark{background:#fff!important;color:#000}
@@ -255,22 +277,22 @@ section.flash{animation:flash 1.6s ease}
 <div class="ch-nav"><a href="ch-14.html">← 14</a><span class="cn-title">第15章 · 直线与圆</span><a href="ch-16.html">16 →</a></div>
 <main id="main">
 <section class="chapter" id="ch-15">
-<div class="ch-head" data-no="15"><div class="ch-no">第15章</div><h1 class="ch-title">直线与圆</h1><div class="ch-sub">板块：解析几何 ｜ 前置：第 02 章 ｜ 老教材：必修2 第3章 ｜ 新教材：选择性必修一 第2章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../公式/高中数学公式速查手册.html#ch15" title="本章公式速查（内置，直达本章）">公式速查手册</a><a href="../手册/不超纲高级方法手册.html" title="不超纲高级方法（内置，按章嵌入方法）">高级方法手册</a><span class="mats-off" style="background:#f0f0f0;color:#999;border:1px dashed #ccc;border-radius:20px;padding:5px 13px;font-size:13px;white-space:nowrap" title="第三方版权素材不随包分发（仅限个人学习）：老教材原件/可搜索版/文字检索请在本机「数学自学系统素材」目录查看，或按开源仓库 README「素材获取」自行获取">老教材（原件/可搜索/检索 · 未随包）</span><span class="mats-off" style="background:#f0f0f0;color:#999;border:1px dashed #ccc;border-radius:20px;padding:5px 13px;font-size:13px;white-space:nowrap" title="第三方版权素材不随包分发：人教A版2019 必修第一册等，请按开源仓库 README「素材获取」自行获取（仅限个人学习）">新教材（未随包）</span><span class="mats-off" style="background:#f0f0f0;color:#999;border:1px dashed #ccc;border-radius:20px;padding:5px 13px;font-size:13px;white-space:nowrap" title="第三方版权素材不随包分发：2020-2025 新高考Ⅰ卷真题，请按开源仓库 README「素材获取」自行获取（仅限个人学习）">历年真题（未随包）</span></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 卡住时在电脑本机「数学自学系统素材」目录打开老教材原件 PDF 细读（图文最清楚；公式符号以原件为准） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
+<div class="ch-head" data-no="15"><div class="ch-no">第15章</div><h1 class="ch-title">直线与圆</h1><div class="ch-sub">板块：解析几何 ｜ 前置：第 02 章 ｜ 老教材：必修2 第3章 ｜ 新教材：选择性必修一 第2章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E6%95%B0%E5%AD%A6%E8%87%AA%E5%AD%A6%E7%B3%BB%E7%BB%9F%E7%B4%A0%E6%9D%90/05_%E5%85%B6%E4%BB%96%E5%8F%82%E8%80%83%28%E8%80%81%E6%95%99%E6%9D%90%E7%AD%89%29/2004%E8%AF%BE%E6%A0%87%E7%89%88%E4%BA%BA%E6%95%99A%E7%89%88/%E4%BA%BA%E6%95%99%E7%89%88%E9%AB%98%E4%B8%AD%E6%95%B0%E5%AD%A6A%E7%89%88%E5%BF%85%E4%BF%AE2.pdf" title="老教材原件 PDF（推荐阅读：图文最清楚，公式无误）">老教材·人教版A版必修2（2004课标版）</a><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E8%92%B8%E9%A6%8F%E4%BA%A7%E7%89%A9/searchable_pdfs/%E4%BA%BA%E6%95%99%E7%89%88%E9%AB%98%E4%B8%AD%E6%95%B0%E5%AD%A6A%E7%89%88%E5%BF%85%E4%BF%AE2.pdf" title="可搜索版：页面即原件，Ctrl+F 可搜文字（公式以页面为准）">老教材可搜索版(Ctrl+F)</a><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E8%92%B8%E9%A6%8F%E4%BA%A7%E7%89%A9/ocr_output/%E8%80%81%E6%95%99%E6%9D%90/%E4%BA%BA%E6%95%99%E7%89%88%E9%AB%98%E4%B8%AD%E6%95%B0%E5%AD%A6A%E7%89%88%E5%BF%85%E4%BF%AE2.txt" title="文字检索（RapidOCR 精准版）：文字已校准，公式符号以原件 PDF 为准">文字检索(TXT)</a><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E6%95%B0%E5%AD%A6%E8%87%AA%E5%AD%A6%E7%B3%BB%E7%BB%9F%E7%B4%A0%E6%9D%90/01_%E6%95%99%E6%9D%90%28%E4%BA%BA%E6%95%99A%E7%89%882019%29/%E4%BA%BA%E6%95%99A%E7%89%882019%E9%80%89%E6%8B%A9%E6%80%A7%E5%BF%85%E4%BF%AE%E7%AC%AC%E4%B8%80%E5%86%8C.pdf" title="新教材对标考点（PDF）">新教材·人教A版2019选择性必修第一册</a><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E9%AB%98%E4%B8%AD%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F%E9%80%9F%E6%9F%A5%E6%89%8B%E5%86%8C.html#ch-15" title="本章公式速查（按章手册，直达本章）">公式速查手册</a><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E6%95%B0%E5%AD%A6%E8%87%AA%E5%AD%A6%E7%B3%BB%E7%BB%9F%E7%B4%A0%E6%9D%90/02_%E5%8E%86%E5%B9%B4%E7%9C%9F%E9%A2%98%28%E6%96%B0%E9%AB%98%E8%80%83%E2%85%A0%E5%8D%B7%29" title="历年真题文件夹（2020-2025 新高考Ⅰ卷）">历年真题</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
 <p>公式速查：修订版 第5部分（直线与圆）</p>
-<p><strong>本章本质核心</strong>：直线与圆是解析几何的第一步——给"几何图形"装上"方程"这台计算器。从此平行、垂直、距离、相切、相交，这些靠眼睛看的几何关系，全部变成坐标代数运算：平行比斜率 k<sub>1</sub> = k<sub>2</sub>、垂直看 k<sub>1</sub>k<sub>2</sub> = −1，距离套 |Ax<sub>0</sub>+By<sub>0</sub>+C|/√(A<sup>2</sup>+B<sup>2</sup>)，圆与直线的位置关系就比"圆心到直线距离 d"和"半径 r"两个数。本章所有题型都是这一个原理的变体；而圆的"圆心 (a,b)+半径 r"是最短的信息包，记住它，标准方程、弦长、切线全从这两个数长出来。</p>
-<p class = "baihua why"><span class = "tag">为什么有用</span>想通了"几何关系 = 代数运算"这一步，导航算路程、铺管线找最短距离、判断一条路会不会碰到某个圆，全都变成套公式的代数题；考试里那些"距离、位置、切线"小题，也就不再靠目测，而是算一个 d、比一次 r 就定案。原理想通了，公式是顺带的事，不用死背。</p>
+<p><strong>本章本质核心</strong>：直线与圆是解析几何的第一步——给"几何图形"装上"方程"这台计算器。从此平行、垂直、距离、相切、相交，这些靠眼睛看的几何关系，全部变成坐标代数运算：平行比斜率 k<sub>1</sub>=k<sub>2</sub>、垂直看 k<sub>1</sub>k<sub>2</sub>=−1，距离套 |Ax<sub>0</sub>+By<sub>0</sub>+C|/√(A<sup>2</sup>+B<sup>2</sup>)，圆与直线的位置关系就比"圆心到直线距离 d"和"半径 r"两个数。本章所有题型都是这一个原理的变体；而圆的"圆心 (a,b)+半径 r"是最短的信息包，记住它，标准方程、弦长、切线全从这两个数长出来。</p>
+<p class="baihua why"><span class="tag">为什么有用</span>想通了"几何关系=代数运算"这一步，导航算路程、铺管线找最短距离、判断一条路会不会碰到某个圆，全都变成套公式的代数题；考试里那些"距离、位置、切线"小题，也就不再靠目测，而是算一个 d、比一次 r 就定案。原理想通了，公式是顺带的事，不用死背。</p>
 </blockquote>
 <hr />
-<div class="sec sec-gate"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
+<div class="sec sec-gate"><h2 class="gate">① 门槛自测（进章前，10 分钟）</h2>
 <ol>
 <li>两点 (1, 2)、(3, 4) 连线的斜率是多少？</li>
 <li>平行于 x 轴的直线斜率是多少？</li>
-<li>圆的标准方程 (x − a)<sup>2</sup> + (y − b)<sup>2</sup>  =  r<sup>2</sup> 中，圆心和半径是什么？</li>
-<li>勾股定理：a<sup>2</sup> + b<sup>2</sup>  =  c<sup>2</sup> 表示什么关系？</li>
-<li>解方程组 2x + y  =  3、x − y  =  0。</li>
+<li>圆的标准方程 (x − a)<sup>2</sup> + (y − b)<sup>2</sup> = r<sup>2</sup> 中，圆心和半径是什么？</li>
+<li>勾股定理：a<sup>2</sup> + b<sup>2</sup> = c<sup>2</sup> 表示什么关系？</li>
+<li>解方程组 2x + y = 3、x − y = 0。</li>
 </ol>
 <p><strong>判定</strong>：5 题答对 4 题以上 → 进章。</p>
-</div><div class="sec sec-goal"><h2 class = "goal">② 学习目标</h2>
+</div><div class="sec sec-goal"><h2 class="goal">② 学习目标</h2>
 <ul>
 <li>掌握直线方程的多种形式与相互转化</li>
 <li>掌握斜率与倾斜角、平行/垂直的斜率条件</li>
@@ -278,7 +300,7 @@ section.flash{animation:flash 1.6s ease}
 <li>掌握圆的标准方程与一般方程、直线与圆的位置关系（含弦长）</li>
 <li>会求圆的切线方程</li>
 </ul>
-</div><div class="sec sec-body"><h2 class = "body">③ 正文讲解</h2>
+</div><div class="sec sec-body"><h2 class="body">③ 正文讲解</h2>
 <p><strong>本章结构导图</strong>：</p>
 <pre><code>直线与圆
 ├─ 3.1 倾斜角与斜率 ── 一把&quot;角度↔斜率&quot;的尺子
@@ -291,14 +313,14 @@ section.flash{animation:flash 1.6s ease}
 <p><strong>引入</strong>：你站在坡上，坡有陡有缓。坡越陡，往上爬越费劲；数学上用一个数把"陡的程度"量化出来，这个数就是<strong>斜率</strong>。爬楼时每往前走 1 米、高度抬升多少，斜率就是"上升量 ÷ 前进量"。路是水平的（不升不降），斜率就是 0；路竖起来（没法往前走了），这个比值就没法写了——也就是"斜率不存在"。</p>
 <p><strong>正式定义</strong>（人教A版口径）：</p>
 <ul>
-<li><strong>倾斜角</strong> α：当直线 l 与 x 轴相交时，取 x 轴为基准，x 轴<strong>正向</strong>与直线 l <strong>向上方向</strong>之间所成的角 α 叫做直线 l 的倾斜角。规定 α ∈ <strong>[0, π)</strong>。与 x 轴平行或重合时 α  =  0。</li>
-<li><strong>斜率</strong> k：当 α ≠ 90° 时，<strong>k  =  tan α</strong>。</li>
+<li><strong>倾斜角</strong> α：当直线 l 与 x 轴相交时，取 x 轴为基准，x 轴<strong>正向</strong>与直线 l <strong>向上方向</strong>之间所成的角 α 叫做直线 l 的倾斜角。规定 α ∈ <strong>[0, π)</strong>。与 x 轴平行或重合时 α = 0。</li>
+<li><strong>斜率</strong> k：当 α ≠ 90° 时，<strong>k = tan α</strong>。</li>
 <li><strong>过两点 P<sub>1</sub>(x<sub>1</sub>, y<sub>1</sub>)、P<sub>2</sub>(x<sub>2</sub>, y<sub>2</sub>) 的斜率</strong>（x<sub>1</sub> ≠ x<sub>2</sub>）：</li>
 </ul>
-<p><strong>k  =  (y<sub>2</sub> − y<sub>1</sub>) / (x<sub>2</sub> − x<sub>1</sub>)  =  Δy / Δx</strong></p>
+<p><strong>k = (y<sub>2</sub> − y<sub>1</sub>) / (x<sub>2</sub> − x<sub>1</sub>) = Δy / Δx</strong></p>
 <p><strong>直观理解</strong>（看图）：</p>
-<p><img alt = "倾斜角与斜率" src = "assets/15-slope-angle.png" /></p>
-<p>斜率 k 就是"Δy 比 Δx"。k  =  0 是水平线；k &gt; 0 直线往上翘；k 越大翘得越陡；α  =  90° 时直线垂直于 x 轴，Δx  =  0，分母为 0，<strong>斜率不存在</strong>（这条直线不能写成 y  =  kx + b）。</p>
+<p><img alt="倾斜角与斜率" src="assets/15-slope-angle.png" /></p>
+<p>斜率 k 就是"Δy 比 Δx"。k = 0 是水平线；k &gt; 0 直线往上翘；k 越大翘得越陡；α = 90° 时直线垂直于 x 轴，Δx = 0，分母为 0，<strong>斜率不存在</strong>（这条直线不能写成 y = kx + b）。</p>
 <p><strong>性质（逐条验证）</strong>：</p>
 <ol>
 <li>k 的正负：k &gt; 0 ⇔ α 是锐角（直线从左下到右上）；k &lt; 0 ⇔ α 是钝角（从左上到右下）。验证：tan 在 (0, π/2) 为正、(π/2, π) 为负，正好对应。</li>
@@ -306,41 +328,41 @@ section.flash{animation:flash 1.6s ease}
 <li>倾斜角相同的两条直线互相平行。</li>
 </ol>
 <p><strong>两直线平行与垂直（斜率都存在时）</strong>：</p>
-<p><img alt = "平行与垂直" src = "assets/15-parallel-perp.png" /></p>
+<p><img alt="平行与垂直" src="assets/15-parallel-perp.png" /></p>
 <ul>
-<li><strong>平行</strong> ⇔ k<sub>1</sub>  =  k<sub>2</sub>（且不重合）。道理：倾斜角一样才平行。</li>
-<li><strong>垂直</strong> ⇔ <strong>k<sub>1</sub>·k<sub>2</sub>  =  −1</strong>。道理：垂直就是方向转 90°，倾斜角相差 90°，正切值正好互为负倒数。</li>
+<li><strong>平行</strong> ⇔ k<sub>1</sub> = k<sub>2</sub>（且不重合）。道理：倾斜角一样才平行。</li>
+<li><strong>垂直</strong> ⇔ <strong>k<sub>1</sub>·k<sub>2</sub> = −1</strong>。道理：垂直就是方向转 90°，倾斜角相差 90°，正切值正好互为负倒数。</li>
 </ul>
 <p><strong>斜率不存在 / 一般式时的补充判定</strong>（苏州教研·专题20）：</p>
 <ul>
-<li><strong>一般式判垂直</strong>：两直线 l<sub>1</sub>:A<sub>1</sub>x+B<sub>1</sub>y+C<sub>1</sub> = 0、l<sub>2</sub>:A<sub>2</sub>x+B<sub>2</sub>y+C<sub>2</sub> = 0，则 <strong>l<sub>1</sub>⊥l<sub>2</sub> ⇔ A<sub>1</sub>A<sub>2</sub> + B<sub>1</sub>B<sub>2</sub>  =  0</strong>。不用先求斜率，竖直直线也成立，比 k<sub>1</sub>k<sub>2</sub> = −1 更通用。</li>
-<li><strong>方向向量</strong>：斜率为 k 的直线，一个方向向量是 <strong>(1, k)</strong>；写成一般式 Ax+By+C = 0 时，它的一个方向向量是 <strong>(B, −A)</strong>。反过来，方向向量 u⃗ = (m, n) 对应的斜率 k  =  n/m（m≠0）。</li>
+<li><strong>一般式判垂直</strong>：两直线 l<sub>1</sub>:A<sub>1</sub>x+B<sub>1</sub>y+C<sub>1</sub>=0、l<sub>2</sub>:A<sub>2</sub>x+B<sub>2</sub>y+C<sub>2</sub>=0，则 <strong>l<sub>1</sub>⊥l<sub>2</sub> ⇔ A<sub>1</sub>A<sub>2</sub> + B<sub>1</sub>B<sub>2</sub> = 0</strong>。不用先求斜率，竖直直线也成立，比 k<sub>1</sub>k<sub>2</sub>=−1 更通用。</li>
+<li><strong>方向向量</strong>：斜率为 k 的直线，一个方向向量是 <strong>(1, k)</strong>；写成一般式 Ax+By+C=0 时，它的一个方向向量是 <strong>(B, −A)</strong>。反过来，方向向量 u⃗=(m, n) 对应的斜率 k = n/m（m≠0）。</li>
 </ul>
 <p><strong>计算流程（求斜率）</strong>：</p>
 <ol>
-<li>若已知两点 → 套 k  =  (y<sub>2</sub>−y<sub>1</sub>)/(x<sub>2</sub>−x<sub>1</sub>)；</li>
-<li>若已知倾斜角 α → k  =  tan α（先确认 α ≠ 90°）；</li>
-<li>若直线方程已给出（如 Ax+By+C = 0）→ 先化成 y  =  kx+b，看 x 的系数。</li>
+<li>若已知两点 → 套 k = (y<sub>2</sub>−y<sub>1</sub>)/(x<sub>2</sub>−x<sub>1</sub>)；</li>
+<li>若已知倾斜角 α → k = tan α（先确认 α ≠ 90°）；</li>
+<li>若直线方程已给出（如 Ax+By+C=0）→ 先化成 y = kx+b，看 x 的系数。</li>
 </ol>
-<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题</strong>：</p>
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题</strong>：</p>
 <blockquote>
 <p>例 3.1-a：已知直线过 A(2, 3)、B(5, 9)，求斜率和倾斜角。
-解：k  =  (9−3)/(5−2)  =  6/3  =  2。因为 k  =  2 &gt; 0，倾斜角 α 满足 tan α  =  2，是个锐角。
+解：k = (9−3)/(5−2) = 6/3 = 2。因为 k = 2 &gt; 0，倾斜角 α 满足 tan α = 2，是个锐角。
 要点：Δy 是"后减前"，x、y 要按同一点顺序减，别一个从 A 减 B、一个从 B 减 A。</p>
 <p>例 3.1-b：直线过 P(1, 2)，且与斜率为 −1/3 的直线垂直，求它的斜率。
-解：垂直 ⇒ k·(−1/3)  =  −1 ⇒ k  =  3。
+解：垂直 ⇒ k·(−1/3) = −1 ⇒ k = 3。
 要点：垂直就是负倒数，"乘起来等于 −1"。</p>
 </blockquote>
 <p><strong>常见陷阱</strong>：</p>
 <ul>
-<li>斜率不存在（竖直直线 x  =  常数）时，别硬套 k<sub>1</sub>k<sub>2</sub>  =  −1；此时与之垂直的反而是水平线（k  =  0）。</li>
-<li>平行要同时排除"重合"：k<sub>1</sub>  =  k<sub>2</sub> 还不够，得截距不同。</li>
+<li>斜率不存在（竖直直线 x = 常数）时，别硬套 k<sub>1</sub>k<sub>2</sub> = −1；此时与之垂直的反而是水平线（k = 0）。</li>
+<li>平行要同时排除"重合"：k<sub>1</sub> = k<sub>2</sub> 还不够，得截距不同。</li>
 </ul>
-<p><strong>小结</strong>：斜率 k  =  Δy/Δx 是描述直线"陡和向哪歪"的数；平行看 k 等不等，垂直看乘积等不等于 −1。</p>
+<p><strong>小结</strong>：斜率 k = Δy/Δx 是描述直线"陡和向哪歪"的数；平行看 k 等不等，垂直看乘积等不等于 −1。</p>
 <h3>3.2 直线方程的五种形式（会互化）</h3>
 <p><strong>引入</strong>：要把一条直线"写死"在纸上，需要几个条件？给你一个点和一个方向，直线就唯一确定了；给你两个点，也唯一确定。不同的已知条件，对应不同写法。就像你介绍一个人，可以说"他是张三的爸爸"，也可以说"他身高 1 米八"——指的是同一个人，只是角度不同。</p>
 <p><strong>五种形式</strong>（黑体为必背）：</p>
-<div class = "tbl-wrap"><table style = "table-layout:fixed;max-width:100%"><colgroup><col style = "width:10%"><col style = "width:55%"><col style = "width:35%"></colgroup>
+<div class="tbl-wrap"><table style="table-layout:fixed;max-width:100%"><colgroup><col style="width:10%"><col style="width:55%"><col style="width:35%"></colgroup>
 <thead>
 <tr>
 <th>形式</th>
@@ -351,27 +373,27 @@ section.flash{animation:flash 1.6s ease}
 <tbody>
 <tr>
 <td>点斜式</td>
-<td><strong>y − y<sub>0</sub>  =  k(x − x<sub>0</sub>)</strong></td>
+<td><strong>y − y<sub>0</sub> = k(x − x<sub>0</sub>)</strong></td>
 <td>知道斜率 k + 一点 (x<sub>0</sub>, y<sub>0</sub>)</td>
 </tr>
 <tr>
 <td>斜截式</td>
-<td><strong>y  =  kx + b</strong></td>
+<td><strong>y = kx + b</strong></td>
 <td>知道斜率 k + 纵截距 b</td>
 </tr>
 <tr>
 <td>两点式</td>
-<td>(y−y<sub>1</sub>)/(y<sub>2</sub>−y<sub>1</sub>)  =  (x−x<sub>1</sub>)/(x<sub>2</sub>−x<sub>1</sub>)</td>
+<td>(y−y<sub>1</sub>)/(y<sub>2</sub>−y<sub>1</sub>) = (x−x<sub>1</sub>)/(x<sub>2</sub>−x<sub>1</sub>)</td>
 <td>知道两点</td>
 </tr>
 <tr>
 <td>截距式</td>
-<td>x/a + y/b  =  1</td>
+<td>x/a + y/b = 1</td>
 <td>知道横截距 a、纵截距 b</td>
 </tr>
 <tr>
 <td>一般式</td>
-<td><strong>Ax + By + C  =  0</strong>（A、B 不同时为 0）</td>
+<td><strong>Ax + By + C = 0</strong>（A、B 不同时为 0）</td>
 <td>最通用，统一计算</td>
 </tr>
 </tbody>
@@ -380,22 +402,22 @@ section.flash{animation:flash 1.6s ease}
 <ol>
 <li>点斜式展开 → 斜截式（解出 y）；</li>
 <li>斜截式移项 → 一般式（全部挪到左边）；</li>
-<li>一般式求斜率：把 y 解出来，k  =  −A/B（B ≠ 0）。</li>
+<li>一般式求斜率：把 y 解出来，k = −A/B（B ≠ 0）。</li>
 </ol>
-<p><strong>性质/验证</strong>：截距式里 a 是直线与 x 轴交点的横坐标（令 y  =  0），b 是与 y 轴交点纵坐标（令 x  =  0）。截距式要求 a、b 都不为 0——过原点的直线或垂直坐标轴的直线不能用截距式。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题</strong>：</p>
+<p><strong>性质/验证</strong>：截距式里 a 是直线与 x 轴交点的横坐标（令 y = 0），b 是与 y 轴交点纵坐标（令 x = 0）。截距式要求 a、b 都不为 0——过原点的直线或垂直坐标轴的直线不能用截距式。</p>
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题</strong>：</p>
 <blockquote>
 <p>例 3.2-a：已知直线过点 (2, −1)，斜率为 3，写出点斜式、斜截式、一般式。
-解：点斜式 y − (−1)  =  3(x − 2)，即 y + 1  =  3(x − 2)。
-斜截式：y  =  3x − 7。一般式：3x − y − 7  =  0。
+解：点斜式 y − (−1) = 3(x − 2)，即 y + 1 = 3(x − 2)。
+斜截式：y = 3x − 7。一般式：3x − y − 7 = 0。
 要点：三种写法同一条直线，互相推。</p>
 <p>例 3.2-b：直线过 (1, 0) 和 (0, 2)，写截距式。
-解：横截距 a  =  1（与 x 轴交于 (1,0)），纵截距 b  =  2。截距式 x/1 + y/2  =  1。
+解：横截距 a = 1（与 x 轴交于 (1,0)），纵截距 b = 2。截距式 x/1 + y/2 = 1。
 要点：截距是坐标值，可正可负，不是距离。</p>
 </blockquote>
 <p><strong>常见陷阱</strong>：</p>
 <ul>
-<li>斜率不存在的直线是 x  =  x<sub>0</sub>（竖直），它写不进 y  =  kx + b，别漏。</li>
+<li>斜率不存在的直线是 x = x<sub>0</sub>（竖直），它写不进 y = kx + b，别漏。</li>
 <li>"截距"不是"距离"：截距可负，距离恒正。</li>
 </ul>
 <p><strong>小结</strong>：见到已知条件，选最顺手的形式起手，最后统一化到一般式做计算。</p>
@@ -405,37 +427,37 @@ section.flash{animation:flash 1.6s ease}
 <ol>
 <li>
 <p><strong>两点距离</strong>：P<sub>1</sub>(x<sub>1</sub>,y<sub>1</sub>)、P<sub>2</sub>(x<sub>2</sub>,y<sub>2</sub>)
-   <strong>d  =  √[(x<sub>2</sub>−x<sub>1</sub>)<sup>2</sup> + (y<sub>2</sub>−y<sub>1</sub>)<sup>2</sup>]</strong>（勾股：横差、纵差为两条直角边）</p>
+   <strong>d = √[(x<sub>2</sub>−x<sub>1</sub>)<sup>2</sup> + (y<sub>2</sub>−y<sub>1</sub>)<sup>2</sup>]</strong>（勾股：横差、纵差为两条直角边）</p>
 </li>
 <li>
-<p><strong>点到直线距离</strong>：点 P(x<sub>0</sub>, y<sub>0</sub>) 到直线 <strong>Ax + By + C  =  0</strong>
-   <strong>d  =  |Ax<sub>0</sub> + By<sub>0</sub> + C| / √(A<sup>2</sup> + B<sup>2</sup>)</strong></p>
+<p><strong>点到直线距离</strong>：点 P(x<sub>0</sub>, y<sub>0</sub>) 到直线 <strong>Ax + By + C = 0</strong>
+   <strong>d = |Ax<sub>0</sub> + By<sub>0</sub> + C| / √(A<sup>2</sup> + B<sup>2</sup>)</strong></p>
 </li>
 <li>
-<p><strong>两平行线距离</strong>：Ax + By + C<sub>1</sub>  =  0 与 Ax + By + C<sub>2</sub>  =  0
-   <strong>d  =  |C<sub>1</sub> − C<sub>2</sub>| / √(A<sup>2</sup> + B<sup>2</sup>)</strong>（任取一条上一点，套点到直线距离）</p>
+<p><strong>两平行线距离</strong>：Ax + By + C<sub>1</sub> = 0 与 Ax + By + C<sub>2</sub> = 0
+   <strong>d = |C<sub>1</sub> − C<sub>2</sub>| / √(A<sup>2</sup> + B<sup>2</sup>)</strong>（任取一条上一点，套点到直线距离）</p>
 </li>
 </ol>
 <p><strong>推导/验证（点到直线距离为什么长这样）</strong>：把点代入左边 Ax<sub>0</sub>+By<sub>0</sub>+C，它的绝对值衡量"离直线有多远"，再除以 √(A<sup>2</sup>+B<sup>2</sup>) 归一化。直觉上：直线法向量就是 (A, B)，长度 √(A<sup>2</sup>+B<sup>2</sup>)，点到直线距离就是沿法向量方向量过去，所以要除以这个长度。分子套绝对值，因为距离不能为负。</p>
 <p><strong>计算流程</strong>：</p>
 <ol>
-<li>点到直线距离：<strong>先把直线化成 Ax+By+C = 0</strong>（A、B、C 同号移项无所谓，但必须等于 0）；</li>
+<li>点到直线距离：<strong>先把直线化成 Ax+By+C=0</strong>（A、B、C 同号移项无所谓，但必须等于 0）；</li>
 <li>把点坐标代入分子，套绝对值；</li>
 <li>分母 √(A<sup>2</sup>+B<sup>2</sup>)；</li>
 <li>两平行线：先保证 x、y 系数完全一样（不一样就乘倍数化一致），再 |C<sub>1</sub>−C<sub>2</sub>|。</li>
 </ol>
-<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题</strong>：</p>
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题</strong>：</p>
 <blockquote>
-<p>例 3.3-a：求原点 (0,0) 到直线 3x + 4y − 10  =  0 的距离。
-解：d  =  |0 + 0 − 10| / √(9+16)  =  10/5  =  2。
-要点：分子代入 0，常数项别丢；分母 3<sup>2</sup>+4<sup>2</sup> = 25 开根号是 5（勾股数）。</p>
-<p>例 3.3-b：求平行线 2x + y + 1  =  0 与 2x + y − 5  =  0 的距离。
-解：系数一致（都是 2,1），d  =  |1 −(−5)|/√(4+1)  =  6/√5  =  6√5/5。
+<p>例 3.3-a：求原点 (0,0) 到直线 3x + 4y − 10 = 0 的距离。
+解：d = |0 + 0 − 10| / √(9+16) = 10/5 = 2。
+要点：分子代入 0，常数项别丢；分母 3<sup>2</sup>+4<sup>2</sup>=25 开根号是 5（勾股数）。</p>
+<p>例 3.3-b：求平行线 2x + y + 1 = 0 与 2x + y − 5 = 0 的距离。
+解：系数一致（都是 2,1），d = |1 −(−5)|/√(4+1) = 6/√5 = 6√5/5。
 要点：C<sub>1</sub>、C<sub>2</sub> 一正一负，相减变相加，别漏绝对值里的符号。</p>
 </blockquote>
 <p><strong>常见陷阱</strong>：</p>
 <ul>
-<li>套点到直线距离前，直线必须是" =  0"的形式；y  =  x + 1 要先写成 x − y + 1  =  0。</li>
+<li>套点到直线距离前，直线必须是"= 0"的形式；y = x + 1 要先写成 x − y + 1 = 0。</li>
 <li>两平行线距离公式要求 x、y 系数<strong>完全相同</strong>，一个是 2x、另一个是 4x 时先把后者除以 2。</li>
 </ul>
 <p><strong>小结</strong>：距离就三条公式，核心是"点到直线先化一般式、分子绝对值、分母勾股"。</p>
@@ -443,41 +465,41 @@ section.flash{animation:flash 1.6s ease}
 <p><strong>引入</strong>：圆是"到定点距离等于定长的所有点"。定点是圆心，定长是半径。把这句话翻译成坐标方程，就是圆的方程。</p>
 <p><strong>正式定义</strong>：平面上到定点 C(a, b) 的距离等于定长 r 的点的轨迹叫圆。</p>
 <ul>
-<li><strong>标准方程</strong>：<strong>(x − a)<sup>2</sup> + (y − b)<sup>2</sup>  =  r<sup>2</sup></strong>，圆心 C(a, b)，半径 r。</li>
-<li><strong>一般方程</strong>：<strong>x<sup>2</sup> + y<sup>2</sup> + Dx + Ey + F  =  0</strong>。</li>
+<li><strong>标准方程</strong>：<strong>(x − a)<sup>2</sup> + (y − b)<sup>2</sup> = r<sup>2</sup></strong>，圆心 C(a, b)，半径 r。</li>
+<li><strong>一般方程</strong>：<strong>x<sup>2</sup> + y<sup>2</sup> + Dx + Ey + F = 0</strong>。</li>
 </ul>
-<p>配方可得：圆心 <strong>(−D/2, −E/2)</strong>，半径 <strong>r  =  ½√(D<sup>2</sup> + E<sup>2</sup> − 4F)</strong>。</p>
+<p>配方可得：圆心 <strong>(−D/2, −E/2)</strong>，半径 <strong>r = ½√(D<sup>2</sup> + E<sup>2</sup> − 4F)</strong>。</p>
 <p><strong>直观理解</strong>：标准方程一眼看出圆心半径；一般方程是展开后的样子，需要配方才看得出来。</p>
 <p><strong>性质/验证</strong>：</p>
 <ol>
 <li>一般方程表示圆的条件：<strong>D<sup>2</sup> + E<sup>2</sup> − 4F &gt; 0</strong>。等于 0 时半径 0，只是一个点；小于 0 时没有实数点，根本不是圆。</li>
 <li>一般方程没有 xy 项，且 x<sup>2</sup>、y<sup>2</sup> 系数相等（都是 1）——这是判断"这个二次方程是不是圆"的眼。</li>
-<li><strong>直径式方程</strong>（苏州教研·专题22）：若 A(x<sub>1</sub>,y<sub>1</sub>)、B(x<sub>2</sub>,y<sub>2</sub>) 是圆的一条直径两端点，则圆可直接写成 <strong>(x−x<sub>1</sub>)(x−x<sub>2</sub>) + (y−y<sub>1</sub>)(y−y<sub>2</sub>)  =  0</strong>。道理：圆上任一点 P 对直径 AB 张直角（直径所对圆周角是 90°），即 PA⃗·PB⃗  =  0。</li>
+<li><strong>直径式方程</strong>（苏州教研·专题22）：若 A(x<sub>1</sub>,y<sub>1</sub>)、B(x<sub>2</sub>,y<sub>2</sub>) 是圆的一条直径两端点，则圆可直接写成 <strong>(x−x<sub>1</sub>)(x−x<sub>2</sub>) + (y−y<sub>1</sub>)(y−y<sub>2</sub>) = 0</strong>。道理：圆上任一点 P 对直径 AB 张直角（直径所对圆周角是 90°），即 PA⃗·PB⃗ = 0。</li>
 </ol>
 <p><strong>计算流程（一般式 ↔ 标准式）</strong>：</p>
 <ol>
 <li>一般式化标准式：对 x、y 分别配方（x<sup>2</sup>+Dx 配成 (x+D/2)<sup>2</sup> − D<sup>2</sup>/4）；</li>
 <li>标准式展开 → 一般式（展开平方、合并常数）。</li>
 </ol>
-<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题</strong>：</p>
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题</strong>：</p>
 <blockquote>
-<p>例 3.4-a：求圆 x<sup>2</sup> + y<sup>2</sup> − 4x + 6y − 3  =  0 的圆心和半径。
-解：配方：(x<sup>2</sup>−4x) + (y<sup>2</sup>+6y)  =  3 → (x−2)<sup>2</sup> − 4 + (y+3)<sup>2</sup> − 9  =  3 → (x−2)<sup>2</sup> + (y+3)<sup>2</sup>  =  16。
-圆心 (2, −3)，半径 r  =  4。
-要点：配方时左边配了多少，右边就加多少；D = −4、E = 6、F = −3，r = ½√(16+36+12) = ½√64 = 4。</p>
+<p>例 3.4-a：求圆 x<sup>2</sup> + y<sup>2</sup> − 4x + 6y − 3 = 0 的圆心和半径。
+解：配方：(x<sup>2</sup>−4x) + (y<sup>2</sup>+6y) = 3 → (x−2)<sup>2</sup> − 4 + (y+3)<sup>2</sup> − 9 = 3 → (x−2)<sup>2</sup> + (y+3)<sup>2</sup> = 16。
+圆心 (2, −3)，半径 r = 4。
+要点：配方时左边配了多少，右边就加多少；D=−4、E=6、F=−3，r=½√(16+36+12)=½√64=4。</p>
 </blockquote>
 <p><strong>常见陷阱</strong>：</p>
 <ul>
 <li>半径公式里是 √(D<sup>2</sup>+E<sup>2</sup>−4F)，别漏那个 −4F；F 是负的，−4F 反而变大。</li>
 </ul>
 <p><strong>小结</strong>：标准方程看一眼就知道圆心半径；一般方程配方还原。</p>
-<p><strong>编者注·本质回扣</strong>：为什么圆非要在"标准式"和"一般式"之间来回配方？说白了，标准方程 (x−a)<sup>2</sup>+(y−b)<sup>2</sup> = r<sup>2</sup> 一眼就读出圆心和半径，这是几何信息最紧凑的"信息包"；而题目给你的往往是展开后的一般式 x<sup>2</sup>+y<sup>2</sup>+Dx+Ey+F = 0，看不出圆心在哪。配方不是白做的功夫，它就是把"展开后被打乱的几何信息"重新装回圆心半径这个最短信息包——后面算 d、比 r、求弦长，靠的全是这个 (a,b) 和 r。所以见到圆的方程，第一反应永远是"先把它变回圆心+半径"。</p>
+<p><strong>编者注·本质回扣</strong>：为什么圆非要在"标准式"和"一般式"之间来回配方？说白了，标准方程 (x−a)<sup>2</sup>+(y−b)<sup>2</sup>=r<sup>2</sup> 一眼就读出圆心和半径，这是几何信息最紧凑的"信息包"；而题目给你的往往是展开后的一般式 x<sup>2</sup>+y<sup>2</sup>+Dx+Ey+F=0，看不出圆心在哪。配方不是白做的功夫，它就是把"展开后被打乱的几何信息"重新装回圆心半径这个最短信息包——后面算 d、比 r、求弦长，靠的全是这个 (a,b) 和 r。所以见到圆的方程，第一反应永远是"先把它变回圆心+半径"。</p>
 <h3>3.5 直线与圆的位置关系</h3>
 <p><strong>引入</strong>：拿一个圆环（圆）往一条直线上放——要么不挨（相离），要么正好碰一下（相切），要么穿过去（相交，切出一条弦）。怎么判断？量一量"圆心到直线的距离 d"和"半径 r"谁大谁小就行，根本不用把交点算出来。</p>
-<p><img alt = "直线与圆位置关系" src = "assets/15-line-circle.png" /></p>
+<p><img alt="直线与圆位置关系" src="assets/15-line-circle.png" /></p>
 <p><strong>判定（核心：比 d 和 r）</strong>：</p>
 <p>设圆心到直线距离为 d，半径为 r。</p>
-<div class = "tbl-wrap"><table style = "table-layout:fixed;max-width:100%"><colgroup><col style = "width:20%"><col style = "width:45%"><col style = "width:35%"></colgroup>
+<div class="tbl-wrap"><table style="table-layout:fixed;max-width:100%"><colgroup><col style="width:20%"><col style="width:45%"><col style="width:35%"></colgroup>
 <thead>
 <tr>
 <th>关系</th>
@@ -493,7 +515,7 @@ section.flash{animation:flash 1.6s ease}
 </tr>
 <tr>
 <td>相切</td>
-<td>d  =  r</td>
+<td>d = r</td>
 <td>1 个（切点）</td>
 </tr>
 <tr>
@@ -503,28 +525,28 @@ section.flash{animation:flash 1.6s ease}
 </tr>
 </tbody>
 </table></div>
-<p><strong>弦长公式</strong>：相交时，弦长 |AB|  =  <strong>2√(r<sup>2</sup> − d<sup>2</sup>)</strong>。道理：半条弦、半径、圆心到直线垂线构成直角三角形，半弦  =  √(r<sup>2</sup>−d<sup>2</sup>)，整条弦乘 2。</p>
+<p><strong>弦长公式</strong>：相交时，弦长 |AB| = <strong>2√(r<sup>2</sup> − d<sup>2</sup>)</strong>。道理：半条弦、半径、圆心到直线垂线构成直角三角形，半弦 = √(r<sup>2</sup>−d<sup>2</sup>)，整条弦乘 2。</p>
 <p><strong>切线求法</strong>：</p>
 <ul>
-<li>切点 (x<sub>1</sub>, y<sub>1</sub>) 在圆上时：切线方程 <strong>(x<sub>1</sub>−a)(x−a) + (y<sub>1</sub>−b)(y−b)  =  r<sup>2</sup></strong>（记住"半径垂直切线"）。</li>
-<li>过圆外一点求切线：设斜率 k，写成点斜式，令圆心到它距离  =  r，解出 k。<strong>有两条</strong>，注意 k 不存在（竖直切线）的那条别漏。</li>
+<li>切点 (x<sub>1</sub>, y<sub>1</sub>) 在圆上时：切线方程 <strong>(x<sub>1</sub>−a)(x−a) + (y<sub>1</sub>−b)(y−b) = r<sup>2</sup></strong>（记住"半径垂直切线"）。</li>
+<li>过圆外一点求切线：设斜率 k，写成点斜式，令圆心到它距离 = r，解出 k。<strong>有两条</strong>，注意 k 不存在（竖直切线）的那条别漏。</li>
 </ul>
 <p><strong>计算流程（直线与圆位置问题）</strong>：</p>
 <ol>
 <li>写出圆心 (a,b) 和半径 r；</li>
 <li>用点到直线距离公式算 d；</li>
-<li>比 d 与 r：&gt;、 = 、&lt; 定关系；</li>
+<li>比 d 与 r：&gt;、=、&lt; 定关系；</li>
 <li>相交再用弦长公式 2√(r<sup>2</sup>−d<sup>2</sup>)。</li>
 </ol>
-<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题</strong>：</p>
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题</strong>：</p>
 <blockquote>
-<p>例 3.5-a：判断直线 3x + 4y + 5  =  0 与圆 x<sup>2</sup> + y<sup>2</sup>  =  4 的位置关系。
-解：圆心 (0,0)，r  =  2。d  =  |0+0+5|/√(9+16)  =  5/5  =  1。
-d  =  1 &lt; r  =  2 ⇒ 相交。弦长  =  2√(4 − 1)  =  2√3。
+<p>例 3.5-a：判断直线 3x + 4y + 5 = 0 与圆 x<sup>2</sup> + y<sup>2</sup> = 4 的位置关系。
+解：圆心 (0,0)，r = 2。d = |0+0+5|/√(9+16) = 5/5 = 1。
+d = 1 &lt; r = 2 ⇒ 相交。弦长 = 2√(4 − 1) = 2√3。
 要点：先 d 后 r，一步定关系。</p>
-<p>例 3.5-b：求过圆 x<sup>2</sup>+y<sup>2</sup>  =  4 上点 (1, √3) 的切线方程。
-解：半径斜率  =  √3/1  =  √3，切线垂直半径 ⇒ 切线斜率  =  −1/√3。
-点斜式：y − √3  =  (−1/√3)(x − 1)，整理 x + √3 y − 4  =  0。
+<p>例 3.5-b：求过圆 x<sup>2</sup>+y<sup>2</sup> = 4 上点 (1, √3) 的切线方程。
+解：半径斜率 = √3/1 = √3，切线垂直半径 ⇒ 切线斜率 = −1/√3。
+点斜式：y − √3 = (−1/√3)(x − 1)，整理 x + √3 y − 4 = 0。
 要点：切线⊥过切点的半径，这是求切线斜率的钥匙。</p>
 </blockquote>
 <p><strong>常见陷阱</strong>：</p>
@@ -533,77 +555,77 @@ d  =  1 &lt; r  =  2 ⇒ 相交。弦长  =  2√(4 − 1)  =  2
 <li>过圆外点切线有两条，解 k 的二次方程通常两个根；还要单独想有没有竖直切线。</li>
 </ul>
 <p><strong>小结</strong>：直线圆问题，九成是"算 d、比 r"，弦长、切线都从这个判定长出来。</p>
-<p><strong>编者注·本质回扣</strong>：为什么判断直线和圆"相离、相切、相交"不用真的去解交点？这正是解析几何的精髓——把"两条曲线交几个点"这种几何问题，翻译成"比两个数的大小"这个代数问题。圆心到直线距离 d 是算出来的，半径 r 是现成的，d 比 r 大就是不挨、相等就是相切、小就是穿过去。弦长 2√(r<sup>2</sup>−d<sup>2</sup>)、切线 d = r，也都是同一个"d 与 r 比大小"长出来的副产品。会算这一个 d，整章的位置关系题就都通了——这就是"给几何装上方程"的第一次实战。</p>
+<p><strong>编者注·本质回扣</strong>：为什么判断直线和圆"相离、相切、相交"不用真的去解交点？这正是解析几何的精髓——把"两条曲线交几个点"这种几何问题，翻译成"比两个数的大小"这个代数问题。圆心到直线距离 d 是算出来的，半径 r 是现成的，d 比 r 大就是不挨、相等就是相切、小就是穿过去。弦长 2√(r<sup>2</sup>−d<sup>2</sup>)、切线 d=r，也都是同一个"d 与 r 比大小"长出来的副产品。会算这一个 d，整章的位置关系题就都通了——这就是"给几何装上方程"的第一次实战。</p>
 <h3>3.6 圆与圆的位置关系（选学拓展）</h3>
 <p>两个圆放一起，看圆心距 d 和两半径 R、r（设 R ≥ r）：</p>
 <ul>
 <li>d &gt; R+r：外离（互不搭界）；</li>
-<li>d  =  R+r：外切（外挨一下）；</li>
+<li>d = R+r：外切（外挨一下）；</li>
 <li>R−r &lt; d &lt; R+r：相交（两个交点）；</li>
-<li>d  =  R−r：内切；</li>
+<li>d = R−r：内切；</li>
 <li>d &lt; R−r：内含。</li>
 </ul>
 <p>判断方法和直线圆一模一样——量"圆心距"比"半径和差"。</p>
-<p><strong>公共弦所在直线</strong>（苏州教研·专题22）：两圆一般式 C<sub>1</sub>:x<sup>2</sup>+y<sup>2</sup>+D<sub>1</sub>x+E<sub>1</sub>y+F<sub>1</sub> = 0、C<sub>2</sub>:x<sup>2</sup>+y<sup>2</sup>+D<sub>2</sub>x+E<sub>2</sub>y+F<sub>2</sub> = 0 相交时，把两式<strong>相减</strong>：</p>
-<p><strong>(D<sub>1</sub>−D<sub>2</sub>)x + (E<sub>1</sub>−E<sub>2</sub>)y + (F<sub>1</sub>−F<sub>2</sub>)  =  0</strong></p>
+<p><strong>公共弦所在直线</strong>（苏州教研·专题22）：两圆一般式 C<sub>1</sub>:x<sup>2</sup>+y<sup>2</sup>+D<sub>1</sub>x+E<sub>1</sub>y+F<sub>1</sub>=0、C<sub>2</sub>:x<sup>2</sup>+y<sup>2</sup>+D<sub>2</sub>x+E<sub>2</sub>y+F<sub>2</sub>=0 相交时，把两式<strong>相减</strong>：</p>
+<p><strong>(D<sub>1</sub>−D<sub>2</sub>)x + (E<sub>1</sub>−E<sub>2</sub>)y + (F<sub>1</sub>−F<sub>2</sub>) = 0</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>相减消掉了 x<sup>2</sup>、y<sup>2</sup>，剩下的一次方程过两个交点，就是公共弦（相交时）、公切线（相切时）所在直线。</li>
 </ul>
 <p><strong>小结</strong>：圆与圆还是"距离比半径"，只是把"到直线距离"换成"圆心距"。</p>
-</div><div class="sec sec-ex2"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
-<p class = "ex"><span class = "tag">例题</span><strong>例 1（垂直斜率）</strong>：直线 l<sub>1</sub>：2x + y − 1  =  0，求与 l<sub>1</sub> 垂直且过点 (1, 2) 的直线方程。</p>
+</div><div class="sec sec-ex2"><h2 class="ex2">④ 例题详解（先做再看）</h2>
+<p class="ex"><span class="tag">例题</span><strong>例 1（垂直斜率）</strong>：直线 l<sub>1</sub>：2x + y − 1 = 0，求与 l<sub>1</sub> 垂直且过点 (1, 2) 的直线方程。</p>
 <blockquote>
 <p>自己做：先求斜率，用点斜式。</p>
 </blockquote>
-<p>解：l<sub>1</sub> 斜率 k<sub>1</sub>  =  −2；垂直 ⇒ k<sub>2</sub>  =  1/2。点斜式：y − 2  =  (1/2)(x − 1)，即 x − 2y + 3  =  0。
-要点：<strong>垂直斜率互为负倒数（k<sub>1</sub>k<sub>2</sub>  =  −1）</strong>。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>例 2（点到直线距离）</strong>：求点 (2, 1) 到直线 3x − 4y + 5  =  0 的距离。</p>
+<p>解：l<sub>1</sub> 斜率 k<sub>1</sub> = −2；垂直 ⇒ k<sub>2</sub> = 1/2。点斜式：y − 2 = (1/2)(x − 1)，即 x − 2y + 3 = 0。
+要点：<strong>垂直斜率互为负倒数（k<sub>1</sub>k<sub>2</sub> = −1）</strong>。</p>
+<p class="ex"><span class="tag">例题</span><strong>例 2（点到直线距离）</strong>：求点 (2, 1) 到直线 3x − 4y + 5 = 0 的距离。</p>
 <blockquote>
 <p>自己做：套公式。</p>
 </blockquote>
-<p>解：d  =  |3·2 − 4·1 + 5| / √(9 + 16)  =  |6 − 4 + 5|/5  =  7/5。
+<p>解：d = |3×2 − 4×1 + 5| / √(9 + 16) = |6 − 4 + 5|/5 = 7/5。
 要点：<strong>绝对值在分子、根号在分母</strong>；A<sup>2</sup> + B<sup>2</sup> 别算错。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>例 3（直线与圆）</strong>：圆 x<sup>2</sup> + y<sup>2</sup>  =  4 与直线 y  =  x + b 相切，求 b。</p>
+<p class="ex"><span class="tag">例题</span><strong>例 3（直线与圆）</strong>：圆 x<sup>2</sup> + y<sup>2</sup> = 4 与直线 y = x + b 相切，求 b。</p>
 <blockquote>
-<p>自己做：圆心 (0,0) 到直线距离  =  半径 2。</p>
+<p>自己做：圆心 (0,0) 到直线距离 = 半径 2。</p>
 </blockquote>
-<p>解：直线 x − y + b  =  0，d  =  |0 − 0 + b|/√2  =  |b|/√2  =  2 ⇒ |b|  =  2√2 ⇒ b  =  ±2√2。
-要点：<strong>相切 ⇔ d  =  r</strong>；"相离/相交/相切"一律先算 d。</p>
-</div><div class="sec sec-out"><h2 class = "out">⑤ 出口检测</h2>
+<p>解：直线 x − y + b = 0，d = |0 − 0 + b|/√2 = |b|/√2 = 2 ⇒ |b| = 2√2 ⇒ b = ±2√2。
+要点：<strong>相切 ⇔ d = r</strong>；"相离/相交/相切"一律先算 d。</p>
+</div><div class="sec sec-out"><h2 class="out">⑤ 出口检测</h2>
 <p><strong>自测（15 分钟，每题 2 分）</strong>：</p>
 <ol>
 <li>过 (1, 1)、(3, 5) 的直线斜率是多少？</li>
-<li>直线 2x − 3y + 6  =  0 的斜率是多少？</li>
-<li>点 (0, 0) 到直线 x + y − 2  =  0 的距离。</li>
-<li>圆 (x − 1)<sup>2</sup> + (y + 2)<sup>2</sup>  =  9 的圆心与半径。</li>
-<li>直线 y  =  x 与圆 x<sup>2</sup> + y<sup>2</sup>  =  1 的位置关系（求 d 判断）。</li>
+<li>直线 2x − 3y + 6 = 0 的斜率是多少？</li>
+<li>点 (0, 0) 到直线 x + y − 2 = 0 的距离。</li>
+<li>圆 (x − 1)<sup>2</sup> + (y + 2)<sup>2</sup> = 9 的圆心与半径。</li>
+<li>直线 y = x 与圆 x<sup>2</sup> + y<sup>2</sup> = 1 的位置关系（求 d 判断）。</li>
 </ol>
 <p><strong>真题验收</strong>：2020–2024 新高考Ⅰ卷直线圆小题 1~2 道（距离/位置/切线，多在选择题 5–8 题区间）：每题 3 分钟、全对过关。</p>
 <p><strong>过关标准</strong>：自测 ≥ 10 分 且 真题全对 → 打卡，进入 16 章。</p>
 </div><div class="sec sec-hw"><h2>课后习题（分层练习）</h2>
 <h3>A 基础巩固（教材练习级）</h3>
 <p><strong>A1.</strong>【考点：两点斜率】求过 A(−1, 2)、B(3, −4) 两点直线的斜率。</p>
-<p><strong>A2.</strong>【考点：倾斜角与斜率】直线倾斜角 α  =  120°，求斜率 k；并说明这条直线是往哪个方向倾斜的。</p>
+<p><strong>A2.</strong>【考点：倾斜角与斜率】直线倾斜角 α = 120°，求斜率 k；并说明这条直线是往哪个方向倾斜的。</p>
 <p><strong>A3.</strong>【考点：点斜式写方程】已知直线斜率为 −2，且过点 (0, 3)，写出它的斜截式和一般式。</p>
-<p><strong>A4.</strong>【考点：平行与垂直】求过点 (2, −1) 且与直线 3x + 4y − 1  =  0 平行的直线方程。</p>
-<p><strong>A5.</strong>【考点：点到直线距离】求点 (3, 4) 到直线 3x − 4y + 1  =  0 的距离。</p>
+<p><strong>A4.</strong>【考点：平行与垂直】求过点 (2, −1) 且与直线 3x + 4y − 1 = 0 平行的直线方程。</p>
+<p><strong>A5.</strong>【考点：点到直线距离】求点 (3, 4) 到直线 3x − 4y + 1 = 0 的距离。</p>
 <p><strong>A6.</strong>【考点：圆的标准/一般方程】写出圆心为 (−1, 2)、半径为 3 的圆的标准方程，并展开成一般方程。</p>
 <h3>B 能力提升（高考中档）</h3>
-<p><strong>B7.</strong>【考点：两平行线距离】求两平行直线 3x + 4y − 2  =  0 与 3x + 4y + 8  =  0 之间的距离。</p>
-<p><strong>B8.</strong>【考点：弦长公式】直线 x + y − 1  =  0 截圆 x<sup>2</sup> + y<sup>2</sup>  =  9，求所得弦长。</p>
-<p><strong>B9.</strong>【考点：过圆外点切线】求过点 (0, 4) 且与圆 x<sup>2</sup> + y<sup>2</sup>  =  4 相切的直线方程。</p>
-<p><strong>B10.</strong>【考点：含参位置关系】若直线 y  =  x + b 与圆 (x−1)<sup>2</sup> + (y−2)<sup>2</sup>  =  4 相交，求 b 的取值范围。</p>
+<p><strong>B7.</strong>【考点：两平行线距离】求两平行直线 3x + 4y − 2 = 0 与 3x + 4y + 8 = 0 之间的距离。</p>
+<p><strong>B8.</strong>【考点：弦长公式】直线 x + y − 1 = 0 截圆 x<sup>2</sup> + y<sup>2</sup> = 9，求所得弦长。</p>
+<p><strong>B9.</strong>【考点：过圆外点切线】求过点 (0, 4) 且与圆 x<sup>2</sup> + y<sup>2</sup> = 4 相切的直线方程。</p>
+<p><strong>B10.</strong>【考点：含参位置关系】若直线 y = x + b 与圆 (x−1)<sup>2</sup> + (y−2)<sup>2</sup> = 4 相交，求 b 的取值范围。</p>
 <h3>C 真题挑战（真实新高考题）</h3>
-<p><strong>C1.</strong>【考点：圆上点到直线距离·2025 新高考Ⅰ卷第 7 题】已知圆 x<sup>2</sup> + (y + 2)<sup>2</sup>  =  r<sup>2</sup>（r &gt; 0）上到直线 y  =  √3 x + 2 的距离为 1 的点有且仅有 2 个，则 r 的取值范围是（　）。
+<p><strong>C1.</strong>【考点：圆上点到直线距离·2025 新高考Ⅰ卷第 7 题】已知圆 x<sup>2</sup> + (y + 2)<sup>2</sup> = r<sup>2</sup>（r &gt; 0）上到直线 y = √3 x + 2 的距离为 1 的点有且仅有 2 个，则 r 的取值范围是（　）。
 A. (0, 1)　　B. (1, 3)　　C. (3, +∞)　　D. (0, +∞)</p>
-<p><strong>C2.</strong>【考点：点到直线距离算面积·借鉴 2024 新高考Ⅰ卷第 16 题第 (2) 问思想】过椭圆上一点的直线与曲线交于另一点，已知围成三角形面积，反求直线斜率。本题型在第 16 章详解；这里先体会：面积  =  ½·弦长·点到直线距离，"点到直线距离"是本章 3.3 的工具。</p>
-<p><strong>C3.</strong>【考点：切线方程·仿高考】求过原点且与圆 (x − 2)<sup>2</sup> + y<sup>2</sup>  =  1 相切的直线方程。</p>
-</div><div class="sec sec-pit"><h2 class = "pit">⑥ 常见坑清单</h2>
+<p><strong>C2.</strong>【考点：点到直线距离算面积·借鉴 2024 新高考Ⅰ卷第 16 题第 (2) 问思想】过椭圆上一点的直线与曲线交于另一点，已知围成三角形面积，反求直线斜率。本题型在第 16 章详解；这里先体会：面积 = ½·弦长·点到直线距离，"点到直线距离"是本章 3.3 的工具。</p>
+<p><strong>C3.</strong>【考点：切线方程·仿高考】求过原点且与圆 (x − 2)<sup>2</sup> + y<sup>2</sup> = 1 相切的直线方程。</p>
+</div><div class="sec sec-pit"><h2 class="pit">⑥ 常见坑清单</h2>
 <ul>
-<li>斜率不存在（垂直 x 轴）时公式失效，别硬套 k<sub>1</sub>k<sub>2</sub>  =  −1。</li>
-<li>一般式距离公式：<strong>Ax + By + C  =  0 形式</strong>，先化成这个形式再用。</li>
+<li>斜率不存在（垂直 x 轴）时公式失效，别硬套 k<sub>1</sub>k<sub>2</sub> = −1。</li>
+<li>一般式距离公式：<strong>Ax + By + C = 0 形式</strong>，先化成这个形式再用。</li>
 <li>圆的一般方程 D<sup>2</sup> + E<sup>2</sup> − 4F &gt; 0 才是圆；等于 0 是一个点。</li>
-<li>切线过圆外点有<strong>两条</strong>，用 d  =  r 解斜率时别漏 k 不存在的那条。</li>
+<li>切线过圆外点有<strong>两条</strong>，用 d = r 解斜率时别漏 k 不存在的那条。</li>
 <li>弦长公式 2√(r<sup>2</sup> − d<sup>2</sup>)：d 是圆心到直线距离，不是弦到圆心的距离。</li>
 </ul>
 <hr />
@@ -612,19 +634,19 @@ A. (0, 1)　　B. (1, 3)　　C. (3, +∞)　　D. (0, +∞)</p>
 <p>与《高中数学常用公式·修订版》第五部分"直线与圆"逐条核对一致。</p>
 </blockquote>
 <h3>斜率与倾斜角</h3>
-<p><strong>斜率：k  =  (y<sub>2</sub>−y<sub>1</sub>)/(x<sub>2</sub>−x<sub>1</sub>)  =  tan α（α ≠ 90°）</strong></p>
+<p><strong>斜率：k = (y<sub>2</sub>−y<sub>1</sub>)/(x<sub>2</sub>−x<sub>1</sub>) = tan α（α ≠ 90°）</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>纵坐标差除以横坐标差，就是直线的陡缓。</li>
 <li>用的时候：α=90°（竖直直线）斜率不存在，别硬套；x<sub>1</sub>=x<sub>2</sub> 也不能用两点式。</li>
 <li>记忆要点：Δy 比 Δx。</li>
 </ul>
-<p><strong>平行 ⇔ k<sub>1</sub> = k<sub>2</sub>（且截距不等）；垂直 ⇔ k<sub>1</sub>·k<sub>2</sub> = −1</strong></p>
+<p><strong>平行 ⇔ k<sub>1</sub>=k<sub>2</sub>（且截距不等）；垂直 ⇔ k<sub>1</sub>·k<sub>2</sub>=−1</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>平行就是斜率一样，垂直就是斜率互为负倒数。</li>
 <li>用的时候：平行要排除重合；竖直直线（斜率不存在）垂直的反而是水平线 k=0。</li>
 </ul>
 <h3>直线方程的五种形式</h3>
-<p><strong>点斜式：y − y<sub>0</sub>  =  k(x − x<sub>0</sub>)</strong></p>
+<p><strong>点斜式：y − y<sub>0</sub> = k(x − x<sub>0</sub>)</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>知道斜率和一个点，直接写。</li>
 <li>用的时候：最常用的起手式。</li>
@@ -634,22 +656,22 @@ A. (0, 1)　　B. (1, 3)　　C. (3, +∞)　　D. (0, +∞)</p>
 <li class="baihua"><span class="tag">大白话</span>斜截式一眼看斜率纵截距；一般式统一做计算。</li>
 <li>用的时候：最后统一化到一般式，斜率就是 −A/B。</li>
 </ul>
-<p><strong>两点式：(y−y<sub>1</sub>)/(y<sub>2</sub>−y<sub>1</sub>)  =  (x−x<sub>1</sub>)/(x<sub>2</sub>−x<sub>1</sub>)；截距式：x/a + y/b  =  1</strong></p>
+<p><strong>两点式：(y−y<sub>1</sub>)/(y<sub>2</sub>−y<sub>1</sub>) = (x−x<sub>1</sub>)/(x<sub>2</sub>−x<sub>1</sub>)；截距式：x/a + y/b = 1</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>两点直接写、知道横纵截距用截距式。</li>
 <li>用的时候：截距式要求 a、b 都不为 0，过原点或竖直直线用不了。</li>
 </ul>
 <h3>距离公式</h3>
-<p><strong>两点距离：d  =  √[(x<sub>2</sub>−x<sub>1</sub>)<sup>2</sup> + (y<sub>2</sub>−y<sub>1</sub>)<sup>2</sup>]</strong></p>
+<p><strong>两点距离：d = √[(x<sub>2</sub>−x<sub>1</sub>)<sup>2</sup> + (y<sub>2</sub>−y<sub>1</sub>)<sup>2</sup>]</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>横差纵差当直角边，勾股求斜边。</li>
 </ul>
-<p><strong>点到直线距离：d  =  |Ax<sub>0</sub>+By<sub>0</sub>+C|/√(A<sup>2</sup>+B<sup>2</sup>)</strong></p>
+<p><strong>点到直线距离：d = |Ax<sub>0</sub>+By<sub>0</sub>+C|/√(A<sup>2</sup>+B<sup>2</sup>)</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>点代入一般式左边取绝对值，除以法向量长度。</li>
 <li>用的时候：直线必须先化成 Ax+By+C=0；分子套绝对值、分母勾股。</li>
 </ul>
-<p><strong>两平行线距离：d  =  |C<sub>1</sub>−C<sub>2</sub>|/√(A<sup>2</sup>+B<sup>2</sup>)</strong></p>
+<p><strong>两平行线距离：d = |C<sub>1</sub>−C<sub>2</sub>|/√(A<sup>2</sup>+B<sup>2</sup>)</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>系数对齐后，常数项差的绝对值除以根号。</li>
 <li>用的时候：先把 x、y 系数化成完全相同，再 |C<sub>1</sub>−C<sub>2</sub>|。</li>
@@ -671,18 +693,18 @@ A. (0, 1)　　B. (1, 3)　　C. (3, +∞)　　D. (0, +∞)</p>
 <li>用的时候：光线反射题把光源"镜像"到镜面另一侧，光线就拉直成直线距离。</li>
 </ul>
 <h3>圆的方程</h3>
-<p><strong>标准方程：(x−a)<sup>2</sup> + (y−b)<sup>2</sup>  =  r<sup>2</sup>，圆心 (a,b)，半径 r</strong></p>
+<p><strong>标准方程：(x−a)<sup>2</sup> + (y−b)<sup>2</sup> = r<sup>2</sup>，圆心 (a,b)，半径 r</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>一眼看出圆心和半径。</li>
 </ul>
-<p><strong>一般方程：x<sup>2</sup>+y<sup>2</sup>+Dx+Ey+F = 0，圆心 (−D/2,−E/2)，r  =  ½√(D<sup>2</sup>+E<sup>2</sup>−4F)</strong></p>
+<p><strong>一般方程：x<sup>2</sup>+y<sup>2</sup>+Dx+Ey+F=0，圆心 (−D/2,−E/2)，r = ½√(D<sup>2</sup>+E<sup>2</sup>−4F)</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>展开后的样子，配方才看得出圆心半径。</li>
 <li>用的时候：表示圆要 D<sup>2</sup>+E<sup>2</sup>−4F&gt;0；等于 0 是一个点，小于 0 不是圆；没有 xy 项、x<sup>2</sup>y<sup>2</sup> 系数相等。</li>
 </ul>
-<p><strong>直径式：(x−x<sub>1</sub>)(x−x<sub>2</sub>) + (y−y<sub>1</sub>)(y−y<sub>2</sub>)  =  0</strong>（A(x<sub>1</sub>,y<sub>1</sub>)、B(x<sub>2</sub>,y<sub>2</sub>) 为直径两端点）</p>
+<p><strong>直径式：(x−x<sub>1</sub>)(x−x<sub>2</sub>) + (y−y<sub>1</sub>)(y−y<sub>2</sub>) = 0</strong>（A(x<sub>1</sub>,y<sub>1</sub>)、B(x<sub>2</sub>,y<sub>2</sub>) 为直径两端点）</p>
 <ul>
-<li class = "baihua"><span class = "tag">大白话</span>已知直径两个端点，一步写出圆，不用求圆心半径。</li>
+<li class="baihua"><span class="tag">大白话</span>已知直径两个端点，一步写出圆，不用求圆心半径。</li>
 <li>用的时候：原理是直径所对圆周角为直角（PA⊥PB）；题目说"对 AB 张直角"时立刻想到它。</li>
 </ul>
 <h3>直线与圆的位置关系</h3>
@@ -691,17 +713,17 @@ A. (0, 1)　　B. (1, 3)　　C. (3, +∞)　　D. (0, +∞)</p>
 <li class="baihua"><span class="tag">大白话</span>量圆心到直线距离，跟半径比大小。</li>
 <li>用的时候：九成题先算 d 再比 r，不用真求交点。</li>
 </ul>
-<p><strong>弦长：|AB|  =  2√(r<sup>2</sup> − d<sup>2</sup>)</strong></p>
+<p><strong>弦长：|AB| = 2√(r<sup>2</sup> − d<sup>2</sup>)</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>半弦、半径、垂距构成直角三角形，整条弦乘 2。</li>
 <li>用的时候：d 是圆心到直线距离，不是别的。</li>
 </ul>
-<p><strong>圆上点 (x<sub>1</sub>,y<sub>1</sub>) 处切线：(x<sub>1</sub>−a)(x−a) + (y<sub>1</sub>−b)(y−b)  =  r<sup>2</sup></strong></p>
+<p><strong>圆上点 (x<sub>1</sub>,y<sub>1</sub>) 处切线：(x<sub>1</sub>−a)(x−a) + (y<sub>1</sub>−b)(y−b) = r<sup>2</sup></strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>切线垂直过切点的半径。</li>
 <li>用的时候：过圆外点求切线有两条，别漏斜率不存在的那条。</li>
 </ul>
-<p><strong>两圆公共弦：两圆一般式相减 (D<sub>1</sub>−D<sub>2</sub>)x+(E<sub>1</sub>−E<sub>2</sub>)y+(F<sub>1</sub>−F<sub>2</sub>) = 0</strong></p>
+<p><strong>两圆公共弦：两圆一般式相减 (D<sub>1</sub>−D<sub>2</sub>)x+(E<sub>1</sub>−E<sub>2</sub>)y+(F<sub>1</sub>−F<sub>2</sub>)=0</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>两个圆方程一减，就得到它们公共弦（或公切线）所在的直线。</li>
 <li>用的时候：求两圆公共弦方程不用解交点，直接相减；相切时这条线就是公切线。</li>
@@ -748,7 +770,7 @@ A. (0, 1)　　B. (1, 3)　　C. (3, +∞)　　D. (0, +∞)</p>
 <strong>A2.</strong> k = tan 120° = −tan 60° = <strong>−√3</strong>；k &lt; 0，直线从左上向右下倾斜。
 <strong>A3.</strong> 斜截式 <strong>y = −2x + 3</strong>；一般式 <strong>2x + y − 3 = 0</strong>。
 <strong>A4.</strong> 原直线斜率 k = −3/4，平行斜率相同。过 (2,−1)：y+1 = (−3/4)(x−2)，整理 <strong>3x + 4y − 2 = 0</strong>。
-<strong>A5.</strong> d = |3·3 − 4·4 + 1|/√(9+16) = |9−16+1|/5 = |−6|/5 = <strong>6/5</strong>。
+<strong>A5.</strong> d = |3×3 − 4×4 + 1|/√(9+16) = |9−16+1|/5 = |−6|/5 = <strong>6/5</strong>。
 <strong>A6.</strong> 标准方程 <strong>(x+1)<sup>2</sup> + (y−2)<sup>2</sup> = 9</strong>；展开 x<sup>2</sup>+2x+1+y<sup>2</sup>−4y+4=9，一般式 <strong>x<sup>2</sup> + y<sup>2</sup> + 2x − 4y − 4 = 0</strong>。</p>
 </div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">B 组答案</p><p><strong>B7.</strong> 系数一致，d = |(−2)−8|/√(9+16) = 10/5 = <strong>2</strong>。
 <strong>B8.</strong> 圆心 (0,0)，d = |0+0−1|/√2 = 1/√2。弦长 = 2√(9 − 1/2) = 2√(17/2) = <strong>√34 ≈ 5.83</strong>。
@@ -767,7 +789,19 @@ A. (0, 1)　　B. (1, 3)　　C. (3, +∞)　　D. (0, +∞)</p>
 </div><div class="sec sec-meta"><h2>本章与前后章</h2>
 <p>本章前接<strong>第 02 章</strong>（函数与方程：点斜式 y=kx+b 就是一次函数，方程与不等式的代数运算是本章地基），是解析几何的开门第一课；后接<strong>第 16 章圆锥曲线</strong>——椭圆、双曲线、抛物线的联立、弦长、距离判定，用的全是本章的"一般式、点到直线距离、联立消元"这套工具。学完这章，你手里有了三件通用武器：斜率判方向、距离算远近、d 比 r 判位置，它们是后面所有解析几何大题的地基。</p>
 </div><div class="sec sec-meta"><h2>高考怎么考</h2>
-<p>直线与圆在新高考Ⅰ卷里是<strong>小题常客</strong>，多年落在选择题第 5~8 题区间（如 2025 新高考Ⅰ卷第 7 题即本章 C1，考"圆上到直线距离为定值的点有几个"，答案选 B，即 1&lt;r&lt;3），考法集中在：斜率与平行垂直判定、点到直线/平行线距离、直线与圆位置关系与弦长、过圆外点求切线。难度中等偏易、3 分钟一道，几乎不单独出大题；但它是圆锥曲线大题的"工具间"——压轴题里的弦长、点到直线距离、联立判别，背后都站着本章的公式。想通了"几何变代数"，这几分是稳拿的送分题。</p></div>
+<p>直线与圆在新高考Ⅰ卷里是<strong>小题常客</strong>，多年落在选择题第 5~8 题区间（如 2025 新高考Ⅰ卷第 7 题即本章 C1，考"圆上到直线距离为定值的点有几个"，答案选 B，即 1&lt;r&lt;3），考法集中在：斜率与平行垂直判定、点到直线/平行线距离、直线与圆位置关系与弦长、过圆外点求切线。难度中等偏易、3 分钟一道，几乎不单独出大题；但它是圆锥曲线大题的"工具间"——压轴题里的弦长、点到直线距离、联立判别，背后都站着本章的公式。想通了"几何变代数"，这几分是稳拿的送分题。</p>
+<hr />
+</div><div class="sec sec-meta"><h2>同法跨章 · 一通百通</h2>
+<p><strong>几何意义（本章 → ch16 圆锥曲线 → ch12 最值）</strong>：本章圆心到直线距离 d、切线、弦长；ch16 圆锥曲线焦点/准线/距离；ch12 距离最值。<strong>"点到直线距离"是解析几何的度量尺</strong>。</p>
+<p><strong>斜率与切线（本章 → ch05 导数 → ch16）</strong>：本章斜率 = 倾斜角正切；ch05 切线斜率 = 导数；ch16 直线与曲线相切判别式 Δ=0。<strong>斜率 = 变化率，代数几何两副面孔</strong>。</p>
+<p><strong>对称（本章 → ch02 函数对称 → ch16 圆锥曲线对称）</strong>：本章点/线关于直线对称；ch02 函数图象对称；ch16 椭圆/双曲线对称性。<strong>对称 = 中点 + 垂直，套路固定</strong>。</p>
+</div><div class="sec sec-meta"><h2>本章连接全书</h2>
+<ul>
+<li><strong>→ ch16 圆锥曲线</strong>：直线与圆是圆锥曲线的入门与组合对象。</li>
+<li><strong>→ ch12 不等式</strong>：最值、线性规划（若在考纲范围）用直线系。</li>
+<li><strong>→ ch05 导数</strong>：切线、斜率、最值问题共享。</li>
+<li><strong>→ ch09 平面向量</strong>：法向量、方向向量与直线方程互通。</li>
+</ul></div>
 </section>
 </main>
 <button id="topbtn" title="回到顶部">↑</button>
@@ -956,6 +990,35 @@ A. (0, 1)　　B. (1, 3)　　C. (3, +∞)　　D. (0, +∞)</p>
     window.addEventListener('resize',renderPen);
     loadPen();renderPen();
   }
+})();
+/* 章内左侧小目录：扫描各章 h2 生成，点击平滑滚动直达 */
+(function(){
+  var secs=document.querySelectorAll('section.chapter');
+  if(!secs.length||document.getElementById('secbar'))return;
+  var sb=document.createElement('div');sb.id='secbar';
+  var inner=document.createElement('div');inner.className='secbar-in';
+  sb.appendChild(inner);
+  secs.forEach(function(sec,si){
+    if(si>0){
+      var ttl=sec.querySelector('.ch-title');
+      var hd=document.createElement('div');hd.className='secbar-ch';
+      hd.textContent=(ttl?ttl.textContent.replace(/^\d+·?/,'').slice(0,8):sec.id);
+      inner.appendChild(hd);
+    }
+    sec.querySelectorAll('h2').forEach(function(h2){
+      var a=document.createElement('a');
+      var t=h2.textContent.replace(/^\s*[①-⑨]/,'').replace(/^\s*\d+\s*/,'').trim();
+      a.textContent=t.length>12?t.slice(0,12):t;
+      a.title=t;
+      a.addEventListener('click',function(ev){
+        ev.preventDefault();
+        var r=h2.getBoundingClientRect().top+window.scrollY;
+        window.scrollTo({top:Math.max(0,r-70),behavior:'smooth'});
+      });
+      inner.appendChild(a);
+    });
+  });
+  document.body.appendChild(sb);
 })();
 </script>
 </body>

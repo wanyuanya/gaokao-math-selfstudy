@@ -65,8 +65,9 @@ h1.ch-title{font-size:29px;font-weight:800;color:#fff;margin:8px 0 6px;letter-sp
 .mats{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px 16px;margin:0 0 18px;box-shadow:var(--shadow)}
 .mats-t{font-size:12.5px;font-weight:700;color:var(--gold);margin-bottom:9px;letter-spacing:.04em}
 .mats-l{display:flex;flex-wrap:wrap;gap:8px}
-.mats-l a{background:var(--blue-l);color:var(--blue);text-decoration:none;font-size:13px;padding:5px 13px;border-radius:20px;border:1px solid #c9d8ec;transition:.15s;white-space:nowrap}
+.mats-l a{background:var(--blue-l);color:var(--blue);text-decoration:none;font-size:13px;padding:5px 13px;border-radius:20px;border:1px solid #c9d8ec;transition:.15s}
 .mats-l a:hover{background:var(--blue);color:#fff;transform:translateY(-1px)}
+.mats-l .mat-txt{background:#eef0f4;color:#4a5568;font-size:12.5px;padding:5px 13px;border-radius:20px;border:1px dashed #c3cad6;cursor:help}
 /* 看不懂怎么办 */
 .help{background:var(--gold-l);border:1px dashed var(--gold);border-radius:12px;padding:13px 16px;margin:0 0 20px;font-size:13.5px;color:#6b5c26;line-height:1.85;box-shadow:var(--shadow)}
 body.dark .help{color:#d8c078}
@@ -85,6 +86,14 @@ h2.adv{border-left-color:var(--purple)}
 h3{font-size:calc(var(--fs) + 0.5px);font-weight:700;color:#3a352c;margin:22px 0 8px}
 p{margin:0 0 12px}
 strong{color:var(--blue)}
+/* 课后习题：题目行题号标签保持正文色（组名行仍按公式块样式显示） */
+.sec-hw p>strong:first-child{color:inherit}
+.sec-hw p:has(>strong:only-child)>strong{color:var(--blue)}
+/* 课后习题答案：每题答案块题号行保留蓝色标题感，其余步骤正文色 */
+.sec-ans p>strong:first-child{color:inherit}
+.sec-ans p:has(>strong:only-child)>strong{color:var(--blue)}
+/* 答案中的解释（方法/为什么/验证/取等条件）：灰色小字，与答案本体区分 */
+.ans-ex{color:#8a8578;font-size:calc(var(--fs) - 1.5px);font-style:normal;letter-spacing:.01em}
 /* 公式独立行：数学衬线字体统一字形（χ Σ √ 上下标同族），避免文本符号混排歪扭 */
 p:has(> strong:only-child){text-align:center;font-size:calc(var(--fs) + 1.5px);margin:16px 0;background:var(--blue-l);border:1px solid #cfe0f2;border-radius:10px;padding:10px 14px;color:var(--blue);font-family:"Cambria Math","STIX Two Math","Times New Roman","Songti SC",serif;letter-spacing:.012em}
 /* 内容块分类 */
@@ -107,6 +116,19 @@ p.ans{background:var(--blue-l);border:1px dashed #c3cede;border-radius:10px;padd
 .ans-grp{font-size:12px;color:#fff;background:var(--blue);display:inline-block;border-radius:6px;padding:2px 9px;margin:0 0 8px;font-weight:600}
 .ans-box>.ans-body{padding:11px 15px 13px}
 .ans-body p.ans{background:transparent;border:none;padding:0;margin:0 0 8px;font-weight:600}
+/* 答案区每题独立分块：A/B/C/D 组答案每题一块，虚线分隔，不夹带、不粘连 */
+.ans-body>p:not(.ans){border-bottom:1px dashed #d9d2c0;padding:9px 2px 11px;margin:0 0 9px;background:transparent;box-shadow:none;text-align:left;font-family:inherit;letter-spacing:normal;font-size:inherit}
+.ans-body>p:not(.ans):last-of-type{border-bottom:none;margin-bottom:0}
+.ans-body>p:has(> strong:only-child){text-align:left;background:transparent;border:1px dashed #c3cede;border-radius:10px;padding:10px 14px;font-family:inherit;letter-spacing:normal;font-size:inherit;box-shadow:none}
+/* 章内左侧小目录（桌面大屏显示，跟随滚动点击直达） */
+#secbar{position:fixed;left:8px;top:70px;bottom:20px;width:150px;overflow-y:auto;z-index:88;border-left:1px solid var(--line);padding:8px 4px 8px 12px;scrollbar-width:thin}
+#secbar .secbar-in{display:flex;flex-direction:column;gap:2px}
+#secbar .secbar-ch{font-size:12px;font-weight:700;color:#8a8272;letter-spacing:.04em;margin:10px 0 2px;padding-top:8px;border-top:1px solid #eee7d8}
+#secbar .secbar-ch:first-child{margin-top:0;border-top:none;padding-top:0}
+#secbar a{display:block;font-size:12.5px;color:#6f6859;text-decoration:none;padding:3px 6px;border-radius:5px;line-height:1.45}
+#secbar a:hover{background:#f2ead8;color:var(--blue)}
+@media (max-width:1399px){#secbar{display:none}}
+@media (min-width:1400px){#main{padding:76px 48px 120px 170px}}
 span.tag{display:inline-block;background:var(--blue);color:#fff;font-size:11px;border-radius:4px;padding:0 7px;margin-right:8px;vertical-align:2px}
 p.warn span.tag{background:var(--red)}
 p.sum span.tag{background:var(--gold)}
@@ -171,7 +193,7 @@ section.flash{animation:flash 1.6s ease}
 }
 @media print{
   @page{size:A4;margin:14mm 12mm}
-  #toc,#topbtn,#mnav,#tb,#pbar{display:none!important}
+  #toc,#topbtn,#mnav,#tb,#pbar,#secbar{display:none!important}
   #main{margin:0;max-width:none;padding:0}
   body{background:#fff!important;font-size:11.5pt;line-height:1.8}
   body.dark{background:#fff!important;color:#000}
@@ -255,194 +277,194 @@ section.flash{animation:flash 1.6s ease}
 <div class="ch-nav"><a href="ch-10.html">← 10</a><span class="cn-title">第11章 · 数列</span><a href="ch-12.html">12 →</a></div>
 <main id="main">
 <section class="chapter" id="ch-11">
-<div class="ch-head" data-no="11"><div class="ch-no">第11章</div><h1 class="ch-title">数列</h1><div class="ch-sub">板块：数列 ｜ 前置：第 02 章 ｜ 老教材：必修5 第2章 ｜ 新教材：选择性必修二 第4章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../公式/高中数学公式速查手册.html#ch11" title="本章公式速查（内置，直达本章）">公式速查手册</a><a href="../手册/不超纲高级方法手册.html" title="不超纲高级方法（内置，按章嵌入方法）">高级方法手册</a><span class="mats-off" style="background:#f0f0f0;color:#999;border:1px dashed #ccc;border-radius:20px;padding:5px 13px;font-size:13px;white-space:nowrap" title="第三方版权素材不随包分发（仅限个人学习）：老教材原件/可搜索版/文字检索请在本机「数学自学系统素材」目录查看，或按开源仓库 README「素材获取」自行获取">老教材（原件/可搜索/检索 · 未随包）</span><span class="mats-off" style="background:#f0f0f0;color:#999;border:1px dashed #ccc;border-radius:20px;padding:5px 13px;font-size:13px;white-space:nowrap" title="第三方版权素材不随包分发：人教A版2019 必修第一册等，请按开源仓库 README「素材获取」自行获取（仅限个人学习）">新教材（未随包）</span><span class="mats-off" style="background:#f0f0f0;color:#999;border:1px dashed #ccc;border-radius:20px;padding:5px 13px;font-size:13px;white-space:nowrap" title="第三方版权素材不随包分发：2020-2025 新高考Ⅰ卷真题，请按开源仓库 README「素材获取」自行获取（仅限个人学习）">历年真题（未随包）</span></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 卡住时在电脑本机「数学自学系统素材」目录打开老教材原件 PDF 细读（图文最清楚；公式符号以原件为准） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
+<div class="ch-head" data-no="11"><div class="ch-no">第11章</div><h1 class="ch-title">数列</h1><div class="ch-sub">板块：数列 ｜ 前置：第 02 章 ｜ 老教材：必修5 第2章 ｜ 新教材：选择性必修二 第4章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E6%95%B0%E5%AD%A6%E8%87%AA%E5%AD%A6%E7%B3%BB%E7%BB%9F%E7%B4%A0%E6%9D%90/05_%E5%85%B6%E4%BB%96%E5%8F%82%E8%80%83%28%E8%80%81%E6%95%99%E6%9D%90%E7%AD%89%29/2004%E8%AF%BE%E6%A0%87%E7%89%88%E4%BA%BA%E6%95%99A%E7%89%88/%E4%BA%BA%E6%95%99%E7%89%88%E9%AB%98%E4%B8%AD%E6%95%B0%E5%AD%A6A%E7%89%88%E5%BF%85%E4%BF%AE5.pdf" title="老教材原件 PDF（推荐阅读：图文最清楚，公式无误）">老教材·人教版A版必修5（2004课标版）</a><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E8%92%B8%E9%A6%8F%E4%BA%A7%E7%89%A9/searchable_pdfs/%E4%BA%BA%E6%95%99%E7%89%88%E9%AB%98%E4%B8%AD%E6%95%B0%E5%AD%A6A%E7%89%88%E5%BF%85%E4%BF%AE5.pdf" title="可搜索版：页面即原件，Ctrl+F 可搜文字（公式以页面为准）">老教材可搜索版(Ctrl+F)</a><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E8%92%B8%E9%A6%8F%E4%BA%A7%E7%89%A9/ocr_output/%E8%80%81%E6%95%99%E6%9D%90/%E4%BA%BA%E6%95%99%E7%89%88%E9%AB%98%E4%B8%AD%E6%95%B0%E5%AD%A6A%E7%89%88%E5%BF%85%E4%BF%AE5.txt" title="文字检索（RapidOCR 精准版）：文字已校准，公式符号以原件 PDF 为准">文字检索(TXT)</a><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E6%95%B0%E5%AD%A6%E8%87%AA%E5%AD%A6%E7%B3%BB%E7%BB%9F%E7%B4%A0%E6%9D%90/01_%E6%95%99%E6%9D%90%28%E4%BA%BA%E6%95%99A%E7%89%882019%29/%E4%BA%BA%E6%95%99A%E7%89%882019%E9%80%89%E6%8B%A9%E6%80%A7%E5%BF%85%E4%BF%AE%E7%AC%AC%E4%BA%8C%E5%86%8C.pdf" title="新教材对标考点（PDF）">新教材·人教A版2019选择性必修第二册</a><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E9%AB%98%E4%B8%AD%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F%E9%80%9F%E6%9F%A5%E6%89%8B%E5%86%8C.html#ch-11" title="本章公式速查（按章手册，直达本章）">公式速查手册</a><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E6%95%B0%E5%AD%A6%E8%87%AA%E5%AD%A6%E7%B3%BB%E7%BB%9F%E7%B4%A0%E6%9D%90/02_%E5%8E%86%E5%B9%B4%E7%9C%9F%E9%A2%98%28%E6%96%B0%E9%AB%98%E8%80%83%E2%85%A0%E5%8D%B7%29" title="历年真题文件夹（2020-2025 新高考Ⅰ卷）">历年真题</a><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E4%B8%8D%E8%B6%85%E7%BA%B2%E9%AB%98%E7%BA%A7%E6%96%B9%E6%B3%95%E6%89%8B%E5%86%8C.html" title="不超纲高级方法（直达）">高级方法手册</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
 <p>方法手册：数列放缩（嵌本章末） ｜ 公式速查：修订版 第8部分（数列）</p>
-<p><strong>本章本质核心</strong>：数列的本质是"按规则一个接一个排下去的一列数"——它就是定义在正整数上的函数 a<sub>n</sub> = f(n)。等差（相邻两项差固定）和等比（相邻两项比固定）是最简单的两种规则；本章所有内容（通项公式、前 n 项和 S<sub>n</sub>、由 S<sub>n</sub> 求 a<sub>n</sub>、裂项/错位相减求和、由递推求通项、放缩证不等式），都是围绕"规则与项的关系"展开的变体。</p>
-<p class = "baihua why"><span class = "tag">为什么有用</span>想通"数列是定义在正整数上的函数、规则决定一切"，等差等比的通项求和、由 S<sub>n</sub> 求 a<sub>n</sub>、递推构造就都能现场推；高考固定的数列解答题第二题，套路就是定规则、求基本量、再求和或放缩，想通原理比死记公式稳。</p>
+<p><strong>本章本质核心</strong>：数列的本质是"按规则一个接一个排下去的一列数"——它就是定义在正整数上的函数 a<sub>n</sub>=f(n)。等差（相邻两项差固定）和等比（相邻两项比固定）是最简单的两种规则；本章所有内容（通项公式、前 n 项和 S<sub>n</sub>、由 S<sub>n</sub> 求 a<sub>n</sub>、裂项/错位相减求和、由递推求通项、放缩证不等式），都是围绕"规则与项的关系"展开的变体。</p>
+<p class="baihua why"><span class="tag">为什么有用</span>想通"数列是定义在正整数上的函数、规则决定一切"，等差等比的通项求和、由 S<sub>n</sub> 求 a<sub>n</sub>、递推构造就都能现场推；高考固定的数列解答题第二题，套路就是定规则、求基本量、再求和或放缩，想通原理比死记公式稳。</p>
 </blockquote>
 <hr />
-<div class="sec sec-gate"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
+<div class="sec sec-gate"><h2 class="gate">① 门槛自测（进章前，10 分钟）</h2>
 <ol>
-<li>1 + 2 + 3 + … + 100  =  ？（高斯算法）</li>
+<li>1 + 2 + 3 + … + 100 = ？（高斯算法）</li>
 <li>写出 2、4、6、8、… 的第 n 项。</li>
 <li>1、2、4、8、16、… 相邻两项的比值是多少？</li>
 <li>等差数列"差"固定，等比数列什么固定？</li>
-<li>解方程 2<sup>n</sup>  =  8。</li>
+<li>解方程 2<sup>n</sup> = 8。</li>
 </ol>
 <p><strong>判定</strong>：5 题答对 4 题以上 → 进章。</p>
-</div><div class="sec sec-goal"><h2 class = "goal">② 学习目标</h2>
+</div><div class="sec sec-goal"><h2 class="goal">② 学习目标</h2>
 <ul>
 <li>掌握等差数列与等比数列的定义、通项、前 n 项和、常用性质</li>
 <li>会根据"前 n 项和 S<sub>n</sub>"求通项 a<sub>n</sub>（S<sub>n</sub> 与 a<sub>n</sub> 关系）</li>
 <li>掌握三种求和方法：裂项相消、错位相减、分组求和</li>
 <li>能完成高考数列解答题（第 17–19 题区间，必考）</li>
 </ul>
-</div><div class="sec sec-body"><h2 class = "body">③ 正文讲解</h2>
+</div><div class="sec sec-body"><h2 class="body">③ 正文讲解</h2>
 <p>先花两分钟看一眼本章地图，知道自己走到哪了：</p>
 <ul>
 <li>3.1 数列是什么：把一列数看成"编号→数值"的对应，引出 a<sub>n</sub> 与 S<sub>n</sub>。</li>
 <li>3.2 等差数列：相邻两项"差固定"，通项一次式，前 n 项和是二次式。</li>
-<li>3.3 等比数列：相邻两项"比固定"，通项指数式，前 n 项和要分 q = 1 与 q≠1。</li>
+<li>3.3 等比数列：相邻两项"比固定"，通项指数式，前 n 项和要分 q=1 与 q≠1。</li>
 <li>3.4 三种求和法：裂项相消、错位相减、分组求和——大题第二问几乎必出。</li>
-<li>3.5 由递推求通项：见到 a<sub>n+1</sub> = f(a<sub>n</sub>) 怎么动手（构造法入门）。</li>
+<li>3.5 由递推求通项：见到 a<sub>n+1</sub>=f(a<sub>n</sub>) 怎么动手（构造法入门）。</li>
 </ul>
 <h3>3.1 数列的概念</h3>
 <p><strong>引入</strong>：你每月往银行存一笔钱，本息按月份滚存下来，第 1 个月 100、第 2 个月 101、第 3 个月 102.01……这就是一列"按月份排好的数"。古印度那个著名的兔子问题——一对兔子每月生一对、新生兔子下月又开始生——数出来也是一串数：1，1，2，3，5，8，13……（斐波那契数列）。生活里只要"按次序一个个数下去"，背后就是数列。</p>
-<p><strong>定义</strong>：<strong>按照一定次序排列的一列数叫做数列</strong>，记作 a<sub>1</sub>，a<sub>2</sub>，a<sub>3</sub>，…，a<sub>n</sub>，…。其中 a<sub>n</sub> 叫这个数列的<strong>第 n 项</strong>（也叫通项）。如果第 n 项和 n 之间能用一个式子 a<sub>n</sub> = f(n) 写出来，这个式子就叫<strong>通项公式</strong>。</p>
+<p><strong>定义</strong>：<strong>按照一定次序排列的一列数叫做数列</strong>，记作 a<sub>1</sub>，a<sub>2</sub>，a<sub>3</sub>，…，a<sub>n</sub>，…。其中 a<sub>n</sub> 叫这个数列的<strong>第 n 项</strong>（也叫通项）。如果第 n 项和 n 之间能用一个式子 a<sub>n</sub>=f(n) 写出来，这个式子就叫<strong>通项公式</strong>。</p>
 <p>注意两件事：</p>
 <ol>
-<li>数列的"项数 n"只能取正整数 1，2，3，…，所以它其实是一个定义在正整数上的函数 a<sub>n</sub> = f(n)。</li>
+<li>数列的"项数 n"只能取正整数 1，2，3，…，所以它其实是一个定义在正整数上的函数 a<sub>n</sub>=f(n)。</li>
 <li>"次序"很重要：1，2，3 和 3，2，1 是两个不同的数列。</li>
 </ol>
 <p><strong>直观理解</strong>：把 (n, a<sub>n</sub>) 当成点画在坐标系里，数列就是一堆"排成一列、横坐标跳着走"的散点——不会连成一条连续曲线，因为 n 只能取整数。后面 3.2、3.3 你会看到：等差的点排在一条直线上，等比的点趴在一条指数曲线上。</p>
-<p><strong>S<sub>n</sub> 与 a<sub>n</sub> 的关系（必背，大题第一步）</strong>：前 n 项和 S<sub>n</sub>  =  a<sub>1</sub>+a<sub>2</sub>+…+a<sub>n</sub>。那么：</p>
+<p><strong>S<sub>n</sub> 与 a<sub>n</sub> 的关系（必背，大题第一步）</strong>：前 n 项和 S<sub>n</sub> = a<sub>1</sub>+a<sub>2</sub>+…+a<sub>n</sub>。那么：</p>
 <ul>
-<li>当 n = 1 时，<strong>a<sub>1</sub>  =  S<sub>1</sub></strong>；</li>
-<li>当 n≥2 时，<strong>a<sub>n</sub>  =  S<sub>n</sub> − S<sub>n−1</sub></strong>。</li>
+<li>当 n=1 时，<strong>a<sub>1</sub> = S<sub>1</sub></strong>；</li>
+<li>当 n≥2 时，<strong>a<sub>n</sub> = S<sub>n</sub> − S<sub>n−1</sub></strong>。</li>
 </ul>
-<p>道理很朴素：S<sub>n</sub> 是前 n 项加起来，S<sub>n−1</sub> 是前 n−1 项加起来，一减就只剩第 n 项。但 n = 1 时 S<sub>0</sub> 没定义，所以第一段必须单独验。</p>
+<p>道理很朴素：S<sub>n</sub> 是前 n 项加起来，S<sub>n−1</sub> 是前 n−1 项加起来，一减就只剩第 n 项。但 n=1 时 S<sub>0</sub> 没定义，所以第一段必须单独验。</p>
 <p><strong>计算流程</strong>（已知 S<sub>n</sub> 求 a<sub>n</sub>）：</p>
 <ol>
-<li>先写 n = 1：a<sub>1</sub>  =  S<sub>1</sub>；</li>
-<li>再写 n≥2：a<sub>n</sub>  =  S<sub>n</sub> − S<sub>n−1</sub>；</li>
-<li>把 n = 1 代进第 2 步的式子检验：能对上，就合并成一个式子；对不上，就分段写。</li>
+<li>先写 n=1：a<sub>1</sub> = S<sub>1</sub>；</li>
+<li>再写 n≥2：a<sub>n</sub> = S<sub>n</sub> − S<sub>n−1</sub>；</li>
+<li>把 n=1 代进第 2 步的式子检验：能对上，就合并成一个式子；对不上，就分段写。</li>
 </ol>
-<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题</strong>：已知数列前 n 项和 S<sub>n</sub>  =  n<sup>2</sup>+n，求通项 a<sub>n</sub>。
-解：n = 1 时 a<sub>1</sub> = S<sub>1</sub> = 2。n≥2 时 a<sub>n</sub> = S<sub>n</sub>−S<sub>n−1</sub> = (n<sup>2</sup>+n)−[(n−1)<sup>2</sup>+(n−1)] = n<sup>2</sup>+n−(n<sup>2</sup>−n) = 2n。把 n = 1 代入 2n 得 2，正好等于 a<sub>1</sub>，所以合起来 <strong>a<sub>n</sub> = 2n</strong>。</p>
-<p><strong>小结</strong>：数列就是"编号排队的数"；见到 S<sub>n</sub> 求 a<sub>n</sub>，永远 n = 1 单独验、n≥2 作差。</p>
-<p><strong>编者注·本质回扣</strong>：数列这个名字听着新，本质就是"编号排队的一列数"，把第 n 项写成 a<sub>n</sub> 就是一个定义在正整数上的函数——和你在第 02 章学的函数是同一回事，只是自变量 n 只能取 1,2,3…，图像是散点而不是连续曲线。S<sub>n</sub> 与 a<sub>n</sub> 的关系更朴素：S<sub>n</sub> 是前 n 项一锅端的和，S<sub>n−1</sub> 是前 n−1 项的和，两者一减自然只剩第 n 项；只是 n = 1 时 S<sub>0</sub> 没定义，所以必须单独验 a<sub>1</sub> = S<sub>1</sub>。记住"作差出通项"，这就是已知 S<sub>n</sub> 求 a<sub>n</sub> 的全部道理。</p>
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题</strong>：已知数列前 n 项和 S<sub>n</sub> = n<sup>2</sup>+n，求通项 a<sub>n</sub>。
+解：n=1 时 a<sub>1</sub>=S<sub>1</sub>=2。n≥2 时 a<sub>n</sub>=S<sub>n</sub>−S<sub>n−1</sub>=(n<sup>2</sup>+n)−[(n−1)<sup>2</sup>+(n−1)]=n<sup>2</sup>+n−(n<sup>2</sup>−n)=2n。把 n=1 代入 2n 得 2，正好等于 a<sub>1</sub>，所以合起来 <strong>a<sub>n</sub>=2n</strong>。</p>
+<p><strong>小结</strong>：数列就是"编号排队的数"；见到 S<sub>n</sub> 求 a<sub>n</sub>，永远 n=1 单独验、n≥2 作差。</p>
+<p><strong>编者注·本质回扣</strong>：数列这个名字听着新，本质就是"编号排队的一列数"，把第 n 项写成 a<sub>n</sub> 就是一个定义在正整数上的函数——和你在第 02 章学的函数是同一回事，只是自变量 n 只能取 1,2,3…，图像是散点而不是连续曲线。S<sub>n</sub> 与 a<sub>n</sub> 的关系更朴素：S<sub>n</sub> 是前 n 项一锅端的和，S<sub>n−1</sub> 是前 n−1 项的和，两者一减自然只剩第 n 项；只是 n=1 时 S<sub>0</sub> 没定义，所以必须单独验 a<sub>1</sub>=S<sub>1</sub>。记住"作差出通项"，这就是已知 S<sub>n</sub> 求 a<sub>n</sub> 的全部道理。</p>
 <h4>3.1.1 数列的单调性、周期性与最大(小)项 <strong>（苏州教研·专题31）</strong></h4>
 <p><strong>单调性怎么判</strong>：数列 {a<sub>n</sub>} 递增 ⇔ <strong>a<sub>n+1</sub> &gt; a<sub>n</sub> 恒成立</strong>；递减 ⇔ a<sub>n+1</sub> &lt; a<sub>n</sub> 恒成立。判断手段两种：</p>
 <ul>
 <li><strong>作差</strong>：算 a<sub>n+1</sub> − a<sub>n</sub> 的正负；</li>
 <li><strong>作商</strong>：各项为正时，算 a<sub>n+1</sub>/a<sub>n</sub> 与 1 比。</li>
 </ul>
-<p><strong>重要提醒（苏州书原话）</strong>：不能对函数 a<sub>n</sub> = f(n)，n∈N* 直接求导！要研究单调性，得先引进对应函数 y = f(x)，x∈[1,+∞)，对它求导，再回到数列上。</p>
+<p><strong>重要提醒（苏州书原话）</strong>：不能对函数 a<sub>n</sub>=f(n)，n∈N* 直接求导！要研究单调性，得先引进对应函数 y=f(x)，x∈[1,+∞)，对它求导，再回到数列上。</p>
 <p><strong>最大(小)项怎么找</strong>：若第 n 项是最大项，它必须同时不比左右邻居小：<strong>a<sub>n</sub> ≥ a<sub>n−1</sub> 且 a<sub>n</sub> ≥ a<sub>n+1</sub></strong>（最小项把不等号反过来）。</p>
 <p>这就是苏州书说的"∨ 字形模型"（最小项是倒过来的 ∧ 字形）。解这个不等式组，n 取正整数的那几项就是候选最大项。</p>
-<p><strong>周期性</strong>：若 a<sub>n+t</sub>  =  a<sub>n</sub>，则 {a<sub>n</sub>} 的周期为 T。客观题里给了递推又求不出通项，先猜它是不是周期数列。</p>
+<p><strong>周期性</strong>：若 a<sub>n+t</sub> = a<sub>n</sub>，则 {a<sub>n</sub>} 的周期为 T。客观题里给了递推又求不出通项，先猜它是不是周期数列。</p>
 <p><strong>应用题模型（苏州书·专题31）</strong>：</p>
 <ul>
 <li><strong>分期付款（复利）</strong>：贷款 A 元，n 次还清，每期利率 r，每次还款 x。
-  <strong>x  =  A·r·(1+r)<sup>n</sup> / [(1+r)<sup>n</sup> − 1]</strong>
+  <strong>x = A·r·(1+r)<sup>n</sup> / [(1+r)<sup>n</sup> − 1]</strong>
   大白话：分期去付款，到期算总账——我付银行息，银行付我息，借还两相等。</li>
 <li><strong>零存整取（单利）</strong>：每期存 p 元，每期利率 r，n 期后本利和
-  <strong>S<sub>n</sub>  =  p·[n + n(n−1)/2·r]</strong>（这是等差数列求和模型）。</li>
+  <strong>S<sub>n</sub> = p·[n + n(n−1)/2·r]</strong>（这是等差数列求和模型）。</li>
 </ul>
 <h3>3.2 等差数列（公差 d）</h3>
 <p><strong>引入</strong>：把钢管堆成梯形，最上层 5 根，往下每层多 1 根：5，6，7，8，9……相邻两层的差总是 1。再比如上衣尺码 S、M、L、XL 之间的号差。这种"后一项减前一项等于同一个常数"的数列，就是等差数列。</p>
-<p><strong>定义</strong>：<strong>如果一个数列从第 2 项起，每一项与它前一项的差都等于同一个常数 d，即 a<sub>n+1</sub> − a<sub>n</sub>  =  d，这个数列就叫等差数列</strong>，常数 d 叫公差。</p>
-<p><strong>通项公式</strong>：<strong>a<sub>n</sub>  =  a<sub>1</sub> + (n − 1)d</strong>。
-怎么来的？用累加法：a<sub>2</sub>−a<sub>1</sub> = d，a<sub>3</sub>−a<sub>2</sub> = d，…，a<sub>n</sub>−a<sub>n−1</sub> = d，左边一加一减全抵消，剩 a<sub>n</sub>−a<sub>1</sub> = (n−1)d，移项就是公式。</p>
-<p><strong>几何意义</strong>：把 a<sub>n</sub> = a<sub>1</sub>+(n−1)d 写成 a<sub>n</sub> = dn+(a<sub>1</sub>−d)，这是关于 n 的一次函数。所以等差的散点 (n,a<sub>n</sub>) 全在一条斜率为 d 的直线上（见下图，蓝点）。</p>
-<p><img alt = "等差与等比散点对比" src = "assets/11-arith-geo-scatter.png" /></p>
-<p><strong>前 n 项和</strong>：<strong>S<sub>n</sub>  =  n(a<sub>1</sub> + a<sub>n</sub>)/2  =  na<sub>1</sub> + n(n−1)d/2</strong>。
+<p><strong>定义</strong>：<strong>如果一个数列从第 2 项起，每一项与它前一项的差都等于同一个常数 d，即 a<sub>n+1</sub> − a<sub>n</sub> = d，这个数列就叫等差数列</strong>，常数 d 叫公差。</p>
+<p><strong>通项公式</strong>：<strong>a<sub>n</sub> = a<sub>1</sub> + (n − 1)d</strong>。
+怎么来的？用累加法：a<sub>2</sub>−a<sub>1</sub>=d，a<sub>3</sub>−a<sub>2</sub>=d，…，a<sub>n</sub>−a<sub>n−1</sub>=d，左边一加一减全抵消，剩 a<sub>n</sub>−a<sub>1</sub>=(n−1)d，移项就是公式。</p>
+<p><strong>几何意义</strong>：把 a<sub>n</sub>=a<sub>1</sub>+(n−1)d 写成 a<sub>n</sub>=dn+(a<sub>1</sub>−d)，这是关于 n 的一次函数。所以等差的散点 (n,a<sub>n</sub>) 全在一条斜率为 d 的直线上（见下图，蓝点）。</p>
+<p><img alt="等差与等比散点对比" src="assets/11-arith-geo-scatter.png" /></p>
+<p><strong>前 n 项和</strong>：<strong>S<sub>n</sub> = n(a<sub>1</sub> + a<sub>n</sub>)/2 = na<sub>1</sub> + n(n−1)d/2</strong>。
 高斯小时候算 1+2+…+100，思路就是"首末配对"：(1+100)、(2+99)……每对都 101，共 50 对，得 5050。搬到一般等差上就是"首项加末项乘项数除以 2"。</p>
-<p><strong>它的几何意义</strong>：把 S<sub>n</sub> = na<sub>1</sub>+n(n−1)d/2 整理成 <strong>S<sub>n</sub>  =  (d/2)n<sup>2</sup> + (a<sub>1</sub> − d/2)n</strong>，这是关于 n 的二次函数，而且常数项是 0（过原点）。d&gt;0 时开口向上，S<sub>n</sub> 的散点趴在一条抛物线上（见下图）。</p>
-<p><img alt = "等差数列前n项和是过原点的抛物线" src = "assets/11-sn-quadratic.png" /></p>
+<p><strong>它的几何意义</strong>：把 S<sub>n</sub>=na<sub>1</sub>+n(n−1)d/2 整理成 <strong>S<sub>n</sub> = (d/2)n<sup>2</sup> + (a<sub>1</sub> − d/2)n</strong>，这是关于 n 的二次函数，而且常数项是 0（过原点）。d&gt;0 时开口向上，S<sub>n</sub> 的散点趴在一条抛物线上（见下图）。</p>
+<p><img alt="等差数列前n项和是过原点的抛物线" src="assets/11-sn-quadratic.png" /></p>
 <p><strong>常用性质</strong>（都能由通项推出来，别死背）：</p>
 <ul>
-<li>若 m+n = p+q，则 <strong>a<sub>m</sub> + a<sub>n</sub>  =  a<sub>p</sub> + a_q</strong>。理由：a<sub>m</sub>+a<sub>n</sub> = 2a<sub>1</sub>+(m+n−2)d，右边 = 2a<sub>1</sub>+(p+q−2)d，由 m+n = p+q 相等。</li>
-<li>等差中项：相邻三项中 <strong>2a<sub>n</sub>  =  a<sub>n−1</sub> + a<sub>n+1</sub></strong>。</li>
-<li>推广：a<sub>n</sub>  =  a<sub>m</sub> + (n−m)d（知道任意一项都能当"新首项"）。</li>
+<li>若 m+n=p+q，则 <strong>a<sub>m</sub> + a<sub>n</sub> = a<sub>p</sub> + a_q</strong>。理由：a<sub>m</sub>+a<sub>n</sub>=2a<sub>1</sub>+(m+n−2)d，右边=2a<sub>1</sub>+(p+q−2)d，由 m+n=p+q 相等。</li>
+<li>等差中项：相邻三项中 <strong>2a<sub>n</sub> = a<sub>n−1</sub> + a<sub>n+1</sub></strong>。</li>
+<li>推广：a<sub>n</sub> = a<sub>m</sub> + (n−m)d（知道任意一项都能当"新首项"）。</li>
 <li>分段和：S<sub>k</sub>，S<sub>2k</sub>−S<sub>k</sub>，S<sub>3k</sub>−S<sub>2k</sub>，… 仍成等差数列。</li>
 </ul>
 <p><strong>两个好用的二级结论（苏州教研·专题32）</strong>：</p>
-<p><strong>{S<sub>n</sub>/n} 是等差数列</strong>：由 S<sub>n</sub> = na<sub>1</sub>+n(n−1)d/2 两边除以 n，得 S<sub>n</sub>/n  =  a<sub>1</sub>+(n−1)·d/2，即 {S<sub>n</sub>/n} 本身就是公差为 d/2 的等差数列。题目给你一组"S<sub>n</sub>/n 的差"，立刻反推公差 d。</p>
-<p><strong>a<sub>m</sub>/b<sub>m</sub>  =  S_{2m−1}/T_{2m−1}</strong>（两等差数列第 m 项之比  =  前 2m−1 项和之比）：设 {a<sub>n</sub>}、{b<sub>n</sub>} 前 n 项和分别为 S<sub>n</sub>、T<sub>n</sub>。因为 S_{2m−1} = (2m−1)(a<sub>1</sub>+a_{2m−1})/2 = (2m−1)·a<sub>m</sub>（等差中项 a<sub>1</sub>+a_{2m−1} = 2a<sub>m</sub>），同理 T_{2m−1} = (2m−1)·b<sub>m</sub>，两式一除，(2m−1) 约掉，得 <strong>a<sub>m</sub>/b<sub>m</sub>  =  S_{2m−1}/T_{2m−1}</strong>。</p>
+<p><strong>{S<sub>n</sub>/n} 是等差数列</strong>：由 S<sub>n</sub>=na<sub>1</sub>+n(n−1)d/2 两边除以 n，得 S<sub>n</sub>/n = a<sub>1</sub>+(n−1)·d/2，即 {S<sub>n</sub>/n} 本身就是公差为 d/2 的等差数列。题目给你一组"S<sub>n</sub>/n 的差"，立刻反推公差 d。</p>
+<p><strong>a<sub>m</sub>/b<sub>m</sub> = S_{2m−1}/T_{2m−1}</strong>（两等差数列第 m 项之比 = 前 2m−1 项和之比）：设 {a<sub>n</sub>}、{b<sub>n</sub>} 前 n 项和分别为 S<sub>n</sub>、T<sub>n</sub>。因为 S_{2m−1}=(2m−1)(a<sub>1</sub>+a_{2m−1})/2=(2m−1)·a<sub>m</sub>（等差中项 a<sub>1</sub>+a_{2m−1}=2a<sub>m</sub>），同理 T_{2m−1}=(2m−1)·b<sub>m</sub>，两式一除，(2m−1) 约掉，得 <strong>a<sub>m</sub>/b<sub>m</sub> = S_{2m−1}/T_{2m−1}</strong>。</p>
 <blockquote>
-<p><strong>【跟讲例题（苏州教研·专题32，原书p.130）】</strong>：等差数列 {a<sub>n</sub>}、{b<sub>n</sub>} 的前 n 项和分别为 S<sub>n</sub>、T<sub>n</sub>，且 S<sub>n</sub>/T<sub>n</sub>  =  (7n+45)/(n+3)，求 a<sub>n</sub>/b<sub>n</sub> 为整数时 n 的值。
-解：a<sub>n</sub>/b<sub>n</sub>  =  S_{2n−1}/T_{2n−1}  =  [7(2n−1)+45]/[(2n−1)+3]  =  (14n+38)/(2n+2)  =  (7n+19)/(n+1)  =  7 + 12/(n+1)。要 a<sub>n</sub>/b<sub>n</sub> 为偶数（整数），需 12/(n+1) 为整数，即 n+1 是 12 的正约数：n+1∈{1,2,3,4,6,12}，n∈N* 且对应值为偶数。代回检验：n = 1 时 7+6 = 13（奇），n = 2 时 7+4 = 11（奇），n = 3 时 7+3 = 10（偶✓），n = 5 时 7+2 = 9（奇），n = 11 时 7+1 = 8（偶✓）。故 <strong>n = 3 或 n = 11</strong>。（此即苏州书 B 组第 1(1) 题，答案 3 或 11。）</p>
+<p><strong>【跟讲例题（苏州教研·专题32，原书p.130）】</strong>：等差数列 {a<sub>n</sub>}、{b<sub>n</sub>} 的前 n 项和分别为 S<sub>n</sub>、T<sub>n</sub>，且 S<sub>n</sub>/T<sub>n</sub> = (7n+45)/(n+3)，求 a<sub>n</sub>/b<sub>n</sub> 为整数时 n 的值。
+解：a<sub>n</sub>/b<sub>n</sub> = S_{2n−1}/T_{2n−1} = [7(2n−1)+45]/[(2n−1)+3] = (14n+38)/(2n+2) = (7n+19)/(n+1) = 7 + 12/(n+1)。要 a<sub>n</sub>/b<sub>n</sub> 为偶数（整数），需 12/(n+1) 为整数，即 n+1 是 12 的正约数：n+1∈{1,2,3,4,6,12}，n∈N* 且对应值为偶数。代回检验：n=1 时 7+6=13（奇），n=2 时 7+4=11（奇），n=3 时 7+3=10（偶✓），n=5 时 7+2=9（奇），n=11 时 7+1=8（偶✓）。故 <strong>n=3 或 n=11</strong>。（此即苏州书 B 组第 1(1) 题，答案 3 或 11。）</p>
 </blockquote>
 <p><strong>其他小结论（苏州教研·专题32）</strong>：</p>
 <ul>
-<li>等差数列判定四法：①定义 a<sub>n+1</sub>−a<sub>n</sub> = d；②等差中项 2a<sub>n</sub> = a<sub>n−1</sub>+a<sub>n+1</sub>；③a<sub>n</sub> = kn+b（一次式）；④S<sub>n</sub> = An<sup>2</sup>+Bn（常数项为 0 的二次式）。</li>
+<li>等差数列判定四法：①定义 a<sub>n+1</sub>−a<sub>n</sub>=d；②等差中项 2a<sub>n</sub>=a<sub>n−1</sub>+a<sub>n+1</sub>；③a<sub>n</sub>=kn+b（一次式）；④S<sub>n</sub>=An<sup>2</sup>+Bn（常数项为 0 的二次式）。</li>
 <li>若 {a<sub>n</sub>} 等差，则 {c^a<sub>n</sub>}（c&gt;0，c≠1）是等比数列。</li>
 <li>从等差数列中按"序号成等差"抽取若干项，抽出的项仍成等差数列。</li>
 </ul>
-<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题</strong>：等差数列中 a<sub>3</sub> = 7，a<sub>7</sub> = 19，求 a<sub>10</sub>。
-解：a<sub>7</sub>−a<sub>3</sub> = 4d = 12 ⇒ d = 3；a<sub>3</sub> = a<sub>1</sub>+2d ⇒ a<sub>1</sub> = 1。a<sub>10</sub> = a<sub>1</sub>+9d = 1+27 = <strong>28</strong>。
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题</strong>：等差数列中 a<sub>3</sub>=7，a<sub>7</sub>=19，求 a<sub>10</sub>。
+解：a<sub>7</sub>−a<sub>3</sub>=4d=12 ⇒ d=3；a<sub>3</sub>=a<sub>1</sub>+2d ⇒ a<sub>1</sub>=1。a<sub>10</sub>=a<sub>1</sub>+9d=1+27=<strong>28</strong>。
 要点：等差问题永远抓住 a<sub>1</sub> 和 d 两个"基本量"，把已知条件翻译成关于它们的方程。</p>
-<p><strong>小结</strong>：等差 = "差固定"，通项一次、求和二次，两基本量 a<sub>1</sub>、d 走天下。</p>
+<p><strong>小结</strong>：等差="差固定"，通项一次、求和二次，两基本量 a<sub>1</sub>、d 走天下。</p>
 <h3>3.3 等比数列（公比 q）</h3>
 <p><strong>引入</strong>：一张纸对折 1 次变 2 层，对折 2 次变 4 层，对折 3 次变 8 层……层数是 1，2，4，8，16……每折一次就乘 2。银行复利也是：利息滚进本金再生利息，每年本金都乘上 (1+利率)。这种"后一项除以前一项等于同一个常数"的数列叫等比数列。</p>
-<p><strong>定义</strong>：<strong>如果一个数列从第 2 项起，每一项与它前一项的比都等于同一个非零常数 q，即 a<sub>n+1</sub>/a<sub>n</sub>  =  q，这个数列就叫等比数列</strong>，q 叫公比（规定 q≠0，各项也不为 0）。</p>
-<p><strong>通项公式</strong>：<strong>a<sub>n</sub>  =  a<sub>1</sub>·q<sup>n−1</sup></strong>。
-推导类似累乘：a<sub>2</sub>/a<sub>1</sub> = q，a<sub>3</sub>/a<sub>2</sub> = q，…，a<sub>n</sub>/a<sub>n−1</sub> = q，左边全约掉只剩 a<sub>n</sub>/a<sub>1</sub> = q<sup>n−1</sup>。</p>
+<p><strong>定义</strong>：<strong>如果一个数列从第 2 项起，每一项与它前一项的比都等于同一个非零常数 q，即 a<sub>n+1</sub>/a<sub>n</sub> = q，这个数列就叫等比数列</strong>，q 叫公比（规定 q≠0，各项也不为 0）。</p>
+<p><strong>通项公式</strong>：<strong>a<sub>n</sub> = a<sub>1</sub>·q<sup>n−1</sup></strong>。
+推导类似累乘：a<sub>2</sub>/a<sub>1</sub>=q，a<sub>3</sub>/a<sub>2</sub>=q，…，a<sub>n</sub>/a<sub>n−1</sub>=q，左边全约掉只剩 a<sub>n</sub>/a<sub>1</sub>=q<sup>n−1</sup>。</p>
 <p><strong>前 n 项和</strong>：</p>
 <ul>
-<li>当 q = 1 时，每一项都等于 a<sub>1</sub>，所以 <strong>S<sub>n</sub>  =  n·a<sub>1</sub></strong>；</li>
-<li>当 q≠1 时，<strong>S<sub>n</sub>  =  a<sub>1</sub>(1 − q<sup>n</sup>)/(1 − q)  =  a<sub>1</sub>(q<sup>n</sup> − 1)/(q − 1)</strong>。</li>
+<li>当 q=1 时，每一项都等于 a<sub>1</sub>，所以 <strong>S<sub>n</sub> = n·a<sub>1</sub></strong>；</li>
+<li>当 q≠1 时，<strong>S<sub>n</sub> = a<sub>1</sub>(1 − q<sup>n</sup>)/(1 − q) = a<sub>1</sub>(q<sup>n</sup> − 1)/(q − 1)</strong>。</li>
 </ul>
-<p>公式怎么来的？写一遍：S<sub>n</sub> = a<sub>1</sub>+a<sub>1</sub>q+…+a<sub>1</sub>q<sup>n−1</sup>，两边乘 q 得 qS<sub>n</sub> = a<sub>1</sub>q+…+a<sub>1</sub>q<sup>n</sup>，两式一减（错位相减），中间全消，S<sub>n</sub>−qS<sub>n</sub> = a<sub>1</sub>−a<sub>1</sub>q<sup>n</sup>，解出 S<sub>n</sub>。<strong>q 是参数时一定要先讨论 q = 1 还是 q≠1</strong>，这是最常见的丢分点。</p>
+<p>公式怎么来的？写一遍：S<sub>n</sub>=a<sub>1</sub>+a<sub>1</sub>q+…+a<sub>1</sub>q<sup>n−1</sup>，两边乘 q 得 qS<sub>n</sub>=a<sub>1</sub>q+…+a<sub>1</sub>q<sup>n</sup>，两式一减（错位相减），中间全消，S<sub>n</sub>−qS<sub>n</sub>=a<sub>1</sub>−a<sub>1</sub>q<sup>n</sup>，解出 S<sub>n</sub>。<strong>q 是参数时一定要先讨论 q=1 还是 q≠1</strong>，这是最常见的丢分点。</p>
 <p><strong>常用性质</strong>：</p>
 <ul>
-<li>若 m+n = p+q，则 <strong>a<sub>m</sub>·a<sub>n</sub>  =  a<sub>p</sub>·a_q</strong>（注意这里是"乘"不是"加"）。</li>
-<li>等比中项：<strong>a<sub>n</sub><sup>2</sup>  =  a<sub>n−1</sub>·a<sub>n+1</sub></strong>，但开方有正负两个，要按题目条件取舍。</li>
+<li>若 m+n=p+q，则 <strong>a<sub>m</sub>·a<sub>n</sub> = a<sub>p</sub>·a_q</strong>（注意这里是"乘"不是"加"）。</li>
+<li>等比中项：<strong>a<sub>n</sub><sup>2</sup> = a<sub>n−1</sub>·a<sub>n+1</sub></strong>，但开方有正负两个，要按题目条件取舍。</li>
 <li>当 |q|&lt;1 且 n 无限增大时，q<sup>n</sup>→0，a<sub>n</sub>→0，S<sub>n</sub>→a<sub>1</sub>/(1−q)。</li>
 </ul>
 <p><strong>补充结论（苏州教研·专题33）</strong>：</p>
 <ul>
 <li><strong>{log_c b<sub>n</sub>} 是等差数列</strong>：若 {b<sub>n</sub>}（b<sub>n</sub>&gt;0）是等比数列，则取以 c 为底的对数后 {log_c b<sub>n</sub>} 就是等差数列（乘法变加法）。这是"等比↔等差"互相转化的桥梁。</li>
-<li><strong>奇偶项和之比</strong>：项数为 2n 时，S偶/S奇  =  q（因为 a<sub>2</sub> = q·a<sub>1</sub>，a<sub>4</sub> = q·a<sub>3</sub>，… 全部提一个 q）；项数为 2n−1 时，(S奇−a<sub>1</sub>)/S偶  =  q。</li>
-<li><strong>连续 m 项的积仍成等比</strong>：设 T<sub>n</sub> = a<sub>1</sub>·a<sub>2</sub>·…·a<sub>n</sub>，则 T<sub>m</sub>，T<sub>2m</sub>/T<sub>m</sub>，T<sub>3m</sub>/T<sub>2m</sub>，… 仍成等比数列。</li>
-<li>注意：q = −1 时，"连续 m 项和成等比"要求 m 必须是奇数（否则分段和为 0）。</li>
-<li>等比数列判定四法：①定义 a<sub>n+1</sub>/a<sub>n</sub> = q；②等比中项 a<sub>n</sub><sup>2</sup> = a<sub>n−1</sub>a<sub>n+1</sub>≠0；③a<sub>n</sub> = p·q<sup>n</sup>；④S<sub>n</sub> = A(1−q<sup>n</sup>)。</li>
+<li><strong>奇偶项和之比</strong>：项数为 2n 时，S偶/S奇 = q（因为 a<sub>2</sub>=q·a<sub>1</sub>，a<sub>4</sub>=q·a<sub>3</sub>，… 全部提一个 q）；项数为 2n−1 时，(S奇−a<sub>1</sub>)/S偶 = q。</li>
+<li><strong>连续 m 项的积仍成等比</strong>：设 T<sub>n</sub>=a<sub>1</sub>·a<sub>2</sub>·…·a<sub>n</sub>，则 T<sub>m</sub>，T<sub>2m</sub>/T<sub>m</sub>，T<sub>3m</sub>/T<sub>2m</sub>，… 仍成等比数列。</li>
+<li>注意：q=−1 时，"连续 m 项和成等比"要求 m 必须是奇数（否则分段和为 0）。</li>
+<li>等比数列判定四法：①定义 a<sub>n+1</sub>/a<sub>n</sub>=q；②等比中项 a<sub>n</sub><sup>2</sup>=a<sub>n−1</sub>a<sub>n+1</sub>≠0；③a<sub>n</sub>=p·q<sup>n</sup>；④S<sub>n</sub>=A(1−q<sup>n</sup>)。</li>
 </ul>
-<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题</strong>：等比数列 a<sub>1</sub> = 3，q = 2，求前 6 项和。
-解：q≠1，S<sub>6</sub> = 3·(2<sup>6</sup>−1)/(2−1) = 3·63 = <strong>189</strong>。
-要点：先确认 q≠1 再套公式；本题 a<sub>1</sub> = 3 别代成 1。</p>
-<p><strong>小结</strong>：等比 = "比固定"，通项指数式，求和务必分 q = 1。</p>
-<p><strong>编者注·本质回扣</strong>：等差和等比其实是一对"兄弟规则"：等差是相邻两项"差固定"（每次加同一个 d），等比是相邻两项"比固定"（每次乘同一个 q）。差固定时通项是 n 的一次式、前 n 项和是过原点的二次式；比固定时通项是指数式、前 n 项和要用错位相减推出来，并且 q = 1 时所有项都一样、公式得另写。它们的基本量都只有两个（等差是 a<sub>1</sub> 和 d，等比是 a<sub>1</sub> 和 q），做题就是把已知条件翻译成关于这两个基本量的方程——这就是"基本量法"为什么走天下。</p>
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题</strong>：等比数列 a<sub>1</sub>=3，q=2，求前 6 项和。
+解：q≠1，S<sub>6</sub>=3×(2<sup>6</sup>−1)/(2−1)=3×63=<strong>189</strong>。
+要点：先确认 q≠1 再套公式；本题 a<sub>1</sub>=3 别代成 1。</p>
+<p><strong>小结</strong>：等比="比固定"，通项指数式，求和务必分 q=1。</p>
+<p><strong>编者注·本质回扣</strong>：等差和等比其实是一对"兄弟规则"：等差是相邻两项"差固定"（每次加同一个 d），等比是相邻两项"比固定"（每次乘同一个 q）。差固定时通项是 n 的一次式、前 n 项和是过原点的二次式；比固定时通项是指数式、前 n 项和要用错位相减推出来，并且 q=1 时所有项都一样、公式得另写。它们的基本量都只有两个（等差是 a<sub>1</sub> 和 d，等比是 a<sub>1</sub> 和 q），做题就是把已知条件翻译成关于这两个基本量的方程——这就是"基本量法"为什么走天下。</p>
 <h3>3.4 数列求和的三种常用方法</h3>
 <p>大题第二问十有八九让你"求前 n 项和"，但给你的数列既不是等差也不是等比。这时用下面三招。</p>
 <p><strong>1. 裂项相消</strong>：当通项是"两项乘积作分母"时，把一项拆成两项之差，求和时中间全部抵消。</p>
 <ul>
-<li>1/[n(n+1)]  =  1/n − 1/(n+1)</li>
-<li>1/[(2n−1)(2n+1)]  =  ½[1/(2n−1) − 1/(2n+1)]（注意前面那个 ½）</li>
+<li>1/[n(n+1)] = 1/n − 1/(n+1)</li>
+<li>1/[(2n−1)(2n+1)] = ½[1/(2n−1) − 1/(2n+1)]（注意前面那个 ½）</li>
 </ul>
-<p><strong>2. 错位相减</strong>：当通项是"等差  ×  等比"（比如 a<sub>n</sub> = (2n−1)·3<sup>n</sup>）时，先写 S<sub>n</sub>，再两边乘公比 q 得 qS<sub>n</sub>，两式错开一位相减，中间剩一个等比数列，套等比求和公式。</p>
+<p><strong>2. 错位相减</strong>：当通项是"等差 × 等比"（比如 a<sub>n</sub>=(2n−1)×3<sup>n</sup>）时，先写 S<sub>n</sub>，再两边乘公比 q 得 qS<sub>n</sub>，两式错开一位相减，中间剩一个等比数列，套等比求和公式。</p>
 <p><strong>3. 分组求和</strong>：把数列拆成几个等差、等比小组，分别求和再相加。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题</strong>：求 1/(1·3)+1/(3·5)+…+1/[(2n−1)(2n+1)]。
-解：每一项  =  ½[1/(2k−1) − 1/(2k+1)]。
-原式  =  ½[(1−1/3)+(1/3−1/5)+…+(1/(2n−1)−1/(2n+1))]  =  ½[1 − 1/(2n+1)]  =  <strong>n/(2n+1)</strong>。
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题</strong>：求 1/(1×3)+1/(3×5)+…+1/[(2n−1)(2n+1)]。
+解：每一项 = ½[1/(2k−1) − 1/(2k+1)]。
+原式 = ½[(1−1/3)+(1/3−1/5)+…+(1/(2n−1)−1/(2n+1))] = ½[1 − 1/(2n+1)] = <strong>n/(2n+1)</strong>。
 要点：中间项两两抵消，只剩首尾；别忘了系数 ½。</p>
-<p><strong>小结</strong>：裂项看"分母乘积"，错位看"等差 × 等比"，分组看"能拆成常见数列"。</p>
+<p><strong>小结</strong>：裂项看"分母乘积"，错位看"等差×等比"，分组看"能拆成常见数列"。</p>
 <p><strong>补充求和招法（苏州教研·专题35）</strong>：</p>
 <ul>
-<li><strong>倒序相加法</strong>：适合"首末等距两项之和为常数"的数列（如 a<sub>k</sub> = C<sub>n</sub><sup>k</sup>）。把 S<sub>n</sub> 正着写一遍、倒着写一遍，两式相加，对应项配对。</li>
-<li><strong>并项法</strong>：相邻若干项的和恰好是常数/特殊数列，如 a<sub>n</sub> = (−1)<sup>n</sup>(4n−1)，两项一并就是 −4。</li>
-<li><strong>奇偶讨论法</strong>：a<sub>n</sub> = (−1)<sup>n−1</sup>(2n−1)<sup>2</sup> 这类带 (−1)<sup>n</sup> 的，先算偶数项和 S_{2n} = f(n)，再算奇数项 S_{2n−1} = S_{2n−2}+a_{2n−1}。<strong>先偶后奇</strong>（偶数项好配对）。</li>
-<li><strong>分段讨论法</strong>：如 a<sub>n</sub> = |2n−29|，前若干项负、后面正，要分段去掉绝对值再求和。</li>
+<li><strong>倒序相加法</strong>：适合"首末等距两项之和为常数"的数列（如 a<sub>k</sub>=C<sub>n</sub><sup>k</sup>）。把 S<sub>n</sub> 正着写一遍、倒着写一遍，两式相加，对应项配对。</li>
+<li><strong>并项法</strong>：相邻若干项的和恰好是常数/特殊数列，如 a<sub>n</sub>=(−1)<sup>n</sup>(4n−1)，两项一并就是 −4。</li>
+<li><strong>奇偶讨论法</strong>：a<sub>n</sub>=(−1)<sup>n−1</sup>(2n−1)<sup>2</sup> 这类带 (−1)<sup>n</sup> 的，先算偶数项和 S_{2n}=f(n)，再算奇数项 S_{2n−1}=S_{2n−2}+a_{2n−1}。<strong>先偶后奇</strong>（偶数项好配对）。</li>
+<li><strong>分段讨论法</strong>：如 a<sub>n</sub>=|2n−29|，前若干项负、后面正，要分段去掉绝对值再求和。</li>
 </ul>
 <p><strong>必背的三个自然数幂和公式（苏州教研·专题35）</strong>：</p>
 <p><strong>1+2+3+…+n  =  n(n+1)/2</strong></p>
-<p><strong>1<sup>2</sup>+2<sup>2</sup>+3<sup>2</sup>+…+n<sup>2</sup>  =  n(n+1)(2n+1)/6</strong></p>
-<p><strong>1<sup>3</sup>+2<sup>3</sup>+3<sup>3</sup>+…+n<sup>3</sup>  =  [n(n+1)/2]<sup>2</sup></strong></p>
+<p><strong>1<sup>2</sup>+2<sup>2</sup>+3<sup>2</sup>+…+n<sup>2</sup> = n(n+1)(2n+1)/6</strong></p>
+<p><strong>1<sup>3</sup>+2<sup>3</sup>+3<sup>3</sup>+…+n<sup>3</sup> = [n(n+1)/2]<sup>2</sup></strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>立方和等于"和的平方"，这个最惊艳——1<sup>3</sup>+2<sup>3</sup>+3<sup>3</sup>=36=(1+2+3)<sup>2</sup>。</li>
 <li>用的时候：见到 Σk<sup>2</sup>、Σk<sup>3</sup> 直接套公式，不要硬算。</li>
 </ul>
-<p><strong>无穷等比数列的和</strong>：当 |q|&lt;1 时，S  =  lim S<sub>n</sub>  =  a<sub>1</sub>/(1−q)。</p>
+<p><strong>无穷等比数列的和</strong>：当 |q|&lt;1 时，S = lim S<sub>n</sub> = a<sub>1</sub>/(1−q)。</p>
 <h3>3.5 由递推关系求通项（构造法入门）</h3>
-<p>很多大题不给通项，只给相邻两项的关系 a<sub>n+1</sub> = f(a<sub>n</sub>)。最常见的一类是 <strong>a<sub>n+1</sub>  =  p·a<sub>n</sub> + q</strong>（p、q 为常数）。
-思路：凑一个等比。设 a<sub>n+1</sub> + c  =  p(a<sub>n</sub> + c)，展开得 a<sub>n+1</sub>  =  p·a<sub>n</sub> + (p−1)c，对比原式得 (p−1)c  =  q，即 c  =  q/(p−1)。于是 {a<sub>n</sub>+c} 是公比为 p 的等比数列，先求它再还原出 a<sub>n</sub>。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题</strong>：a<sub>1</sub> = 1，a<sub>n+1</sub> = 2a<sub>n</sub>+1，求 a<sub>n</sub>。
-解：p = 2，q = 1，c = 1/(2−1) = 1。于是 a<sub>n+1</sub>+1 = 2(a<sub>n</sub>+1)，即 {a<sub>n</sub>+1} 是首项 a<sub>1</sub>+1 = 2、公比 2 的等比数列，a<sub>n</sub>+1 = 2·2<sup>n−1</sup> = 2<sup>n</sup>，所以 <strong>a<sub>n</sub> = 2<sup>n</sup>−1</strong>。</p>
-<p><strong>小结</strong>：见到 a<sub>n+1</sub> = p·a<sub>n</sub>+q，就"加个常数凑等比"；更全的构造模板见章末"高级方法·进阶"。</p>
+<p>很多大题不给通项，只给相邻两项的关系 a<sub>n+1</sub>=f(a<sub>n</sub>)。最常见的一类是 <strong>a<sub>n+1</sub> = p·a<sub>n</sub> + q</strong>（p、q 为常数）。
+思路：凑一个等比。设 a<sub>n+1</sub> + c = p(a<sub>n</sub> + c)，展开得 a<sub>n+1</sub> = p·a<sub>n</sub> + (p−1)c，对比原式得 (p−1)c = q，即 c = q/(p−1)。于是 {a<sub>n</sub>+c} 是公比为 p 的等比数列，先求它再还原出 a<sub>n</sub>。</p>
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题</strong>：a<sub>1</sub>=1，a<sub>n+1</sub>=2a<sub>n</sub>+1，求 a<sub>n</sub>。
+解：p=2，q=1，c=1/(2−1)=1。于是 a<sub>n+1</sub>+1=2(a<sub>n</sub>+1)，即 {a<sub>n</sub>+1} 是首项 a<sub>1</sub>+1=2、公比 2 的等比数列，a<sub>n</sub>+1=2×2<sup>n−1</sup>=2<sup>n</sup>，所以 <strong>a<sub>n</sub>=2<sup>n</sup>−1</strong>。</p>
+<p><strong>小结</strong>：见到 a<sub>n+1</sub>=p·a<sub>n</sub>+q，就"加个常数凑等比"；更全的构造模板见章末"高级方法·进阶"。</p>
 <h4>3.5.1 取倒数、取对数、凑常数列（苏州教研·专题34）</h4>
 <p>上面 3.5 是最基础的"加常数凑等比"。苏州书专题34 还总结了另外几招，见到对应信号直接用。</p>
 <p><strong>招一：取倒数（分式递推）</strong></p>
-<p><strong>信号</strong>：a<sub>n+1</sub>  =  q<sub>1</sub>a<sub>n</sub>/(q<sub>2</sub>a<sub>n</sub>+d<sub>2</sub>) 这种分子分母都是 a<sub>n</sub> 一次式的分式。</p>
+<p><strong>信号</strong>：a<sub>n+1</sub> = q<sub>1</sub>a<sub>n</sub>/(q<sub>2</sub>a<sub>n</sub>+d<sub>2</sub>) 这种分子分母都是 a<sub>n</sub> 一次式的分式。</p>
 <p><strong>操作</strong>：两边同时取倒数，
-<strong>1/a<sub>n+1</sub>  =  (d<sub>2</sub>/q<sub>1</sub>)·(1/a<sub>n</sub>) + q<sub>2</sub>/q<sub>1</sub></strong>
-这就变成了 a<sub>n+1</sub> = pa<sub>n</sub>+q 的标准型（只是把 a<sub>n</sub> 换成了 1/a<sub>n</sub>），再用"加常数凑等比"。</p>
-<p><strong>记住它之前先看懂它</strong>：取倒数不是玄学——原式分子分母都含 a<sub>n</sub>，一倒之后右边拆成"常数 × (1/a<sub>n</sub>) + 另一个常数"，正好变回你已经会的 a<sub>n+1</sub> = pa<sub>n</sub>+q 标准型，只是主角从 a<sub>n</sub> 换成了 1/a<sub>n</sub>，照着凑等比就行。</p>
+<strong>1/a<sub>n+1</sub> = (d<sub>2</sub>/q<sub>1</sub>)×(1/a<sub>n</sub>) + q<sub>2</sub>/q<sub>1</sub></strong>
+这就变成了 a<sub>n+1</sub>=pa<sub>n</sub>+q 的标准型（只是把 a<sub>n</sub> 换成了 1/a<sub>n</sub>），再用"加常数凑等比"。</p>
+<p><strong>记住它之前先看懂它</strong>：取倒数不是玄学——原式分子分母都含 a<sub>n</sub>，一倒之后右边拆成"常数×(1/a<sub>n</sub>) + 另一个常数"，正好变回你已经会的 a<sub>n+1</sub>=pa<sub>n</sub>+q 标准型，只是主角从 a<sub>n</sub> 换成了 1/a<sub>n</sub>，照着凑等比就行。</p>
 <p><strong>招二：取对数（指数递推）</strong></p>
-<p><strong>信号</strong>：a<sub>n+1</sub>  =  c·a<sub>n</sub><sup>p</sup>（后项是前项的 p 次幂再乘常数）。</p>
+<p><strong>信号</strong>：a<sub>n+1</sub> = c·a<sub>n</sub><sup>p</sup>（后项是前项的 p 次幂再乘常数）。</p>
 <p><strong>操作</strong>：两边取以 c 为底的对数，
-<strong>log_c a<sub>n+1</sub>  =  p·log_c a<sub>n</sub> + 1</strong>
-令 b<sub>n</sub> = log_c a<sub>n</sub>，则 b<sub>n+1</sub> = p·b<sub>n</sub>+1，又是标准型。乘法/幂次问题，取对数就降成了加法问题。</p>
+<strong>log_c a<sub>n+1</sub> = p·log_c a<sub>n</sub> + 1</strong>
+令 b<sub>n</sub>=log_c a<sub>n</sub>，则 b<sub>n+1</sub>=p·b<sub>n</sub>+1，又是标准型。乘法/幂次问题，取对数就降成了加法问题。</p>
 <p><strong>招三：凑常数列（和差积商四式）</strong></p>
 <p>苏州书总结得很漂亮——若相邻两项加一个、减一个、乘一个、除一个关于 n 的式子后相等，那这个新数列就是<strong>常数列</strong>（后一项等于前一项），直接等于首项。</p>
 <ul>
@@ -455,12 +477,12 @@ section.flash{animation:flash 1.6s ease}
 <p><strong>招四：a<sub>n</sub> 与 S<sub>n</sub> 混合式，两式相减</strong></p>
 <p>题目给 F(a<sub>n</sub>, S<sub>n</sub>)=0 时，先写 n=1 求出 a<sub>1</sub>；再把 n 换成 n−1 得 F(a<sub>n−1</sub>, S<sub>n−1</sub>)=0，<strong>两式相减</strong>，消掉 S<sub>n</sub>，得到只含 a<sub>n</sub>、a<sub>n−1</sub> 的递推。注意 n≥2，最后一定要回验 n=1。</p>
 <blockquote>
-<p><strong>【跟讲例题（苏州教研·专题34，原书p.132）】</strong>：设数列 {a<sub>n</sub>} 的前 n 项和为 S<sub>n</sub>，已知 S<sub>n</sub>  =  2a<sub>n</sub> − 2<sup>n+1</sup>（n∈N*）。（1）求 {a<sub>n</sub>/2<sup>n</sup>} 的通项公式；（2）证明（见 3.6 节放缩例题）。
-解（1）：n = 1 时 a<sub>1</sub> = S<sub>1</sub> = 2a<sub>1</sub>−4 ⇒ a<sub>1</sub> = 4。
-n≥2 时，写 S<sub>n−1</sub> = 2a<sub>n−1</sub>−2<sup>n</sup>，两式相减：
-a<sub>n</sub>  =  S<sub>n</sub>−S<sub>n−1</sub>  =  2a<sub>n</sub>−2a<sub>n−1</sub>−2<sup>n</sup>，整理得 <strong>a<sub>n</sub>  =  2a<sub>n−1</sub> + 2<sup>n</sup></strong>。
-两边同除以 2<sup>n</sup>：a<sub>n</sub>/2<sup>n</sup>  =  a<sub>n−1</sub>/2<sup>n−1</sup> + 1。令 b<sub>n</sub> = a<sub>n</sub>/2<sup>n</sup>，则 b<sub>n</sub> = b<sub>n−1</sub>+1，即 {b<sub>n</sub>} 是公差为 1 的等差数列，首项 b<sub>1</sub> = a<sub>1</sub>/2 = 2。
-故 <strong>b<sub>n</sub>  =  2+(n−1)  =  n+1</strong>，即 a<sub>n</sub>/2<sup>n</sup>  =  n+1（代回 n = 1 检验：a<sub>1</sub>/2 = 2 = 1+1 ✓）。
+<p><strong>【跟讲例题（苏州教研·专题34，原书p.132）】</strong>：设数列 {a<sub>n</sub>} 的前 n 项和为 S<sub>n</sub>，已知 S<sub>n</sub> = 2a<sub>n</sub> − 2<sup>n+1</sup>（n∈N*）。（1）求 {a<sub>n</sub>/2<sup>n</sup>} 的通项公式；（2）证明（见 3.6 节放缩例题）。
+解（1）：n=1 时 a<sub>1</sub>=S<sub>1</sub>=2a<sub>1</sub>−4 ⇒ a<sub>1</sub>=4。
+n≥2 时，写 S<sub>n−1</sub>=2a<sub>n−1</sub>−2<sup>n</sup>，两式相减：
+a<sub>n</sub> = S<sub>n</sub>−S<sub>n−1</sub> = 2a<sub>n</sub>−2a<sub>n−1</sub>−2<sup>n</sup>，整理得 <strong>a<sub>n</sub> = 2a<sub>n−1</sub> + 2<sup>n</sup></strong>。
+两边同除以 2<sup>n</sup>：a<sub>n</sub>/2<sup>n</sup> = a<sub>n−1</sub>/2<sup>n−1</sup> + 1。令 b<sub>n</sub>=a<sub>n</sub>/2<sup>n</sup>，则 b<sub>n</sub>=b<sub>n−1</sub>+1，即 {b<sub>n</sub>} 是公差为 1 的等差数列，首项 b<sub>1</sub>=a<sub>1</sub>/2=2。
+故 <strong>b<sub>n</sub> = 2+(n−1) = n+1</strong>，即 a<sub>n</sub>/2<sup>n</sup> = n+1（代回 n=1 检验：a<sub>1</sub>/2=2=1+1 ✓）。
 要点：见到 S<sub>n</sub> 与 a<sub>n</sub> 混在一起，永远"两式相减消 S<sub>n</sub>"；除完 2<sup>n</sup> 后露出一个公差为 1 的等差，这就是苏州书说的"除幂数化等差"。</p>
 </blockquote>
 <h3>3.6 数列型不等式的证明——放缩套路（苏州教研·专题36）</h3>
@@ -468,19 +490,19 @@ a<sub>n</sub>  =  S<sub>n</sub>−S<sub>n−1</sub>  =  2a<sub>n</sub>�
 <p><strong>总流程（苏州书原话整理）</strong>：</p>
 <ol>
 <li>目标常数 C 是什么形状？
-   - 若 C  =  a<sub>1</sub>/(1−q)，就猜通项放大后是个<strong>等比数列</strong> a<sub>n</sub> ≤ a<sub>1</sub>·q<sup>n−1</sup>；
-   - 若 C  =  f(n+1)−f(1)，就猜通项 a<sub>n</sub> ≤ f(n+1)−f(n)（<strong>裂项</strong>）。</li>
+   - 若 C = a<sub>1</sub>/(1−q)，就猜通项放大后是个<strong>等比数列</strong> a<sub>n</sub> ≤ a<sub>1</sub>·q<sup>n−1</sup>；
+   - 若 C = f(n+1)−f(1)，就猜通项 a<sub>n</sub> ≤ f(n+1)−f(n)（<strong>裂项</strong>）。</li>
 <li>选好放缩方向后，<strong>首项不吻合就延迟放缩</strong>——从第 2 项甚至第 4 项才开始放，前几项精确保留。</li>
 <li>放缩不能过度：放太大直接超过 C，证不出来。</li>
 </ol>
 <p><strong>放缩工具箱（苏州教研·专题36，必存）</strong>：</p>
-<p><strong>1/k<sup>2</sup> &lt; 1/(k<sup>2</sup>−1)  =  ½(1/(k−1) − 1/(k+1))（k≥2）</strong></p>
-<p><strong>1/k<sup>2</sup> &lt; 1/[k(k−1)]  =  1/(k−1) − 1/k（k≥2）</strong></p>
-<p><strong>1/k<sup>2</sup> &gt; 1/[k(k+1)]  =  1/k − 1/(k+1)</strong>（反向用）</p>
+<p><strong>1/k<sup>2</sup> &lt; 1/(k<sup>2</sup>−1) = ½(1/(k−1) − 1/(k+1))（k≥2）</strong></p>
+<p><strong>1/k<sup>2</sup> &lt; 1/[k(k−1)] = 1/(k−1) − 1/k（k≥2）</strong></p>
+<p><strong>1/k<sup>2</sup> &gt; 1/[k(k+1)] = 1/k − 1/(k+1)</strong>（反向用）</p>
 <p><strong>1/√k &lt; 2(√k − √(k−1))；1/√k &gt; 2(√(k+1) − √k)</strong>（分母有理化放缩）</p>
-<p><strong>k/(k+1)!  =  1/k! − 1/(k+1)!</strong>（阶乘裂项）</p>
+<p><strong>k/(k+1)! = 1/k! − 1/(k+1)!</strong>（阶乘裂项）</p>
 <ul>
-<li class = "baihua"><span class = "tag">大白话</span>见 1/k<sup>2</sup> 就想拆成两个相邻倒数差；见 1/√k 就想乘共轭根式。</li>
+<li class="baihua"><span class="tag">大白话</span>见 1/k<sup>2</sup> 就想拆成两个相邻倒数差；见 1/√k 就想乘共轭根式。</li>
 <li>用的时候：证明 S<sub>n</sub> &lt; C 时，先把 C 拆成"前几项 + 一个裂项和"，再反推通项该放大成什么。</li>
 </ul>
 <p><strong>伪等差 / 伪等比（苏州书·专题36）</strong>：</p>
@@ -490,76 +512,76 @@ a<sub>n</sub>  =  S<sub>n</sub>−S<sub>n−1</sub>  =  2a<sub>n</sub>�
 </ul>
 <p>这两条把"递推不等式"直接转成了通项不等式，是放缩的跳板。</p>
 <blockquote>
-<p><strong>【跟讲例题（苏州教研·专题34 例3，原书p.134）】</strong>：已知数列 {a<sub>n</sub>} 满足 a<sub>1</sub> = 2，a<sub>n+1</sub>  =  ½a<sub>n</sub><sup>2</sup> + 2a<sub>n</sub>，求证：1/a<sub>1</sub> + 1/a<sub>2</sub> + … + 1/a<sub>n</sub> &lt; 3/4。
-证明：由 a<sub>1</sub> = 2&gt;0 及递推式知 a<sub>n</sub>&gt;0 且 a<sub>n+1</sub>&gt;a<sub>n</sub>，故 a<sub>n</sub>≥2。
-于是 a<sub>n+1</sub>  =  ½a<sub>n</sub><sup>2</sup>+2a<sub>n</sub>  =  a<sub>n</sub>(½a<sub>n</sub>+2) ≥ a<sub>n</sub>(½·2+2)  =  <strong>3a<sub>n</sub></strong>（把 a<sub>n</sub>≥2 代入括号）。
-类比等比数列累乘：a<sub>n</sub> ≥ a<sub>1</sub>·3<sup>n−1</sup>  =  2·3<sup>n−1</sup>，故 1/a<sub>n</sub> ≤ ½·(1/3)<sup>n−1</sup>。
-求和：Σ_{k = 1}^{n} 1/a<sub>k</sub> ≤ ½[1+⅓+(⅓)<sup>2</sup>+…+(⅓)<sup>n−1</sup>]  =  ½·[1−(1/3)<sup>n</sup>]/(1−1/3)  =  ½·(3/2)·[1−(1/3)<sup>n</sup>]  =  <strong>3/4·[1−(1/3)<sup>n</sup>] &lt; 3/4</strong>。证毕。
-要点：目标常数 3/4 正是 ½/(1−⅓) = 3/4——"先算目标常数对应的等比首项与公比，再反推该把通项放大成什么"。这就是苏州书说的"由 3/4 = ½/(1−q) 猜出 q = 1/3"。</p>
+<p><strong>【跟讲例题（苏州教研·专题34 例3，原书p.134）】</strong>：已知数列 {a<sub>n</sub>} 满足 a<sub>1</sub>=2，a<sub>n+1</sub> = ½a<sub>n</sub><sup>2</sup> + 2a<sub>n</sub>，求证：1/a<sub>1</sub> + 1/a<sub>2</sub> + … + 1/a<sub>n</sub> &lt; 3/4。
+证明：由 a<sub>1</sub>=2&gt;0 及递推式知 a<sub>n</sub>&gt;0 且 a<sub>n+1</sub>&gt;a<sub>n</sub>，故 a<sub>n</sub>≥2。
+于是 a<sub>n+1</sub> = ½a<sub>n</sub><sup>2</sup>+2a<sub>n</sub> = a<sub>n</sub>(½a<sub>n</sub>+2) ≥ a<sub>n</sub>(½·2+2) = <strong>3a<sub>n</sub></strong>（把 a<sub>n</sub>≥2 代入括号）。
+类比等比数列累乘：a<sub>n</sub> ≥ a<sub>1</sub>·3<sup>n−1</sup> = 2×3<sup>n−1</sup>，故 1/a<sub>n</sub> ≤ ½·(1/3)<sup>n−1</sup>。
+求和：Σ_{k=1}^{n} 1/a<sub>k</sub> ≤ ½[1+⅓+(⅓)<sup>2</sup>+…+(⅓)<sup>n−1</sup>] = ½·[1−(1/3)<sup>n</sup>]/(1−1/3) = ½·(3/2)·[1−(1/3)<sup>n</sup>] = <strong>3/4·[1−(1/3)<sup>n</sup>] &lt; 3/4</strong>。证毕。
+要点：目标常数 3/4 正是 ½/(1−⅓)=3/4——"先算目标常数对应的等比首项与公比，再反推该把通项放大成什么"。这就是苏州书说的"由 3/4=½/(1−q) 猜出 q=1/3"。</p>
 </blockquote>
 <h3>3.7 数学归纳法（苏州教研·专题52；新教材选必二 4.4）</h3>
 <p>与正整数 n 有关的命题，当你"观察+猜想"出结论后，用数学归纳法严格证明。两步缺一不可：</p>
 <ol>
-<li><strong>归纳奠基</strong>：证明 n 取第一个值 n<sub>0</sub>（通常 n<sub>0</sub> = 1）时结论成立；</li>
-<li><strong>归纳递推</strong>：假设 n = k（k≥n<sub>0</sub>）时结论成立，以此为条件，证明 n = k+1 时结论也成立。</li>
+<li><strong>归纳奠基</strong>：证明 n 取第一个值 n<sub>0</sub>（通常 n<sub>0</sub>=1）时结论成立；</li>
+<li><strong>归纳递推</strong>：假设 n=k（k≥n<sub>0</sub>）时结论成立，以此为条件，证明 n=k+1 时结论也成立。</li>
 </ol>
 <p>两步走完，就断定命题对从 n<sub>0</sub> 开始的所有正整数都成立。</p>
 <ul>
-<li class = "baihua"><span class = "tag">大白话</span>第一步验"第一张多米诺骨牌倒了"，第二步证"前一张倒了后一张一定倒"。</li>
-<li>用的时候：第二步必须<strong>用上归纳假设 a<sub>k</sub> 成立</strong>这个条件，不能空证 a_{k+1}。苏州书提醒："由 n = k 推 n = k+1 这一步，可用分析法（执果索因）找思路。"</li>
+<li class="baihua"><span class="tag">大白话</span>第一步验"第一张多米诺骨牌倒了"，第二步证"前一张倒了后一张一定倒"。</li>
+<li>用的时候：第二步必须<strong>用上归纳假设 a<sub>k</sub> 成立</strong>这个条件，不能空证 a_{k+1}。苏州书提醒："由 n=k 推 n=k+1 这一步，可用分析法（执果索因）找思路。"</li>
 <li>注意：并非所有与正整数有关的命题都能直接用数学归纳法；它和放缩法、分析法常搭配使用。</li>
 </ul>
-</div><div class="sec sec-ex2"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
-<p class = "ex"><span class = "tag">例题</span><strong>例 1（等差数列基本量）</strong>：等差数列 {a<sub>n</sub>}，a<sub>3</sub>  =  7，a<sub>7</sub>  =  15，求通项与前 10 项和。</p>
+</div><div class="sec sec-ex2"><h2 class="ex2">④ 例题详解（先做再看）</h2>
+<p class="ex"><span class="tag">例题</span><strong>例 1（等差数列基本量）</strong>：等差数列 {a<sub>n</sub>}，a<sub>3</sub> = 7，a<sub>7</sub> = 15，求通项与前 10 项和。</p>
 <blockquote>
 <p>自己做：先求 a<sub>1</sub> 和 d。</p>
 </blockquote>
-<p>解：a<sub>7</sub> − a<sub>3</sub>  =  4d  =  8 ⇒ d  =  2；a<sub>3</sub>  =  a<sub>1</sub> + 2d ⇒ a<sub>1</sub>  =  3。a<sub>n</sub>  =  3 + 2(n − 1)  =  2n + 1。
-S<sub>10</sub>  =  10(a<sub>1</sub> + a<sub>10</sub>)/2  =  10(3 + 21)/2  =  120。
+<p>解：a<sub>7</sub> − a<sub>3</sub> = 4d = 8 ⇒ d = 2；a<sub>3</sub> = a<sub>1</sub> + 2d ⇒ a<sub>1</sub> = 3。a<sub>n</sub> = 3 + 2(n − 1) = 2n + 1。
+S<sub>10</sub> = 10(a<sub>1</sub> + a<sub>10</sub>)/2 = 10(3 + 21)/2 = 120。
 要点：<strong>"基本量法"：任何等差数列都由 a<sub>1</sub>、d 两个基本量确定</strong>。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>例 2（等比数列求和）</strong>：求 1 + 2 + 4 + … + 2<sup>9</sup> 的值。</p>
+<p class="ex"><span class="tag">例题</span><strong>例 2（等比数列求和）</strong>：求 1 + 2 + 4 + … + 2<sup>9</sup> 的值。</p>
 <blockquote>
 <p>自己做：q ≠ 1 用公式。</p>
 </blockquote>
-<p>解：a<sub>1</sub>  =  1，q  =  2，n  =  10。S<sub>10</sub>  =  1·(2<sup>10</sup> − 1)/(2 − 1)  =  1024 − 1  =  1023。
+<p>解：a<sub>1</sub> = 1，q = 2，n = 10。S<sub>10</sub> = 1×(2<sup>10</sup> − 1)/(2 − 1) = 1024 − 1 = 1023。
 要点：<strong>先判断 q 是否等于 1 再选公式</strong>。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>例 3（裂项相消）</strong>：求数列 1/(1·2) + 1/(2·3) + … + 1/[n(n+1)] 的和。</p>
+<p class="ex"><span class="tag">例题</span><strong>例 3（裂项相消）</strong>：求数列 1/(1×2) + 1/(2×3) + … + 1/[n(n+1)] 的和。</p>
 <blockquote>
 <p>自己做：每项拆成两个分数的差。</p>
 </blockquote>
-<p>解：1/[k(k+1)]  =  1/k − 1/(k+1)。
-原式  =  (1 − 1/2) + (1/2 − 1/3) + … + (1/n − 1/(n+1))  =  1 − 1/(n+1)  =  n/(n+1)。
+<p>解：1/[k(k+1)] = 1/k − 1/(k+1)。
+原式 = (1 − 1/2) + (1/2 − 1/3) + … + (1/n − 1/(n+1)) = 1 − 1/(n+1) = n/(n+1)。
 要点：<strong>中间项全部抵消，只剩首尾</strong>——这是裂项的招牌特征。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>例 4（错位相减）</strong>：求数列 {n·2<sup>n</sup>} 的前 n 项和。</p>
+<p class="ex"><span class="tag">例题</span><strong>例 4（错位相减）</strong>：求数列 {n·2<sup>n</sup>} 的前 n 项和。</p>
 <blockquote>
 <p>自己做：写出 S<sub>n</sub> 与 2S<sub>n</sub> 再相减。</p>
 </blockquote>
-<p>解：S<sub>n</sub>  =  1·2 + 2·4 + 3·8 + … + n·2<sup>n</sup>
-2S<sub>n</sub>  =  1·4 + 2·8 + … + (n−1)·2<sup>n</sup> + n·2<sup>n+1</sup>
-相减：−S<sub>n</sub>  =  2 + (4 + 8 + … + 2<sup>n</sup>) − n·2<sup>n+1</sup>  =  2 + 2<sup>2</sup>(2<sup>n−1</sup> − 1)/(2 − 1) − n·2<sup>n+1</sup>
- =  2 + 2<sup>n+1</sup> − 4 − n·2<sup>n+1</sup>  =  2<sup>n+1</sup>(1 − n) − 2
-故 S<sub>n</sub>  =  (n − 1)·2<sup>n+1</sup> + 2。</p>
-<p><strong>记住它之前先看懂它</strong>：错位相减的精髓就一个"错"字——qS<sub>n</sub> 比 S<sub>n</sub> 整体向右挪了一项，两式一减，中间那一长串 2·4、4·8…全部成对抵消，只剩最前面的首项和最后面的尾项，中间恰好露出一个干净的等比数列再求和。
-要点：<strong>错位相减只适合"等差  ×  等比"</strong>；相减后中间的等比部分整体求和。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>例 5（递推裂项相消，苏州教研·专题36 B组第7题，原书p.138）</strong>：已知数列 {a<sub>n</sub>} 满足 a<sub>1</sub> = √2，a<sub>n+1</sub>  =  a<sub>n</sub><sup>2</sup> + a<sub>n</sub>，记 b<sub>n</sub>  =  1/(1+a<sub>n</sub>)，S<sub>n</sub> 为数列 {b<sub>n</sub>} 的前 n 项和。求证：S<sub>n</sub> + 1/a<sub>n+1</sub>  =  √2/2。</p>
+<p>解：S<sub>n</sub> = 1×2 + 2×4 + 3×8 + … + n·2<sup>n</sup>
+2S<sub>n</sub> = 1×4 + 2×8 + … + (n−1)×2<sup>n</sup> + n·2<sup>n+1</sup>
+相减：−S<sub>n</sub> = 2 + (4 + 8 + … + 2<sup>n</sup>) − n·2<sup>n+1</sup> = 2 + 2<sup>2</sup>(2<sup>n−1</sup> − 1)/(2 − 1) − n·2<sup>n+1</sup>
+= 2 + 2<sup>n+1</sup> − 4 − n·2<sup>n+1</sup> = 2<sup>n+1</sup>(1 − n) − 2
+故 S<sub>n</sub> = (n − 1)×2<sup>n+1</sup> + 2。</p>
+<p><strong>记住它之前先看懂它</strong>：错位相减的精髓就一个"错"字——qS<sub>n</sub> 比 S<sub>n</sub> 整体向右挪了一项，两式一减，中间那一长串 2×4、4×8…全部成对抵消，只剩最前面的首项和最后面的尾项，中间恰好露出一个干净的等比数列再求和。
+要点：<strong>错位相减只适合"等差 × 等比"</strong>；相减后中间的等比部分整体求和。</p>
+<p class="ex"><span class="tag">例题</span><strong>例 5（递推裂项相消，苏州教研·专题36 B组第7题，原书p.138）</strong>：已知数列 {a<sub>n</sub>} 满足 a<sub>1</sub>=√2，a<sub>n+1</sub> = a<sub>n</sub><sup>2</sup> + a<sub>n</sub>，记 b<sub>n</sub> = 1/(1+a<sub>n</sub>)，S<sub>n</sub> 为数列 {b<sub>n</sub>} 的前 n 项和。求证：S<sub>n</sub> + 1/a<sub>n+1</sub> = √2/2。</p>
 <blockquote>
 <p>自己做：把递推式两边取倒数，看能不能裂项。</p>
 </blockquote>
-<p>解：由 a<sub>n+1</sub>  =  a<sub>n</sub>(a<sub>n</sub>+1)，两边取倒数：
-1/a<sub>n+1</sub>  =  1/[a<sub>n</sub>(a<sub>n</sub>+1)]  =  <strong>1/a<sub>n</sub> − 1/(a<sub>n</sub>+1)</strong>（裂项）。
-移项得 <strong>1/(a<sub>n</sub>+1)  =  1/a<sub>n</sub> − 1/a<sub>n+1</sub></strong>，即 b<sub>n</sub>  =  1/a<sub>n</sub> − 1/a<sub>n+1</sub>。
-对 k = 1,2,…,n 求和：
-S<sub>n</sub>  =  (1/a<sub>1</sub>−1/a<sub>2</sub>)+(1/a<sub>2</sub>−1/a<sub>3</sub>)+…+(1/a<sub>n</sub>−1/a<sub>n+1</sub>)  =  1/a<sub>1</sub> − 1/a<sub>n+1</sub>。
-故 S<sub>n</sub> + 1/a<sub>n+1</sub>  =  1/a<sub>1</sub>  =  1/√2  =  <strong>√2/2</strong>。证毕。
-要点：<strong>见到 a<sub>n+1</sub>  =  a<sub>n</sub>(a<sub>n</sub>+c) 型递推，两边取倒数必出裂项</strong>；这是递推与裂项相消的经典接口。</p>
-</div><div class="sec sec-out"><h2 class = "out">⑤ 出口检测</h2>
+<p>解：由 a<sub>n+1</sub> = a<sub>n</sub>(a<sub>n</sub>+1)，两边取倒数：
+1/a<sub>n+1</sub> = 1/[a<sub>n</sub>(a<sub>n</sub>+1)] = <strong>1/a<sub>n</sub> − 1/(a<sub>n</sub>+1)</strong>（裂项）。
+移项得 <strong>1/(a<sub>n</sub>+1) = 1/a<sub>n</sub> − 1/a<sub>n+1</sub></strong>，即 b<sub>n</sub> = 1/a<sub>n</sub> − 1/a<sub>n+1</sub>。
+对 k=1,2,…,n 求和：
+S<sub>n</sub> = (1/a<sub>1</sub>−1/a<sub>2</sub>)+(1/a<sub>2</sub>−1/a<sub>3</sub>)+…+(1/a<sub>n</sub>−1/a<sub>n+1</sub>) = 1/a<sub>1</sub> − 1/a<sub>n+1</sub>。
+故 S<sub>n</sub> + 1/a<sub>n+1</sub> = 1/a<sub>1</sub> = 1/√2 = <strong>√2/2</strong>。证毕。
+要点：<strong>见到 a<sub>n+1</sub> = a<sub>n</sub>(a<sub>n</sub>+c) 型递推，两边取倒数必出裂项</strong>；这是递推与裂项相消的经典接口。</p>
+</div><div class="sec sec-out"><h2 class="out">⑤ 出口检测</h2>
 <p><strong>自测（20 分钟，每题 2 分）</strong>：</p>
 <ol>
-<li>等差数列 a<sub>1</sub>  =  2，d  =  3，求 a<sub>10</sub>。</li>
-<li>等比数列 a<sub>1</sub>  =  1，q  =  2，求前 5 项和。</li>
-<li>已知 S<sub>n</sub>  =  n<sup>2</sup>，求 a<sub>n</sub>。</li>
-<li>求和：1/(1·3) + 1/(3·5) + … + 1/[(2n−1)(2n+1)]。</li>
-<li>数列 a<sub>n+1</sub>  =  a<sub>n</sub> + 2，a<sub>1</sub>  =  1，判断类型并求 a<sub>n</sub>。</li>
+<li>等差数列 a<sub>1</sub> = 2，d = 3，求 a<sub>10</sub>。</li>
+<li>等比数列 a<sub>1</sub> = 1，q = 2，求前 5 项和。</li>
+<li>已知 S<sub>n</sub> = n<sup>2</sup>，求 a<sub>n</sub>。</li>
+<li>求和：1/(1×3) + 1/(3×5) + … + 1/[(2n−1)(2n+1)]。</li>
+<li>数列 a<sub>n+1</sub> = a<sub>n</sub> + 2，a<sub>1</sub> = 1，判断类型并求 a<sub>n</sub>。</li>
 </ol>
 <p><strong>真题验收</strong>：完成 2020–2024 新高考Ⅰ卷<strong>数列解答题</strong> 1 道（等差等比通项 + 求和方法）：两问独立完成、20 分钟内、得分 ≥ 80% → 过关。</p>
 <p><strong>过关标准</strong>：自测 ≥ 10 分 且 真题大题达标 → 打卡。</p>
@@ -568,25 +590,25 @@ S<sub>n</sub>  =  (1/a<sub>1</sub>−1/a<sub>2</sub>)+(1/a<sub>2</sub>−1/a
 <p>A 组教材练习级，B 组高考中档，C 组真题。答案见章末"课后习题答案"。</p>
 </blockquote>
 <h3>A 组 · 基础巩固</h3>
-<p>1.【考点：由 S<sub>n</sub> 求 a<sub>n</sub>】已知数列前 n 项和 S<sub>n</sub>  =  2n<sup>2</sup> − n，求通项 a<sub>n</sub>。
-2.【考点：等差数列基本量】等差数列 {a<sub>n</sub>} 中，a<sub>2</sub> = 5，a<sub>5</sub> = 14，求公差 d 与 a<sub>1</sub>。
-3.【考点：等差前 n 项和】等差数列 a<sub>1</sub> = 4，d = −2，求前 10 项和 S<sub>10</sub>。
-4.【考点：等比数列通项】等比数列 a<sub>1</sub> = 2，q = 3，求 a<sub>4</sub> 与前 4 项和 S<sub>4</sub>。
-5.【考点：裂项相消】求和：1/(1·2) + 1/(2·3) + … + 1/[n(n+1)]。
-6.【考点：等差性质】等差数列中 a<sub>3</sub>+a<sub>8</sub> = 20，求 a<sub>5</sub>+a<sub>6</sub> 的值。</p>
+<p>1.【考点：由 S<sub>n</sub> 求 a<sub>n</sub>】已知数列前 n 项和 S<sub>n</sub> = 2n<sup>2</sup> − n，求通项 a<sub>n</sub>。
+2.【考点：等差数列基本量】等差数列 {a<sub>n</sub>} 中，a<sub>2</sub>=5，a<sub>5</sub>=14，求公差 d 与 a<sub>1</sub>。
+3.【考点：等差前 n 项和】等差数列 a<sub>1</sub>=4，d=−2，求前 10 项和 S<sub>10</sub>。
+4.【考点：等比数列通项】等比数列 a<sub>1</sub>=2，q=3，求 a<sub>4</sub> 与前 4 项和 S<sub>4</sub>。
+5.【考点：裂项相消】求和：1/(1×2) + 1/(2×3) + … + 1/[n(n+1)]。
+6.【考点：等差性质】等差数列中 a<sub>3</sub>+a<sub>8</sub>=20，求 a<sub>5</sub>+a<sub>6</sub> 的值。</p>
 <h3>B 组 · 能力提升</h3>
-<p>7.【考点：等比求和分类讨论】等比数列前 n 项和 S<sub>n</sub>  =  k·2<sup>n</sup> − 1，求常数 k 及公比 q。
+<p>7.【考点：等比求和分类讨论】等比数列前 n 项和 S<sub>n</sub> = k·2<sup>n</sup> − 1，求常数 k 及公比 q。
 8.【考点：错位相减】求数列 {n·3<sup>n</sup>} 的前 n 项和 S<sub>n</sub>。
-9.【考点：构造法求通项】数列 {a<sub>n</sub>} 满足 a<sub>1</sub> = 2，a<sub>n+1</sub> = 3a<sub>n</sub>−2，求通项 a<sub>n</sub>。
-10.【考点：等差 S<sub>n</sub> 最值】等差数列 a<sub>1</sub> = 20，d = −2，求 S<sub>n</sub> 最大时的 n 及最大值。</p>
+9.【考点：构造法求通项】数列 {a<sub>n</sub>} 满足 a<sub>1</sub>=2，a<sub>n+1</sub>=3a<sub>n</sub>−2，求通项 a<sub>n</sub>。
+10.【考点：等差 S<sub>n</sub> 最值】等差数列 a<sub>1</sub>=20，d=−2，求 S<sub>n</sub> 最大时的 n 及最大值。</p>
 <h3>C 组 · 真题挑战</h3>
 <p>11.【考点：等比分段和】（2025 年新高考Ⅰ卷·填空第 13 题）若一个等比数列的前 4 项和为 4，前 8 项和为 68，则该等比数列的公比为<strong><em>_</em></strong>_。
-12.【考点：递推证等差】（2025 年新高考Ⅰ卷·解答第 16 题第 (1) 问）设数列 {a<sub>n</sub>} 满足 a<sub>1</sub> = 3，a<sub>n+1</sub>/n  =  a<sub>n</sub>/(n+1) + 1/[n(n+1)]。证明：{n·a<sub>n</sub>} 为等差数列。</p>
-</div><div class="sec sec-pit"><h2 class = "pit">⑥ 常见坑清单</h2>
+12.【考点：递推证等差】（2025 年新高考Ⅰ卷·解答第 16 题第 (1) 问）设数列 {a<sub>n</sub>} 满足 a<sub>1</sub>=3，a<sub>n+1</sub>/n = a<sub>n</sub>/(n+1) + 1/[n(n+1)]。证明：{n·a<sub>n</sub>} 为等差数列。</p>
+</div><div class="sec sec-pit"><h2 class="pit">⑥ 常见坑清单</h2>
 <ul>
-<li>a<sub>n</sub>  =  S<sub>n</sub> − S<sub>n−1</sub> <strong>只对 n ≥ 2 成立</strong>，n  =  1 要单独验 a<sub>1</sub>  =  S<sub>1</sub>，不一致就分段写。</li>
-<li>等比数列前 n 项和：<strong>先判 q  =  1 还是 q ≠ 1</strong>，q 是参数时必须分类讨论。</li>
-<li>等比中项有正负两个值（a<sub>n</sub><sup>2</sup>  =  a<sub>n−1</sub>·a<sub>n+1</sub>），用条件取舍。</li>
+<li>a<sub>n</sub> = S<sub>n</sub> − S<sub>n−1</sub> <strong>只对 n ≥ 2 成立</strong>，n = 1 要单独验 a<sub>1</sub> = S<sub>1</sub>，不一致就分段写。</li>
+<li>等比数列前 n 项和：<strong>先判 q = 1 还是 q ≠ 1</strong>，q 是参数时必须分类讨论。</li>
+<li>等比中项有正负两个值（a<sub>n</sub><sup>2</sup> = a<sub>n−1</sub>·a<sub>n+1</sub>），用条件取舍。</li>
 <li>裂项系数：1/[(2n−1)(2n+1)] 拆出来要乘 1/2，别漏系数。</li>
 <li>错位相减：<strong>相减后等比首项是第二项（q·a<sub>1</sub>）不是 a<sub>1</sub></strong>，指数和项数数清楚。</li>
 <li>等差数列 S<sub>n</sub> 最大/最小：找 d 变号处（a<sub>n</sub> 由正转负）。</li>
@@ -596,26 +618,26 @@ S<sub>n</sub>  =  (1/a<sub>1</sub>−1/a<sub>2</sub>)+(1/a<sub>2</sub>−1/a
 <p>口径与《高中数学常用公式·修订版》第八部分（数列）一致。</p>
 </blockquote>
 <h3>a<sub>n</sub> 与 S<sub>n</sub> 的关系</h3>
-<p><strong>a<sub>1</sub>  =  S<sub>1</sub>；n ≥ 2 时 a<sub>n</sub>  =  S<sub>n</sub> − S<sub>n−1</sub></strong></p>
+<p><strong>a<sub>1</sub> = S<sub>1</sub>；n ≥ 2 时 a<sub>n</sub> = S<sub>n</sub> − S<sub>n−1</sub></strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>前 n 项和减去前 n−1 项和，剩下的就是第 n 项。</li>
 <li>用的时候：大题第一步永远先写 n=1 单独验；n≥2 再作差，最后把 n=1 代回去看能不能并成一个式子。</li>
 <li>记忆要点：n=1 特殊，n≥2 作差。</li>
 </ul>
 <h3>等差数列</h3>
-<p><strong>a<sub>n</sub>  =  a<sub>1</sub> + (n − 1)d</strong>（也可写成 a<sub>n</sub>  =  a<sub>m</sub> + (n − m)d）</p>
+<p><strong>a<sub>n</sub> = a<sub>1</sub> + (n − 1)d</strong>（也可写成 a<sub>n</sub> = a<sub>m</sub> + (n − m)d）</p>
 <ul>
-<li class = "baihua"><span class = "tag">大白话</span>从第一项开始每项加一个 d，加到第 n 项。</li>
+<li class="baihua"><span class="tag">大白话</span>从第一项开始每项加一个 d，加到第 n 项。</li>
 <li>用的时候：知道任意一项都能当"新首项"跳着算；求基本量 a<sub>1</sub>、d 是万能钥匙。</li>
-<li>记忆要点：首项 +（项数−1） × 公差。</li>
+<li>记忆要点：首项 +（项数−1）×公差。</li>
 </ul>
-<p><strong>S<sub>n</sub>  =  n(a<sub>1</sub> + a<sub>n</sub>)/2  =  na<sub>1</sub> + n(n−1)d/2  =  (d/2)n<sup>2</sup> + (a<sub>1</sub> − d/2)n</strong></p>
+<p><strong>S<sub>n</sub> = n(a<sub>1</sub> + a<sub>n</sub>)/2 = na<sub>1</sub> + n(n−1)d/2 = (d/2)n<sup>2</sup> + (a<sub>1</sub> − d/2)n</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>首末项配对相乘再除以 2；展开后是个过原点的二次函数。</li>
 <li>用的时候：给 a<sub>1</sub>、a<sub>n</sub>、n 用第一式；给 a<sub>1</sub>、d、n 用第二式；讨论 S<sub>n</sub> 最值时看第三式。</li>
 <li>记忆要点：高斯配对——(首+末)×项数÷2。</li>
 </ul>
-<p><strong>若 m+n  =  p+q，则 a<sub>m</sub> + a<sub>n</sub>  =  a<sub>p</sub> + a_q</strong></p>
+<p><strong>若 m+n = p+q，则 a<sub>m</sub> + a<sub>n</sub> = a<sub>p</sub> + a_q</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>下标和相等，两项和就相等。</li>
 <li>用的时候：不求通项，直接整体代换；等差中项 2a<sub>n</sub> = a<sub>n−1</sub> + a<sub>n+1</sub> 是它的特例。</li>
@@ -626,19 +648,19 @@ S<sub>n</sub>  =  (1/a<sub>1</sub>−1/a<sub>2</sub>)+(1/a<sub>2</sub>−1/a
 <li>用的时候：见到"前 k 项和 / 前 2k 项和"立刻想到分段和成等差。</li>
 </ul>
 <h3>等比数列</h3>
-<p><strong>a<sub>n</sub>  =  a<sub>1</sub>·q<sup>n−1</sup></strong></p>
+<p><strong>a<sub>n</sub> = a<sub>1</sub>·q<sup>n−1</sup></strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>从首项开始每项乘一个 q，乘到第 n 项。</li>
 <li>用的时候：知道任意两项先求 q；q≠0，各项也不为 0。</li>
 <li>记忆要点：首项 × 公比^(项数−1)。</li>
 </ul>
-<p><strong>S<sub>n</sub>：q = 1 时 S<sub>n</sub>  =  na<sub>1</sub>；q≠1 时 S<sub>n</sub>  =  a<sub>1</sub>(1−q<sup>n</sup>)/(1−q)</strong></p>
+<p><strong>S<sub>n</sub>：q=1 时 S<sub>n</sub> = na<sub>1</sub>；q≠1 时 S<sub>n</sub> = a<sub>1</sub>(1−q<sup>n</sup>)/(1−q)</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>公比是参数时，先看 q 等不等于 1，两式完全不同。</li>
 <li>用的时候：q=1 别用分式（会除以 0）；这是最常见的丢分点。</li>
 <li>记忆要点：q 是字母必讨论，先判 1 再套式。</li>
 </ul>
-<p><strong>若 m+n  =  p+q，则 a<sub>m</sub>·a<sub>n</sub>  =  a<sub>p</sub>·a_q</strong></p>
+<p><strong>若 m+n = p+q，则 a<sub>m</sub>·a<sub>n</sub> = a<sub>p</sub>·a_q</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>下标和相等，两项的"积"相等（注意是乘不是加）。</li>
 <li>用的时候：等比中项 a<sub>n</sub><sup>2</sup> = a<sub>n−1</sub>·a<sub>n+1</sub> 是特例，开方有正负两个要取舍。</li>
@@ -654,7 +676,7 @@ S<sub>n</sub>  =  (1/a<sub>1</sub>−1/a<sub>2</sub>)+(1/a<sub>2</sub>−1/a
 <li class="baihua"><span class="tag">大白话</span>把分母乘积拆成两项差，求和时中间两两抵消，只剩首尾。</li>
 <li>用的时候：第二个别忘了前面的系数 ½。</li>
 </ul>
-<p><strong>错位相减：通项是"等差  ×  等比"（如 n·2<sup>n</sup>）时用</strong></p>
+<p><strong>错位相减：通项是"等差 × 等比"（如 n·2<sup>n</sup>）时用</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>写一遍 S<sub>n</sub>，两边乘公比得 qS<sub>n</sub>，错开一位相减，中间剩一个等比数列再求和。</li>
 <li>用的时候：相减后等比首项是第二项（q·a<sub>1</sub>），指数和项数要数清。</li>
@@ -664,19 +686,19 @@ S<sub>n</sub>  =  (1/a<sub>1</sub>−1/a<sub>2</sub>)+(1/a<sub>2</sub>−1/a
 <li class="baihua"><span class="tag">大白话</span>杂数列不会算，拆开成熟悉的小块。</li>
 </ul>
 <h3>构造法求通项</h3>
-<p><strong>a<sub>n+1</sub>  =  p·a<sub>n</sub> + q ⇒ 凑 a<sub>n+1</sub> + c  =  p(a<sub>n</sub> + c)，其中 c  =  q/(p−1)</strong></p>
+<p><strong>a<sub>n+1</sub> = p·a<sub>n</sub> + q ⇒ 凑 a<sub>n+1</sub> + c = p(a<sub>n</sub> + c)，其中 c = q/(p−1)</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>加个常数把它变成等比数列先求，再减回来。</li>
 <li>用的时候：{a<sub>n</sub>+c} 是公比 p 的等比数列；n=1 要验证。</li>
 <li>记忆要点：c = q/(p−1)，"凑等比"。</li>
 </ul>
 <h3>递推求通项的另外三招（苏州教研·专题34）</h3>
-<p><strong>取倒数：a<sub>n+1</sub>  =  q<sub>1</sub>a<sub>n</sub>/(q<sub>2</sub>a<sub>n</sub>+d<sub>2</sub>) ⇒ 1/a<sub>n+1</sub>  =  (d<sub>2</sub>/q<sub>1</sub>)·(1/a<sub>n</sub>) + q<sub>2</sub>/q<sub>1</sub>，转 a<sub>n+1</sub> = pa<sub>n</sub>+q 型</strong></p>
+<p><strong>取倒数：a<sub>n+1</sub> = q<sub>1</sub>a<sub>n</sub>/(q<sub>2</sub>a<sub>n</sub>+d<sub>2</sub>) ⇒ 1/a<sub>n+1</sub> = (d<sub>2</sub>/q<sub>1</sub>)×(1/a<sub>n</sub>) + q<sub>2</sub>/q<sub>1</sub>，转 a<sub>n+1</sub>=pa<sub>n</sub>+q 型</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>分式递推两边一倒，就变成熟悉的"加常数凑等比"。</li>
 <li>用的时候：分子分母都是 a<sub>n</sub> 一次式时，先倒再凑。</li>
 </ul>
-<p><strong>取对数：a<sub>n+1</sub>  =  c·a<sub>n</sub><sup>p</sup> ⇒ log_c a<sub>n+1</sub>  =  p·log_c a<sub>n</sub> + 1</strong></p>
+<p><strong>取对数：a<sub>n+1</sub> = c·a<sub>n</sub><sup>p</sup> ⇒ log_c a<sub>n+1</sub> = p·log_c a<sub>n</sub> + 1</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>幂次递推取对数，乘法变加法、幂次变倍数。</li>
 <li>用的时候：后项是前项的幂次时，令 b<sub>n</sub>=log_c a<sub>n</sub> 转标准型。</li>
@@ -692,27 +714,27 @@ S<sub>n</sub>  =  (1/a<sub>1</sub>−1/a<sub>2</sub>)+(1/a<sub>2</sub>−1/a
 <li class="baihua"><span class="tag">大白话</span>前 n 项和除以 n 排成一列，本身还是等差。</li>
 <li>用的时候：题目给 S<sub>2010</sub>/2010 − S<sub>2009</sub>/200<sub>9</sub> = 2，立刻 d/2=2 ⇒ d=4。</li>
 </ul>
-<p><strong>a<sub>m</sub>/b<sub>m</sub>  =  S_{2m−1}/T_{2m−1}（两等差第 m 项之比  =  前 2m−1 项和之比）</strong></p>
+<p><strong>a<sub>m</sub>/b<sub>m</sub> = S_{2m−1}/T_{2m−1}（两等差第 m 项之比 = 前 2m−1 项和之比）</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>两个等差数列，比第 m 项等于比它们前 2m−1 项的和。</li>
 <li>用的时候：已知 S<sub>n</sub>/T<sub>n</sub> 的表达式求 a<sub>n</sub>/b<sub>n</sub>，直接把 n 换成 2n−1 代入。</li>
 </ul>
-<p><strong>{log_c b<sub>n</sub>} 等差（{b<sub>n</sub>} 等比且 b<sub>n</sub>&gt;0）；项数 2n 时 S偶/S奇  =  q</strong></p>
+<p><strong>{log_c b<sub>n</sub>} 等差（{b<sub>n</sub>} 等比且 b<sub>n</sub>&gt;0）；项数 2n 时 S偶/S奇 = q</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>等比取对数变等差；偶数项每项都比前一个奇数项多乘一个 q。</li>
 </ul>
 <h3>自然数幂和与无穷等比（苏州教研·专题35）</h3>
-<p><strong>1<sup>2</sup>+2<sup>2</sup>+…+n<sup>2</sup>  =  n(n+1)(2n+1)/6；1<sup>3</sup>+2<sup>3</sup>+…+n<sup>3</sup>  =  [n(n+1)/2]<sup>2</sup></strong></p>
+<p><strong>1<sup>2</sup>+2<sup>2</sup>+…+n<sup>2</sup> = n(n+1)(2n+1)/6；1<sup>3</sup>+2<sup>3</sup>+…+n<sup>3</sup> = [n(n+1)/2]<sup>2</sup></strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>平方和套公式；立方和等于"和的平方"。</li>
 <li>用的时候：见到 Σk<sup>2</sup>、Σk<sup>3</sup> 直接代，不要硬算。</li>
 </ul>
-<p><strong>无穷等比和：|q|&lt;1 时 S  =  a<sub>1</sub>/(1−q)</strong></p>
+<p><strong>无穷等比和：|q|&lt;1 时 S = a<sub>1</sub>/(1−q)</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>公比绝对值小于 1 时，无穷多项加起来收敛到一个定值。</li>
 </ul>
 <h3>数列放缩工具箱（苏州教研·专题36）</h3>
-<p><strong>1/k<sup>2</sup> &lt; 1/[k(k−1)]  =  1/(k−1) − 1/k（k≥2）；1/k<sup>2</sup> &lt; ½(1/(k−1)−1/(k+1))</strong></p>
+<p><strong>1/k<sup>2</sup> &lt; 1/[k(k−1)] = 1/(k−1) − 1/k（k≥2）；1/k<sup>2</sup> &lt; ½(1/(k−1)−1/(k+1))</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>见 1/k<sup>2</sup> 就想拆成相邻倒数差，求和时中间全消。</li>
 <li>用的时候：证 S<sub>n</sub>&lt;C 时，先把 C 拆成"前几项+裂项和"，反推通项该放大成什么；首项不吻合就延迟放缩。</li>
@@ -726,7 +748,7 @@ S<sub>n</sub>  =  (1/a<sub>1</sub>−1/a<sub>2</sub>)+(1/a<sub>2</sub>−1/a
 <li class="baihua"><span class="tag">大白话</span>递推不等式累加/累乘，直接转成通项不等式。</li>
 </ul>
 <h3>数学归纳法两步（苏州教研·专题52）</h3>
-<p><strong>① 奠基：验 n = n<sub>0</sub> 成立；② 递推：假设 n = k 成立，证 n = k+1 成立（必须用上归纳假设）</strong></p>
+<p><strong>① 奠基：验 n=n<sub>0</sub> 成立；② 递推：假设 n=k 成立，证 n=k+1 成立（必须用上归纳假设）</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>第一张骨牌倒了 + 前一张倒后一张必倒 = 全部倒。</li>
 <li>用的时候：第二步证 a_{k+1} 时一定要把 a<sub>k</sub> 的归纳条件代进去；思路卡住用分析法。</li>
@@ -739,25 +761,25 @@ S<sub>n</sub>  =  (1/a<sub>1</sub>−1/a<sub>2</sub>)+(1/a<sub>2</sub>−1/a
 <p><strong>适用信号</strong>：题目给的是 a<sub>n+1</sub> 与 a<sub>n</sub> 的关系式，要你求通项。
 <strong>操作步骤</strong>：</p>
 <ol>
-<li>a<sub>n+1</sub> = p·a<sub>n</sub>+q 型：凑 a<sub>n+1</sub>+c = p(a<sub>n</sub>+c)，c = q/(p−1)，转等比；</li>
-<li>a<sub>n+1</sub>−a<sub>n</sub> = f(n) 型：用累加法，a<sub>n</sub> = a<sub>1</sub>+Σf(k)；</li>
-<li>a<sub>n+1</sub>/a<sub>n</sub> = f(n) 型：用累乘法。
-<strong>例题</strong>：a<sub>1</sub> = 1，a<sub>n+1</sub> = 2a<sub>n</sub>+3 ⇒ c = 3，{a<sub>n</sub>+3} 等比，a<sub>n</sub>+3 = 4·2<sup>n−1</sup>，a<sub>n</sub> = 2<sup>n+1</sup>−3。
+<li>a<sub>n+1</sub>=p·a<sub>n</sub>+q 型：凑 a<sub>n+1</sub>+c=p(a<sub>n</sub>+c)，c=q/(p−1)，转等比；</li>
+<li>a<sub>n+1</sub>−a<sub>n</sub>=f(n) 型：用累加法，a<sub>n</sub>=a<sub>1</sub>+Σf(k)；</li>
+<li>a<sub>n+1</sub>/a<sub>n</sub>=f(n) 型：用累乘法。
+<strong>例题</strong>：a<sub>1</sub>=1，a<sub>n+1</sub>=2a<sub>n</sub>+3 ⇒ c=3，{a<sub>n</sub>+3} 等比，a<sub>n</sub>+3=4×2<sup>n−1</sup>，a<sub>n</sub>=2<sup>n+1</sup>−3。
 <strong>课标依据/红线</strong>：构造法本身是等差等比定义的直接运用，✓ <strong>不超纲（高考可放心用）</strong>。</li>
 </ol>
 <h3>进阶 2：错位相减"免计算"自检</h3>
-<p><strong>适用信号</strong>：等差 × 等比求和 S<sub>n</sub> = (An+B)·q<sup>n</sup>−B。
-<strong>操作步骤</strong>：先算 S<sub>1</sub>、S<sub>2</sub> 两个具体值，反解出 A、B，直接写出结果，再用错位相减或代入 n = 1、2 验证。
-<strong>例题</strong>：{n·2<sup>n</sup>}，S<sub>1</sub> = 2，S<sub>2</sub> = 2+8 = 10。设 S<sub>n</sub> = (An+B)2<sup>n</sup>−B：n = 1→2(A+B)−B = 2A+B = 2；n = 2→4(2A+B)−B = 8A+3B = 10。解得 A = 2，B = −2，故 S<sub>n</sub> = (2n−2)2<sup>n</sup>+2 = (n−1)2<sup>n+1</sup>+2（与 ④ 例 4 一致）。
+<p><strong>适用信号</strong>：等差×等比求和 S<sub>n</sub>=(An+B)·q<sup>n</sup>−B。
+<strong>操作步骤</strong>：先算 S<sub>1</sub>、S<sub>2</sub> 两个具体值，反解出 A、B，直接写出结果，再用错位相减或代入 n=1、2 验证。
+<strong>例题</strong>：{n·2<sup>n</sup>}，S<sub>1</sub>=2，S<sub>2</sub>=2+8=10。设 S<sub>n</sub>=(An+B)2<sup>n</sup>−B：n=1→2(A+B)−B=2A+B=2；n=2→4(2A+B)−B=8A+3B=10。解得 A=2，B=−2，故 S<sub>n</sub>=(2n−2)2<sup>n</sup>+2=(n−1)2<sup>n+1</sup>+2（与 ④ 例 4 一致）。
 <strong>课标依据/红线</strong>：只是"先猜后算"的验算技巧，✓ <strong>不超纲</strong>。</p>
 <h3>进阶 3：裂项放缩库</h3>
 <p><strong>适用信号</strong>：要证 T<sub>n</sub> 小于某个常数。
-<strong>常用放缩</strong>：1/n<sup>2</sup>&lt;1/[n(n−1)] = 1/(n−1)−1/n（n≥2）；1/√n&lt;2(√n−√(n−1))。
+<strong>常用放缩</strong>：1/n<sup>2</sup>&lt;1/[n(n−1)]=1/(n−1)−1/n（n≥2）；1/√n&lt;2(√n−√(n−1))。
 <strong>操作步骤</strong>：先把目标常数"拆"成可裂项的形式，再反向选择放缩；首项不符就"从第二项起放缩"。
 <strong>课标依据/红线</strong>：裂项本身不超纲；但把它用来证明"数列不等式小于某定值"时，<strong>解答里要把放缩的每一步写清楚</strong>，✓ <strong>不超纲</strong>。</p>
 <h3>进阶 4：特征根法（选学·超纲红线）</h3>
-<p><strong>适用信号</strong>：a<sub>n+2</sub> = p·a<sub>n+1</sub>+q·a<sub>n</sub> 型二阶递推。
-<strong>操作步骤</strong>：解特征方程 x<sup>2</sup> = px+q，两根 α≠β 则 a<sub>n</sub> = Aα<sup>n</sup>+Bβ<sup>n</sup>。
+<p><strong>适用信号</strong>：a<sub>n+2</sub>=p·a<sub>n+1</sub>+q·a<sub>n</sub> 型二阶递推。
+<strong>操作步骤</strong>：解特征方程 x<sup>2</sup>=px+q，两根 α≠β 则 a<sub>n</sub>=Aα<sup>n</sup>+Bβ<sup>n</sup>。
 <strong>课标依据/红线</strong>：<strong>超纲红线（考试禁用，只用于理解/自检）</strong>——教材没有这个结论。解答题里若想用，应改成"观察猜想 + 数学归纳法证明"才算课标内；本题型新高考已很少直接考。</p>
 <hr />
 <p><strong>手册原文全量收录（适用信号 → 操作步骤 → 例题 → 课标依据 → 注意/表格）</strong></p>
@@ -765,8 +787,8 @@ S<sub>n</sub>  =  (1/a<sub>1</sub>−1/a<sub>2</sub>)+(1/a<sub>2</sub>−1/a
 <p>上面"进阶 1～4"是带本章例题联动的浓缩速查；下面逐条完整收录《不超纲高级方法手册》原文，对照看。</p>
 </blockquote>
 <h4>3.1 递推求通项——三大构造模板</h4>
-<p><strong>大白话·本质一句话</strong>：递推模板 = 给你 a<sub>n+1</sub> 和 a<sub>n</sub> 的关系式，就像认锁配钥匙——看到哪种长相的递推，就套哪种固定动作（凑等比/累加/特征根/不动点），把"绕来绕去的关系"掰成一个能直接写通项的等比或等差。（与本章前述 3.5、3.5.1、进阶 1、进阶 4 联动）</p>
-<div class = "tbl-wrap"><table style = "table-layout:fixed;max-width:100%"><colgroup><col style = "width:36%"><col style = "width:64%"></colgroup>
+<p><strong>大白话·本质一句话</strong>：递推模板=给你 a<sub>n+1</sub> 和 a<sub>n</sub> 的关系式，就像认锁配钥匙——看到哪种长相的递推，就套哪种固定动作（凑等比/累加/特征根/不动点），把"绕来绕去的关系"掰成一个能直接写通项的等比或等差。（与本章前述 3.5、3.5.1、进阶 1、进阶 4 联动）</p>
+<div class="tbl-wrap"><table style="table-layout:fixed;max-width:100%"><colgroup><col style="width:36%"><col style="width:64%"></colgroup>
 <thead>
 <tr>
 <th>递推形式</th>
@@ -775,23 +797,23 @@ S<sub>n</sub>  =  (1/a<sub>1</sub>−1/a<sub>2</sub>)+(1/a<sub>2</sub>−1/a
 </thead>
 <tbody>
 <tr>
-<td>a<sub>n+1</sub>  =  p·a<sub>n</sub> + q</td>
-<td>构造 a<sub>n+1</sub>+c  =  p(a<sub>n</sub>+c)，c = q/(p-1)，转等比</td>
+<td>a<sub>n+1</sub> = p·a<sub>n</sub> + q</td>
+<td>构造 a<sub>n+1</sub>+c = p(a<sub>n</sub>+c)，c=q/(p-1)，转等比</td>
 </tr>
 <tr>
-<td>a<sub>n+1</sub>  =  p·a<sub>n</sub> + f(n)</td>
+<td>a<sub>n+1</sub> = p·a<sub>n</sub> + f(n)</td>
 <td>累加/待定系数（两边同除 p<sup>n+1</sup> 转累加）</td>
 </tr>
 <tr>
-<td>a<sub>n+2</sub>  =  p·a<sub>n+1</sub> + q·a<sub>n</sub></td>
-<td><strong>特征根法</strong>：解 x<sup>2</sup> = px+q，两根 α≠β 则 a<sub>n</sub> = Aα<sup>n</sup>+Bβ<sup>n</sup>；α = β 则 a<sub>n</sub> = (A+Bn)α<sup>n</sup>，A、B 由 a<sub>1</sub>、a<sub>2</sub> 定</td>
+<td>a<sub>n+2</sub> = p·a<sub>n+1</sub> + q·a<sub>n</sub></td>
+<td><strong>特征根法</strong>：解 x<sup>2</sup>=px+q，两根 α≠β 则 a<sub>n</sub>=Aα<sup>n</sup>+Bβ<sup>n</sup>；α=β 则 a<sub>n</sub>=(A+Bn)α<sup>n</sup>，A、B 由 a<sub>1</sub>、a<sub>2</sub> 定</td>
 </tr>
 <tr>
-<td>a<sub>n+1</sub>  =  (pa<sub>n</sub>+q)/(ra<sub>n</sub>+s)</td>
-<td><strong>不动点法</strong>：解 x = (px+q)/(rx+s)，两根 α≠β 则 (a<sub>n</sub>-α)/(a<sub>n</sub>-β) 成等比</td>
+<td>a<sub>n+1</sub> = (pa<sub>n</sub>+q)/(ra<sub>n</sub>+s)</td>
+<td><strong>不动点法</strong>：解 x=(px+q)/(rx+s)，两根 α≠β 则 (a<sub>n</sub>-α)/(a<sub>n</sub>-β) 成等比</td>
 </tr>
 <tr>
-<td>a<sub>n+1</sub>  =  a<sub>n</sub> + g(a<sub>n</sub>)（特殊）</td>
+<td>a<sub>n+1</sub> = a<sub>n</sub> + g(a<sub>n</sub>)（特殊）</td>
 <td>先猜后证 + 数学归纳法</td>
 </tr>
 </tbody>
@@ -800,17 +822,17 @@ S<sub>n</sub>  =  (1/a<sub>1</sub>−1/a<sub>2</sub>)+(1/a<sub>2</sub>−1/a
 <p><strong>注意</strong>：特征根法结论可以直接用于<strong>小题</strong>（填空选择），解答题用它算出答案后补归纳法证明最稳妥。</p>
 <p>（高级方法手册·3.1）</p>
 <h4>3.2 错位相减"免计算"公式（自检神器）</h4>
-<p><strong>大白话·本质一句话</strong>：错位相减的答案一定长成 (An+B)·q<sup>n</sup>−B 这个固定模样，所以先拿 n = 1、n = 2 两个小情况算出 A、B，直接拼出整个公式，再回头用错位相减验算——等于先看答案长什么样再倒推，省掉一整页展开。（与本章前述 ④例 4、进阶 2 联动）</p>
-<p>等差 × 等比求和 S<sub>n</sub> 的结果必能写成 <strong>S<sub>n</sub> = (An+B)·q<sup>n</sup> - B</strong> 的形式。</p>
-<p>用法：先随便算 S<sub>1</sub>、S<sub>2</sub>，反解 A、B，直接写出 S<sub>n</sub>——再用普通错位相减法验证一遍（或用 n = 1、2 代入验证）。</p>
+<p><strong>大白话·本质一句话</strong>：错位相减的答案一定长成 (An+B)·q<sup>n</sup>−B 这个固定模样，所以先拿 n=1、n=2 两个小情况算出 A、B，直接拼出整个公式，再回头用错位相减验算——等于先看答案长什么样再倒推，省掉一整页展开。（与本章前述 ④例 4、进阶 2 联动）</p>
+<p>等差×等比求和 S<sub>n</sub> 的结果必能写成 <strong>S<sub>n</sub>=(An+B)·q<sup>n</sup> - B</strong> 的形式。</p>
+<p>用法：先随便算 S<sub>1</sub>、S<sub>2</sub>，反解 A、B，直接写出 S<sub>n</sub>——再用普通错位相减法验证一遍（或用 n=1、2 代入验证）。</p>
 <p><strong>课标依据</strong>：错位相减（选必二）。✓ 公式形态是推导的必然结果，非新知识。</p>
 <p>（高级方法手册·3.2）</p>
 <h4>3.3 裂项放缩库</h4>
-<p><strong>大白话·本质一句话</strong>：裂项 = 把一项拆成两项之差，让加减互相抵消，像多米诺骨牌一块一块倒下去，最后只剩头和尾；放缩就是把不好算的项放大/缩小成"能裂项"的模样。（与本章前述 3.4、3.6 放缩工具箱、④例 5、进阶 3 联动）</p>
+<p><strong>大白话·本质一句话</strong>：裂项=把一项拆成两项之差，让加减互相抵消，像多米诺骨牌一块一块倒下去，最后只剩头和尾；放缩就是把不好算的项放大/缩小成"能裂项"的模样。（与本章前述 3.4、3.6 放缩工具箱、④例 5、进阶 3 联动）</p>
 <ul>
-<li>1/(n(n+1))  =  1/n - 1/(n+1)；1/(n(n+2))  =  ½(1/n - 1/(n+2))</li>
-<li>1/n<sup>2</sup> &lt; 1/(n(n-1))  =  1/(n-1) - 1/n（n≥2）</li>
-<li>1/√n  =  2/(√n+√n) &lt; 2/(√n+√(n-1))  =  2(√n-√(n-1))（分母有理化）</li>
+<li>1/(n(n+1)) = 1/n - 1/(n+1)；1/(n(n+2)) = ½(1/n - 1/(n+2))</li>
+<li>1/n<sup>2</sup> &lt; 1/(n(n-1)) = 1/(n-1) - 1/n（n≥2）</li>
+<li>1/√n = 2/(√n+√n) &lt; 2/(√n+√(n-1)) = 2(√n-√(n-1))（分母有理化）</li>
 <li>2<sup>n</sup>/(2<sup>n</sup>-1)<sup>2</sup> &lt; 1/(2<sup>n</sup>-1) - 1/(2<sup>n+1</sup>-1)</li>
 </ul>
 <p><strong>用法</strong>：要证 T<sub>n</sub> &lt; 某个值，先把目标值"拆"成可裂项的形式，再反向选择放缩——<strong>目标驱动</strong>，不是碰运气。</p>
@@ -826,19 +848,19 @@ S<sub>n</sub>  =  (1/a<sub>1</sub>−1/a<sub>2</sub>)+(1/a<sub>2</sub>−1/a
 <p>（高级方法手册·3.4）</p>
 <hr />
 
-</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. a<sub>10</sub>  =  2 + 9·3  =  29；2. S<sub>5</sub>  =  (2<sup>5</sup> − 1)/(2 − 1)  =  31；3. n  =  1：a<sub>1</sub>  =  1；n ≥ 2：a<sub>n</sub>  =  n<sup>2</sup> − (n−1)<sup>2</sup>  =  2n − 1；合起来 a<sub>n</sub>  =  2n − 1（n  =  1 时也成立）；4. ½[1 − 1/(2n+1)]  =  n/(2n+1)；5. 等差数列（公差 2），a<sub>n</sub>  =  1 + 2(n − 1)  =  2n − 1。</p></div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">A 组答案</p><p><strong>A 组</strong></p>
+</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. a<sub>10</sub> = 2 + 9×3 = 29；2. S<sub>5</sub> = (2<sup>5</sup> − 1)/(2 − 1) = 31；3. n = 1：a<sub>1</sub> = 1；n ≥ 2：a<sub>n</sub> = n<sup>2</sup> − (n−1)<sup>2</sup> = 2n − 1；合起来 a<sub>n</sub> = 2n − 1（n = 1 时也成立）；4. ½[1 − 1/(2n+1)] = n/(2n+1)；5. 等差数列（公差 2），a<sub>n</sub> = 1 + 2(n − 1) = 2n − 1。</p></div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">A 组答案</p><p><strong>A 组</strong></p>
 <ol>
 <li>n=1：a<sub>1</sub>=S<sub>1</sub>=1；n≥2：a<sub>n</sub>=S<sub>n</sub>−S<sub>n−1</sub>=(2n<sup>2</sup>−n)−[2(n−1)<sup>2</sup>−(n−1)]=4n−3。代 n=1 得 1，吻合。<strong>a<sub>n</sub>=4n−3</strong>。</li>
 <li>a<sub>5</sub>−a<sub>2</sub>=3d=9 ⇒ d=3；a<sub>2</sub>=a<sub>1</sub>+d=5 ⇒ a<sub>1</sub>=2。<strong>d=3，a<sub>1</sub>=2</strong>。</li>
-<li>a<sub>10</sub>=a<sub>1</sub>+9d=4−18=−14；S<sub>10</sub>=10(4+(−14))/2=10·(−10)/2=<strong>−50</strong>。</li>
-<li>a<sub>4</sub>=a<sub>1</sub>q<sup>3</sup>=2·27=<strong>54</strong>；S<sub>4</sub>=2·(3<sup>4</sup>−1)/(3−1)=81−1=<strong>80</strong>。</li>
+<li>a<sub>10</sub>=a<sub>1</sub>+9d=4−18=−14；S<sub>10</sub>=10(4+(−14))/2=10×(−10)/2=<strong>−50</strong>。</li>
+<li>a<sub>4</sub>=a<sub>1</sub>q<sup>3</sup>=2×27=<strong>54</strong>；S<sub>4</sub>=2×(3<sup>4</sup>−1)/(3−1)=81−1=<strong>80</strong>。</li>
 <li>每项=1/k−1/(k+1)，抵消得 1−1/(n+1)=<strong>n/(n+1)</strong>。</li>
 <li>a<sub>5</sub>+a<sub>6</sub>=a<sub>3</sub>+a<sub>8</sub>=<strong>20</strong>（m+n=p+q）。</li>
 </ol>
 </div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">B 组答案</p><p><strong>B 组</strong></p>
 <ol start="7">
 <li>a<sub>1</sub>=S<sub>1</sub>=2k−1；n≥2 a<sub>n</sub>=S<sub>n</sub>−S<sub>n−1</sub>=k·2<sup>n</sup>−1−(k·2<sup>n−1</sup>−1)=k·2<sup>n−1</sup>。等比要求 a<sub>1</sub> 也符合：2k−1=k·2<sup>0</sup>=k ⇒ k=1。此时 a<sub>n</sub>=2<sup>n−1</sup>，<strong>公比 q=2，k=1</strong>。</li>
-<li>S<sub>n</sub>=1·3+2·3<sup>2</sup>+…+n·3<sup>n</sup>；3S<sub>n</sub>=1·3<sup>2</sup>+…+(n−1)3<sup>n</sup>+n·3<sup>n+1</sup>；相减 −2S<sub>n</sub>=(3+3<sup>2</sup>+…+3<sup>n</sup>)−n·3<sup>n+1</sup>=3(3<sup>n</sup>−1)/2−n·3<sup>n+1</sup>，整理得 <strong>S<sub>n</sub>=[(2n−1)3<sup>n+1</sup>+3]/4</strong>。（可用进阶 2 自检：n=1 时 =[(1)·9+3]/4=3 ✓）</li>
+<li>S<sub>n</sub>=1×3+2×3<sup>2</sup>+…+n·3<sup>n</sup>；3S<sub>n</sub>=1×3<sup>2</sup>+…+(n−1)3<sup>n</sup>+n·3<sup>n+1</sup>；相减 −2S<sub>n</sub>=(3+3<sup>2</sup>+…+3<sup>n</sup>)−n·3<sup>n+1</sup>=3(3<sup>n</sup>−1)/2−n·3<sup>n+1</sup>，整理得 <strong>S<sub>n</sub>=[(2n−1)3<sup>n+1</sup>+3]/4</strong>。（可用进阶 2 自检：n=1 时 =[(1)×9+3]/4=3 ✓）</li>
 <li>p=3，q=−2，c=q/(p−1)=−1。a<sub>n+1</sub>−1=3(a<sub>n</sub>−1)，{a<sub>n</sub>−1} 首项 1、公比 3，a<sub>n</sub>−1=3<sup>n−1</sup>，<strong>a<sub>n</sub>=3<sup>n−1</sup>+1</strong>。</li>
 <li>a<sub>n</sub>=20−2(n−1)=22−2n。a<sub>n</sub>≥0 得 n≤11，其中 a<sub>11</sub>=0。S<sub>10</sub>=10(20+2)/2=110，S<sub>11</sub>=11(20+0)/2=110，a<sub>12</sub>=−2&lt;0 后 S 开始减小。故 <strong>n=10 或 n=11 时 S<sub>n</sub> 最大，最大值均为 110</strong>。</li>
 </ol>
@@ -857,7 +879,20 @@ S<sub>n</sub>  =  (1/a<sub>1</sub>−1/a<sub>2</sub>)+(1/a<sub>2</sub>−1/a
 </div><div class="sec sec-meta"><h2>本章与前后章</h2>
 <p>数列前接第 02 章（函数与基本运算）——它本质就是定义在正整数上的函数，通项 a<sub>n</sub>=f(n)、前 n 项和都是函数思想的离散版本。它向后直接接第 12 章不等式：数列大题第二问"证 S<sub>n</sub> 小于某个常数"就是放缩法，和基本不等式、最值问题是同一类；同时数列里的函数思想（单调性、最值、对应函数求导）也回头强化第 02 章。学完它，你手里有了一套处理"离散变化"的工具。</p>
 </div><div class="sec sec-meta"><h2>高考怎么考</h2>
-<p>新高考Ⅰ卷里数列固定出解答题第二题附近（第 17–19 题区间），通常两问：第一问求通项或证等差等比（如 2025 新高考Ⅰ卷解答第 16 题第 (1) 问，由递推证 {n·a<sub>n</sub>} 为等差数列），第二问求和或证不等式；小题里也常插一道（如 2025 卷填空第 13 题，等比前 4 项和 4、前 8 项和 68 求公比）。难度中档、是必须拿下的大题，考的就是"基本量法 + 三种求和 + 放缩"这套固定动作。</p></div>
+<p>新高考Ⅰ卷里数列固定出解答题第二题附近（第 17–19 题区间），通常两问：第一问求通项或证等差等比（如 2025 新高考Ⅰ卷解答第 16 题第 (1) 问，由递推证 {n·a<sub>n</sub>} 为等差数列），第二问求和或证不等式；小题里也常插一道（如 2025 卷填空第 13 题，等比前 4 项和 4、前 8 项和 68 求公比）。难度中档、是必须拿下的大题，考的就是"基本量法 + 三种求和 + 放缩"这套固定动作。</p>
+<hr />
+</div><div class="sec sec-meta"><h2>同法跨章 · 一通百通</h2>
+<p><strong>递推构造（本章 → ch18 概率）</strong>：本章把 a<sub>n+1</sub>=pa<sub>n</sub>+q 构造 b<sub>n</sub>=a<sub>n</sub>+c 化等比；ch18 概率里的马尔可夫链 P<sub>n+1</sub>=αP<sub>n</sub>+β 用完全相同的构造。<strong>同一个"找不变量"动作，两处通杀</strong>。</p>
+<p><strong>放缩（本章 → ch05 导数）</strong>：本章证 S<sub>n</sub>&lt;常数用裂项/等比放缩；ch05 证 f(x)≥g(x) 用切线放缩 e<sup>x</sup>≥x+1、lnx≤x−1。<strong>放缩的核心都是"换成可求和的/可比较的，方向一致"</strong>。</p>
+<p><strong>韦达定理（ch02 二次方程 → 本章特征根 → ch16 圆锥曲线）</strong>：二次方程两根和积（韦达）在 ch16 直线与圆锥曲线联立里是主武器；本章部分递推的特征方程也用到二次根结构。<strong>同一套"根与系数关系"打三处</strong>。</p>
+</div><div class="sec sec-meta"><h2>本章连接全书</h2>
+<ul>
+<li><strong>→ ch02/03 函数</strong>：通项 a<sub>n</sub>=f(n) 是定义在正整数上的函数，函数单调/最值判断直接可用。</li>
+<li><strong>→ ch05 导数</strong>：数列和与函数积分/极限视角相通（高考不要求积分，但"和式与函数"的转化思想同源）。</li>
+<li><strong>→ ch12 不等式</strong>：求和不等式 = 放缩 + 函数比较，跨章组合出题高频。</li>
+<li><strong>→ ch18 概率</strong>：马尔可夫递推、期望的线性性都用数列语言。</li>
+<li><strong>→ ch16 解析几何</strong>：弦长、点列常以数列形式收尾（求第 n 个交点坐标）。</li>
+</ul></div>
 </section>
 </main>
 <button id="topbtn" title="回到顶部">↑</button>
@@ -1046,6 +1081,35 @@ S<sub>n</sub>  =  (1/a<sub>1</sub>−1/a<sub>2</sub>)+(1/a<sub>2</sub>−1/a
     window.addEventListener('resize',renderPen);
     loadPen();renderPen();
   }
+})();
+/* 章内左侧小目录：扫描各章 h2 生成，点击平滑滚动直达 */
+(function(){
+  var secs=document.querySelectorAll('section.chapter');
+  if(!secs.length||document.getElementById('secbar'))return;
+  var sb=document.createElement('div');sb.id='secbar';
+  var inner=document.createElement('div');inner.className='secbar-in';
+  sb.appendChild(inner);
+  secs.forEach(function(sec,si){
+    if(si>0){
+      var ttl=sec.querySelector('.ch-title');
+      var hd=document.createElement('div');hd.className='secbar-ch';
+      hd.textContent=(ttl?ttl.textContent.replace(/^\d+·?/,'').slice(0,8):sec.id);
+      inner.appendChild(hd);
+    }
+    sec.querySelectorAll('h2').forEach(function(h2){
+      var a=document.createElement('a');
+      var t=h2.textContent.replace(/^\s*[①-⑨]/,'').replace(/^\s*\d+\s*/,'').trim();
+      a.textContent=t.length>12?t.slice(0,12):t;
+      a.title=t;
+      a.addEventListener('click',function(ev){
+        ev.preventDefault();
+        var r=h2.getBoundingClientRect().top+window.scrollY;
+        window.scrollTo({top:Math.max(0,r-70),behavior:'smooth'});
+      });
+      inner.appendChild(a);
+    });
+  });
+  document.body.appendChild(sb);
 })();
 </script>
 </body>

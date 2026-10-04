@@ -65,8 +65,9 @@ h1.ch-title{font-size:29px;font-weight:800;color:#fff;margin:8px 0 6px;letter-sp
 .mats{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px 16px;margin:0 0 18px;box-shadow:var(--shadow)}
 .mats-t{font-size:12.5px;font-weight:700;color:var(--gold);margin-bottom:9px;letter-spacing:.04em}
 .mats-l{display:flex;flex-wrap:wrap;gap:8px}
-.mats-l a{background:var(--blue-l);color:var(--blue);text-decoration:none;font-size:13px;padding:5px 13px;border-radius:20px;border:1px solid #c9d8ec;transition:.15s;white-space:nowrap}
+.mats-l a{background:var(--blue-l);color:var(--blue);text-decoration:none;font-size:13px;padding:5px 13px;border-radius:20px;border:1px solid #c9d8ec;transition:.15s}
 .mats-l a:hover{background:var(--blue);color:#fff;transform:translateY(-1px)}
+.mats-l .mat-txt{background:#eef0f4;color:#4a5568;font-size:12.5px;padding:5px 13px;border-radius:20px;border:1px dashed #c3cad6;cursor:help}
 /* 看不懂怎么办 */
 .help{background:var(--gold-l);border:1px dashed var(--gold);border-radius:12px;padding:13px 16px;margin:0 0 20px;font-size:13.5px;color:#6b5c26;line-height:1.85;box-shadow:var(--shadow)}
 body.dark .help{color:#d8c078}
@@ -85,6 +86,14 @@ h2.adv{border-left-color:var(--purple)}
 h3{font-size:calc(var(--fs) + 0.5px);font-weight:700;color:#3a352c;margin:22px 0 8px}
 p{margin:0 0 12px}
 strong{color:var(--blue)}
+/* 课后习题：题目行题号标签保持正文色（组名行仍按公式块样式显示） */
+.sec-hw p>strong:first-child{color:inherit}
+.sec-hw p:has(>strong:only-child)>strong{color:var(--blue)}
+/* 课后习题答案：每题答案块题号行保留蓝色标题感，其余步骤正文色 */
+.sec-ans p>strong:first-child{color:inherit}
+.sec-ans p:has(>strong:only-child)>strong{color:var(--blue)}
+/* 答案中的解释（方法/为什么/验证/取等条件）：灰色小字，与答案本体区分 */
+.ans-ex{color:#8a8578;font-size:calc(var(--fs) - 1.5px);font-style:normal;letter-spacing:.01em}
 /* 公式独立行：数学衬线字体统一字形（χ Σ √ 上下标同族），避免文本符号混排歪扭 */
 p:has(> strong:only-child){text-align:center;font-size:calc(var(--fs) + 1.5px);margin:16px 0;background:var(--blue-l);border:1px solid #cfe0f2;border-radius:10px;padding:10px 14px;color:var(--blue);font-family:"Cambria Math","STIX Two Math","Times New Roman","Songti SC",serif;letter-spacing:.012em}
 /* 内容块分类 */
@@ -107,6 +116,19 @@ p.ans{background:var(--blue-l);border:1px dashed #c3cede;border-radius:10px;padd
 .ans-grp{font-size:12px;color:#fff;background:var(--blue);display:inline-block;border-radius:6px;padding:2px 9px;margin:0 0 8px;font-weight:600}
 .ans-box>.ans-body{padding:11px 15px 13px}
 .ans-body p.ans{background:transparent;border:none;padding:0;margin:0 0 8px;font-weight:600}
+/* 答案区每题独立分块：A/B/C/D 组答案每题一块，虚线分隔，不夹带、不粘连 */
+.ans-body>p:not(.ans){border-bottom:1px dashed #d9d2c0;padding:9px 2px 11px;margin:0 0 9px;background:transparent;box-shadow:none;text-align:left;font-family:inherit;letter-spacing:normal;font-size:inherit}
+.ans-body>p:not(.ans):last-of-type{border-bottom:none;margin-bottom:0}
+.ans-body>p:has(> strong:only-child){text-align:left;background:transparent;border:1px dashed #c3cede;border-radius:10px;padding:10px 14px;font-family:inherit;letter-spacing:normal;font-size:inherit;box-shadow:none}
+/* 章内左侧小目录（桌面大屏显示，跟随滚动点击直达） */
+#secbar{position:fixed;left:8px;top:70px;bottom:20px;width:150px;overflow-y:auto;z-index:88;border-left:1px solid var(--line);padding:8px 4px 8px 12px;scrollbar-width:thin}
+#secbar .secbar-in{display:flex;flex-direction:column;gap:2px}
+#secbar .secbar-ch{font-size:12px;font-weight:700;color:#8a8272;letter-spacing:.04em;margin:10px 0 2px;padding-top:8px;border-top:1px solid #eee7d8}
+#secbar .secbar-ch:first-child{margin-top:0;border-top:none;padding-top:0}
+#secbar a{display:block;font-size:12.5px;color:#6f6859;text-decoration:none;padding:3px 6px;border-radius:5px;line-height:1.45}
+#secbar a:hover{background:#f2ead8;color:var(--blue)}
+@media (max-width:1399px){#secbar{display:none}}
+@media (min-width:1400px){#main{padding:76px 48px 120px 170px}}
 span.tag{display:inline-block;background:var(--blue);color:#fff;font-size:11px;border-radius:4px;padding:0 7px;margin-right:8px;vertical-align:2px}
 p.warn span.tag{background:var(--red)}
 p.sum span.tag{background:var(--gold)}
@@ -171,7 +193,7 @@ section.flash{animation:flash 1.6s ease}
 }
 @media print{
   @page{size:A4;margin:14mm 12mm}
-  #toc,#topbtn,#mnav,#tb,#pbar{display:none!important}
+  #toc,#topbtn,#mnav,#tb,#pbar,#secbar{display:none!important}
   #main{margin:0;max-width:none;padding:0}
   body{background:#fff!important;font-size:11.5pt;line-height:1.8}
   body.dark{background:#fff!important;color:#000}
@@ -255,22 +277,22 @@ section.flash{animation:flash 1.6s ease}
 <div class="ch-nav"><a href="ch-13.html">← 13</a><span class="cn-title">第14章 · 空间向量与立体几何</span><a href="ch-15.html">15 →</a></div>
 <main id="main">
 <section class="chapter" id="ch-14">
-<div class="ch-head" data-no="14"><div class="ch-no">第14章</div><h1 class="ch-title">空间向量与立体几何</h1><div class="ch-sub">板块：立体几何 ｜ 前置：第 09、13 章 ｜ 老教材：选修2-1 第3章 ｜ 新教材：选择性必修一 第1章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="../公式/高中数学公式速查手册.html#ch14" title="本章公式速查（内置，直达本章）">公式速查手册</a><a href="../手册/不超纲高级方法手册.html" title="不超纲高级方法（内置，按章嵌入方法）">高级方法手册</a><span class="mats-off" style="background:#f0f0f0;color:#999;border:1px dashed #ccc;border-radius:20px;padding:5px 13px;font-size:13px;white-space:nowrap" title="第三方版权素材不随包分发（仅限个人学习）：老教材原件/可搜索版/文字检索请在本机「数学自学系统素材」目录查看，或按开源仓库 README「素材获取」自行获取">老教材（原件/可搜索/检索 · 未随包）</span><span class="mats-off" style="background:#f0f0f0;color:#999;border:1px dashed #ccc;border-radius:20px;padding:5px 13px;font-size:13px;white-space:nowrap" title="第三方版权素材不随包分发：人教A版2019 必修第一册等，请按开源仓库 README「素材获取」自行获取（仅限个人学习）">新教材（未随包）</span><span class="mats-off" style="background:#f0f0f0;color:#999;border:1px dashed #ccc;border-radius:20px;padding:5px 13px;font-size:13px;white-space:nowrap" title="第三方版权素材不随包分发：2020-2025 新高考Ⅰ卷真题，请按开源仓库 README「素材获取」自行获取（仅限个人学习）">历年真题（未随包）</span></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 卡住时在电脑本机「数学自学系统素材」目录打开老教材原件 PDF 细读（图文最清楚；公式符号以原件为准） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
+<div class="ch-head" data-no="14"><div class="ch-no">第14章</div><h1 class="ch-title">空间向量与立体几何</h1><div class="ch-sub">板块：立体几何 ｜ 前置：第 09、13 章 ｜ 老教材：选修2-1 第3章 ｜ 新教材：选择性必修一 第1章</div></div><div class="mats"><div class="mats-t">本章配套资料（点击直达）</div><div class="mats-l"><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E6%95%B0%E5%AD%A6%E8%87%AA%E5%AD%A6%E7%B3%BB%E7%BB%9F%E7%B4%A0%E6%9D%90/05_%E5%85%B6%E4%BB%96%E5%8F%82%E8%80%83%28%E8%80%81%E6%95%99%E6%9D%90%E7%AD%89%29/2004%E8%AF%BE%E6%A0%87%E7%89%88%E4%BA%BA%E6%95%99A%E7%89%88/%E4%BA%BA%E6%95%99%E7%89%88%E9%AB%98%E4%B8%AD%E6%95%B0%E5%AD%A6A%E7%89%88%E9%80%89%E4%BF%AE2-1.pdf" title="老教材原件 PDF（推荐阅读：图文最清楚，公式无误）">老教材·人教版A版选修2-1（2004课标版）</a><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E8%92%B8%E9%A6%8F%E4%BA%A7%E7%89%A9/searchable_pdfs/%E4%BA%BA%E6%95%99%E7%89%88%E9%AB%98%E4%B8%AD%E6%95%B0%E5%AD%A6A%E7%89%88%E9%80%89%E4%BF%AE2-1.pdf" title="可搜索版：页面即原件，Ctrl+F 可搜文字（公式以页面为准）">老教材可搜索版(Ctrl+F)</a><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E8%92%B8%E9%A6%8F%E4%BA%A7%E7%89%A9/ocr_output/%E8%80%81%E6%95%99%E6%9D%90/%E4%BA%BA%E6%95%99%E7%89%88%E9%AB%98%E4%B8%AD%E6%95%B0%E5%AD%A6A%E7%89%88%E9%80%89%E4%BF%AE2-1.txt" title="文字检索（RapidOCR 精准版）：文字已校准，公式符号以原件 PDF 为准">文字检索(TXT)</a><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E6%95%B0%E5%AD%A6%E8%87%AA%E5%AD%A6%E7%B3%BB%E7%BB%9F%E7%B4%A0%E6%9D%90/01_%E6%95%99%E6%9D%90%28%E4%BA%BA%E6%95%99A%E7%89%882019%29/%E4%BA%BA%E6%95%99A%E7%89%882019%E9%80%89%E6%8B%A9%E6%80%A7%E5%BF%85%E4%BF%AE%E7%AC%AC%E4%B8%80%E5%86%8C.pdf" title="新教材对标考点（PDF）">新教材·人教A版2019选择性必修第一册</a><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E9%AB%98%E4%B8%AD%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F%E9%80%9F%E6%9F%A5%E6%89%8B%E5%86%8C.html#ch-14" title="本章公式速查（按章手册，直达本章）">公式速查手册</a><a href="file:///C:/Users/he123/DoubaoWork/chats/2026-10-02/new-chat-1/%E6%95%B0%E5%AD%A6%E8%87%AA%E5%AD%A6%E7%B3%BB%E7%BB%9F%E7%B4%A0%E6%9D%90/02_%E5%8E%86%E5%B9%B4%E7%9C%9F%E9%A2%98%28%E6%96%B0%E9%AB%98%E8%80%83%E2%85%A0%E5%8D%B7%29" title="历年真题文件夹（2020-2025 新高考Ⅰ卷）">历年真题</a></div></div><div class="help"><b>看不懂怎么办？</b> ① 先看本节的"大白话"旁注和例题 ② 推荐打开上方"老教材·xxx"原件 PDF 细读（图文最清楚；"可搜索版/文字检索"是 RapidOCR 校准过的文字，公式符号仍请对照原件） ③ 查"本章公式速查表" ④ 卡住超过 30 分钟先标记跳过，回头再攻，不要停在一处耗光时间</div><blockquote>
 <p>公式速查：修订版 第4部分（立体几何）</p>
-<p><strong>本章本质核心</strong>：空间向量的本质是"给空间装上坐标"——把第 13 章那些靠眼睛看、靠辅助线想的几何关系，统统翻译成数字（坐标）运算。建系之后，一条线是什么就变成一个方向向量，一个面是什么就变成一个法向量；而"角"和"距离"看着是几何量，其实都是内积 a·b 的副产品——夹角靠 cosθ = 内积/(模 × 模)，垂直靠内积 = 0，距离靠连线在法方向上的投影。本章全部题型（三类角、点到面距离、建系大题）都是这一个原理的变体。</p>
-<p class = "baihua why"><span class = "tag">为什么有用</span>学了这章，立体几何解答题就从"靠灵感想辅助线"变成"照流程算坐标"——只要图形里有现成的墙角（三条两两垂直的棱），建系之后线线角、线面角、二面角和点到面距离都能按公式稳定算出来。想通"几何问题 = 坐标运算、角 = 内积"，法向量和那几个公式就是顺手推出来的，不必死背；这正是把立体几何大题变成可控拿分点的关键。</p>
+<p><strong>本章本质核心</strong>：空间向量的本质是"给空间装上坐标"——把第 13 章那些靠眼睛看、靠辅助线想的几何关系，统统翻译成数字（坐标）运算。建系之后，一条线是什么就变成一个方向向量，一个面是什么就变成一个法向量；而"角"和"距离"看着是几何量，其实都是内积 a·b 的副产品——夹角靠 cosθ=内积/(模×模)，垂直靠内积=0，距离靠连线在法方向上的投影。本章全部题型（三类角、点到面距离、建系大题）都是这一个原理的变体。</p>
+<p class="baihua why"><span class="tag">为什么有用</span>学了这章，立体几何解答题就从"靠灵感想辅助线"变成"照流程算坐标"——只要图形里有现成的墙角（三条两两垂直的棱），建系之后线线角、线面角、二面角和点到面距离都能按公式稳定算出来。想通"几何问题=坐标运算、角=内积"，法向量和那几个公式就是顺手推出来的，不必死背；这正是把立体几何大题变成可控拿分点的关键。</p>
 </blockquote>
 <hr />
-<div class="sec sec-gate"><h2 class = "gate">① 门槛自测（进章前，10 分钟）</h2>
+<div class="sec sec-gate"><h2 class="gate">① 门槛自测（进章前，10 分钟）</h2>
 <ol>
-<li>向量的数量积公式 a · b  =  |a||b|cos θ 还记得吗？</li>
+<li>向量的数量积公式 a · b = |a||b|cos θ 还记得吗？</li>
 <li>向量 (1, 2, 3) 的模怎么算？</li>
 <li>两条直线垂直的条件（向量形式）？</li>
 <li>平面直角坐标系里点 (1, 2) 到原点距离？</li>
 <li>第 13 章：线面垂直的判定定理是什么？</li>
 </ol>
 <p><strong>判定</strong>：5 题答对 4 题以上 → 进章；否则回 09、13 章复习。</p>
-</div><div class="sec sec-goal"><h2 class = "goal">② 学习目标</h2>
+</div><div class="sec sec-goal"><h2 class="goal">② 学习目标</h2>
 <ul>
 <li>掌握空间向量的坐标运算（加减、数乘、数量积、模、夹角）</li>
 <li>会用<strong>建系法（坐标法）</strong>解决立体几何大题：</li>
@@ -282,7 +304,7 @@ section.flash{animation:flash 1.6s ease}
 <p>掌握法向量的求法（核心操作）</p>
 </li>
 </ul>
-</div><div class="sec sec-body"><h2 class = "body">③ 正文讲解</h2>
+</div><div class="sec sec-body"><h2 class="body">③ 正文讲解</h2>
 <p>本章地图：</p>
 <ul>
 <li>3.1 空间向量的坐标运算：把平面向量搬到三维。</li>
@@ -296,41 +318,41 @@ section.flash{animation:flash 1.6s ease}
 </blockquote>
 <h3>3.1 空间向量的坐标运算</h3>
 <p><strong>引入</strong>：平面向量是带箭头的二维箭头，空间向量就是三维箭头——左右（x）、前后（y）、上下（z）三个方向都能动。建一个空间直角坐标系后，向量就从两个数变成三个数。</p>
-<p><strong>坐标运算</strong>：设 a = (x<sub>1</sub>,y<sub>1</sub>,z<sub>1</sub>)，b = (x<sub>2</sub>,y<sub>2</sub>,z<sub>2</sub>)：</p>
+<p><strong>坐标运算</strong>：设 a=(x<sub>1</sub>,y<sub>1</sub>,z<sub>1</sub>)，b=(x<sub>2</sub>,y<sub>2</sub>,z<sub>2</sub>)：</p>
 <ul>
-<li>加减：a±b = (x<sub>1</sub>±x<sub>2</sub>, y<sub>1</sub>±y<sub>2</sub>, z<sub>1</sub>±z<sub>2</sub>)；</li>
-<li>数乘：λa = (λx<sub>1</sub>, λy<sub>1</sub>, λz<sub>1</sub>)；</li>
-<li><strong>数量积 a·b  =  x<sub>1</sub>x<sub>2</sub> + y<sub>1</sub>y<sub>2</sub> + z<sub>1</sub>z<sub>2</sub></strong>；</li>
-<li>模 |a| = √(x<sub>1</sub><sup>2</sup>+y<sub>1</sub><sup>2</sup>+z<sub>1</sub><sup>2</sup>)；</li>
-<li>夹角 cosθ  =  a·b/(|a||b|)；</li>
-<li>垂直 a⊥b ⇔ a·b = 0；平行 ⇔ 对应坐标成比例。</li>
+<li>加减：a±b=(x<sub>1</sub>±x<sub>2</sub>, y<sub>1</sub>±y<sub>2</sub>, z<sub>1</sub>±z<sub>2</sub>)；</li>
+<li>数乘：λa=(λx<sub>1</sub>, λy<sub>1</sub>, λz<sub>1</sub>)；</li>
+<li><strong>数量积 a·b = x<sub>1</sub>x<sub>2</sub> + y<sub>1</sub>y<sub>2</sub> + z<sub>1</sub>z<sub>2</sub></strong>；</li>
+<li>模 |a|=√(x<sub>1</sub><sup>2</sup>+y<sub>1</sub><sup>2</sup>+z<sub>1</sub><sup>2</sup>)；</li>
+<li>夹角 cosθ = a·b/(|a||b|)；</li>
+<li>垂直 a⊥b ⇔ a·b=0；平行 ⇔ 对应坐标成比例。</li>
 </ul>
 <p><strong>建系原则</strong>：找三条两两垂直的棱作 x、y、z 轴。正方体、长方体、有"墙角"的直角棱锥最好建系；没有现成垂直就先作辅助线。大题里建完系要写一句"以 O 为原点，……为 x、y、z 轴建立空间直角坐标系"。</p>
 <p><strong>一个常见误判</strong>：三条轴必须两两垂直，不能凭直觉把"看起来垂直"就当垂直。若题目只给 PA⊥底面，就以 PA 为 z 轴、底面上两条互相垂直的方向为 x、y 轴；底面没有现成直角时，要先证明一对垂直再建系。</p>
-<p><img alt = "空间直角坐标系中一点的三个坐标" src = "assets/14-coord-system.png" /></p>
-<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题</strong>：a = (1,2,2)，求 |a|；a = (1,0,0) 与 b = (0,1,0) 的夹角。
-解：|a| = √(1+4+4) = <strong>3</strong>；a·b = 0 ⇒ cosθ = 0 ⇒ θ = <strong>90°</strong>。</p>
+<p><img alt="空间直角坐标系中一点的三个坐标" src="assets/14-coord-system.png" /></p>
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题</strong>：a=(1,2,2)，求 |a|；a=(1,0,0) 与 b=(0,1,0) 的夹角。
+解：|a|=√(1+4+4)=<strong>3</strong>；a·b=0 ⇒ cosθ=0 ⇒ θ=<strong>90°</strong>。</p>
 <p><strong>再跟一道（建系写坐标）</strong>：正方体棱长 1，以 A 为原点、AB 为 x 轴、AD 为 y 轴、AA<sub>1</sub> 为 z 轴，写出八个顶点坐标。
 解：A(0,0,0)、B(1,0,0)、D(0,1,0)、A<sub>1</sub>(0,0,1)、C(1,1,0)、B<sub>1</sub>(1,0,1)、D<sub>1</sub>(0,1,1)、C<sub>1</sub>(1,1,1)。写坐标是建系法的第一步，每个点都要核对一遍，坐标错了后面全错。</p>
 <p><strong>空间向量基本定理与基底（苏州教研·专题48）</strong>：如果三个向量 a、b、c 不共面，那么空间任一向量 p 都能唯一写成
-<strong>p  =  x·a + y·b + z·c</strong>。
+<strong>p = x·a + y·b + z·c</strong>。
 这组不共面的 {a,b,c} 叫空间的一组基底。大白话：三维空间里随便挑三根不共面的箭头当"方向标"，任何向量都能拿它们拼出来——这就是建坐标系的老祖宗。</p>
 <p><strong>共线、共面向量定理（苏州教研·专题48）</strong>：</p>
 <ul>
-<li>共线：b≠0 时，<strong>a∥b ⇔ 存在实数 λ 使 a  =  λb</strong>；</li>
-<li>共面：a、b 不共线时，p 与 a、b 共面 ⇔ <strong>p  =  x·a + y·b</strong>。</li>
+<li>共线：b≠0 时，<strong>a∥b ⇔ 存在实数 λ 使 a = λb</strong>；</li>
+<li>共面：a、b 不共线时，p 与 a、b 共面 ⇔ <strong>p = x·a + y·b</strong>。</li>
 </ul>
 <p><strong>四点共面 / 三点共线的充要条件（苏州教研·专题48）</strong>：对空间任一点 O 和不共线三点 A、B、C——
-<strong>P、A、B、C 四点共面 ⇔ OP  =  x·OA + y·OB + z·OC，且 x+y+z  =  1</strong>；
-特别地，<strong>A、P、B 三点共线 ⇔ OP  =  x·OA + y·OB，且 x+y  =  1</strong>。</p>
+<strong>P、A、B、C 四点共面 ⇔ OP = x·OA + y·OB + z·OC，且 x+y+z = 1</strong>；
+特别地，<strong>A、P、B 三点共线 ⇔ OP = x·OA + y·OB，且 x+y = 1</strong>。</p>
 <ul>
-<li class = "baihua"><span class = "tag">大白话</span>用从 O 出发的向量表示 P，系数加起来等于 1，P 就落在 A、B、C 确定的平面（或直线）上。</li>
+<li class="baihua"><span class="tag">大白话</span>用从 O 出发的向量表示 P，系数加起来等于 1，P 就落在 A、B、C 确定的平面（或直线）上。</li>
 <li>用的时候：证四点共面、求动点在面内的条件，小题直接套。</li>
 </ul>
-<p><strong>分点坐标公式（苏州教研·专题48）</strong>：若 A(x<sub>1</sub>,y<sub>1</sub>,z<sub>1</sub>)，向量 AB = (x<sub>2</sub>,y<sub>2</sub>,z<sub>2</sub>)，且 AP = λ·AB，则 P = A+λ·AB，即
+<p><strong>分点坐标公式（苏州教研·专题48）</strong>：若 A(x<sub>1</sub>,y<sub>1</sub>,z<sub>1</sub>)，向量 AB=(x<sub>2</sub>,y<sub>2</sub>,z<sub>2</sub>)，且 AP=λ·AB，则 P=A+λ·AB，即
 <strong>P(x<sub>1</sub>+λx<sub>2</sub>, y<sub>1</sub>+λy<sub>2</sub>, z<sub>1</sub>+λz<sub>2</sub>)</strong>。</p>
 <ul>
-<li class = "baihua"><span class = "tag">大白话</span>沿 AB 方向走 λ 倍，坐标每个分量都加 λ 倍的方向分量。</li>
+<li class="baihua"><span class="tag">大白话</span>沿 AB 方向走 λ 倍，坐标每个分量都加 λ 倍的方向分量。</li>
 <li>用的时候：求棱上按比例分点的坐标，比硬算快。</li>
 </ul>
 <h3>3.2 法向量（最核心操作）</h3>
@@ -339,16 +361,16 @@ section.flash{animation:flash 1.6s ease}
 <p><strong>求法（大题标准三步）</strong>：</p>
 <ol>
 <li>在平面内取两个不共线向量 u、v（用点的坐标相减得到）；</li>
-<li>设 n = (x,y,z)，列方程组 n·u = 0 且 n·v = 0；</li>
+<li>设 n=(x,y,z)，列方程组 n·u=0 且 n·v=0；</li>
 <li>令某个分量为 1，解出另外两个，得到一个具体的法向量（法向量不唯一，差倍数都行）。</li>
 </ol>
-<p><strong>记住它之前先看懂它</strong>：法向量就是"垂直整个面的那根箭头"——面里随便两个不共线的方向 u、v 都躺在面上，n 要垂直整个面就得同时垂直 u 和 v，也就是 n·u = 0 且 n·v = 0；解这两个方程就是在找那根箭头，令一个分量为 1 只是为了把无穷多个平行箭头里挑一个整数的。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题</strong>：平面过 A(1,0,0)、B(0,1,0)、C(0,0,1)，求法向量。
-解：AB = (−1,1,0)，AC = (−1,0,1)。设 n = (x,y,z)：−x+y = 0，−x+z = 0 ⇒ y = x = z，取 n = <strong>(1,1,1)</strong>。</p>
+<p><strong>记住它之前先看懂它</strong>：法向量就是"垂直整个面的那根箭头"——面里随便两个不共线的方向 u、v 都躺在面上，n 要垂直整个面就得同时垂直 u 和 v，也就是 n·u=0 且 n·v=0；解这两个方程就是在找那根箭头，令一个分量为 1 只是为了把无穷多个平行箭头里挑一个整数的。</p>
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题</strong>：平面过 A(1,0,0)、B(0,1,0)、C(0,0,1)，求法向量。
+解：AB=(−1,1,0)，AC=(−1,0,1)。设 n=(x,y,z)：−x+y=0，−x+z=0 ⇒ y=x=z，取 n=<strong>(1,1,1)</strong>。</p>
 <p><strong>再跟一道（正方体里求法向量）</strong>：求正方体中平面 A<sub>1</sub>BD 的法向量（棱长 1，A 为原点）。
-解：A<sub>1</sub>(0,0,1)、B(1,0,0)、D(0,1,0)。A<sub>1</sub>B = (1,0,−1)，A<sub>1</sub>D = (0,1,−1)。设 n = (x,y,z)：x−z = 0，y−z = 0 ⇒ x = y = z，取 n = <strong>(1,1,1)</strong>。可见换一个面，只要按"取两个不共线向量、列两个点积方程"这套流程，总能求出法向量。</p>
+解：A<sub>1</sub>(0,0,1)、B(1,0,0)、D(0,1,0)。A<sub>1</sub>B=(1,0,−1)，A<sub>1</sub>D=(0,1,−1)。设 n=(x,y,z)：x−z=0，y−z=0 ⇒ x=y=z，取 n=<strong>(1,1,1)</strong>。可见换一个面，只要按"取两个不共线向量、列两个点积方程"这套流程，总能求出法向量。</p>
 <p><strong>用方向向量、法向量判断位置关系（苏州教研·专题48）</strong>：设直线 l、m 的方向向量为 a、b，平面 α、β 的法向量为 u、v，则——</p>
-<div class = "tbl-wrap"><table style = "table-layout:fixed;max-width:100%"><colgroup><col style = "width:24%"><col style = "width:76%"></colgroup>
+<div class="tbl-wrap"><table style="table-layout:fixed;max-width:100%"><colgroup><col style="width:24%"><col style="width:76%"></colgroup>
 <thead>
 <tr>
 <th>要证</th>
@@ -358,35 +380,35 @@ section.flash{animation:flash 1.6s ease}
 <tbody>
 <tr>
 <td>l∥m</td>
-<td>a∥b，即 a = λb</td>
+<td>a∥b，即 a=λb</td>
 </tr>
 <tr>
 <td>l⊥m</td>
-<td>a⊥b，即 a·b = 0</td>
+<td>a⊥b，即 a·b=0</td>
 </tr>
 <tr>
 <td>l∥α</td>
-<td>a⊥u，即 a·u = 0</td>
+<td>a⊥u，即 a·u=0</td>
 </tr>
 <tr>
 <td>l⊥α</td>
-<td>a∥u，即 a = λu</td>
+<td>a∥u，即 a=λu</td>
 </tr>
 <tr>
 <td>α∥β</td>
-<td>u∥v，即 u = λv</td>
+<td>u∥v，即 u=λv</td>
 </tr>
 <tr>
 <td>α⊥β</td>
-<td>u⊥v，即 u·v = 0</td>
+<td>u⊥v，即 u·v=0</td>
 </tr>
 </tbody>
 </table></div>
-<p class = "baihua"><span class = "tag">大白话</span>线线关系看方向向量，线面关系看方向向量与法向量，面面关系看法向量之间。<strong>证平行就"方向成倍数"，证垂直就"数量积为 0"</strong>。</p>
+<p class="baihua"><span class="tag">大白话</span>线线关系看方向向量，线面关系看方向向量与法向量，面面关系看法向量之间。<strong>证平行就"方向成倍数"，证垂直就"数量积为 0"</strong>。</p>
 <p><strong>编者注·本质回扣</strong>：法向量为什么被称作"钥匙"？因为它把"一个平面朝哪个方向立着"这件难事，浓缩成了一根箭头。你看那张位置关系表：证线线平行或垂直，只要看两个方向向量成不成倍数、内积是不是 0；证线面、面面关系，本质也是方向向量与法向量、法向量与法向量之间做同样两件事。说白了，第 13 章要靠眼睛判断"这两个面平不平行、垂不垂直"，到这里全部降级成"算两组坐标成不成比例、点积等不等于 0"。这就是装上坐标的好处：几何判断变成了算术。</p>
 <h3>3.3 三类角（用向量求）</h3>
 <p><strong>引入</strong>：异面直线的夹角、线和面的夹角、两个面的夹角，肉眼不好量，但都能翻译成向量夹角，套公式算。</p>
-<div class = "tbl-wrap"><table style = "table-layout:fixed;max-width:100%"><colgroup><col style = "width:16%"><col style = "width:55%"><col style = "width:29%"></colgroup>
+<div class="tbl-wrap"><table style="table-layout:fixed;max-width:100%"><colgroup><col style="width:16%"><col style="width:55%"><col style="width:29%"></colgroup>
 <thead>
 <tr>
 <th>所求</th>
@@ -397,41 +419,41 @@ section.flash{animation:flash 1.6s ease}
 <tbody>
 <tr>
 <td>线线角 θ</td>
-<td>cosθ = |a·b|/(|a||b|)</td>
+<td>cosθ=|a·b|/(|a||b|)</td>
 <td>取绝对值，θ∈[0,π/2]</td>
 </tr>
 <tr>
 <td>线面角 θ</td>
-<td><strong>sinθ = |a·n|/(|a||n|)</strong></td>
+<td><strong>sinθ=|a·n|/(|a||n|)</strong></td>
 <td>是 sin 不是 cos</td>
 </tr>
 <tr>
 <td>二面角 θ</td>
-<td>cosθ = ±(n<sub>1</sub>·n<sub>2</sub>)/(|n<sub>1</sub>||n<sub>2</sub>|)</td>
+<td>cosθ=±(n<sub>1</sub>·n<sub>2</sub>)/(|n<sub>1</sub>||n<sub>2</sub>|)</td>
 <td>正负看锐钝</td>
 </tr>
 </tbody>
 </table></div>
-<p><strong>记住它之前先看懂它</strong>：这三行公式别看花眼——它们都是"两个向量夹角 cosθ = a·b/(|a||b|)"这一颗种子长出来的：线线角直接取绝对值；二面角是两个法向量的夹角（或其补角）；线面角因为和法向量夹角差了个余角，才把 cos 换成 sin。</p>
-<p class = "baihua why"><span class = "tag">为什么</span>线面角用 sin 线面角是斜线与它在面内射影的夹角，而斜线与法向量的夹角正好是它的余角，所以套进去得到 sinθ。这是最容易记混的一条。</p>
-<p><img alt = "线面角：斜线与射影的夹角" src = "assets/14-line-plane-angle.png" /></p>
-<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题</strong>：正方体棱长 1，求直线 A<sub>1</sub>B 与底面 ABCD 所成角的正弦值。
-解：建系 A(0,0,0)、A<sub>1</sub>(0,0,1)、B(1,0,0)，方向向量 A<sub>1</sub>B = (1,0,−1)，底面法向量 n = (0,0,1)。sinθ = |−1|/(√2·1) = <strong>√2/2</strong>。</p>
+<p><strong>记住它之前先看懂它</strong>：这三行公式别看花眼——它们都是"两个向量夹角 cosθ=a·b/(|a||b|)"这一颗种子长出来的：线线角直接取绝对值；二面角是两个法向量的夹角（或其补角）；线面角因为和法向量夹角差了个余角，才把 cos 换成 sin。</p>
+<p class="baihua why"><span class="tag">为什么</span>线面角用 sin 线面角是斜线与它在面内射影的夹角，而斜线与法向量的夹角正好是它的余角，所以套进去得到 sinθ。这是最容易记混的一条。</p>
+<p><img alt="线面角：斜线与射影的夹角" src="assets/14-line-plane-angle.png" /></p>
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题</strong>：正方体棱长 1，求直线 A<sub>1</sub>B 与底面 ABCD 所成角的正弦值。
+解：建系 A(0,0,0)、A<sub>1</sub>(0,0,1)、B(1,0,0)，方向向量 A<sub>1</sub>B=(1,0,−1)，底面法向量 n=(0,0,1)。sinθ=|−1|/(√2×1)=<strong>√2/2</strong>。</p>
 <p><strong>再跟一道（二面角）</strong>：正方体中二面角 D−A<sub>1</sub>A−B（即两个相邻面 ABB<sub>1</sub>A<sub>1</sub> 与 ADD<sub>1</sub>A<sub>1</sub> 的夹角）是多少度？
-解：棱是 AA<sub>1</sub>。面 ABB<sub>1</sub>A<sub>1</sub> 的法向量可取 (0,1,0)，面 ADD<sub>1</sub>A<sub>1</sub> 的法向量可取 (1,0,0)。cosθ = |0|/... 两者点积为 0，故二面角为 <strong>90°</strong>（本来就是相邻两面，互相垂直）。这道小题提醒：二面角  =  两个面法向量的夹角（或其补角）。</p>
+解：棱是 AA<sub>1</sub>。面 ABB<sub>1</sub>A<sub>1</sub> 的法向量可取 (0,1,0)，面 ADD<sub>1</sub>A<sub>1</sub> 的法向量可取 (1,0,0)。cosθ=|0|/... 两者点积为 0，故二面角为 <strong>90°</strong>（本来就是相邻两面，互相垂直）。这道小题提醒：二面角 = 两个面法向量的夹角（或其补角）。</p>
 <h3>3.4 点到平面的距离</h3>
 <p><strong>引入</strong>：求一个点离一个平面多远，几何上要"过点作面的垂线"，建系后就变成投影。</p>
 <p><strong>公式</strong>：点 P 到过点 A、法向量为 n 的平面的距离，
-<strong>d  =  |AP·n| / |n|</strong>。
+<strong>d = |AP·n| / |n|</strong>。
 道理：AP 在法方向上的投影长度就是点到面的垂距。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>跟讲例题</strong>：求原点到平面 x+y+z = 1 的距离。
-解：面上取 A(1,0,0)，法向量 n = (1,1,1)，AP = (−1,0,0)（取 P = 原点）。d = |−1|/√3 = <strong>√3/3</strong>。</p>
+<p class="ex"><span class="tag">例题</span><strong>跟讲例题</strong>：求原点到平面 x+y+z=1 的距离。
+解：面上取 A(1,0,0)，法向量 n=(1,1,1)，AP=(−1,0,0)（取 P=原点）。d=|−1|/√3=<strong>√3/3</strong>。</p>
 <p><strong>再跟一道（正方体里算距离）</strong>：棱长 1 的正方体中，求点 C<sub>1</sub> 到平面 A<sub>1</sub>BD 的距离。
-解：面 A<sub>1</sub>BD 法向量 n = (1,1,1)（见 3.2 例题），面上取 A<sub>1</sub>(0,0,1)，点 C<sub>1</sub>(1,1,1)，A<sub>1</sub>C<sub>1</sub> = (1,1,0)。d = |1+1+0|/√3 = <strong>2√3/3</strong>。算完可反代：正方体被平面 A<sub>1</sub>BD 切下的小三棱锥体积用等体积法也能得到同一结果，可交叉验算。</p>
+解：面 A<sub>1</sub>BD 法向量 n=(1,1,1)（见 3.2 例题），面上取 A<sub>1</sub>(0,0,1)，点 C<sub>1</sub>(1,1,1)，A<sub>1</sub>C<sub>1</sub>=(1,1,0)。d=|1+1+0|/√3=<strong>2√3/3</strong>。算完可反代：正方体被平面 A<sub>1</sub>BD 切下的小三棱锥体积用等体积法也能得到同一结果，可交叉验算。</p>
 <p><strong>面积射影定理（苏州教研·专题48）</strong>：一个平面多边形面积为 S，它在另一个平面上的射影面积为 S′，两个平面所成的锐二面角为 θ，则
-<strong>cosθ  =  S′ / S</strong>。</p>
+<strong>cosθ = S′ / S</strong>。</p>
 <ul>
-<li class = "baihua"><span class = "tag">大白话</span>一个面斜着"投影"到另一个面上，面积被 cosθ 打了个折。</li>
+<li class="baihua"><span class="tag">大白话</span>一个面斜着"投影"到另一个面上，面积被 cosθ 打了个折。</li>
 <li>用的时候：两条法向量不好找、二面角算不动时，算一下射影面积比反求 cosθ；也常用于"斜立锥体侧面投影"小题。</li>
 </ul>
 <h3>3.5 大题完整模板（建系法）</h3>
@@ -445,51 +467,51 @@ section.flash{animation:flash 1.6s ease}
 </ol>
 <p><strong>两个最常见失分点</strong>：一是坐标写错（尤其带分数的点），每个点算完都反推一遍棱长；二是线面角公式里写成 cos，记住"线面角用 sin"。二面角若题目说"锐角"就取正，说"钝角"就取负；没说就先算绝对值，再看图形是开口朝哪边。</p>
 <p><strong>小结</strong>：空间向量把立体几何大题变成"算坐标、套公式"的体力活；法向量是钥匙，线面角别写成 cos。</p>
-<p><strong>编者注·本质回扣</strong>：回头看三类角和距离那几个公式，别把它们当四条孤立结论死背，它们其实都是内积 a·b = |a||b|cosθ 这一个式子的变形：线线角、二面角直接就是两个方向（或法）向量的夹角；线面角因为和法向量的夹角正好差一个余角，才把 cos 换成 sin；点到面距离就是连线在法方向上的投影长度。所以建系五步里真正的"发动机"只有一个——数量积。你记住了内积这一颗种子，三类角和距离公式就能自己长出来，不必逐条硬背；这也是本章本质核心"角与距离都是内积的副产品"的落点。</p>
-</div><div class="sec sec-ex2"><h2 class = "ex2">④ 例题详解（先做再看）</h2>
-<p class = "ex"><span class = "tag">例题</span><strong>例 1（求法向量）</strong>：平面 α 过点 A(1, 0, 0)、B(0, 1, 0)、C(0, 0, 1)，求 α 的一个法向量。</p>
+<p><strong>编者注·本质回扣</strong>：回头看三类角和距离那几个公式，别把它们当四条孤立结论死背，它们其实都是内积 a·b=|a||b|cosθ 这一个式子的变形：线线角、二面角直接就是两个方向（或法）向量的夹角；线面角因为和法向量的夹角正好差一个余角，才把 cos 换成 sin；点到面距离就是连线在法方向上的投影长度。所以建系五步里真正的"发动机"只有一个——数量积。你记住了内积这一颗种子，三类角和距离公式就能自己长出来，不必逐条硬背；这也是本章本质核心"角与距离都是内积的副产品"的落点。</p>
+</div><div class="sec sec-ex2"><h2 class="ex2">④ 例题详解（先做再看）</h2>
+<p class="ex"><span class="tag">例题</span><strong>例 1（求法向量）</strong>：平面 α 过点 A(1, 0, 0)、B(0, 1, 0)、C(0, 0, 1)，求 α 的一个法向量。</p>
 <blockquote>
 <p>自己做：取两个向量，列方程组。</p>
 </blockquote>
-<p>解：AB  =  (−1, 1, 0)，AC  =  (−1, 0, 1)。设 n  =  (x, y, z)：
-n·AB  =  −x + y  =  0；n·AC  =  −x + z  =  0 ⇒ y  =  x，z  =  x。取 x  =  1 ⇒ n  =  (1, 1, 1)。
+<p>解：AB = (−1, 1, 0)，AC = (−1, 0, 1)。设 n = (x, y, z)：
+n·AB = −x + y = 0；n·AC = −x + z = 0 ⇒ y = x，z = x。取 x = 1 ⇒ n = (1, 1, 1)。
 要点：<strong>令一个分量为 1 得整数解</strong>；法向量不唯一，方向相反也行。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>例 2（线面角）</strong>：正方体 ABCD−A<sub>1</sub>B<sub>1</sub>C<sub>1</sub>D<sub>1</sub> 棱长为 1，求直线 A<sub>1</sub>B 与平面 ABCD 所成角的正弦值。</p>
+<p class="ex"><span class="tag">例题</span><strong>例 2（线面角）</strong>：正方体 ABCD−A<sub>1</sub>B<sub>1</sub>C<sub>1</sub>D<sub>1</sub> 棱长为 1，求直线 A<sub>1</sub>B 与平面 ABCD 所成角的正弦值。</p>
 <blockquote>
 <p>自己做：A<sub>1</sub>B 的方向向量，底面法向量是 (0, 0, 1)。</p>
 </blockquote>
-<p>解：建系 A(0,0,0)，A<sub>1</sub>(0,0,1)，B(1,0,0)。A<sub>1</sub>B  =  (1, 0, −1)，底法向量 n  =  (0, 0, 1)。
-sin θ  =  |A<sub>1</sub>B·n|/(|A<sub>1</sub>B||n|)  =  |−1|/(√2·1)  =  √2/2。
+<p>解：建系 A(0,0,0)，A<sub>1</sub>(0,0,1)，B(1,0,0)。A<sub>1</sub>B = (1, 0, −1)，底法向量 n = (0, 0, 1)。
+sin θ = |A<sub>1</sub>B·n|/(|A<sub>1</sub>B||n|) = |−1|/(√2×1) = √2/2。
 要点：<strong>线面角公式里是 sin</strong>，很多同学错写成 cos。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>例 3（点到面距离）</strong>：上题中求点 A<sub>1</sub> 到平面 BCD<sub>1</sub> 的距离。</p>
+<p class="ex"><span class="tag">例题</span><strong>例 3（点到面距离）</strong>：上题中求点 A<sub>1</sub> 到平面 BCD<sub>1</sub> 的距离。</p>
 <blockquote>
 <p>自己做：先求平面法向量，再套距离公式。</p>
 </blockquote>
-<p>解：B(1,0,0)、C(1,1,0)、D<sub>1</sub>(0,1,1)。BC  =  (0,1,0)，BD<sub>1</sub>  =  (−1,1,1)。
-设 n  =  (x,y,z)：n·BC  =  y  =  0；n·BD<sub>1</sub>  =  −x + y + z  =  0 ⇒ z  =  x。取 x  =  1 ⇒ n  =  (1, 0, 1)。
-取平面上点 B：BA<sub>1</sub>  =  (−1, 0, 1)。d  =  |BA<sub>1</sub>·n|/|n|  =  |−1 + 1|/√2  =  0。
-咦？A<sub>1</sub> 在平面 BCD<sub>1</sub> 上？检查：A<sub>1</sub>(0,0,1)，平面 BCD<sub>1</sub> 过 B(1,0,0) 法向 (1,0,1)：平面方程 x + z  =  1，A<sub>1</sub> 代入 0 + 1  =  1 成立，确实在平面上。距离为 0 合理（此题作为"检查法"示范）。
-换个距离题：求点 A<sub>1</sub> 到平面 BCC<sub>1</sub> 的距离：平面 BCC<sub>1</sub> 即 x  =  1 面，法向 (1,0,0)，A<sub>1</sub>(0,0,1) 代入 d  =  |0 − 1|  =  1。
+<p>解：B(1,0,0)、C(1,1,0)、D<sub>1</sub>(0,1,1)。BC = (0,1,0)，BD<sub>1</sub> = (−1,1,1)。
+设 n = (x,y,z)：n·BC = y = 0；n·BD<sub>1</sub> = −x + y + z = 0 ⇒ z = x。取 x = 1 ⇒ n = (1, 0, 1)。
+取平面上点 B：BA<sub>1</sub> = (−1, 0, 1)。d = |BA<sub>1</sub>·n|/|n| = |−1 + 1|/√2 = 0。
+咦？A<sub>1</sub> 在平面 BCD<sub>1</sub> 上？检查：A<sub>1</sub>(0,0,1)，平面 BCD<sub>1</sub> 过 B(1,0,0) 法向 (1,0,1)：平面方程 x + z = 1，A<sub>1</sub> 代入 0 + 1 = 1 成立，确实在平面上。距离为 0 合理（此题作为"检查法"示范）。
+换个距离题：求点 A<sub>1</sub> 到平面 BCC<sub>1</sub> 的距离：平面 BCC<sub>1</sub> 即 x = 1 面，法向 (1,0,0)，A<sub>1</sub>(0,0,1) 代入 d = |0 − 1| = 1。
 要点：<strong>算完用平面方程反代检验</strong>，距离为 0 说明点在面上（正常）。</p>
-<p class = "ex"><span class = "tag">例题</span><strong>例 4（建系综合：线线角、线面角、体积）（苏州教研·专题19，原书p.76）</strong>：四边形 ABCD 为矩形，PD⊥平面 ABCD，PD = DC = 2，BC = √2，E 是 PC 的中点。求：(1) 异面直线 AD 与 BE 所成角；(2) BE 与平面 PCD 所成角；(3) 三棱锥 P−BDE 的体积。</p>
+<p class="ex"><span class="tag">例题</span><strong>例 4（建系综合：线线角、线面角、体积）（苏州教研·专题19，原书p.76）</strong>：四边形 ABCD 为矩形，PD⊥平面 ABCD，PD=DC=2，BC=√2，E 是 PC 的中点。求：(1) 异面直线 AD 与 BE 所成角；(2) BE 与平面 PCD 所成角；(3) 三棱锥 P−BDE 的体积。</p>
 <blockquote>
 <p>自己做：PD⊥底面，以 D 为原点建系。</p>
 </blockquote>
-<p>解：以 D 为原点，DA 为 x 轴、DC 为 y 轴、DP 为 z 轴。由 PD = DC = 2、BC = AD = √2，得
+<p>解：以 D 为原点，DA 为 x 轴、DC 为 y 轴、DP 为 z 轴。由 PD=DC=2、BC=AD=√2，得
 D(0,0,0)、A(√2,0,0)、C(0,2,0)、B(√2,2,0)、P(0,0,2)；E 为 PC 中点，E(0,1,1)。</p>
-<p>(1) AD 方向向量取 (1,0,0)，BE = E−B = (−√2,−1,1)，|BE| = √(2+1+1) = 2。
-cosθ = |(1,0,0)·(−√2,−1,1)|/(1·2) = √2/2 ⇒ θ = <strong>45°</strong>。</p>
-<p>(2) 平面 PCD 上 P、C、D 的 x 坐标都是 0，即该平面为 x = 0，法向量 n = (1,0,0)。
-sinθ = |BE·n|/(|BE||n|) = √2/2 ⇒ θ = <strong>45°</strong>。</p>
-<p>(3) 换顶点求体积（等体积法）：V(P−BDE) = V(B−PDE)。面 PDE 即 x = 0，△PDE 中 PD = 2（在 z 轴上），E 到 z 轴距离为 1，故 S△PDE = ½·2·1 = 1；点 B 到面 PDE（x = 0）的距离  =  √2。
-V = ⅓·1·√2 = <strong>√2/3</strong>。</p>
+<p>(1) AD 方向向量取 (1,0,0)，BE=E−B=(−√2,−1,1)，|BE|=√(2+1+1)=2。
+cosθ=|(1,0,0)×(−√2,−1,1)|/(1×2)=√2/2 ⇒ θ=<strong>45°</strong>。</p>
+<p>(2) 平面 PCD 上 P、C、D 的 x 坐标都是 0，即该平面为 x=0，法向量 n=(1,0,0)。
+sinθ=|BE·n|/(|BE||n|)=√2/2 ⇒ θ=<strong>45°</strong>。</p>
+<p>(3) 换顶点求体积（等体积法）：V(P−BDE)=V(B−PDE)。面 PDE 即 x=0，△PDE 中 PD=2（在 z 轴上），E 到 z 轴距离为 1，故 S△PDE=½·2×1=1；点 B 到面 PDE（x=0）的距离 = √2。
+V=⅓·1·√2=<strong>√2/3</strong>。</p>
 <p>要点：<strong>建系后每个坐标逐点核对</strong>；平面 PCD 三个点 x 都为 0，一眼看出法向量 (1,0,0)；体积换个好算的底面（△PDE 在坐标面内，面积好算）。</p>
-</div><div class="sec sec-out"><h2 class = "out">⑤ 出口检测</h2>
+</div><div class="sec sec-out"><h2 class="out">⑤ 出口检测</h2>
 <p><strong>自测（20 分钟，每题 2 分）</strong>：</p>
 <ol>
 <li>求过 A(1,1,0)、B(0,1,1)、C(1,0,1) 的平面的一个法向量。</li>
-<li>向量 a  =  (1, 2, 2)，求 |a|。</li>
-<li>向量 a  =  (1, 0, 0) 与 b  =  (0, 1, 0) 的夹角是多少？</li>
+<li>向量 a = (1, 2, 2)，求 |a|。</li>
+<li>向量 a = (1, 0, 0) 与 b = (0, 1, 0) 的夹角是多少？</li>
 <li>线面角公式里用的是 sin 还是 cos？</li>
 <li>点到平面距离公式是什么？（文字表述）</li>
 </ol>
@@ -497,20 +519,20 @@ V = ⅓·1·√2 = <strong>√2/3</strong>。</p>
 <p><strong>过关标准</strong>：自测 ≥ 10 分 且 真题达标 → 打卡。</p>
 </div><div class="sec sec-hw"><h2>课后习题（分层练习）</h2>
 <h3>A 组 · 基础巩固</h3>
-<p>1.【考点：向量的模】向量 a = (2,3,6)，求 |a|。
-2.【考点：数量积】a = (1,−2,2)，b = (2,−1,0)，求 a·b。
+<p>1.【考点：向量的模】向量 a=(2,3,6)，求 |a|。
+2.【考点：数量积】a=(1,−2,2)，b=(2,−1,0)，求 a·b。
 3.【考点：求法向量】求过 A(1,0,0)、B(0,2,0)、C(0,0,3) 的平面的一个法向量。
-4.【考点：线线角】a = (1,1,0)，b = (1,0,1)，求两方向向量夹角的余弦值。
+4.【考点：线线角】a=(1,1,0)，b=(1,0,1)，求两方向向量夹角的余弦值。
 5.【考点：线面角公式】一句话写出：线面角 θ 的正弦公式是什么？
-6.【考点：点到面距离】原点到平面 2x+2y+z = 6 的距离是多少？</p>
+6.【考点：点到面距离】原点到平面 2x+2y+z=6 的距离是多少？</p>
 <h3>B 组 · 能力提升</h3>
 <p>7.【考点：线面角】正方体棱长 1，求直线 BD<sub>1</sub> 与底面 ABCD 所成角的正弦值。
-8.【考点：法向量与二面角】平面 α 法向量 n<sub>1</sub> = (1,0,1)，平面 β 法向量 n<sub>2</sub> = (0,1,1)，求二面角的余弦值（取锐角）。
+8.【考点：法向量与二面角】平面 α 法向量 n<sub>1</sub>=(1,0,1)，平面 β 法向量 n<sub>2</sub>=(0,1,1)，求二面角的余弦值（取锐角）。
 9.【考点：点到面距离】正方体 ABCD−A<sub>1</sub>B<sub>1</sub>C<sub>1</sub>D<sub>1</sub> 棱长 1，求点 A 到平面 A<sub>1</sub>BD 的距离。
 10.【考点：建系综合】在第 9 题正方体中，求直线 A<sub>1</sub>C 与平面 ABCD 所成角的正切值。</p>
 <h3>C 组 · 真题挑战</h3>
-<p>11.【考点：建系求二面角】（2024 新高考Ⅰ卷·解答第 17 题第 (2) 问）四棱锥 P−ABCD 中，PA⊥底面 ABCD，PA = AC = 2，BC = 1，AB = √3。若 AD⊥DC，且二面角 A−CP−D 的正弦值为 √42/7，求 AD。</p>
-</div><div class="sec sec-pit"><h2 class = "pit">⑥ 常见坑清单</h2>
+<p>11.【考点：建系求二面角】（2024 新高考Ⅰ卷·解答第 17 题第 (2) 问）四棱锥 P−ABCD 中，PA⊥底面 ABCD，PA=AC=2，BC=1，AB=√3。若 AD⊥DC，且二面角 A−CP−D 的正弦值为 √42/7，求 AD。</p>
+</div><div class="sec sec-pit"><h2 class="pit">⑥ 常见坑清单</h2>
 <ul>
 <li><strong>线面角用 sin</strong>、线线角用 cos（带绝对值），公式别串。</li>
 <li>法向量方程组：<strong>取两个不共线向量</strong>；共线会解不出唯一方向。</li>
@@ -524,17 +546,17 @@ V = ⅓·1·√2 = <strong>√2/3</strong>。</p>
 <p>口径与《高中数学常用公式·修订版》第四部分（空间向量部分）一致。</p>
 </blockquote>
 <h3>空间向量坐标运算</h3>
-<p><strong>加减与数乘：a±b = (x<sub>1</sub>±x<sub>2</sub>, y<sub>1</sub>±y<sub>2</sub>, z<sub>1</sub>±z<sub>2</sub>)；λa = (λx<sub>1</sub>, λy<sub>1</sub>, λz<sub>1</sub>)</strong></p>
+<p><strong>加减与数乘：a±b=(x<sub>1</sub>±x<sub>2</sub>, y<sub>1</sub>±y<sub>2</sub>, z<sub>1</sub>±z<sub>2</sub>)；λa=(λx<sub>1</sub>, λy<sub>1</sub>, λz<sub>1</sub>)</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>对应坐标分别加、减、乘。</li>
 <li>用的时候：先建系写对坐标，坐标错了后面全错。</li>
 </ul>
-<p><strong>数量积：a·b  =  x<sub>1</sub>x<sub>2</sub> + y<sub>1</sub>y<sub>2</sub> + z<sub>1</sub>z<sub>2</sub></strong></p>
+<p><strong>数量积：a·b = x<sub>1</sub>x<sub>2</sub> + y<sub>1</sub>y<sub>2</sub> + z<sub>1</sub>z<sub>2</sub></strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>对应坐标相乘再相加，结果是个数。</li>
 <li>用的时候：判断垂直就靠它——等于 0 就垂直。</li>
 </ul>
-<p><strong>模：|a|  =  √(x<sub>1</sub><sup>2</sup> + y<sub>1</sub><sup>2</sup> + z<sub>1</sub><sup>2</sup>)</strong></p>
+<p><strong>模：|a| = √(x<sub>1</sub><sup>2</sup> + y<sub>1</sub><sup>2</sup> + z<sub>1</sub><sup>2</sup>)</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>三个坐标平方加起来开根号，就是向量长度。</li>
 </ul>
@@ -562,7 +584,7 @@ V = ⅓·1·√2 = <strong>√2/3</strong>。</p>
 <li class="baihua"><span class="tag">大白话</span>斜线与法向量夹角的余角，所以用 sin 不是 cos。</li>
 <li>用的时候：这是最容易记混的一条，千万别写成 cos。</li>
 </ul>
-<p><strong>二面角 θ：cosθ  =  ±(n<sub>1</sub>·n<sub>2</sub>)/(|n<sub>1</sub>||n<sub>2</sub>|)，正负看锐钝</strong></p>
+<p><strong>二面角 θ：cosθ = ±(n<sub>1</sub>·n<sub>2</sub>)/(|n<sub>1</sub>||n<sub>2</sub>|)，正负看锐钝</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>两个面法向量的夹角（或补角）。</li>
 <li>用的时候：题目说锐角取正、钝角取负；没说先算绝对值再看图开口方向。</li>
@@ -579,12 +601,12 @@ V = ⅓·1·√2 = <strong>√2/3</strong>。</p>
 <li class="baihua"><span class="tag">大白话</span>系数加起来等于 1，P 就落在 A、B、C 确定的面（线）上。</li>
 <li>用的时候：证四点共面、求动点在面内的条件。</li>
 </ul>
-<p><strong>分点坐标：P = A+λ·AB ⇒ P(x<sub>1</sub>+λx<sub>2</sub>, y<sub>1</sub>+λy<sub>2</sub>, z<sub>1</sub>+λz<sub>2</sub>)</strong></p>
+<p><strong>分点坐标：P=A+λ·AB ⇒ P(x<sub>1</sub>+λx<sub>2</sub>, y<sub>1</sub>+λy<sub>2</sub>, z<sub>1</sub>+λz<sub>2</sub>)</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>沿方向向量走 λ 倍，每个分量加 λ 倍。</li>
 <li>用的时候：棱上按比例分点坐标，秒算。</li>
 </ul>
-<p><strong>空间两点距离：|AB|  =  √((x<sub>2</sub>−x<sub>1</sub>)<sup>2</sup>+(y<sub>2</sub>−y<sub>1</sub>)<sup>2</sup>+(z<sub>2</sub>−z<sub>1</sub>)<sup>2</sup>)</strong></p>
+<p><strong>空间两点距离：|AB| = √((x<sub>2</sub>−x<sub>1</sub>)<sup>2</sup>+(y<sub>2</sub>−y<sub>1</sub>)<sup>2</sup>+(z<sub>2</sub>−z<sub>1</sub>)<sup>2</sup>)</strong></p>
 <ul>
 <li class="baihua"><span class="tag">大白话</span>坐标差平方和开根号，就是模公式的两点版。</li>
 </ul>
@@ -599,17 +621,17 @@ V = ⅓·1·√2 = <strong>√2/3</strong>。</p>
 </blockquote>
 <h3>进阶 1：空间向量建系法（大题主力）</h3>
 <p><strong>适用信号</strong>：立体几何解答题第二问求角、求距离。
-<strong>操作步骤</strong>：建系（优先找三条两两垂直的棱）→ 写坐标 → 求法向量 → 套公式（线面角 sin、二面角 cos、距离 d = |AP·n|/|n|）。
+<strong>操作步骤</strong>：建系（优先找三条两两垂直的棱）→ 写坐标 → 求法向量 → 套公式（线面角 sin、二面角 cos、距离 d=|AP·n|/|n|）。
 <strong>例题</strong>：见 3.5 模板与本章 C 组真题。
 <strong>课标依据/红线</strong>：空间向量是选必一正文内容，✓ <strong>不超纲（高考可放心用）</strong>。
 <strong>注意</strong>：二面角锐钝要靠观察法向量方向判断，别丢符号；建系前要先写一句三轴两两垂直的依据。</p>
 <h3>进阶 2：外接球补形模型（跨 13、14 章）</h3>
 <p><strong>适用信号</strong>：墙角形三棱锥（三条棱两两垂直）求外接球。
-<strong>操作步骤</strong>：补成长方体，R = ½√(a<sup>2</sup>+b<sup>2</sup>+c<sup>2</sup>)。
+<strong>操作步骤</strong>：补成长方体，R=½√(a<sup>2</sup>+b<sup>2</sup>+c<sup>2</sup>)。
 <strong>课标依据/红线</strong>：✓ <strong>不超纲</strong>。</p>
 <h3>进阶 3：等体积法（不建系的距离）</h3>
 <p><strong>适用信号</strong>：求点到面距离、求高，且建系坐标不好写时。
-<strong>操作步骤</strong>：换顶点与底面，体积不变，h = 3V/S底。
+<strong>操作步骤</strong>：换顶点与底面，体积不变，h=3V/S底。
 <strong>课标依据/红线</strong>：✓ <strong>不超纲</strong>；与向量距离公式互为验算。</p>
 <h3>手册原文全录（七.7.1～7.3）</h3>
 <blockquote>
@@ -619,7 +641,7 @@ V = ⅓·1·√2 = <strong>√2/3</strong>。</p>
 <p><strong>大白话·本质一句话</strong>：建系法就是"给空间装上坐标"——把靠眼睛想辅助线变成照流程算坐标：找到三条两两垂直的棱当轴，写坐标、求法向量，角和距离全是内积的副产品。</p>
 <p><strong>手册原文</strong>：流程：建系（优先找三条两两垂直的线）→ 写坐标 → 求法向量（叉积或解方程）→ 套公式：</p>
 <ul>
-<li>线面角：sinθ  =  |cos&lt;n,v&gt;|；二面角：cosθ  =  |cos&lt;n<sub>1</sub>,n<sub>2</sub>&gt;|（注意锐钝判断）；点到面距离 d = |PA·n|/|n|。</li>
+<li>线面角：sinθ = |cos&lt;n,v&gt;|；二面角：cosθ = |cos&lt;n<sub>1</sub>,n<sub>2</sub>&gt;|（注意锐钝判断）；点到面距离 d=|PA·n|/|n|。</li>
 </ul>
 <p><strong>课标依据</strong>：空间向量（选必一）。✓</p>
 <p><strong>注意</strong>：二面角锐钝判断靠"观察法向量方向"，别丢符号。</p>
@@ -628,7 +650,7 @@ V = ⅓·1·√2 = <strong>√2/3</strong>。</p>
 <h4>7.2 外接球补形模型速查</h4>
 <p><strong>大白话·本质一句话</strong>：补形就是"把歪着放的四面体塞进一个长方体里"——一旦补成长方体，外接球直径立刻变成长方体的体对角线，半径就是对角线的一半。</p>
 <p><strong>手册原文</strong>：</p>
-<div class = "tbl-wrap"><table style = "table-layout:fixed;max-width:100%"><colgroup><col style = "width:42%"><col style = "width:20%"><col style = "width:38%"></colgroup>
+<div class="tbl-wrap"><table style="table-layout:fixed;max-width:100%"><colgroup><col style="width:42%"><col style="width:20%"><col style="width:38%"></colgroup>
 <thead>
 <tr>
 <th>几何体</th>
@@ -640,17 +662,17 @@ V = ⅓·1·√2 = <strong>√2/3</strong>。</p>
 <tr>
 <td>长方体/墙角三棱锥</td>
 <td>补成长方体</td>
-<td>R = ½√(a<sup>2</sup>+b<sup>2</sup>+c<sup>2</sup>)</td>
+<td>R=½√(a<sup>2</sup>+b<sup>2</sup>+c<sup>2</sup>)</td>
 </tr>
 <tr>
 <td>正四面体边长 a</td>
 <td>内嵌正方体</td>
-<td>R = a√6/4</td>
+<td>R=a√6/4</td>
 </tr>
 <tr>
 <td>直棱柱底面外接圆半径 r</td>
 <td>轴截面</td>
-<td>R<sup>2</sup> = r<sup>2</sup>+(h/2)<sup>2</sup></td>
+<td>R<sup>2</sup>=r<sup>2</sup>+(h/2)<sup>2</sup></td>
 </tr>
 <tr>
 <td>对棱相等三棱锥</td>
@@ -660,20 +682,20 @@ V = ⅓·1·√2 = <strong>√2/3</strong>。</p>
 </tbody>
 </table></div>
 <p><strong>课标依据</strong>：球的表面积体积 + 长方体对角线（必修二）。✓</p>
-<p><strong>跨章联动</strong>：本表与第 13 章"立体几何初步"中外接球既有内容配套——第 13 章讲球的概念、截面与表面积体积，这里给"补形"速查模型；遇墙角三棱锥（三条侧棱两两垂直）直接套 R = ½√(a<sup>2</sup>+b<sup>2</sup>+c<sup>2</sup>)，对棱相等的三棱锥也补成长方体。</p>
+<p><strong>跨章联动</strong>：本表与第 13 章"立体几何初步"中外接球既有内容配套——第 13 章讲球的概念、截面与表面积体积，这里给"补形"速查模型；遇墙角三棱锥（三条侧棱两两垂直）直接套 R=½√(a<sup>2</sup>+b<sup>2</sup>+c<sup>2</sup>)，对棱相等的三棱锥也补成长方体。</p>
 <p>（高级方法手册·7.2）</p>
 <h4>7.3 等体积法</h4>
 <p><strong>大白话·本质一句话</strong>：等体积法就是"同一个三棱锥换个顶点当尖"——三棱锥四个面都能当底，体积不变，高和底面积来回倒腾，哪条高好算就换哪个顶点。</p>
 <p><strong>手册原文</strong>：换顶点求高/体积（三棱锥），避免建系算距离的繁琐；截面问题画"过已知点的截面"按"延长交棱"操作。</p>
-<p><strong>课标依据</strong>：三棱锥体积公式 V = ⅓·S·h（必修二）。✓</p>
-<p><strong>联动本章</strong>：例 4 第 (3) 问求三棱锥 P−BDE 体积，正是换顶点 V(P−BDE) = V(B−PDE)，把底面换到坐标面 PDE 上，S△PDE = 1、高 = √2，得 V = √2/3；3.4 节点 C<sub>1</sub> 到平面 A<sub>1</sub>BD 的距离（d = 2√3/3）也可用等体积法交叉验算。</p>
+<p><strong>课标依据</strong>：三棱锥体积公式 V=⅓·S·h（必修二）。✓</p>
+<p><strong>联动本章</strong>：例 4 第 (3) 问求三棱锥 P−BDE 体积，正是换顶点 V(P−BDE)=V(B−PDE)，把底面换到坐标面 PDE 上，S△PDE=1、高=√2，得 V=√2/3；3.4 节点 C<sub>1</sub> 到平面 A<sub>1</sub>BD 的距离（d=2√3/3）也可用等体积法交叉验算。</p>
 <p>（高级方法手册·7.3）</p>
 <hr />
 
-</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. AB  =  (−1, 0, 1)，AC  =  (0, −1, 1)；n·AB  =  −x + z  =  0，n·AC  =  −y + z  =  0 ⇒ x  =  y  =  z，取 (1, 1, 1)；2. √(1+4+4)  =  3；3. cos θ  =  0 ⇒ θ  =  90°；4. sin；5. 点与面上任一点连线在法向量方向上的投影绝对值（|AP·n|/|n|）。</p></div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">A 组答案</p><p><strong>A 组</strong></p>
+</div><div class="sec sec-ans"><h2>课后习题答案</h2><div class="ans-box"><div class="ans-body"><p class="ans"><strong>自测答案</strong>：1. AB = (−1, 0, 1)，AC = (0, −1, 1)；n·AB = −x + z = 0，n·AC = −y + z = 0 ⇒ x = y = z，取 (1, 1, 1)；2. √(1+4+4) = 3；3. cos θ = 0 ⇒ θ = 90°；4. sin；5. 点与面上任一点连线在法向量方向上的投影绝对值（|AP·n|/|n|）。</p></div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">A 组答案</p><p><strong>A 组</strong></p>
 <ol>
 <li>|a|=√(4+9+36)=<strong>7</strong>。</li>
-<li>a·b=1·2+(−2)(−1)+2·0=2+2+0=<strong>4</strong>。</li>
+<li>a·b=1×2+(−2)(−1)+2×0=2+2+0=<strong>4</strong>。</li>
 <li>AB=(−1,2,0)，AC=(−1,0,3)。设 n·AB=−x+2y=0，n·AC=−x+3z=0，得 y=x/2，z=x/3，取 x=6 得 <strong>n=(6,3,2)</strong>。</li>
 <li>cosθ=|1+0+0|/(√2·√2)=<strong>1/2</strong>。</li>
 <li>sinθ=|a·n|/(|a||n|)，a 为斜线方向向量，n 为平面法向量。</li>
@@ -681,7 +703,7 @@ V = ⅓·1·√2 = <strong>√2/3</strong>。</p>
 </ol>
 </div></div><div class="ans-box"><div class="ans-body"><p class="ans-grp">B 组答案</p><p><strong>B 组</strong></p>
 <ol start="7">
-<li>建系 A(0,0,0)、B(1,0,0)、D(0,1,0)、D<sub>1</sub>(0,1,1)。BD<sub>1</sub>=(−1,1,1)，底面法向量 n=(0,0,1)。sinθ=|1|/(√3·1)=<strong>√3/3</strong>。</li>
+<li>建系 A(0,0,0)、B(1,0,0)、D(0,1,0)、D<sub>1</sub>(0,1,1)。BD<sub>1</sub>=(−1,1,1)，底面法向量 n=(0,0,1)。sinθ=|1|/(√3×1)=<strong>√3/3</strong>。</li>
 <li>cosθ=|n<sub>1</sub>·n<sub>2</sub>|/(|n<sub>1</sub>||n<sub>2</sub>|)=1/(√2·√2)=<strong>1/2</strong>。</li>
 <li>面 A<sub>1</sub>BD：A<sub>1</sub>(0,0,1)、B(1,0,0)、D(0,1,0)。A<sub>1</sub>B=(1,0,−1)，A<sub>1</sub>D=(0,1,−1)，法向量 n=(1,1,1)。取 A<sub>1</sub> 为面上点，AA<sub>1</sub>=(0,0,1)。d=|0+0+1|/√3=<strong>√3/3</strong>。</li>
 <li>A<sub>1</sub>C=(1,1,−1)，底面法向量 n=(0,0,1)。线面角 sinθ=1/√3，则 tanθ=sin/√(1−sin<sup>2</sup>)=(1/√3)/√(2/3)=<strong>√2/2</strong>。</li>
@@ -700,7 +722,19 @@ V = ⅓·1·√2 = <strong>√2/3</strong>。</p>
 </div><div class="sec sec-meta"><h2>本章与前后章</h2>
 <p>按全书蓝图，14 章的前置是第 09 章平面向量（数量积、模、夹角那套结论直接从二维搬到三维，本章不再重讲）和第 13 章立体几何初步（你得先有空间直观，知道线面垂直是建系选轴的依据）。它不教新的几何概念，只把 13 章"看图证关系"换成"建系算坐标"。学完它，立体几何大题你就有了一条不依赖灵感的流水线，直接通向高考解答题的固定位置。</p>
 </div><div class="sec sec-meta"><h2>高考怎么考</h2>
-<p>按全书蓝图，本章锁定新高考Ⅰ卷的"立体几何解答题"（约在解答第 17 题附近）：第 1 问往往是 13 章那套几何证明（证线面平行或垂直），第 2 问才是本章的主场——建系求线面角、二面角或点到面的距离（如本章 C 组 2024 年解答第 17 题第 (2) 问）。它是全卷中档偏上的"必拿分大题"，套路固定、不考灵感：练熟五步模板、坐标逐个核对、线面角记得用 sin，这一问基本稳拿。</p></div>
+<p>按全书蓝图，本章锁定新高考Ⅰ卷的"立体几何解答题"（约在解答第 17 题附近）：第 1 问往往是 13 章那套几何证明（证线面平行或垂直），第 2 问才是本章的主场——建系求线面角、二面角或点到面的距离（如本章 C 组 2024 年解答第 17 题第 (2) 问）。它是全卷中档偏上的"必拿分大题"，套路固定、不考灵感：练熟五步模板、坐标逐个核对、线面角记得用 sin，这一问基本稳拿。</p>
+<hr />
+</div><div class="sec sec-meta"><h2>同法跨章 · 一通百通</h2>
+<p><strong>向量法（本章 → ch09 平面向量 → ch16 方向向量）</strong>：本章建系求角/距离；ch09 平面向量运算；ch16 直线方向向量、法向量。<strong>"建系 → 坐标 → 点积/叉积"是向量问题通用流水线</strong>。</p>
+<p><strong>法向量（本章 → ch09 垂直 → ch12 投影）</strong>：本章法向量求二面角、点面距；ch09 a·b=0 判垂直；ch12 投影与柯西。<strong>法向量 = "垂直向量"，垂直即点积为零</strong>。</p>
+<p><strong>坐标化（本章 → ch16 解析几何）</strong>：本章空间坐标；ch16 平面解析几何坐标。<strong>坐标思想从 2D 到 3D 一步之遥</strong>。</p>
+</div><div class="sec sec-meta"><h2>本章连接全书</h2>
+<ul>
+<li><strong>→ ch09 平面向量</strong>：空间向量的一切运算都是平面向量推广。</li>
+<li><strong>→ ch13 立体几何</strong>：判定定理 + 向量计算双保险。</li>
+<li><strong>→ ch08 解三角形</strong>：夹角余弦值、距离的三角背景。</li>
+<li><strong>→ ch16 解析几何</strong>：方向向量、法向量两章通用。</li>
+</ul></div>
 </section>
 </main>
 <button id="topbtn" title="回到顶部">↑</button>
@@ -889,6 +923,35 @@ V = ⅓·1·√2 = <strong>√2/3</strong>。</p>
     window.addEventListener('resize',renderPen);
     loadPen();renderPen();
   }
+})();
+/* 章内左侧小目录：扫描各章 h2 生成，点击平滑滚动直达 */
+(function(){
+  var secs=document.querySelectorAll('section.chapter');
+  if(!secs.length||document.getElementById('secbar'))return;
+  var sb=document.createElement('div');sb.id='secbar';
+  var inner=document.createElement('div');inner.className='secbar-in';
+  sb.appendChild(inner);
+  secs.forEach(function(sec,si){
+    if(si>0){
+      var ttl=sec.querySelector('.ch-title');
+      var hd=document.createElement('div');hd.className='secbar-ch';
+      hd.textContent=(ttl?ttl.textContent.replace(/^\d+·?/,'').slice(0,8):sec.id);
+      inner.appendChild(hd);
+    }
+    sec.querySelectorAll('h2').forEach(function(h2){
+      var a=document.createElement('a');
+      var t=h2.textContent.replace(/^\s*[①-⑨]/,'').replace(/^\s*\d+\s*/,'').trim();
+      a.textContent=t.length>12?t.slice(0,12):t;
+      a.title=t;
+      a.addEventListener('click',function(ev){
+        ev.preventDefault();
+        var r=h2.getBoundingClientRect().top+window.scrollY;
+        window.scrollTo({top:Math.max(0,r-70),behavior:'smooth'});
+      });
+      inner.appendChild(a);
+    });
+  });
+  document.body.appendChild(sb);
 })();
 </script>
 </body>
